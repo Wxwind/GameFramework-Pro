@@ -16,14 +16,10 @@ namespace StarForce
             return Utility.Text.Format("Assets/GameMain/Configs/{0}.{1}", assetName, fromBytes ? "bytes" : "txt");
         }
 
-        public static string GetDataTableAsset(string assetName, bool fromBytes)
-        {
-            return Utility.Text.Format("Assets/GameMain/DataTables/{0}.{1}", assetName, fromBytes ? "bytes" : "txt");
-        }
 
-        public static string GetDictionaryAsset(string assetName, bool fromBytes)
+        public static string GetDictionaryAsset()
         {
-            return Utility.Text.Format("Assets/GameMain/Localization/{0}/Dictionaries/{1}.{2}", GameEntry.Localization.Language, assetName, fromBytes ? "bytes" : "xml");
+            return Utility.Text.Format("Assets/GameMain/Localization/{0}.xml", GameEntry.Localization.Language);
         }
 
         public static string GetFontAsset(string assetName)

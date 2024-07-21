@@ -9,7 +9,8 @@
     "ArmorId1": 0,
     "ArmorId2": 0,
     "DeadEffectId": 70000,
-    "DeadSoundId": 20000
+    "DeadSoundId": 20000,
+    "Name": "player0"
   },
   {
     "Id": 10002,
@@ -21,6 +22,7 @@
     "ArmorId1": 0,
     "ArmorId2": 0,
     "DeadEffectId": 70001,
-    "DeadSoundId": 20001
+    "DeadSoundId": 20001,
+    "Name": "enemy0"
   }
 ]

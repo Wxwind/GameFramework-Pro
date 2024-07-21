@@ -25,6 +25,7 @@ public partial class Tables
     public StarForce.TbUIForm TbUIForm {get; }
     public StarForce.TbUISound TbUISound {get; }
     public StarForce.TbWeapon TbWeapon {get; }
+    public Localization.TbL10N TbL10N {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -39,6 +40,7 @@ public partial class Tables
         TbUIForm = new StarForce.TbUIForm(loader("starforce_tbuiform"));
         TbUISound = new StarForce.TbUISound(loader("starforce_tbuisound"));
         TbWeapon = new StarForce.TbWeapon(loader("starforce_tbweapon"));
+        TbL10N = new Localization.TbL10N(loader("localization_tbl10n"));
         ResolveRef();
     }
     
@@ -55,6 +57,7 @@ public partial class Tables
         TbUIForm.ResolveRef(this);
         TbUISound.ResolveRef(this);
         TbWeapon.ResolveRef(this);
+        TbL10N.ResolveRef(this);
     }
 }
 

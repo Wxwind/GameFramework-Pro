@@ -17,21 +17,6 @@ namespace StarForce
 {
     public class ProcedurePreload : ProcedureBase
     {
-        public static readonly string[] DataTableNames = new string[]
-        {
-            "Aircraft",
-            "Armor",
-            "Asteroid",
-            "Entity",
-            "Music",
-            "Scene",
-            "Sound",
-            "Thruster",
-            "UIForm",
-            "UISound",
-            "Weapon"
-        };
-
         private Dictionary<string, bool> m_LoadedFlag = new();
 
         public override bool UseNativeDialog => true;
@@ -78,17 +63,15 @@ namespace StarForce
 
         private void PreloadResources()
         {
+            // TODO 全部使用 yooasset 加载
             // Preload configs
             LoadConfig("DefaultConfig");
 
             // Preload data tables
-            foreach (var dataTableName in DataTableNames)
-            {
-                // TODO 在这里使用异步加载 LubanConfig
-            }
+            // TODO 在这里使用异步加载 LubanConfig
 
             // Preload dictionaries
-            LoadDictionary("Default");
+            LoadL10N();
 
             // Preload fonts
             LoadFont("MainFont");
@@ -102,9 +85,9 @@ namespace StarForce
         }
 
 
-        private void LoadDictionary(string dictionaryName)
+        private void LoadL10N()
         {
-            var dictionaryAssetName = AssetUtility.GetDictionaryAsset(dictionaryName, false);
+            var dictionaryAssetName = AssetUtility.GetDictionaryAsset();
             m_LoadedFlag.Add(dictionaryAssetName, false);
             GameEntry.Localization.ReadData(dictionaryAssetName, this);
         }

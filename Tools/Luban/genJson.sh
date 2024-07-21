@@ -19,4 +19,7 @@ dotnet $LUBAN_DLL \
     -d json \
     --conf $CONF_ROOT/luban.conf \
     -x outputDataDir=$DATA_OUTPATH \
-    -x outputCodeDir=$CODE_OUTPATH
+    -x outputCodeDir=$CODE_OUTPATH \
+    -x l10n.provider=default \
+    -x "l10n.textFile.path=$CONF_ROOT/Datas/l10n/texts.xlsx" \
+    -x l10n.textFile.keyFieldName=key

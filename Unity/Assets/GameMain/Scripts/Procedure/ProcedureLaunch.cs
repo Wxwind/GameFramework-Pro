@@ -5,8 +5,8 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework.Localization;
 using System;
+using GameFramework.Localization;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -14,13 +14,7 @@ namespace StarForce
 {
     public class ProcedureLaunch : ProcedureBase
     {
-        public override bool UseNativeDialog
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public override bool UseNativeDialog => true;
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
@@ -59,12 +53,12 @@ namespace StarForce
                 return;
             }
 
-            Language language = GameEntry.Localization.Language;
+            var language = GameEntry.Localization.Language;
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
             {
                 try
                 {
-                    string languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
+                    var languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
                     language = (Language)Enum.Parse(typeof(Language), languageString);
                 }
                 catch
@@ -75,7 +69,7 @@ namespace StarForce
             if (language != Language.English
                 && language != Language.ChineseSimplified
                 && language != Language.ChineseTraditional
-                && language != Language.Korean)
+               )
             {
                 // 若是暂不支持的语言，则使用英语
                 language = Language.English;

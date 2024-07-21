@@ -19,7 +19,6 @@ public sealed partial class Aircraft : Luban.BeanBase
     {
         { if(!_buf["Id"].IsNumber) { throw new SerializationException(); }  Id = _buf["Id"]; }
         { if(!_buf["ThrusterId"].IsNumber) { throw new SerializationException(); }  ThrusterId = _buf["ThrusterId"]; }
-        ThrusterId_Ref = null;
         { if(!_buf["WeaponId0"].IsNumber) { throw new SerializationException(); }  WeaponId0 = _buf["WeaponId0"]; }
         { if(!_buf["WeaponId1"].IsNumber) { throw new SerializationException(); }  WeaponId1 = _buf["WeaponId1"]; }
         { if(!_buf["WeaponId2"].IsNumber) { throw new SerializationException(); }  WeaponId2 = _buf["WeaponId2"]; }
@@ -28,6 +27,7 @@ public sealed partial class Aircraft : Luban.BeanBase
         { if(!_buf["ArmorId2"].IsNumber) { throw new SerializationException(); }  ArmorId2 = _buf["ArmorId2"]; }
         { if(!_buf["DeadEffectId"].IsNumber) { throw new SerializationException(); }  DeadEffectId = _buf["DeadEffectId"]; }
         { if(!_buf["DeadSoundId"].IsNumber) { throw new SerializationException(); }  DeadSoundId = _buf["DeadSoundId"]; }
+        { if(!_buf["Name"].IsString) { throw new SerializationException(); }  Name = _buf["Name"]; }
     }
 
     public static Aircraft DeserializeAircraft(JSONNode _buf)
@@ -43,7 +43,6 @@ public sealed partial class Aircraft : Luban.BeanBase
     /// 推进器编号
     /// </summary>
     public readonly int ThrusterId;
-    public Thruster ThrusterId_Ref;
     /// <summary>
     /// 武器编号0
     /// </summary>
@@ -76,13 +75,16 @@ public sealed partial class Aircraft : Luban.BeanBase
     /// 死亡声音编号
     /// </summary>
     public readonly int DeadSoundId;
+    /// <summary>
+    /// 名字(测试本地化用)
+    /// </summary>
+    public readonly string Name;
    
     public const int __ID__ = -624194762;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
     {
-        ThrusterId_Ref = tables.TbThruster.GetOrDefault(ThrusterId);
     }
 
     public override string ToString()
@@ -98,6 +100,7 @@ public sealed partial class Aircraft : Luban.BeanBase
         + "ArmorId2:" + ArmorId2 + ","
         + "DeadEffectId:" + DeadEffectId + ","
         + "DeadSoundId:" + DeadSoundId + ","
+        + "Name:" + Name + ","
         + "}";
     }
 }
