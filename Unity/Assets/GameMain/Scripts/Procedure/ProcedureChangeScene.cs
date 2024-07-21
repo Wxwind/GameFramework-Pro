@@ -5,7 +5,6 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework.DataTable;
 using GameFramework.Event;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
@@ -16,17 +15,11 @@ namespace StarForce
     {
         private const int MenuSceneId = 1;
 
-        private bool m_ChangeToMenu = false;
+        private bool m_ChangeToMenu          = false;
         private bool m_IsChangeSceneComplete = false;
-        private int m_BackgroundMusicId = 0;
+        private int  m_BackgroundMusicId     = 0;
 
-        public override bool UseNativeDialog
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public override bool UseNativeDialog => false;
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
@@ -48,8 +41,8 @@ namespace StarForce
             GameEntry.Entity.HideAllLoadedEntities();
 
             // 卸载所有场景
-            string[] loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
-            for (int i = 0; i < loadedSceneAssetNames.Length; i++)
+            var loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
+            for (var i = 0; i < loadedSceneAssetNames.Length; i++)
             {
                 GameEntry.Scene.UnloadScene(loadedSceneAssetNames[i]);
             }
@@ -59,8 +52,8 @@ namespace StarForce
 
             int sceneId = procedureOwner.GetData<VarInt32>("NextSceneId");
             m_ChangeToMenu = sceneId == MenuSceneId;
-            IDataTable<DRScene> dtScene = GameEntry.DataTable.GetDataTable<DRScene>();
-            DRScene drScene = dtScene.GetDataRow(sceneId);
+            var tbScene = GameEntry.LubanConfig.Tables.TbScene;
+            var drScene = tbScene.GetOrDefault(sceneId);
             if (drScene == null)
             {
                 Log.Warning("Can not load scene '{0}' from data table.", sceneId.ToString());
@@ -102,7 +95,7 @@ namespace StarForce
 
         private void OnLoadSceneSuccess(object sender, GameEventArgs e)
         {
-            LoadSceneSuccessEventArgs ne = (LoadSceneSuccessEventArgs)e;
+            var ne = (LoadSceneSuccessEventArgs)e;
             if (ne.UserData != this)
             {
                 return;
@@ -120,7 +113,7 @@ namespace StarForce
 
         private void OnLoadSceneFailure(object sender, GameEventArgs e)
         {
-            LoadSceneFailureEventArgs ne = (LoadSceneFailureEventArgs)e;
+            var ne = (LoadSceneFailureEventArgs)e;
             if (ne.UserData != this)
             {
                 return;
@@ -131,7 +124,7 @@ namespace StarForce
 
         private void OnLoadSceneUpdate(object sender, GameEventArgs e)
         {
-            LoadSceneUpdateEventArgs ne = (LoadSceneUpdateEventArgs)e;
+            var ne = (LoadSceneUpdateEventArgs)e;
             if (ne.UserData != this)
             {
                 return;
@@ -142,7 +135,7 @@ namespace StarForce
 
         private void OnLoadSceneDependencyAsset(object sender, GameEventArgs e)
         {
-            LoadSceneDependencyAssetEventArgs ne = (LoadSceneDependencyAssetEventArgs)e;
+            var ne = (LoadSceneDependencyAssetEventArgs)e;
             if (ne.UserData != this)
             {
                 return;

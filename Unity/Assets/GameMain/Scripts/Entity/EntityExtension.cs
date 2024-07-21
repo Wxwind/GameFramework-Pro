@@ -5,7 +5,6 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework.DataTable;
 using System;
 using UnityGameFramework.Runtime;
 
@@ -21,7 +20,7 @@ namespace StarForce
 
         public static Entity GetGameEntity(this EntityComponent entityComponent, int entityId)
         {
-            UnityGameFramework.Runtime.Entity entity = entityComponent.GetEntity(entityId);
+            var entity = entityComponent.GetEntity(entityId);
             if (entity == null)
             {
                 return null;
@@ -88,8 +87,9 @@ namespace StarForce
                 return;
             }
 
-            IDataTable<DREntity> dtEntity = GameEntry.DataTable.GetDataTable<DREntity>();
-            DREntity drEntity = dtEntity.GetDataRow(data.TypeId);
+            var tbEntity = GameEntry.LubanConfig.Tables.TbEntity;
+            var drEntity = tbEntity.GetOrDefault(data.TypeId);
+
             if (drEntity == null)
             {
                 Log.Warning("Can not load entity id '{0}' from data table.", data.TypeId.ToString());

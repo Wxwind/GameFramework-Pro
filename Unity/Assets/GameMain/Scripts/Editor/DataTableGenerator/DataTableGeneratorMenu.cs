@@ -5,15 +5,21 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using System.IO;
 using GameFramework;
 using UnityEditor;
 using UnityEngine;
+using UnityGameFramework.Editor;
 
 namespace StarForce.Editor.DataTableTools
 {
+    
+
     public sealed class DataTableGeneratorMenu
     {
-        [MenuItem("Excel/Generate DataTables")]
+    
+        
+        [MenuItem("Game Framework/Generate DataTables")]
         private static void GenerateDataTables()
         {
             foreach (string dataTableName in ProcedurePreload.DataTableNames)
@@ -31,5 +37,7 @@ namespace StarForce.Editor.DataTableTools
 
             AssetDatabase.Refresh();
         }
+
+        
     }
 }

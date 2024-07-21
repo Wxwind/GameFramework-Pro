@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 10000,
+    "AssetName": "weapon_player",
+    "Priority": 0,
+    "Loop": false,
+    "Volume": 1,
+    "SpatialBlend": 0,
+    "MaxDistance": 100
+  },
+  {
+    "Id": 10001,
+    "AssetName": "weapon_enemy",
+    "Priority": 0,
+    "Loop": false,
+    "Volume": 1,
+    "SpatialBlend": 0,
+    "MaxDistance": 100
+  },
+  {
+    "Id": 20000,
+    "AssetName": "explosion_player",
+    "Priority": 0,
+    "Loop": false,
+    "Volume": 1,
+    "SpatialBlend": 0,
+    "MaxDistance": 100
+  },
+  {
+    "Id": 20001,
+    "AssetName": "explosion_enemy",
+    "Priority": 0,
+    "Loop": false,
+    "Volume": 1,
+    "SpatialBlend": 0,
+    "MaxDistance": 100
+  },
+  {
+    "Id": 20002,
+    "AssetName": "explosion_asteroid",
+    "Priority": 0,
+    "Loop": false,
+    "Volume": 1,
+    "SpatialBlend": 0,
+    "MaxDistance": 100
+  }
+]

@@ -5,7 +5,6 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework.DataTable;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,32 +14,25 @@ namespace StarForce
     [Serializable]
     public abstract class AircraftData : TargetableObjectData
     {
-        [SerializeField]
-        private ThrusterData m_ThrusterData = null;
+        [SerializeField] private ThrusterData m_ThrusterData = null;
 
-        [SerializeField]
-        private List<WeaponData> m_WeaponDatas = new List<WeaponData>();
+        [SerializeField] private List<WeaponData> m_WeaponDatas = new();
 
-        [SerializeField]
-        private List<ArmorData> m_ArmorDatas = new List<ArmorData>();
+        [SerializeField] private List<ArmorData> m_ArmorDatas = new();
 
-        [SerializeField]
-        private int m_MaxHP = 0;
+        [SerializeField] private int m_MaxHP = 0;
 
-        [SerializeField]
-        private int m_Defense = 0;
+        [SerializeField] private int m_Defense = 0;
 
-        [SerializeField]
-        private int m_DeadEffectId = 0;
+        [SerializeField] private int m_DeadEffectId = 0;
 
-        [SerializeField]
-        private int m_DeadSoundId = 0;
+        [SerializeField] private int m_DeadSoundId = 0;
 
         public AircraftData(int entityId, int typeId, CampType camp)
             : base(entityId, typeId, camp)
         {
-            IDataTable<DRAircraft> dtAircraft = GameEntry.DataTable.GetDataTable<DRAircraft>();
-            DRAircraft drAircraft = dtAircraft.GetDataRow(TypeId);
+            var tbAircraft = GameEntry.LubanConfig.Tables.TbAircraft;
+            var drAircraft = tbAircraft.GetOrDefault(TypeId);
             if (drAircraft == null)
             {
                 return;
@@ -48,15 +40,13 @@ namespace StarForce
 
             m_ThrusterData = new ThrusterData(GameEntry.Entity.GenerateSerialId(), drAircraft.ThrusterId, Id, Camp);
 
-            for (int index = 0, weaponId = 0; (weaponId = drAircraft.GetWeaponIdAt(index)) > 0; index++)
-            {
-                AttachWeaponData(new WeaponData(GameEntry.Entity.GenerateSerialId(), weaponId, Id, Camp));
-            }
 
-            for (int index = 0, armorId = 0; (armorId = drAircraft.GetArmorIdAt(index)) > 0; index++)
-            {
-                AttachArmorData(new ArmorData(GameEntry.Entity.GenerateSerialId(), armorId, Id, Camp));
-            }
+            LoadAircraft(drAircraft.WeaponId0);
+            LoadAircraft(drAircraft.WeaponId1);
+            LoadAircraft(drAircraft.WeaponId2);
+            LoadArmor(drAircraft.ArmorId0);
+            LoadArmor(drAircraft.ArmorId1);
+            LoadArmor(drAircraft.ArmorId2);
 
             m_DeadEffectId = drAircraft.DeadEffectId;
             m_DeadSoundId = drAircraft.DeadSoundId;
@@ -64,54 +54,40 @@ namespace StarForce
             HP = m_MaxHP;
         }
 
+        private void LoadAircraft(int id)
+        {
+            if (id > 0)
+            {
+                AttachWeaponData(new WeaponData(GameEntry.Entity.GenerateSerialId(), id, Id, Camp));
+            }
+        }
+
+        private void LoadArmor(int id)
+        {
+            if (id > 0)
+            {
+                AttachArmorData(new ArmorData(GameEntry.Entity.GenerateSerialId(), id, Id, Camp));
+            }
+        }
+
         /// <summary>
         /// 最大生命。
         /// </summary>
-        public override int MaxHP
-        {
-            get
-            {
-                return m_MaxHP;
-            }
-        }
+        public override int MaxHP => m_MaxHP;
 
         /// <summary>
         /// 防御。
         /// </summary>
-        public int Defense
-        {
-            get
-            {
-                return m_Defense;
-            }
-        }
+        public int Defense => m_Defense;
 
         /// <summary>
         /// 速度。
         /// </summary>
-        public float Speed
-        {
-            get
-            {
-                return m_ThrusterData.Speed;
-            }
-        }
+        public float Speed => m_ThrusterData.Speed;
 
-        public int DeadEffectId
-        {
-            get
-            {
-                return m_DeadEffectId;
-            }
-        }
+        public int DeadEffectId => m_DeadEffectId;
 
-        public int DeadSoundId
-        {
-            get
-            {
-                return m_DeadSoundId;
-            }
-        }
+        public int DeadSoundId => m_DeadSoundId;
 
         public ThrusterData GetThrusterData()
         {
@@ -184,7 +160,7 @@ namespace StarForce
         {
             m_MaxHP = 0;
             m_Defense = 0;
-            for (int i = 0; i < m_ArmorDatas.Count; i++)
+            for (var i = 0; i < m_ArmorDatas.Count; i++)
             {
                 m_MaxHP += m_ArmorDatas[i].MaxHP;
                 m_Defense += m_ArmorDatas[i].Defense;

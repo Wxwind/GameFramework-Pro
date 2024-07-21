@@ -6,6 +6,7 @@
 //------------------------------------------------------------
 
 using UnityEngine;
+using UnityGameFramework.Runtime;
 
 namespace StarForce
 {
@@ -14,22 +15,18 @@ namespace StarForce
     /// </summary>
     public partial class GameEntry : MonoBehaviour
     {
-        public static BuiltinDataComponent BuiltinData
-        {
-            get;
-            private set;
-        }
+        public static BuiltinDataComponent BuiltinData { get; private set; }
 
-        public static HPBarComponent HPBar
-        {
-            get;
-            private set;
-        }
+        public static HPBarComponent HPBar { get; private set; }
+
+
+        public static LubanConfigComponent LubanConfig { get; private set; }
 
         private static void InitCustomComponents()
         {
             BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
             HPBar = UnityGameFramework.Runtime.GameEntry.GetComponent<HPBarComponent>();
+            LubanConfig = UnityGameFramework.Runtime.GameEntry.GetComponent<LubanConfigComponent>();
         }
     }
 }

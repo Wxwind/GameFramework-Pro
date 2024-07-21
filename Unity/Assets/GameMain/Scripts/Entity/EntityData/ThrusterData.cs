@@ -5,7 +5,6 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework.DataTable;
 using System;
 using UnityEngine;
 
@@ -14,14 +13,13 @@ namespace StarForce
     [Serializable]
     public class ThrusterData : AccessoryObjectData
     {
-        [SerializeField]
-        private float m_Speed = 0f;
+        [SerializeField] private float m_Speed = 0f;
 
         public ThrusterData(int entityId, int typeId, int ownerId, CampType ownerCamp)
             : base(entityId, typeId, ownerId, ownerCamp)
         {
-            IDataTable<DRThruster> dtThruster = GameEntry.DataTable.GetDataTable<DRThruster>();
-            DRThruster drThruster = dtThruster.GetDataRow(TypeId);
+            var tbThruster = GameEntry.LubanConfig.Tables.TbThruster;
+            var drThruster = tbThruster.GetOrDefault(TypeId);
             if (drThruster == null)
             {
                 return;
@@ -33,12 +31,6 @@ namespace StarForce
         /// <summary>
         /// 速度。
         /// </summary>
-        public float Speed
-        {
-            get
-            {
-                return m_Speed;
-            }
-        }
+        public float Speed => m_Speed;
     }
 }
