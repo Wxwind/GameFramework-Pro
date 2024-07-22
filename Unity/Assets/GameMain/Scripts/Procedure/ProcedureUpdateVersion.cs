@@ -5,66 +5,46 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
-using GameFramework.Resource;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityGameFramework.Runtime;
+using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace StarForce
 {
     public class ProcedureUpdateVersion : ProcedureBase
     {
-        private bool m_UpdateVersionComplete = false;
-        private UpdateVersionListCallbacks m_UpdateVersionListCallbacks = null;
-
-        public override bool UseNativeDialog
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        protected override void OnInit(ProcedureOwner procedureOwner)
-        {
-            base.OnInit(procedureOwner);
-
-            m_UpdateVersionListCallbacks = new UpdateVersionListCallbacks(OnUpdateVersionListSuccess, OnUpdateVersionListFailure);
-        }
+        public override bool UseNativeDialog => true;
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
 
-            m_UpdateVersionComplete = false;
 
-            GameEntry.Resource.UpdateVersionList(procedureOwner.GetData<VarInt32>("VersionListLength"), procedureOwner.GetData<VarInt32>("VersionListHashCode"), procedureOwner.GetData<VarInt32>("VersionListCompressedLength"), procedureOwner.GetData<VarInt32>("VersionListCompressedHashCode"), m_UpdateVersionListCallbacks);
-            procedureOwner.RemoveData("VersionListLength");
-            procedureOwner.RemoveData("VersionListHashCode");
-            procedureOwner.RemoveData("VersionListCompressedLength");
-            procedureOwner.RemoveData("VersionListCompressedHashCode");
+            GameEntry.Event.Fire(this, PatchStatesChangeEventArgs.Create("获取最新的资源版本 !"));
+            UpdatePackageVersion(procedureOwner).Forget();
         }
 
-        protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
+        private async UniTaskVoid UpdatePackageVersion(ProcedureOwner procedureOwner)
         {
-            base.OnUpdate(procedureOwner, elapseSeconds, realElapseSeconds);
+            await new WaitForSecondsRealtime(0.5f);
 
-            if (!m_UpdateVersionComplete)
+            var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+            var package = YooAssets.GetPackage(packageName);
+            var operation = package.UpdatePackageVersionAsync();
+            await operation;
+
+            if (operation.Status != EOperationStatus.Succeed)
             {
-                return;
+                Log.Warning(operation.Error);
+                GameEntry.Event.Fire(this, PackageVersionUpdateFailedEventArgs.Create());
             }
-
-            ChangeState<ProcedureVerifyResources>(procedureOwner);
-        }
-
-        private void OnUpdateVersionListSuccess(string downloadPath, string downloadUri)
-        {
-            m_UpdateVersionComplete = true;
-            Log.Info("Update version list from '{0}' success.", downloadUri);
-        }
-
-        private void OnUpdateVersionListFailure(string downloadUri, string errorMessage)
-        {
-            Log.Warning("Update version list from '{0}' failure, error message is '{1}'.", downloadUri, errorMessage);
+            else
+            {
+                procedureOwner.SetData<VarString>("PackageVersion", operation.PackageVersion);
+                ChangeState<ProcedureUpdateMainfest>(procedureOwner);
+            }
         }
     }
 }

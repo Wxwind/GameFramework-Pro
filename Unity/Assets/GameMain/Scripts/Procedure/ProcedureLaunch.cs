@@ -8,6 +8,7 @@
 using System;
 using GameFramework.Localization;
 using UnityGameFramework.Runtime;
+using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace StarForce
@@ -35,6 +36,11 @@ namespace StarForce
             // 默认字典：加载默认字典文件 Assets/GameMain/Configs/DefaultDictionary.xml
             // 此字典文件记录了资源更新前使用的各种语言的字符串，会随 App 一起发布，故不可更新
             GameEntry.BuiltinData.InitDefaultDictionary();
+
+            procedureOwner.SetData<VarString>("PackageName", "DeafultPackage");
+            procedureOwner.SetData<VarString>("PlayMode", EDefaultBuildPipeline.BuiltinBuildPipeline.ToString());
+            procedureOwner.SetData<VarInt32>("BuildPipeline", (int)EPlayMode.EditorSimulateMode);
+            YooAssets.Initialize();
         }
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
@@ -48,14 +54,11 @@ namespace StarForce
         private void InitLanguageSettings()
         {
             if (GameEntry.Base.EditorResourceMode && GameEntry.Base.EditorLanguage != Language.Unspecified)
-            {
                 // 编辑器资源模式直接使用 Inspector 上设置的语言
                 return;
-            }
 
             var language = GameEntry.Localization.Language;
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
-            {
                 try
                 {
                     var languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
@@ -64,11 +67,11 @@ namespace StarForce
                 catch
                 {
                 }
-            }
 
             if (language != Language.English
                 && language != Language.ChineseSimplified
                 && language != Language.ChineseTraditional
+                && language != Language.Korean
                )
             {
                 // 若是暂不支持的语言，则使用英语
@@ -85,10 +88,8 @@ namespace StarForce
         private void InitCurrentVariant()
         {
             if (GameEntry.Base.EditorResourceMode)
-            {
                 // 编辑器资源模式不使用 AssetBundle，也就没有变体了
                 return;
-            }
 
             string currentVariant = null;
             switch (GameEntry.Localization.Language)

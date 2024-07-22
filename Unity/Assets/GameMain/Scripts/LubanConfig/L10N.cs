@@ -21,6 +21,7 @@ public sealed partial class L10N : Luban.BeanBase
         { if(!_buf["en"].IsString) { throw new SerializationException(); }  En = _buf["en"]; }
         { if(!_buf["zh_CN"].IsString) { throw new SerializationException(); }  ZhCN = _buf["zh_CN"]; }
         { if(!_buf["zh_TW"].IsString) { throw new SerializationException(); }  ZhTW = _buf["zh_TW"]; }
+        { if(!_buf["ko_KR"].IsString) { throw new SerializationException(); }  KoKR = _buf["ko_KR"]; }
     }
 
     public static L10N DeserializeL10N(JSONNode _buf)
@@ -44,6 +45,10 @@ public sealed partial class L10N : Luban.BeanBase
     /// 繁体中文
     /// </summary>
     public readonly string ZhTW;
+    /// <summary>
+    /// 韩文
+    /// </summary>
+    public readonly string KoKR;
    
     public const int __ID__ = 2312771;
     public override int GetTypeId() => __ID__;
@@ -59,6 +64,7 @@ public sealed partial class L10N : Luban.BeanBase
         + "en:" + En + ","
         + "zhCN:" + ZhCN + ","
         + "zhTW:" + ZhTW + ","
+        + "koKR:" + KoKR + ","
         + "}";
     }
 }

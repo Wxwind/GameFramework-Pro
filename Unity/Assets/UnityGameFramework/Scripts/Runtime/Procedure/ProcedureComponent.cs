@@ -24,33 +24,19 @@ namespace UnityGameFramework.Runtime
         private IProcedureManager m_ProcedureManager = null;
         private ProcedureBase m_EntranceProcedure = null;
 
-        [SerializeField]
-        private string[] m_AvailableProcedureTypeNames = null;
+        [SerializeField] private string[] m_AvailableProcedureTypeNames = null;
 
-        [SerializeField]
-        private string m_EntranceProcedureTypeName = null;
+        [SerializeField] private string m_EntranceProcedureTypeName = null;
 
         /// <summary>
         /// 获取当前流程。
         /// </summary>
-        public ProcedureBase CurrentProcedure
-        {
-            get
-            {
-                return m_ProcedureManager.CurrentProcedure;
-            }
-        }
+        public ProcedureBase CurrentProcedure => m_ProcedureManager.CurrentProcedure;
 
         /// <summary>
         /// 获取当前流程持续时间。
         /// </summary>
-        public float CurrentProcedureTime
-        {
-            get
-            {
-                return m_ProcedureManager.CurrentProcedureTime;
-            }
-        }
+        public float CurrentProcedureTime => m_ProcedureManager.CurrentProcedureTime;
 
         /// <summary>
         /// 游戏框架组件初始化。
@@ -69,10 +55,10 @@ namespace UnityGameFramework.Runtime
 
         private IEnumerator Start()
         {
-            ProcedureBase[] procedures = new ProcedureBase[m_AvailableProcedureTypeNames.Length];
-            for (int i = 0; i < m_AvailableProcedureTypeNames.Length; i++)
+            var procedures = new ProcedureBase[m_AvailableProcedureTypeNames.Length];
+            for (var i = 0; i < m_AvailableProcedureTypeNames.Length; i++)
             {
-                Type procedureType = Utility.Assembly.GetType(m_AvailableProcedureTypeNames[i]);
+                var procedureType = Utility.Assembly.GetType(m_AvailableProcedureTypeNames[i]);
                 if (procedureType == null)
                 {
                     Log.Error("Can not find procedure type '{0}'.", m_AvailableProcedureTypeNames[i]);
@@ -87,9 +73,7 @@ namespace UnityGameFramework.Runtime
                 }
 
                 if (m_EntranceProcedureTypeName == m_AvailableProcedureTypeNames[i])
-                {
                     m_EntranceProcedure = procedures[i];
-                }
             }
 
             if (m_EntranceProcedure == null)
