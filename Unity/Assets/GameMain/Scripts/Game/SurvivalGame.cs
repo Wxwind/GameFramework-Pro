@@ -1,18 +1,11 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     public class SurvivalGame : GameBase
     {
-        private float m_ElapseSeconds = 0f;
+        private float m_ElapseSeconds;
 
         public override GameMode GameMode => GameMode.Survival;
 
@@ -25,9 +18,14 @@ namespace StarForce
             {
                 m_ElapseSeconds = 0f;
                 var tbAsteroid = GameEntry.LubanConfig.Tables.TbAsteroid;
-                var randomPositionX = SceneBackground.EnemySpawnBoundary.bounds.min.x + SceneBackground.EnemySpawnBoundary.bounds.size.x * (float)Utility.Random.GetRandomDouble();
-                var randomPositionZ = SceneBackground.EnemySpawnBoundary.bounds.min.z + SceneBackground.EnemySpawnBoundary.bounds.size.z * (float)Utility.Random.GetRandomDouble();
-                GameEntry.Entity.ShowAsteroid(new AsteroidData(GameEntry.Entity.GenerateSerialId(), 60000 + Utility.Random.GetRandom(tbAsteroid.DataList.Count))
+                var randomPositionX = SceneBackground.EnemySpawnBoundary.bounds.min.x +
+                                      SceneBackground.EnemySpawnBoundary.bounds.size.x *
+                                      (float)Utility.Random.GetRandomDouble();
+                var randomPositionZ = SceneBackground.EnemySpawnBoundary.bounds.min.z +
+                                      SceneBackground.EnemySpawnBoundary.bounds.size.z *
+                                      (float)Utility.Random.GetRandomDouble();
+                GameEntry.Entity.ShowAsteroid(new AsteroidData(GameEntry.Entity.GenerateSerialId(),
+                    60000 + Utility.Random.GetRandom(tbAsteroid.DataList.Count))
                 {
                     Position = new Vector3(randomPositionX, 0f, randomPositionZ)
                 });

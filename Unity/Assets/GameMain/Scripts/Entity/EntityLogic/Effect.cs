@@ -1,24 +1,16 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     /// <summary>
-    /// 特效类。
+    ///     特效类。
     /// </summary>
     public class Effect : Entity
     {
-        [SerializeField]
-        private EffectData m_EffectData = null;
+        [SerializeField] private EffectData m_EffectData;
 
-        private float m_ElapseSeconds = 0f;
+        private float m_ElapseSeconds;
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnShow(object userData)
@@ -47,10 +39,7 @@ namespace StarForce
             base.OnUpdate(elapseSeconds, realElapseSeconds);
 
             m_ElapseSeconds += elapseSeconds;
-            if (m_ElapseSeconds >= m_EffectData.KeepTime)
-            {
-                GameEntry.Entity.HideEntity(this);
-            }
+            if (m_ElapseSeconds >= m_EffectData.KeepTime) GameEntry.Entity.HideEntity(this);
         }
     }
 }

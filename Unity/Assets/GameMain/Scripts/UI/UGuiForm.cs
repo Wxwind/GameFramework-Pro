@@ -1,41 +1,24 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public abstract class UGuiForm : UIFormLogic
     {
         public const int DepthFactor = 100;
         private const float FadeTime = 0.3f;
 
-        private static Font s_MainFont = null;
-        private Canvas m_CachedCanvas = null;
-        private CanvasGroup m_CanvasGroup = null;
-        private List<Canvas> m_CachedCanvasContainer = new List<Canvas>();
+        private static Font s_MainFont;
+        private Canvas m_CachedCanvas;
+        private readonly List<Canvas> m_CachedCanvasContainer = new();
+        private CanvasGroup m_CanvasGroup;
 
-        public int OriginalDepth
-        {
-            get;
-            private set;
-        }
+        public int OriginalDepth { get; private set; }
 
-        public int Depth
-        {
-            get
-            {
-                return m_CachedCanvas.sortingOrder;
-            }
-        }
+        public int Depth => m_CachedCanvas.sortingOrder;
 
         public void Close()
         {
@@ -47,13 +30,9 @@ namespace StarForce
             StopAllCoroutines();
 
             if (ignoreFade)
-            {
                 GameEntry.UI.CloseUIForm(this);
-            }
             else
-            {
                 StartCoroutine(CloseCo(FadeTime));
-            }
         }
 
         public void PlayUISound(int uiSoundId)
@@ -86,7 +65,7 @@ namespace StarForce
 
             m_CanvasGroup = gameObject.GetOrAddComponent<CanvasGroup>();
 
-            RectTransform transform = GetComponent<RectTransform>();
+            var transform = GetComponent<RectTransform>();
             transform.anchorMin = Vector2.zero;
             transform.anchorMax = Vector2.one;
             transform.anchoredPosition = Vector2.zero;
@@ -94,14 +73,12 @@ namespace StarForce
 
             gameObject.GetOrAddComponent<GraphicRaycaster>();
 
-            Text[] texts = GetComponentsInChildren<Text>(true);
-            for (int i = 0; i < texts.Length; i++)
+            var texts = GetComponentsInChildren<Text>(true);
+            for (var i = 0; i < texts.Length; i++)
             {
                 texts[i].font = s_MainFont;
                 if (!string.IsNullOrEmpty(texts[i].text))
-                {
                     texts[i].text = GameEntry.Localization.GetString(texts[i].text);
-                }
             }
         }
 
@@ -200,14 +177,13 @@ namespace StarForce
         protected internal override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)
 #endif
         {
-            int oldDepth = Depth;
+            var oldDepth = Depth;
             base.OnDepthChanged(uiGroupDepth, depthInUIGroup);
-            int deltaDepth = UGuiGroupHelper.DepthFactor * uiGroupDepth + DepthFactor * depthInUIGroup - oldDepth + OriginalDepth;
+            var deltaDepth = UGuiGroupHelper.DepthFactor * uiGroupDepth + DepthFactor * depthInUIGroup - oldDepth +
+                             OriginalDepth;
             GetComponentsInChildren(true, m_CachedCanvasContainer);
-            for (int i = 0; i < m_CachedCanvasContainer.Count; i++)
-            {
+            for (var i = 0; i < m_CachedCanvasContainer.Count; i++)
                 m_CachedCanvasContainer[i].sortingOrder += deltaDepth;
-            }
 
             m_CachedCanvasContainer.Clear();
         }

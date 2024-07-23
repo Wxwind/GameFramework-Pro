@@ -1,20 +1,7 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace StarForce
+﻿namespace GameMain
 {
     public abstract class CSPacketBase : PacketBase
     {
-        public override PacketType PacketType
-        {
-            get
-            {
-                return PacketType.ClientToServer;
-            }
-        }
+        public override PacketType PacketType => PacketType.ClientToServer;
     }
 }

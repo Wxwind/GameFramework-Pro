@@ -1,25 +1,17 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
-    /// <summary>
-    /// 装甲类。
-    /// </summary>
-    public class Armor : Entity
+        /// <summary>
+        ///     装甲类。
+        /// </summary>
+        public class Armor : Entity
     {
         private const string AttachPoint = "Armor Point";
 
-        [SerializeField]
-        private ArmorData m_ArmorData = null;
+        [SerializeField] private ArmorData m_ArmorData;
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnInit(object userData)

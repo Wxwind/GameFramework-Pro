@@ -1,25 +1,16 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public class AboutForm : UGuiForm
     {
-        [SerializeField]
-        private RectTransform m_Transform = null;
+        [SerializeField] private RectTransform m_Transform;
 
-        [SerializeField]
-        private float m_ScrollSpeed = 1f;
+        [SerializeField] private float m_ScrollSpeed = 1f;
 
-        private float m_InitPosition = 0f;
+        private float m_InitPosition;
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnInit(object userData)
@@ -29,7 +20,7 @@ namespace StarForce
         {
             base.OnInit(userData);
 
-            CanvasScaler canvasScaler = GetComponentInParent<CanvasScaler>();
+            var canvasScaler = GetComponentInParent<CanvasScaler>();
             if (canvasScaler == null)
             {
                 Log.Warning("Can not find CanvasScaler component.");
@@ -75,9 +66,7 @@ namespace StarForce
 
             m_Transform.AddLocalPositionY(m_ScrollSpeed * elapseSeconds);
             if (m_Transform.localPosition.y > m_Transform.sizeDelta.y - m_InitPosition)
-            {
                 m_Transform.SetLocalPositionY(m_InitPosition);
-            }
         }
     }
 }

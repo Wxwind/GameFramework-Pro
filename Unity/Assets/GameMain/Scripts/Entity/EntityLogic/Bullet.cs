@@ -1,22 +1,14 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     /// <summary>
-    /// 子弹类。
+    ///     子弹类。
     /// </summary>
     public class Bullet : Entity
     {
-        [SerializeField]
-        private BulletData m_BulletData = null;
+        [SerializeField] private BulletData m_BulletData;
 
         public ImpactData GetImpactData()
         {
@@ -44,7 +36,6 @@ namespace StarForce
             if (m_BulletData == null)
             {
                 Log.Error("Bullet data is invalid.");
-                return;
             }
         }
 

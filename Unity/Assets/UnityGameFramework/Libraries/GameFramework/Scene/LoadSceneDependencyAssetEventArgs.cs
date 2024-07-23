@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace GameFramework.Scene
+﻿namespace GameFramework.Scene
 {
     /// <summary>
     /// 加载场景时加载依赖资源事件。

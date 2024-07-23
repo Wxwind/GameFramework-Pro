@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace GameFramework.FileSystem
+﻿namespace GameFramework.FileSystem
 {
     /// <summary>
     /// 文件系统辅助器接口。

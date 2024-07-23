@@ -1,21 +1,14 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework.Debugger;
+﻿using GameFramework.Debugger;
 using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public class ChangeLanguageDebuggerWindow : IDebuggerWindow
     {
+        private bool m_NeedRestart;
         private Vector2 m_ScrollPosition = Vector2.zero;
-        private bool m_NeedRestart = false;
 
         public void Initialize(params object[] args)
         {
@@ -61,11 +54,13 @@ namespace StarForce
                     GameEntry.Localization.Language = Language.ChineseSimplified;
                     SaveLanguage();
                 }
+
                 if (GUILayout.Button("Chinese Traditional", GUILayout.Height(30)))
                 {
                     GameEntry.Localization.Language = Language.ChineseTraditional;
                     SaveLanguage();
                 }
+
                 if (GUILayout.Button("English", GUILayout.Height(30)))
                 {
                     GameEntry.Localization.Language = Language.English;

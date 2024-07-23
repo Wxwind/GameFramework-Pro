@@ -1,20 +1,12 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     [Serializable]
     public class EffectData : EntityData
     {
-        [SerializeField]
-        private float m_KeepTime = 0f;
+        [SerializeField] private float m_KeepTime;
 
         public EffectData(int entityId, int typeId)
             : base(entityId, typeId)
@@ -22,12 +14,6 @@ namespace StarForce
             m_KeepTime = 3f;
         }
 
-        public float KeepTime
-        {
-            get
-            {
-                return m_KeepTime;
-            }
-        }
+        public float KeepTime => m_KeepTime;
     }
 }

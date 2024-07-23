@@ -1,36 +1,18 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework.Event;
+﻿using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public abstract class GameBase
     {
-        public abstract GameMode GameMode
-        {
-            get;
-        }
+        private MyAircraft m_MyAircraft;
 
-        protected ScrollableBackground SceneBackground
-        {
-            get;
-            private set;
-        }
+        public abstract GameMode GameMode { get; }
 
-        public bool GameOver
-        {
-            get;
-            protected set;
-        }
+        protected ScrollableBackground SceneBackground { get; private set; }
 
-        private MyAircraft m_MyAircraft = null;
+        public bool GameOver { get; protected set; }
 
         public virtual void Initialize()
         {
@@ -48,7 +30,7 @@ namespace StarForce
             GameEntry.Entity.ShowMyAircraft(new MyAircraftData(GameEntry.Entity.GenerateSerialId(), 10000)
             {
                 Name = "My Aircraft",
-                Position = Vector3.zero,
+                Position = Vector3.zero
             });
 
             GameOver = false;
@@ -66,22 +48,18 @@ namespace StarForce
             if (m_MyAircraft != null && m_MyAircraft.IsDead)
             {
                 GameOver = true;
-                return;
             }
         }
 
         protected virtual void OnShowEntitySuccess(object sender, GameEventArgs e)
         {
-            ShowEntitySuccessEventArgs ne = (ShowEntitySuccessEventArgs)e;
-            if (ne.EntityLogicType == typeof(MyAircraft))
-            {
-                m_MyAircraft = (MyAircraft)ne.Entity.Logic;
-            }
+            var ne = (ShowEntitySuccessEventArgs)e;
+            if (ne.EntityLogicType == typeof(MyAircraft)) m_MyAircraft = (MyAircraft)ne.Entity.Logic;
         }
 
         protected virtual void OnShowEntityFailure(object sender, GameEventArgs e)
         {
-            ShowEntityFailureEventArgs ne = (ShowEntityFailureEventArgs)e;
+            var ne = (ShowEntityFailureEventArgs)e;
             Log.Warning("Show entity failure with error message '{0}'.", ne.ErrorMessage);
         }
     }

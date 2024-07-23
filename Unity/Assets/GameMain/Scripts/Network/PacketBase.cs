@@ -1,14 +1,7 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework.Network;
+﻿using GameFramework.Network;
 using ProtoBuf;
 
-namespace StarForce
+namespace GameMain
 {
     public abstract class PacketBase : Packet, IExtensible
     {
@@ -19,10 +12,7 @@ namespace StarForce
             m_ExtensionObject = null;
         }
 
-        public abstract PacketType PacketType
-        {
-            get;
-        }
+        public abstract PacketType PacketType { get; }
 
         IExtension IExtensible.GetExtensionObject(bool createIfMissing)
         {

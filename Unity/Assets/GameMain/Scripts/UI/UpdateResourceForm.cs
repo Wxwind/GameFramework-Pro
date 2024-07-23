@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace StarForce
+namespace GameMain
 {
     public class UpdateResourceForm : MonoBehaviour
     {
-        [SerializeField]
-        private Text m_DescriptionText = null;
+        [SerializeField] private Text m_DescriptionText;
 
-        [SerializeField]
-        private Slider m_ProgressSlider = null;
+        [SerializeField] private Slider m_ProgressSlider;
 
         private void Start()
         {
-
         }
 
         private void Update()
         {
-
         }
 
         public void SetProgress(float progress, string description)

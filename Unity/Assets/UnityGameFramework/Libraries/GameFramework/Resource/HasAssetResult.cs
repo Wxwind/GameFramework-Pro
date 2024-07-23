@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace GameFramework.Resource
+﻿namespace GameFramework.Resource
 {
     /// <summary>
     /// 检查资源是否存在的结果。

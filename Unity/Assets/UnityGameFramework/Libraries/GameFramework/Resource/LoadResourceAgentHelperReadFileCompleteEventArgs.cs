@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace GameFramework.Resource
+﻿namespace GameFramework.Resource
 {
     /// <summary>
     /// 加载资源代理辅助器异步将资源文件转换为加载对象完成事件。

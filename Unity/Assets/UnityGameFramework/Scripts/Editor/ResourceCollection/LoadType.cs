@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace UnityGameFramework.Editor.ResourceTools
+﻿namespace UnityGameFramework.Editor.ResourceTools
 {
     /// <summary>
     /// 资源加载方式类型。

@@ -1,27 +1,19 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     /// <summary>
-    /// 武器类。
+    ///     武器类。
     /// </summary>
     public class Weapon : Entity
     {
         private const string AttachPoint = "Weapon Point";
 
-        [SerializeField]
-        private WeaponData m_WeaponData = null;
+        [SerializeField] private WeaponData m_WeaponData;
 
-        private float m_NextAttackTime = 0f;
+        private float m_NextAttackTime;
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnInit(object userData)
@@ -64,15 +56,13 @@ namespace StarForce
 
         public void TryAttack()
         {
-            if (Time.time < m_NextAttackTime)
-            {
-                return;
-            }
+            if (Time.time < m_NextAttackTime) return;
 
             m_NextAttackTime = Time.time + m_WeaponData.AttackInterval;
-            GameEntry.Entity.ShowBullet(new BulletData(GameEntry.Entity.GenerateSerialId(), m_WeaponData.BulletId, m_WeaponData.OwnerId, m_WeaponData.OwnerCamp, m_WeaponData.Attack, m_WeaponData.BulletSpeed)
+            GameEntry.Entity.ShowBullet(new BulletData(GameEntry.Entity.GenerateSerialId(), m_WeaponData.BulletId,
+                m_WeaponData.OwnerId, m_WeaponData.OwnerCamp, m_WeaponData.Attack, m_WeaponData.BulletSpeed)
             {
-                Position = CachedTransform.position,
+                Position = CachedTransform.position
             });
             GameEntry.Sound.PlaySound(m_WeaponData.BulletSoundId);
         }

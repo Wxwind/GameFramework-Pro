@@ -1,39 +1,29 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     [Serializable]
     public class AsteroidData : TargetableObjectData
     {
-        [SerializeField] private int m_MaxHP = 0;
+        [SerializeField] private int m_MaxHP;
 
-        [SerializeField] private int m_Attack = 0;
+        [SerializeField] private int m_Attack;
 
-        [SerializeField] private float m_Speed = 0f;
+        [SerializeField] private float m_Speed;
 
-        [SerializeField] private float m_AngularSpeed = 0f;
+        [SerializeField] private float m_AngularSpeed;
 
-        [SerializeField] private int m_DeadEffectId = 0;
+        [SerializeField] private int m_DeadEffectId;
 
-        [SerializeField] private int m_DeadSoundId = 0;
+        [SerializeField] private int m_DeadSoundId;
 
         public AsteroidData(int entityId, int typeId)
             : base(entityId, typeId, CampType.Neutral)
         {
             var tbAsteroid = GameEntry.LubanConfig.Tables.TbAsteroid;
             var drAsteroid = tbAsteroid.GetOrDefault(TypeId);
-            if (drAsteroid == null)
-            {
-                return;
-            }
+            if (drAsteroid == null) return;
 
             HP = m_MaxHP = drAsteroid.MaxHP;
             m_Attack = drAsteroid.Attack;

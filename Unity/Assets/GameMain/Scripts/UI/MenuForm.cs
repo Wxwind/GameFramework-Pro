@@ -1,21 +1,13 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public class MenuForm : UGuiForm
     {
-        [SerializeField]
-        private GameObject m_QuitButton = null;
+        [SerializeField] private GameObject m_QuitButton;
 
-        private ProcedureMenu m_ProcedureMenu = null;
+        private ProcedureMenu m_ProcedureMenu;
 
         public void OnStartButtonClick()
         {
@@ -34,12 +26,12 @@ namespace StarForce
 
         public void OnQuitButtonClick()
         {
-            GameEntry.UI.OpenDialog(new DialogParams()
+            GameEntry.UI.OpenDialog(new DialogParams
             {
                 Mode = 2,
                 Title = GameEntry.Localization.GetString("AskQuitGame.Title"),
                 Message = GameEntry.Localization.GetString("AskQuitGame.Message"),
-                OnClickConfirm = delegate (object userData) { UnityGameFramework.Runtime.GameEntry.Shutdown(ShutdownType.Quit); },
+                OnClickConfirm = delegate { UnityGameFramework.Runtime.GameEntry.Shutdown(ShutdownType.Quit); }
             });
         }
 

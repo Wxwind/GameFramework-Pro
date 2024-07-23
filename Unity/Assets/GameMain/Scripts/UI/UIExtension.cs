@@ -1,16 +1,9 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public static class UIExtension
     {
@@ -51,22 +44,13 @@ namespace StarForce
         {
             var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
-            if (drUIForm == null)
-            {
-                return false;
-            }
+            if (drUIForm == null) return false;
 
             var assetName = AssetUtility.GetUIFormAsset(drUIForm.AssetName);
-            if (string.IsNullOrEmpty(uiGroupName))
-            {
-                return uiComponent.HasUIForm(assetName);
-            }
+            if (string.IsNullOrEmpty(uiGroupName)) return uiComponent.HasUIForm(assetName);
 
             var uiGroup = uiComponent.GetUIGroup(uiGroupName);
-            if (uiGroup == null)
-            {
-                return false;
-            }
+            if (uiGroup == null) return false;
 
             return uiGroup.HasUIForm(assetName);
         }
@@ -82,35 +66,23 @@ namespace StarForce
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
 
 
-            if (drUIForm == null)
-            {
-                return null;
-            }
+            if (drUIForm == null) return null;
 
             var assetName = AssetUtility.GetUIFormAsset(drUIForm.AssetName);
             UIForm uiForm = null;
             if (string.IsNullOrEmpty(uiGroupName))
             {
                 uiForm = uiComponent.GetUIForm(assetName);
-                if (uiForm == null)
-                {
-                    return null;
-                }
+                if (uiForm == null) return null;
 
                 return (UGuiForm)uiForm.Logic;
             }
 
             var uiGroup = uiComponent.GetUIGroup(uiGroupName);
-            if (uiGroup == null)
-            {
-                return null;
-            }
+            if (uiGroup == null) return null;
 
             uiForm = (UIForm)uiGroup.GetUIForm(assetName);
-            if (uiForm == null)
-            {
-                return null;
-            }
+            if (uiForm == null) return null;
 
             return (UGuiForm)uiForm.Logic;
         }
@@ -138,39 +110,27 @@ namespace StarForce
             var assetName = AssetUtility.GetUIFormAsset(drUIForm.AssetName);
             if (!drUIForm.AllowMultiInstance)
             {
-                if (uiComponent.IsLoadingUIForm(assetName))
-                {
-                    return null;
-                }
+                if (uiComponent.IsLoadingUIForm(assetName)) return null;
 
-                if (uiComponent.HasUIForm(assetName))
-                {
-                    return null;
-                }
+                if (uiComponent.HasUIForm(assetName)) return null;
             }
 
-            return uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset, drUIForm.PauseCoveredUIForm, userData);
+            return uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset,
+                drUIForm.PauseCoveredUIForm, userData);
         }
 
         public static void OpenDialog(this UIComponent uiComponent, DialogParams dialogParams)
         {
             if (((ProcedureBase)GameEntry.Procedure.CurrentProcedure).UseNativeDialog)
-            {
                 OpenNativeDialog(dialogParams);
-            }
             else
-            {
                 uiComponent.OpenUIForm(UIFormId.DialogForm, dialogParams);
-            }
         }
 
         private static void OpenNativeDialog(DialogParams dialogParams)
         {
             // TODO：这里应该弹出原生对话框，先简化实现为直接按确认按钮
-            if (dialogParams.OnClickConfirm != null)
-            {
-                dialogParams.OnClickConfirm(dialogParams.UserData);
-            }
+            if (dialogParams.OnClickConfirm != null) dialogParams.OnClickConfirm(dialogParams.UserData);
         }
     }
 }

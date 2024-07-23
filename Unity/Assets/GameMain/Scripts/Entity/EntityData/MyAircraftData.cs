@@ -1,20 +1,12 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     [Serializable]
     public class MyAircraftData : AircraftData
     {
-        [SerializeField]
-        private string m_Name = null;
+        [SerializeField] private string m_Name;
 
         public MyAircraftData(int entityId, int typeId)
             : base(entityId, typeId, CampType.Player)
@@ -22,18 +14,12 @@ namespace StarForce
         }
 
         /// <summary>
-        /// 角色名称。
+        ///     角色名称。
         /// </summary>
         public string Name
         {
-            get
-            {
-                return m_Name;
-            }
-            set
-            {
-                m_Name = value;
-            }
+            get => m_Name;
+            set => m_Name = value;
         }
     }
 }

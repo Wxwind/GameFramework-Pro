@@ -1,22 +1,14 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     /// <summary>
-    /// 小行星类。
+    ///     小行星类。
     /// </summary>
     public class Asteroid : TargetableObject
     {
-        [SerializeField]
-        private AsteroidData m_AsteroidData = null;
+        [SerializeField] private AsteroidData m_AsteroidData;
 
         private Vector3 m_RotateSphere = Vector3.zero;
 
@@ -65,7 +57,7 @@ namespace StarForce
 
             GameEntry.Entity.ShowEffect(new EffectData(GameEntry.Entity.GenerateSerialId(), m_AsteroidData.DeadEffectId)
             {
-                Position = CachedTransform.localPosition,
+                Position = CachedTransform.localPosition
             });
             GameEntry.Sound.PlaySound(m_AsteroidData.DeadSoundId);
         }

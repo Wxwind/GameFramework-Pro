@@ -1,34 +1,16 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public abstract class Entity : EntityLogic
     {
-        [SerializeField]
-        private EntityData m_EntityData = null;
+        [SerializeField] private EntityData m_EntityData;
 
-        public int Id
-        {
-            get
-            {
-                return Entity.Id;
-            }
-        }
+        public int Id => Entity.Id;
 
-        public Animation CachedAnimation
-        {
-            get;
-            private set;
-        }
+        public Animation CachedAnimation { get; private set; }
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnInit(object userData)

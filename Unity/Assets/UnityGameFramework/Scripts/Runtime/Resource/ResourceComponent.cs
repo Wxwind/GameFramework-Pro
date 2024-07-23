@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using GameFramework.Download;
 using GameFramework.FileSystem;
 using GameFramework.ObjectPool;
@@ -13,6 +6,8 @@ using GameFramework.Resource;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using YooAsset;
+
 
 namespace UnityGameFramework.Runtime
 {
@@ -35,6 +30,8 @@ namespace UnityGameFramework.Runtime
         private AsyncOperation m_AsyncOperation = null;
         private float m_LastUnloadUnusedAssetsOperationElapseSeconds = 0f;
         private ResourceHelperBase m_ResourceHelper = null;
+
+        public EPlayMode PlayMode;
 
         [SerializeField]
         private ResourceMode m_ResourceMode = ResourceMode.Package;

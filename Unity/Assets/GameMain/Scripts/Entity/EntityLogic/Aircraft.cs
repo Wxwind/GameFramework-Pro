@@ -1,33 +1,22 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
+﻿using System.Collections.Generic;
 using GameFramework;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     /// <summary>
-    /// 战机类。
+    ///     战机类。
     /// </summary>
     public abstract class Aircraft : TargetableObject
     {
-        [SerializeField]
-        private AircraftData m_AircraftData = null;
+        [SerializeField] protected Thruster m_Thruster;
 
-        [SerializeField]
-        protected Thruster m_Thruster = null;
+        [SerializeField] protected List<Weapon> m_Weapons = new();
 
-        [SerializeField]
-        protected List<Weapon> m_Weapons = new List<Weapon>();
+        [SerializeField] protected List<Armor> m_Armors = new();
 
-        [SerializeField]
-        protected List<Armor> m_Armors = new List<Armor>();
+        [SerializeField] private AircraftData m_AircraftData;
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnShow(object userData)
@@ -48,17 +37,11 @@ namespace StarForce
 
             GameEntry.Entity.ShowThruster(m_AircraftData.GetThrusterData());
 
-            List<WeaponData> weaponDatas = m_AircraftData.GetAllWeaponDatas();
-            for (int i = 0; i < weaponDatas.Count; i++)
-            {
-                GameEntry.Entity.ShowWeapon(weaponDatas[i]);
-            }
+            var weaponDatas = m_AircraftData.GetAllWeaponDatas();
+            for (var i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]);
 
-            List<ArmorData> armorDatas = m_AircraftData.GetAllArmorDatas();
-            for (int i = 0; i < armorDatas.Count; i++)
-            {
-                GameEntry.Entity.ShowArmor(armorDatas[i]);
-            }
+            var armorDatas = m_AircraftData.GetAllArmorDatas();
+            for (var i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]);
         }
 
 #if UNITY_2017_3_OR_NEWER
@@ -93,7 +76,6 @@ namespace StarForce
             if (childEntity is Armor)
             {
                 m_Armors.Add((Armor)childEntity);
-                return;
             }
         }
 
@@ -120,7 +102,6 @@ namespace StarForce
             if (childEntity is Armor)
             {
                 m_Armors.Remove((Armor)childEntity);
-                return;
             }
         }
 
@@ -130,7 +111,7 @@ namespace StarForce
 
             GameEntry.Entity.ShowEffect(new EffectData(GameEntry.Entity.GenerateSerialId(), m_AircraftData.DeadEffectId)
             {
-                Position = CachedTransform.localPosition,
+                Position = CachedTransform.localPosition
             });
             GameEntry.Sound.PlaySound(m_AircraftData.DeadSoundId);
         }

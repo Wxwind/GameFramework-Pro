@@ -1,20 +1,13 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using GameFramework.Sound;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public static class SoundExtension
     {
-        private const  float FadeVolumeDuration = 1f;
-        private static int?  s_MusicSerialId    = null;
+        private const float FadeVolumeDuration = 1f;
+        private static int? s_MusicSerialId;
 
         public static int? PlayMusic(this SoundComponent soundComponent, int musicId, object userData = null)
         {
@@ -33,22 +26,21 @@ namespace StarForce
             playSoundParams.VolumeInSoundGroup = 1f;
             playSoundParams.FadeInSeconds = FadeVolumeDuration;
             playSoundParams.SpatialBlend = 0f;
-            s_MusicSerialId = soundComponent.PlaySound(AssetUtility.GetMusicAsset(drMusic.AssetName), "Music", Constant.AssetPriority.MusicAsset, playSoundParams, null, userData);
+            s_MusicSerialId = soundComponent.PlaySound(AssetUtility.GetMusicAsset(drMusic.AssetName), "Music",
+                Constant.AssetPriority.MusicAsset, playSoundParams, null, userData);
             return s_MusicSerialId;
         }
 
         public static void StopMusic(this SoundComponent soundComponent)
         {
-            if (!s_MusicSerialId.HasValue)
-            {
-                return;
-            }
+            if (!s_MusicSerialId.HasValue) return;
 
             soundComponent.StopSound(s_MusicSerialId.Value, FadeVolumeDuration);
             s_MusicSerialId = null;
         }
 
-        public static int? PlaySound(this SoundComponent soundComponent, int soundId, Entity bindingEntity = null, object userData = null)
+        public static int? PlaySound(this SoundComponent soundComponent, int soundId, Entity bindingEntity = null,
+            object userData = null)
         {
             var tbSound = GameEntry.LubanConfig.Tables.TbSound;
             var drSound = tbSound.GetOrDefault(soundId);
@@ -63,7 +55,8 @@ namespace StarForce
             playSoundParams.Loop = drSound.Loop;
             playSoundParams.VolumeInSoundGroup = drSound.Volume;
             playSoundParams.SpatialBlend = drSound.SpatialBlend;
-            return soundComponent.PlaySound(AssetUtility.GetSoundAsset(drSound.AssetName), "Sound", Constant.AssetPriority.SoundAsset, playSoundParams,
+            return soundComponent.PlaySound(AssetUtility.GetSoundAsset(drSound.AssetName), "Sound",
+                Constant.AssetPriority.SoundAsset, playSoundParams,
                 bindingEntity != null ? bindingEntity.Entity : null, userData);
         }
 
@@ -82,7 +75,8 @@ namespace StarForce
             playSoundParams.Loop = false;
             playSoundParams.VolumeInSoundGroup = drUISound.Volume;
             playSoundParams.SpatialBlend = 0f;
-            return soundComponent.PlaySound(AssetUtility.GetUISoundAsset(drUISound.AssetName), "UISound", Constant.AssetPriority.UISoundAsset, playSoundParams, userData);
+            return soundComponent.PlaySound(AssetUtility.GetUISoundAsset(drUISound.AssetName), "UISound",
+                Constant.AssetPriority.UISoundAsset, playSoundParams, userData);
         }
 
         public static bool IsMuted(this SoundComponent soundComponent, string soundGroupName)

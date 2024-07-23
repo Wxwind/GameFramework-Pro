@@ -1,16 +1,9 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace StarForce
+﻿namespace GameMain
 {
     public static partial class Constant
     {
         /// <summary>
-        /// 资源优先级。
+        ///     资源优先级。
         /// </summary>
         public static class AssetPriority
         {

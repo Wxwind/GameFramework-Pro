@@ -1,25 +1,17 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
-    /// <summary>
-    /// 推进器类。
-    /// </summary>
-    public class Thruster : Entity
+        /// <summary>
+        ///     推进器类。
+        /// </summary>
+        public class Thruster : Entity
     {
         private const string AttachPoint = "Thruster Point";
 
-        [SerializeField]
-        private ThrusterData m_ThrusterData = null;
+        [SerializeField] private ThrusterData m_ThrusterData;
 
 #if UNITY_2017_3_OR_NEWER
         protected override void OnInit(object userData)

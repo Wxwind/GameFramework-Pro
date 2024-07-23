@@ -1,11 +1,4 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-namespace UnityGameFramework.Runtime
+﻿namespace UnityGameFramework.Runtime
 {
     /// <summary>
     /// 调试器激活窗口类型。

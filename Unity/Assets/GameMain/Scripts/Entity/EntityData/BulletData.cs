@@ -1,29 +1,18 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     [Serializable]
     public class BulletData : EntityData
     {
-        [SerializeField]
-        private int m_OwnerId = 0;
+        [SerializeField] private int m_OwnerId;
 
-        [SerializeField]
-        private CampType m_OwnerCamp = CampType.Unknown;
+        [SerializeField] private CampType m_OwnerCamp = CampType.Unknown;
 
-        [SerializeField]
-        private int m_Attack = 0;
+        [SerializeField] private int m_Attack;
 
-        [SerializeField]
-        private float m_Speed = 0f;
+        [SerializeField] private float m_Speed;
 
         public BulletData(int entityId, int typeId, int ownerId, CampType ownerCamp, int attack, float speed)
             : base(entityId, typeId)
@@ -34,36 +23,12 @@ namespace StarForce
             m_Speed = speed;
         }
 
-        public int OwnerId
-        {
-            get
-            {
-                return m_OwnerId;
-            }
-        }
+        public int OwnerId => m_OwnerId;
 
-        public CampType OwnerCamp
-        {
-            get
-            {
-                return m_OwnerCamp;
-            }
-        }
+        public CampType OwnerCamp => m_OwnerCamp;
 
-        public int Attack
-        {
-            get
-            {
-                return m_Attack;
-            }
-        }
+        public int Attack => m_Attack;
 
-        public float Speed
-        {
-            get
-            {
-                return m_Speed;
-            }
-        }
+        public float Speed => m_Speed;
     }
 }

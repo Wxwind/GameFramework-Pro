@@ -1,42 +1,32 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     [Serializable]
     public abstract class AircraftData : TargetableObjectData
     {
-        [SerializeField] private ThrusterData m_ThrusterData = null;
+        [SerializeField] private ThrusterData m_ThrusterData;
 
         [SerializeField] private List<WeaponData> m_WeaponDatas = new();
 
         [SerializeField] private List<ArmorData> m_ArmorDatas = new();
 
-        [SerializeField] private int m_MaxHP = 0;
+        [SerializeField] private int m_MaxHP;
 
-        [SerializeField] private int m_Defense = 0;
+        [SerializeField] private int m_Defense;
 
-        [SerializeField] private int m_DeadEffectId = 0;
+        [SerializeField] private int m_DeadEffectId;
 
-        [SerializeField] private int m_DeadSoundId = 0;
+        [SerializeField] private int m_DeadSoundId;
 
         public AircraftData(int entityId, int typeId, CampType camp)
             : base(entityId, typeId, camp)
         {
             var tbAircraft = GameEntry.LubanConfig.Tables.TbAircraft;
             var drAircraft = tbAircraft.GetOrDefault(TypeId);
-            if (drAircraft == null)
-            {
-                return;
-            }
+            if (drAircraft == null) return;
 
             m_ThrusterData = new ThrusterData(GameEntry.Entity.GenerateSerialId(), drAircraft.ThrusterId, Id, Camp);
 
@@ -54,40 +44,34 @@ namespace StarForce
             HP = m_MaxHP;
         }
 
-        private void LoadAircraft(int id)
-        {
-            if (id > 0)
-            {
-                AttachWeaponData(new WeaponData(GameEntry.Entity.GenerateSerialId(), id, Id, Camp));
-            }
-        }
-
-        private void LoadArmor(int id)
-        {
-            if (id > 0)
-            {
-                AttachArmorData(new ArmorData(GameEntry.Entity.GenerateSerialId(), id, Id, Camp));
-            }
-        }
-
         /// <summary>
-        /// 最大生命。
+        ///     最大生命。
         /// </summary>
         public override int MaxHP => m_MaxHP;
 
         /// <summary>
-        /// 防御。
+        ///     防御。
         /// </summary>
         public int Defense => m_Defense;
 
         /// <summary>
-        /// 速度。
+        ///     速度。
         /// </summary>
         public float Speed => m_ThrusterData.Speed;
 
         public int DeadEffectId => m_DeadEffectId;
 
         public int DeadSoundId => m_DeadSoundId;
+
+        private void LoadAircraft(int id)
+        {
+            if (id > 0) AttachWeaponData(new WeaponData(GameEntry.Entity.GenerateSerialId(), id, Id, Camp));
+        }
+
+        private void LoadArmor(int id)
+        {
+            if (id > 0) AttachArmorData(new ArmorData(GameEntry.Entity.GenerateSerialId(), id, Id, Camp));
+        }
 
         public ThrusterData GetThrusterData()
         {
@@ -101,25 +85,16 @@ namespace StarForce
 
         public void AttachWeaponData(WeaponData weaponData)
         {
-            if (weaponData == null)
-            {
-                return;
-            }
+            if (weaponData == null) return;
 
-            if (m_WeaponDatas.Contains(weaponData))
-            {
-                return;
-            }
+            if (m_WeaponDatas.Contains(weaponData)) return;
 
             m_WeaponDatas.Add(weaponData);
         }
 
         public void DetachWeaponData(WeaponData weaponData)
         {
-            if (weaponData == null)
-            {
-                return;
-            }
+            if (weaponData == null) return;
 
             m_WeaponDatas.Remove(weaponData);
         }
@@ -131,15 +106,9 @@ namespace StarForce
 
         public void AttachArmorData(ArmorData armorData)
         {
-            if (armorData == null)
-            {
-                return;
-            }
+            if (armorData == null) return;
 
-            if (m_ArmorDatas.Contains(armorData))
-            {
-                return;
-            }
+            if (m_ArmorDatas.Contains(armorData)) return;
 
             m_ArmorDatas.Add(armorData);
             RefreshData();
@@ -147,10 +116,7 @@ namespace StarForce
 
         public void DetachArmorData(ArmorData armorData)
         {
-            if (armorData == null)
-            {
-                return;
-            }
+            if (armorData == null) return;
 
             m_ArmorDatas.Remove(armorData);
             RefreshData();
@@ -166,10 +132,7 @@ namespace StarForce
                 m_Defense += m_ArmorDatas[i].Defense;
             }
 
-            if (HP > m_MaxHP)
-            {
-                HP = m_MaxHP;
-            }
+            if (HP > m_MaxHP) HP = m_MaxHP;
         }
     }
 }

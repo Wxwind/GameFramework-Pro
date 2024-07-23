@@ -1,51 +1,33 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework.Localization;
+﻿using GameFramework.Localization;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public class SettingForm : UGuiForm
     {
-        [SerializeField]
-        private Toggle m_MusicMuteToggle = null;
+        [SerializeField] private Toggle m_MusicMuteToggle;
 
-        [SerializeField]
-        private Slider m_MusicVolumeSlider = null;
+        [SerializeField] private Slider m_MusicVolumeSlider;
 
-        [SerializeField]
-        private Toggle m_SoundMuteToggle = null;
+        [SerializeField] private Toggle m_SoundMuteToggle;
 
-        [SerializeField]
-        private Slider m_SoundVolumeSlider = null;
+        [SerializeField] private Slider m_SoundVolumeSlider;
 
-        [SerializeField]
-        private Toggle m_UISoundMuteToggle = null;
+        [SerializeField] private Toggle m_UISoundMuteToggle;
 
-        [SerializeField]
-        private Slider m_UISoundVolumeSlider = null;
+        [SerializeField] private Slider m_UISoundVolumeSlider;
 
-        [SerializeField]
-        private CanvasGroup m_LanguageTipsCanvasGroup = null;
+        [SerializeField] private CanvasGroup m_LanguageTipsCanvasGroup;
 
-        [SerializeField]
-        private Toggle m_EnglishToggle = null;
+        [SerializeField] private Toggle m_EnglishToggle;
 
-        [SerializeField]
-        private Toggle m_ChineseSimplifiedToggle = null;
+        [SerializeField] private Toggle m_ChineseSimplifiedToggle;
 
-        [SerializeField]
-        private Toggle m_ChineseTraditionalToggle = null;
+        [SerializeField] private Toggle m_ChineseTraditionalToggle;
 
-        [SerializeField]
-        private Toggle m_KoreanToggle = null;
+        [SerializeField] private Toggle m_KoreanToggle;
 
         private Language m_SelectedLanguage = Language.Unspecified;
 
@@ -84,10 +66,7 @@ namespace StarForce
 
         public void OnEnglishSelected(bool isOn)
         {
-            if (!isOn)
-            {
-                return;
-            }
+            if (!isOn) return;
 
             m_SelectedLanguage = Language.English;
             RefreshLanguageTips();
@@ -95,10 +74,7 @@ namespace StarForce
 
         public void OnChineseSimplifiedSelected(bool isOn)
         {
-            if (!isOn)
-            {
-                return;
-            }
+            if (!isOn) return;
 
             m_SelectedLanguage = Language.ChineseSimplified;
             RefreshLanguageTips();
@@ -106,10 +82,7 @@ namespace StarForce
 
         public void OnChineseTraditionalSelected(bool isOn)
         {
-            if (!isOn)
-            {
-                return;
-            }
+            if (!isOn) return;
 
             m_SelectedLanguage = Language.ChineseTraditional;
             RefreshLanguageTips();
@@ -117,10 +90,7 @@ namespace StarForce
 
         public void OnKoreanSelected(bool isOn)
         {
-            if (!isOn)
-            {
-                return;
-            }
+            if (!isOn) return;
 
             m_SelectedLanguage = Language.Korean;
             RefreshLanguageTips();
@@ -176,9 +146,6 @@ namespace StarForce
                 case Language.Korean:
                     m_KoreanToggle.isOn = true;
                     break;
-
-                default:
-                    break;
             }
         }
 
@@ -191,9 +158,7 @@ namespace StarForce
             base.OnUpdate(elapseSeconds, realElapseSeconds);
 
             if (m_LanguageTipsCanvasGroup.gameObject.activeSelf)
-            {
                 m_LanguageTipsCanvasGroup.alpha = 0.5f + 0.5f * Mathf.Sin(Mathf.PI * Time.time);
-            }
         }
 
         private void RefreshLanguageTips()

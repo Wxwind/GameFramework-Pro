@@ -1,23 +1,14 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using System;
+﻿using System;
 using UnityEngine;
 
-namespace StarForce
+namespace GameMain
 {
     [Serializable]
     public abstract class AccessoryObjectData : EntityData
     {
-        [SerializeField]
-        private int m_OwnerId = 0;
+        [SerializeField] private int m_OwnerId;
 
-        [SerializeField]
-        private CampType m_OwnerCamp = CampType.Unknown;
+        [SerializeField] private CampType m_OwnerCamp = CampType.Unknown;
 
         public AccessoryObjectData(int entityId, int typeId, int ownerId, CampType ownerCamp)
             : base(entityId, typeId)
@@ -27,25 +18,13 @@ namespace StarForce
         }
 
         /// <summary>
-        /// 拥有者编号。
+        ///     拥有者编号。
         /// </summary>
-        public int OwnerId
-        {
-            get
-            {
-                return m_OwnerId;
-            }
-        }
+        public int OwnerId => m_OwnerId;
 
         /// <summary>
-        /// 拥有者阵营。
+        ///     拥有者阵营。
         /// </summary>
-        public CampType OwnerCamp
-        {
-            get
-            {
-                return m_OwnerCamp;
-            }
-        }
+        public CampType OwnerCamp => m_OwnerCamp;
     }
 }

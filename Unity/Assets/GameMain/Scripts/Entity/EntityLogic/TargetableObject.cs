@@ -1,47 +1,39 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     /// <summary>
-    /// 可作为目标的实体类。
+    ///     可作为目标的实体类。
     /// </summary>
     public abstract class TargetableObject : Entity
     {
-        [SerializeField]
-        private TargetableObjectData m_TargetableObjectData = null;
+        [SerializeField] private TargetableObjectData m_TargetableObjectData;
 
-        public bool IsDead
+        public bool IsDead => m_TargetableObjectData.HP <= 0;
+
+        private void OnTriggerEnter(Collider other)
         {
-            get
-            {
-                return m_TargetableObjectData.HP <= 0;
-            }
+            var entity = other.gameObject.GetComponent<Entity>();
+            if (entity == null) return;
+
+            if (entity is TargetableObject && entity.Id >= Id)
+                // 碰撞事件由 Id 小的一方处理，避免重复处理
+                return;
+
+            AIUtility.PerformCollision(this, entity);
         }
 
         public abstract ImpactData GetImpactData();
 
         public void ApplyDamage(Entity attacker, int damageHP)
         {
-            float fromHPRatio = m_TargetableObjectData.HPRatio;
+            var fromHPRatio = m_TargetableObjectData.HPRatio;
             m_TargetableObjectData.HP -= damageHP;
-            float toHPRatio = m_TargetableObjectData.HPRatio;
-            if (fromHPRatio > toHPRatio)
-            {
-                GameEntry.HPBar.ShowHPBar(this, fromHPRatio, toHPRatio);
-            }
+            var toHPRatio = m_TargetableObjectData.HPRatio;
+            if (fromHPRatio > toHPRatio) GameEntry.HPBar.ShowHPBar(this, fromHPRatio, toHPRatio);
 
-            if (m_TargetableObjectData.HP <= 0)
-            {
-                OnDead(attacker);
-            }
+            if (m_TargetableObjectData.HP <= 0) OnDead(attacker);
         }
 
 #if UNITY_2017_3_OR_NEWER
@@ -66,30 +58,12 @@ namespace StarForce
             if (m_TargetableObjectData == null)
             {
                 Log.Error("Targetable object data is invalid.");
-                return;
             }
         }
 
         protected virtual void OnDead(Entity attacker)
         {
             GameEntry.Entity.HideEntity(this);
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            Entity entity = other.gameObject.GetComponent<Entity>();
-            if (entity == null)
-            {
-                return;
-            }
-
-            if (entity is TargetableObject && entity.Id >= Id)
-            {
-                // 碰撞事件由 Id 小的一方处理，避免重复处理
-                return;
-            }
-
-            AIUtility.PerformCollision(this, entity);
         }
     }
 }

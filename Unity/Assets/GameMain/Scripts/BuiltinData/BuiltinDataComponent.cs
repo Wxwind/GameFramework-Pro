@@ -1,44 +1,20 @@
-﻿//------------------------------------------------------------
-// Game Framework
-// Copyright © 2013-2021 Jiang Yin. All rights reserved.
-// Homepage: https://gameframework.cn/
-// Feedback: mailto:ellan@gameframework.cn
-//------------------------------------------------------------
-
-using GameFramework;
+﻿using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace StarForce
+namespace GameMain
 {
     public class BuiltinDataComponent : GameFrameworkComponent
     {
-        [SerializeField]
-        private TextAsset m_BuildInfoTextAsset = null;
+        [SerializeField] private TextAsset m_BuildInfoTextAsset;
 
-        [SerializeField]
-        private TextAsset m_DefaultDictionaryTextAsset = null;
+        [SerializeField] private TextAsset m_DefaultDictionaryTextAsset;
 
-        [SerializeField]
-        private UpdateResourceForm m_UpdateResourceFormTemplate = null;
+        [SerializeField] private UpdateResourceForm m_UpdateResourceFormTemplate;
 
-        private BuildInfo m_BuildInfo = null;
+        public BuildInfo BuildInfo { get; private set; }
 
-        public BuildInfo BuildInfo
-        {
-            get
-            {
-                return m_BuildInfo;
-            }
-        }
-
-        public UpdateResourceForm UpdateResourceFormTemplate
-        {
-            get
-            {
-                return m_UpdateResourceFormTemplate;
-            }
-        }
+        public UpdateResourceForm UpdateResourceFormTemplate => m_UpdateResourceFormTemplate;
 
         public void InitBuildInfo()
         {
@@ -48,12 +24,8 @@ namespace StarForce
                 return;
             }
 
-            m_BuildInfo = Utility.Json.ToObject<BuildInfo>(m_BuildInfoTextAsset.text);
-            if (m_BuildInfo == null)
-            {
-                Log.Warning("Parse build info failure.");
-                return;
-            }
+            BuildInfo = Utility.Json.ToObject<BuildInfo>(m_BuildInfoTextAsset.text);
+            if (BuildInfo == null) Log.Warning("Parse build info failure.");
         }
 
         public void InitDefaultDictionary()
@@ -65,10 +37,7 @@ namespace StarForce
             }
 
             if (!GameEntry.Localization.ParseData(m_DefaultDictionaryTextAsset.text))
-            {
                 Log.Warning("Parse default dictionary failure.");
-                return;
-            }
         }
     }
 }
