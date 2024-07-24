@@ -109,45 +109,30 @@ namespace GameFramework.Scene
         /// <returns>场景资源是否存在。</returns>
         bool HasScene(string sceneAssetName);
 
+
         /// <summary>
         /// 加载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
-        void LoadScene(string sceneAssetName);
+        /// <param name="packageName">场景资源所在包名</param>
+        /// <param name="priority">加载场景资源的优先级。</param>
+        /// <param name="suspendLoad">加载完成后是否挂起</param>
+        void LoadScene(string sceneAssetName, string packageName = "", int priority = 100, bool suspendLoad = false);
 
         /// <summary>
         /// 加载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="priority">加载场景资源的优先级。</param>
+        /// <param name="userData">用户自定义数据。</param>
         void LoadScene(string sceneAssetName, int priority);
 
-        /// <summary>
-        /// 加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        void LoadScene(string sceneAssetName, object userData);
-
-        /// <summary>
-        /// 加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="priority">加载场景资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        void LoadScene(string sceneAssetName, int priority, object userData);
-
-        /// <summary>
-        /// 卸载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        void UnloadScene(string sceneAssetName);
 
         /// <summary>
         /// 卸载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        void UnloadScene(string sceneAssetName, object userData);
+        void UnloadScene(string sceneAssetName, object userData = null);
     }
 }

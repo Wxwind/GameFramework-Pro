@@ -51,8 +51,9 @@ namespace GameMain
                 return;
             }
 
-            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), Constant.AssetPriority.SceneAsset,
-                this);
+            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), null,
+                Constant.AssetPriority.SceneAsset,
+                false);
             m_BackgroundMusicId = drScene.BackgroundMusicId;
         }
 

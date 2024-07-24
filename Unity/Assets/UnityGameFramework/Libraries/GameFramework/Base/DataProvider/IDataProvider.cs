@@ -18,15 +18,6 @@ namespace GameFramework
         /// </summary>
         event EventHandler<ReadDataFailureEventArgs> ReadDataFailure;
 
-        /// <summary>
-        /// 读取数据更新事件。
-        /// </summary>
-        event EventHandler<ReadDataUpdateEventArgs> ReadDataUpdate;
-
-        /// <summary>
-        /// 读取数据时加载依赖资源事件。
-        /// </summary>
-        event EventHandler<ReadDataDependencyAssetEventArgs> ReadDataDependencyAsset;
 
         /// <summary>
         /// 读取数据。

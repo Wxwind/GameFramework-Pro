@@ -22,39 +22,29 @@ namespace UnityGameFramework.Runtime
 
         private readonly List<IEntity> m_InternalEntityResults = new List<IEntity>();
 
-        [SerializeField]
-        private bool m_EnableShowEntityUpdateEvent = false;
+        [SerializeField] private bool m_EnableShowEntityUpdateEvent = false;
 
-        [SerializeField]
-        private bool m_EnableShowEntityDependencyAssetEvent = false;
+        [SerializeField] private bool m_EnableShowEntityDependencyAssetEvent = false;
 
-        [SerializeField]
-        private Transform m_InstanceRoot = null;
+        [SerializeField] private Transform m_InstanceRoot = null;
 
-        [SerializeField]
-        private string m_EntityHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityHelper";
+        [SerializeField] private string m_EntityHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityHelper";
 
-        [SerializeField]
-        private EntityHelperBase m_CustomEntityHelper = null;
+        [SerializeField] private EntityHelperBase m_CustomEntityHelper = null;
 
         [SerializeField]
         private string m_EntityGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityGroupHelper";
 
-        [SerializeField]
-        private EntityGroupHelperBase m_CustomEntityGroupHelper = null;
+        [SerializeField] private EntityGroupHelperBase m_CustomEntityGroupHelper = null;
 
-        [SerializeField]
-        private EntityGroup[] m_EntityGroups = null;
+        [SerializeField] private EntityGroup[] m_EntityGroups = null;
 
         /// <summary>
         /// 获取实体数量。
         /// </summary>
         public int EntityCount
         {
-            get
-            {
-                return m_EntityManager.EntityCount;
-            }
+            get { return m_EntityManager.EntityCount; }
         }
 
         /// <summary>
@@ -62,10 +52,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public int EntityGroupCount
         {
-            get
-            {
-                return m_EntityManager.EntityGroupCount;
-            }
+            get { return m_EntityManager.EntityGroupCount; }
         }
 
         /// <summary>
@@ -114,14 +101,7 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (baseComponent.EditorResourceMode)
-            {
-                m_EntityManager.SetResourceManager(baseComponent.EditorResourceHelper);
-            }
-            else
-            {
-                m_EntityManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
-            }
+            m_EntityManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
             m_EntityManager.SetObjectPoolManager(GameFrameworkEntry.GetModule<IObjectPoolManager>());
 
@@ -148,7 +128,9 @@ namespace UnityGameFramework.Runtime
 
             for (int i = 0; i < m_EntityGroups.Length; i++)
             {
-                if (!AddEntityGroup(m_EntityGroups[i].Name, m_EntityGroups[i].InstanceAutoReleaseInterval, m_EntityGroups[i].InstanceCapacity, m_EntityGroups[i].InstanceExpireTime, m_EntityGroups[i].InstancePriority))
+                if (!AddEntityGroup(m_EntityGroups[i].Name, m_EntityGroups[i].InstanceAutoReleaseInterval,
+                        m_EntityGroups[i].InstanceCapacity, m_EntityGroups[i].InstanceExpireTime,
+                        m_EntityGroups[i].InstancePriority))
                 {
                     Log.Warning("Add entity group '{0}' failure.", m_EntityGroups[i].Name);
                     continue;
@@ -203,14 +185,16 @@ namespace UnityGameFramework.Runtime
         /// <param name="instanceExpireTime">实体实例对象池对象过期秒数。</param>
         /// <param name="instancePriority">实体实例对象池的优先级。</param>
         /// <returns>是否增加实体组成功。</returns>
-        public bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority)
+        public bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity,
+            float instanceExpireTime, int instancePriority)
         {
             if (m_EntityManager.HasEntityGroup(entityGroupName))
             {
                 return false;
             }
 
-            EntityGroupHelperBase entityGroupHelper = Helper.CreateHelper(m_EntityGroupHelperTypeName, m_CustomEntityGroupHelper, EntityGroupCount);
+            EntityGroupHelperBase entityGroupHelper = Helper.CreateHelper(m_EntityGroupHelperTypeName,
+                m_CustomEntityGroupHelper, EntityGroupCount);
             if (entityGroupHelper == null)
             {
                 Log.Error("Can not create entity group helper.");
@@ -222,7 +206,8 @@ namespace UnityGameFramework.Runtime
             transform.SetParent(m_InstanceRoot);
             transform.localScale = Vector3.one;
 
-            return m_EntityManager.AddEntityGroup(entityGroupName, instanceAutoReleaseInterval, instanceCapacity, instanceExpireTime, instancePriority, entityGroupHelper);
+            return m_EntityManager.AddEntityGroup(entityGroupName, instanceAutoReleaseInterval, instanceCapacity,
+                instanceExpireTime, instancePriority, entityGroupHelper);
         }
 
         /// <summary>
@@ -409,7 +394,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
-        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority) where T : EntityLogic
+        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority)
+            where T : EntityLogic
         {
             ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, priority, null);
         }
@@ -422,7 +408,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
-        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName, int priority)
+        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
+            int priority)
         {
             ShowEntity(entityId, entityLogicType, entityAssetName, entityGroupName, priority, null);
         }
@@ -435,7 +422,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, object userData) where T : EntityLogic
+        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, object userData)
+            where T : EntityLogic
         {
             ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, DefaultPriority, userData);
         }
@@ -448,7 +436,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName, object userData)
+        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
+            object userData)
         {
             ShowEntity(entityId, entityLogicType, entityAssetName, entityGroupName, DefaultPriority, userData);
         }
@@ -462,7 +451,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority, object userData) where T : EntityLogic
+        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority,
+            object userData) where T : EntityLogic
         {
             ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, priority, userData);
         }
@@ -476,7 +466,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName, int priority, object userData)
+        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
+            int priority, object userData)
         {
             if (entityLogicType == null)
             {
@@ -484,7 +475,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            m_EntityManager.ShowEntity(entityId, entityAssetName, entityGroupName, priority, ShowEntityInfo.Create(entityLogicType, userData));
+            m_EntityManager.ShowEntity(entityId, entityAssetName, entityGroupName, priority,
+                ShowEntityInfo.Create(entityLogicType, userData));
         }
 
         /// <summary>
@@ -915,7 +907,8 @@ namespace UnityGameFramework.Runtime
                 parentTransform = parentEntity.Logic.CachedTransform.Find(parentTransformPath);
                 if (parentTransform == null)
                 {
-                    Log.Warning("Can not find transform path '{0}' from parent entity '{1}'.", parentTransformPath, parentEntity.Logic.Name);
+                    Log.Warning("Can not find transform path '{0}' from parent entity '{1}'.", parentTransformPath,
+                        parentEntity.Logic.Name);
                     parentTransform = parentEntity.Logic.CachedTransform;
                 }
             }
@@ -1117,7 +1110,9 @@ namespace UnityGameFramework.Runtime
 
         private void OnShowEntityFailure(object sender, GameFramework.Entity.ShowEntityFailureEventArgs e)
         {
-            Log.Warning("Show entity failure, entity id '{0}', asset name '{1}', entity group name '{2}', error message '{3}'.", e.EntityId, e.EntityAssetName, e.EntityGroupName, e.ErrorMessage);
+            Log.Warning(
+                "Show entity failure, entity id '{0}', asset name '{1}', entity group name '{2}', error message '{3}'.",
+                e.EntityId, e.EntityAssetName, e.EntityGroupName, e.ErrorMessage);
             m_EventComponent.Fire(this, ShowEntityFailureEventArgs.Create(e));
         }
 
@@ -1126,7 +1121,8 @@ namespace UnityGameFramework.Runtime
             m_EventComponent.Fire(this, ShowEntityUpdateEventArgs.Create(e));
         }
 
-        private void OnShowEntityDependencyAsset(object sender, GameFramework.Entity.ShowEntityDependencyAssetEventArgs e)
+        private void OnShowEntityDependencyAsset(object sender,
+            GameFramework.Entity.ShowEntityDependencyAssetEventArgs e)
         {
             m_EventComponent.Fire(this, ShowEntityDependencyAssetEventArgs.Create(e));
         }

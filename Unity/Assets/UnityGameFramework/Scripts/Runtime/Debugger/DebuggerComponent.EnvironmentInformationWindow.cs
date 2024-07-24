@@ -1,4 +1,5 @@
 ﻿using GameFramework;
+using GameFramework.Resource;
 using UnityEngine;
 #if UNITY_5_5_OR_NEWER
 using UnityEngine.Rendering;
@@ -43,8 +44,15 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Game Identifier", Application.bundleIdentifier);
 #endif
                     DrawItem("Game Framework Version", Version.GameFrameworkVersion);
-                    DrawItem("Game Version", Utility.Text.Format("{0} ({1})", Version.GameVersion, Version.InternalGameVersion));
-                    DrawItem("Resource Version", m_BaseComponent.EditorResourceMode ? "Unavailable in editor resource mode" : (string.IsNullOrEmpty(m_ResourceComponent.ApplicableGameVersion) ? "Unknown" : Utility.Text.Format("{0} ({1})", m_ResourceComponent.ApplicableGameVersion, m_ResourceComponent.InternalResourceVersion)));
+                    DrawItem("Game Version",
+                        Utility.Text.Format("{0} ({1})", Version.GameVersion, Version.InternalGameVersion));
+                    DrawItem("Resource Version",
+                        m_BaseComponent.ResourceMode == ResourceMode.EditorSimulateMode
+                            ? "Unavailable in editor resource mode"
+                            : string.IsNullOrEmpty(m_ResourceComponent.ApplicableGameVersion)
+                                ? "Unknown"
+                                : Utility.Text.Format("{0} ({1})", m_ResourceComponent.ApplicableGameVersion,
+                                    "Not Exists InternalResourceVersion"));
                     DrawItem("Application Version", Application.version);
                     DrawItem("Unity Version", Application.unityVersion);
                     DrawItem("Platform", Application.platform.ToString());

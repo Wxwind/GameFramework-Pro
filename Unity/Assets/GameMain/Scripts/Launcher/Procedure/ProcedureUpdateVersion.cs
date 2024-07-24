@@ -15,17 +15,15 @@ namespace GameMain
             base.OnEnter(procedureOwner);
 
             UILaunchMgr.ShowTip("获取最新的资源版本中...");
-            if (Application.internetReachability== NetworkReachability.NotReachable)
+            if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 Log.Warning("Not connected to the network");
                 UILaunchMgr.ShowTip("Check the network please");
-                UILaunchMgr.ShowMessageBox("Current network is inaccessible, please check and retry again.", () =>
-                {
-                    ChangeState<ProcedureUpdateVersion>(procedureOwner);
-                });
+                UILaunchMgr.ShowMessageBox("Current network is inaccessible, please check and retry again.",
+                    () => { ChangeState<ProcedureUpdateVersion>(procedureOwner); });
                 return;
             }
-            
+
             UpdatePackageVersion(procedureOwner).Forget();
         }
 
@@ -38,6 +36,7 @@ namespace GameMain
             var operation = package.UpdatePackageVersionAsync();
             await operation.ToUniTask();
 
+
             if (operation.Status != EOperationStatus.Succeed)
             {
                 Log.Warning(operation.Error);
@@ -46,6 +45,8 @@ namespace GameMain
             }
             else
             {
+                Log.Info($"update resource package version: {operation.PackageVersion}");
+                GameEntry.Resource.ApplicableGameVersion = operation.PackageVersion;
                 procedureOwner.SetData<VarString>("PackageVersion", operation.PackageVersion);
                 ChangeState<ProcedureUpdateManifest>(procedureOwner);
             }

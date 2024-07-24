@@ -6,23 +6,23 @@
     public enum ResourceMode : byte
     {
         /// <summary>
-        /// 未指定。
+        /// 编辑器下的模拟模式
         /// </summary>
-        Unspecified = 0,
+        EditorSimulateMode,
 
         /// <summary>
-        /// 单机模式。
+        /// 离线运行模式
         /// </summary>
-        Package,
+        OfflinePlayMode,
 
         /// <summary>
-        /// 预下载的可更新模式。
+        /// 联机运行模式
         /// </summary>
-        Updatable,
+        HostPlayMode,
 
         /// <summary>
-        /// 使用时下载的可更新模式。
+        /// WebGL运行模式
         /// </summary>
-        UpdatableWhilePlaying
+        WebPlayMode
     }
 }

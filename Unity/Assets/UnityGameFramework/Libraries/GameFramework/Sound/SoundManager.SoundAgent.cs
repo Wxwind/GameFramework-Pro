@@ -377,7 +377,7 @@ namespace GameFramework.Sound
                 Time = Constant.DefaultTime;
                 MuteInSoundGroup = Constant.DefaultMute;
                 Loop = Constant.DefaultLoop;
-                Priority = Constant.DefaultPriority;
+                Priority = 0;
                 VolumeInSoundGroup = Constant.DefaultVolume;
                 Pitch = Constant.DefaultPitch;
                 PanStereo = Constant.DefaultPanStereo;

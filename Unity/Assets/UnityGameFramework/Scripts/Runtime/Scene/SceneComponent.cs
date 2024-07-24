@@ -19,25 +19,23 @@ namespace UnityGameFramework.Runtime
 
         private ISceneManager m_SceneManager = null;
         private EventComponent m_EventComponent = null;
-        private readonly SortedDictionary<string, int> m_SceneOrder = new SortedDictionary<string, int>(StringComparer.Ordinal);
+
+        private readonly SortedDictionary<string, int> m_SceneOrder =
+            new SortedDictionary<string, int>(StringComparer.Ordinal);
+
         private Camera m_MainCamera = null;
         private Scene m_GameFrameworkScene = default(Scene);
 
-        [SerializeField]
-        private bool m_EnableLoadSceneUpdateEvent = true;
+        [SerializeField] private bool m_EnableLoadSceneUpdateEvent = true;
 
-        [SerializeField]
-        private bool m_EnableLoadSceneDependencyAssetEvent = true;
+        [SerializeField] private bool m_EnableLoadSceneDependencyAssetEvent = true;
 
         /// <summary>
         /// 获取当前场景主摄像机。
         /// </summary>
         public Camera MainCamera
         {
-            get
-            {
-                return m_MainCamera;
-            }
+            get { return m_MainCamera; }
         }
 
         /// <summary>
@@ -94,14 +92,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (baseComponent.EditorResourceMode)
-            {
-                m_SceneManager.SetResourceManager(baseComponent.EditorResourceHelper);
-            }
-            else
-            {
-                m_SceneManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
-            }
+
+            m_SceneManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
         }
 
         /// <summary>
@@ -231,7 +223,8 @@ namespace UnityGameFramework.Runtime
                 return false;
             }
 
-            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) || !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
+            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) ||
+                !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
             {
                 Log.Error("Scene asset name '{0}' is invalid.", sceneAssetName);
                 return false;
@@ -240,42 +233,16 @@ namespace UnityGameFramework.Runtime
             return m_SceneManager.HasScene(sceneAssetName);
         }
 
-        /// <summary>
-        /// 加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        public void LoadScene(string sceneAssetName)
-        {
-            LoadScene(sceneAssetName, DefaultPriority, null);
-        }
 
         /// <summary>
         /// 加载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
+        /// <param name="packageName">资源所在包名</param>
         /// <param name="priority">加载场景资源的优先级。</param>
-        public void LoadScene(string sceneAssetName, int priority)
-        {
-            LoadScene(sceneAssetName, priority, null);
-        }
-
-        /// <summary>
-        /// 加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void LoadScene(string sceneAssetName, object userData)
-        {
-            LoadScene(sceneAssetName, DefaultPriority, userData);
-        }
-
-        /// <summary>
-        /// 加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="priority">加载场景资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void LoadScene(string sceneAssetName, int priority, object userData)
+        /// <param name="suspendLoad">场景加载完成后是否挂起</param>
+        public void LoadScene(string sceneAssetName, string packageName = "", int priority = 100,
+            bool suspendLoad = false)
         {
             if (string.IsNullOrEmpty(sceneAssetName))
             {
@@ -283,13 +250,14 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) || !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
+            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) ||
+                !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
             {
                 Log.Error("Scene asset name '{0}' is invalid.", sceneAssetName);
                 return;
             }
 
-            m_SceneManager.LoadScene(sceneAssetName, priority, userData);
+            m_SceneManager.LoadScene(sceneAssetName, packageName, priority, suspendLoad);
         }
 
         /// <summary>
@@ -314,7 +282,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) || !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
+            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) ||
+                !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
             {
                 Log.Error("Scene asset name '{0}' is invalid.", sceneAssetName);
                 return;
@@ -337,7 +306,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) || !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
+            if (!sceneAssetName.StartsWith("Assets/", StringComparison.Ordinal) ||
+                !sceneAssetName.EndsWith(".unity", StringComparison.Ordinal))
             {
                 Log.Error("Scene asset name '{0}' is invalid.", sceneAssetName);
                 return;
@@ -440,7 +410,8 @@ namespace UnityGameFramework.Runtime
 
         private void OnLoadSceneFailure(object sender, GameFramework.Scene.LoadSceneFailureEventArgs e)
         {
-            Log.Warning("Load scene failure, scene asset name '{0}', error message '{1}'.", e.SceneAssetName, e.ErrorMessage);
+            Log.Warning("Load scene failure, scene asset name '{0}', error message '{1}'.", e.SceneAssetName,
+                e.ErrorMessage);
             m_EventComponent.Fire(this, LoadSceneFailureEventArgs.Create(e));
         }
 

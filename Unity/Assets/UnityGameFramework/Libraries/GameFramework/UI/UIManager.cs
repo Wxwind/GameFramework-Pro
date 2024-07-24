@@ -626,7 +626,7 @@ namespace GameFramework.UI
         /// <returns>界面的序列编号。</returns>
         public int OpenUIForm(string uiFormAssetName, string uiGroupName)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, Constant.DefaultPriority, false, null);
+            return OpenUIForm(uiFormAssetName, uiGroupName, 0, false, null);
         }
 
         /// <summary>
@@ -650,7 +650,7 @@ namespace GameFramework.UI
         /// <returns>界面的序列编号。</returns>
         public int OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, Constant.DefaultPriority, pauseCoveredUIForm, null);
+            return OpenUIForm(uiFormAssetName, uiGroupName, 0, pauseCoveredUIForm, null);
         }
 
         /// <summary>
@@ -662,7 +662,7 @@ namespace GameFramework.UI
         /// <returns>界面的序列编号。</returns>
         public int OpenUIForm(string uiFormAssetName, string uiGroupName, object userData)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, Constant.DefaultPriority, false, userData);
+            return OpenUIForm(uiFormAssetName, uiGroupName, 0, false, userData);
         }
 
         /// <summary>
@@ -701,7 +701,7 @@ namespace GameFramework.UI
         /// <returns>界面的序列编号。</returns>
         public int OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm, object userData)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, Constant.DefaultPriority, pauseCoveredUIForm, userData);
+            return OpenUIForm(uiFormAssetName, uiGroupName, 0, pauseCoveredUIForm, userData);
         }
 
         /// <summary>

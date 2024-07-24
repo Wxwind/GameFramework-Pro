@@ -27,7 +27,7 @@
             m_Time = Constant.DefaultTime;
             m_MuteInSoundGroup = Constant.DefaultMute;
             m_Loop = Constant.DefaultLoop;
-            m_Priority = Constant.DefaultPriority;
+            m_Priority = 0;
             m_VolumeInSoundGroup = Constant.DefaultVolume;
             m_FadeInSeconds = Constant.DefaultFadeInSeconds;
             m_Pitch = Constant.DefaultPitch;
@@ -229,7 +229,7 @@
             m_Time = Constant.DefaultTime;
             m_MuteInSoundGroup = Constant.DefaultMute;
             m_Loop = Constant.DefaultLoop;
-            m_Priority = Constant.DefaultPriority;
+            m_Priority = 0;
             m_VolumeInSoundGroup = Constant.DefaultVolume;
             m_FadeInSeconds = Constant.DefaultFadeInSeconds;
             m_Pitch = Constant.DefaultPitch;

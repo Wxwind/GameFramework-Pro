@@ -297,7 +297,7 @@ namespace GameFramework.Download
         /// <returns>新增下载任务的序列编号。</returns>
         public int AddDownload(string downloadPath, string downloadUri)
         {
-            return AddDownload(downloadPath, downloadUri, null, Constant.DefaultPriority, null);
+            return AddDownload(downloadPath, downloadUri, null, 0, null);
         }
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace GameFramework.Download
         /// <returns>新增下载任务的序列编号。</returns>
         public int AddDownload(string downloadPath, string downloadUri, string tag)
         {
-            return AddDownload(downloadPath, downloadUri, tag, Constant.DefaultPriority, null);
+            return AddDownload(downloadPath, downloadUri, tag, 0, null);
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace GameFramework.Download
         /// <returns>新增下载任务的序列编号。</returns>
         public int AddDownload(string downloadPath, string downloadUri, object userData)
         {
-            return AddDownload(downloadPath, downloadUri, null, Constant.DefaultPriority, userData);
+            return AddDownload(downloadPath, downloadUri, null, 0, userData);
         }
 
         /// <summary>
@@ -359,7 +359,7 @@ namespace GameFramework.Download
         /// <returns>新增下载任务的序列编号。</returns>
         public int AddDownload(string downloadPath, string downloadUri, string tag, object userData)
         {
-            return AddDownload(downloadPath, downloadUri, tag, Constant.DefaultPriority, userData);
+            return AddDownload(downloadPath, downloadUri, tag, 0, userData);
         }
 
         /// <summary>
