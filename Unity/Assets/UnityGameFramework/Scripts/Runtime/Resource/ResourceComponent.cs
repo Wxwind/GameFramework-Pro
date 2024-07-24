@@ -15,16 +15,15 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Resource")]
     public sealed class ResourceComponent : GameFrameworkComponent
     {
-        [SerializeField] private ResourceMode m_ResourceMode = ResourceMode.EditorSimulateMode;
-        [SerializeField] private float m_MinUnloadUnusedAssetsInterval = 60f;
-        [SerializeField] private float m_MaxUnloadUnusedAssetsInterval = 300f;
-        private AsyncOperation m_AsyncOperation;
-        private EventComponent m_EventComponent;
-        private bool m_ForceUnloadUnusedAssets;
-        private float m_LastUnloadUnusedAssetsOperationElapseSeconds;
-        private bool m_PerformGCCollect;
-        private bool m_PreorderUnloadUnusedAssets;
-        private IResourceManager m_ResourceManager;
+        [SerializeField] private float            m_MinUnloadUnusedAssetsInterval = 60f;
+        [SerializeField] private float            m_MaxUnloadUnusedAssetsInterval = 300f;
+        private                  AsyncOperation   m_AsyncOperation;
+        private                  EventComponent   m_EventComponent;
+        private                  bool             m_ForceUnloadUnusedAssets;
+        private                  float            m_LastUnloadUnusedAssetsOperationElapseSeconds;
+        private                  bool             m_PerformGCCollect;
+        private                  bool             m_PreorderUnloadUnusedAssets;
+        private                  IResourceManager m_ResourceManager;
 
 
         /// <summary>
@@ -73,8 +72,8 @@ namespace UnityGameFramework.Runtime
             if (m_AsyncOperation == null && (m_ForceUnloadUnusedAssets ||
                                              m_LastUnloadUnusedAssetsOperationElapseSeconds >=
                                              m_MaxUnloadUnusedAssetsInterval || (m_PreorderUnloadUnusedAssets &&
-                                                 m_LastUnloadUnusedAssetsOperationElapseSeconds >=
-                                                 m_MinUnloadUnusedAssetsInterval)))
+                                                                                 m_LastUnloadUnusedAssetsOperationElapseSeconds >=
+                                                                                 m_MinUnloadUnusedAssetsInterval)))
             {
                 Log.Info("Unload unused assets...");
                 m_ForceUnloadUnusedAssets = false;
@@ -109,16 +108,12 @@ namespace UnityGameFramework.Runtime
                 : packageName);
         }
 
-        public UniTask<T> LoadAssetAsync<T>(string location, LoadAssetCallbacks loadAssetCallbacks,
-            string packageName = "",
-            IProgress<float> progress = null)
-            where T : Object
+        public void LoadAssetAsync<T>(string location, string packageName, LoadAssetCallbacks loadAssetCallbacks) where T : Object
         {
-            return m_ResourceManager.LoadAssetAsync<T>(location, loadAssetCallbacks, packageName, progress);
+            m_ResourceManager.LoadAssetAsync<T>(location, packageName, loadAssetCallbacks).Forget();
         }
 
-        public UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", IProgress<float> progress = null)
-            where T : Object
+        public UniTask<T> LoadAssetAsync<T>(string location, string packageName, IProgress<float> progress) where T : Object
         {
             return m_ResourceManager.LoadAssetAsync<T>(location, packageName, progress);
         }
@@ -137,7 +132,7 @@ namespace UnityGameFramework.Runtime
         public void UnloadUnusedAssets(bool performGCCollect)
         {
             m_PreorderUnloadUnusedAssets = true;
-            if (performGCCollect) m_PerformGCCollect = performGCCollect;
+            if (performGCCollect) m_PerformGCCollect = true;
         }
 
         /// <summary>
@@ -147,7 +142,7 @@ namespace UnityGameFramework.Runtime
         public void ForceUnloadUnusedAssets(bool performGCCollect)
         {
             m_ForceUnloadUnusedAssets = true;
-            if (performGCCollect) m_PerformGCCollect = performGCCollect;
+            if (performGCCollect) m_PerformGCCollect = true;
         }
     }
 }

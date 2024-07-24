@@ -42,8 +42,7 @@ namespace GameFramework.Resource
 
         UniTask<InitializationOperation> InitPackage(ResourceMode mode, string packageName);
 
-        UniTask<T> LoadAssetAsync<T>(string location, LoadAssetCallbacks loadAssetCallbacks, string packageName = "",
-            IProgress<float> progress = null)
+        UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
             where T : Object;
 
         UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", IProgress<float> progress = null)
@@ -65,7 +64,7 @@ namespace GameFramework.Resource
         /// <param name="priority">加载场景优先级</param>
         /// <param name="loadSceneCallbacks">加载场景回调函数集。</param>
         /// <param name="userData">用户自定义数据</param>
-        void LoadSceneAsync(string sceneAssetName, int priority, LoadSceneCallbacks loadSceneCallbacks, object userData);
+        void LoadSceneAsync(string sceneAssetName, int priority, LoadSceneCallbacks loadSceneCallbacks, object userData = null);
 
         /// <summary>
         ///     异步卸载场景。

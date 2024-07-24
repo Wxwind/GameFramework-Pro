@@ -699,7 +699,8 @@ PrefabInstance:
       propertyPath: m_JsonHelperTypeName
       value: UnityGameFramework.Runtime.DefaultJsonHelper
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11463816, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
 --- !u!4 &343730743 stripped
 Transform:

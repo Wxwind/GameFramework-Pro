@@ -1,6 +1,7 @@
-﻿using GameFramework.Resource;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework.Resource;
+using Object = UnityEngine.Object;
 
 namespace GameFramework.Sound
 {
@@ -9,17 +10,17 @@ namespace GameFramework.Sound
     /// </summary>
     internal sealed partial class SoundManager : GameFrameworkModule, ISoundManager
     {
-        private readonly Dictionary<string, SoundGroup> m_SoundGroups;
-        private readonly List<int> m_SoundsBeingLoaded;
-        private readonly HashSet<int> m_SoundsToReleaseOnLoad;
-        private readonly LoadAssetCallbacks m_LoadAssetCallbacks;
-        private IResourceManager m_ResourceManager;
-        private ISoundHelper m_SoundHelper;
-        private int m_Serial;
-        private EventHandler<PlaySoundSuccessEventArgs> m_PlaySoundSuccessEventHandler;
-        private EventHandler<PlaySoundFailureEventArgs> m_PlaySoundFailureEventHandler;
-        private EventHandler<PlaySoundUpdateEventArgs> m_PlaySoundUpdateEventHandler;
-        private EventHandler<PlaySoundDependencyAssetEventArgs> m_PlaySoundDependencyAssetEventHandler;
+        private readonly Dictionary<string, SoundGroup>                  m_SoundGroups;
+        private readonly List<int>                                       m_SoundsBeingLoaded;
+        private readonly HashSet<int>                                    m_SoundsToReleaseOnLoad;
+        private readonly LoadAssetCallbacks                              m_LoadAssetCallbacks;
+        private          IResourceManager                                m_ResourceManager;
+        private          ISoundHelper                                    m_SoundHelper;
+        private          int                                             m_Serial;
+        private          EventHandler<PlaySoundSuccessEventArgs>         m_PlaySoundSuccessEventHandler;
+        private          EventHandler<PlaySoundFailureEventArgs>         m_PlaySoundFailureEventHandler;
+        private          EventHandler<PlaySoundUpdateEventArgs>          m_PlaySoundUpdateEventHandler;
+        private          EventHandler<PlaySoundDependencyAssetEventArgs> m_PlaySoundDependencyAssetEventHandler;
 
         /// <summary>
         /// 初始化声音管理器的新实例。
@@ -29,8 +30,8 @@ namespace GameFramework.Sound
             m_SoundGroups = new Dictionary<string, SoundGroup>(StringComparer.Ordinal);
             m_SoundsBeingLoaded = new List<int>();
             m_SoundsToReleaseOnLoad = new HashSet<int>();
-            m_LoadAssetCallbacks = new LoadAssetCallbacks(LoadAssetSuccessCallback, LoadAssetFailureCallback,
-                LoadAssetUpdateCallback);
+            m_LoadAssetCallbacks = new LoadAssetCallbacks(LoadAssetSuccessCallback, LoadAssetFailureCallback
+            );
             m_ResourceManager = null;
             m_SoundHelper = null;
             m_Serial = 0;
@@ -43,18 +44,15 @@ namespace GameFramework.Sound
         /// <summary>
         /// 获取声音组数量。
         /// </summary>
-        public int SoundGroupCount
-        {
-            get { return m_SoundGroups.Count; }
-        }
+        public int SoundGroupCount => m_SoundGroups.Count;
 
         /// <summary>
         /// 播放声音成功事件。
         /// </summary>
         public event EventHandler<PlaySoundSuccessEventArgs> PlaySoundSuccess
         {
-            add { m_PlaySoundSuccessEventHandler += value; }
-            remove { m_PlaySoundSuccessEventHandler -= value; }
+            add => m_PlaySoundSuccessEventHandler += value;
+            remove => m_PlaySoundSuccessEventHandler -= value;
         }
 
         /// <summary>
@@ -62,8 +60,8 @@ namespace GameFramework.Sound
         /// </summary>
         public event EventHandler<PlaySoundFailureEventArgs> PlaySoundFailure
         {
-            add { m_PlaySoundFailureEventHandler += value; }
-            remove { m_PlaySoundFailureEventHandler -= value; }
+            add => m_PlaySoundFailureEventHandler += value;
+            remove => m_PlaySoundFailureEventHandler -= value;
         }
 
         /// <summary>
@@ -71,8 +69,8 @@ namespace GameFramework.Sound
         /// </summary>
         public event EventHandler<PlaySoundUpdateEventArgs> PlaySoundUpdate
         {
-            add { m_PlaySoundUpdateEventHandler += value; }
-            remove { m_PlaySoundUpdateEventHandler -= value; }
+            add => m_PlaySoundUpdateEventHandler += value;
+            remove => m_PlaySoundUpdateEventHandler -= value;
         }
 
         /// <summary>
@@ -80,8 +78,8 @@ namespace GameFramework.Sound
         /// </summary>
         public event EventHandler<PlaySoundDependencyAssetEventArgs> PlaySoundDependencyAsset
         {
-            add { m_PlaySoundDependencyAssetEventHandler += value; }
-            remove { m_PlaySoundDependencyAssetEventHandler -= value; }
+            add => m_PlaySoundDependencyAssetEventHandler += value;
+            remove => m_PlaySoundDependencyAssetEventHandler -= value;
         }
 
         /// <summary>
@@ -174,9 +172,9 @@ namespace GameFramework.Sound
         /// <returns>所有声音组。</returns>
         public ISoundGroup[] GetAllSoundGroups()
         {
-            int index = 0;
-            ISoundGroup[] results = new ISoundGroup[m_SoundGroups.Count];
-            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            var index = 0;
+            var results = new ISoundGroup[m_SoundGroups.Count];
+            foreach (var soundGroup in m_SoundGroups)
             {
                 results[index++] = soundGroup.Value;
             }
@@ -196,7 +194,7 @@ namespace GameFramework.Sound
             }
 
             results.Clear();
-            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            foreach (var soundGroup in m_SoundGroups)
             {
                 results.Add(soundGroup.Value);
             }
@@ -240,7 +238,7 @@ namespace GameFramework.Sound
                 return false;
             }
 
-            SoundGroup soundGroup = new SoundGroup(soundGroupName, soundGroupHelper)
+            var soundGroup = new SoundGroup(soundGroupName, soundGroupHelper)
             {
                 AvoidBeingReplacedBySamePriority = soundGroupAvoidBeingReplacedBySamePriority,
                 Mute = soundGroupMute,
@@ -264,7 +262,7 @@ namespace GameFramework.Sound
                 throw new GameFrameworkException("You must set sound helper first.");
             }
 
-            SoundGroup soundGroup = (SoundGroup)GetSoundGroup(soundGroupName);
+            var soundGroup = (SoundGroup)GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Sound group '{0}' is not exist.",
@@ -423,10 +421,10 @@ namespace GameFramework.Sound
                 playSoundParams = PlaySoundParams.Create();
             }
 
-            int serialId = ++m_Serial;
+            var serialId = ++m_Serial;
             PlaySoundErrorCode? errorCode = null;
             string errorMessage = null;
-            SoundGroup soundGroup = (SoundGroup)GetSoundGroup(soundGroupName);
+            var soundGroup = (SoundGroup)GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
                 errorCode = PlaySoundErrorCode.SoundGroupNotExist;
@@ -442,7 +440,7 @@ namespace GameFramework.Sound
             {
                 if (m_PlaySoundFailureEventHandler != null)
                 {
-                    PlaySoundFailureEventArgs playSoundFailureEventArgs = PlaySoundFailureEventArgs.Create(serialId,
+                    var playSoundFailureEventArgs = PlaySoundFailureEventArgs.Create(serialId,
                         soundAssetName, soundGroupName, playSoundParams, errorCode.Value, errorMessage, userData);
                     m_PlaySoundFailureEventHandler(this, playSoundFailureEventArgs);
                     ReferencePool.Release(playSoundFailureEventArgs);
@@ -459,8 +457,9 @@ namespace GameFramework.Sound
             }
 
             m_SoundsBeingLoaded.Add(serialId);
-            m_ResourceManager.LoadAssetAsync(soundAssetName, priority, m_LoadAssetCallbacks,
+            m_ResourceManager.LoadAssetAsync<Object>(soundAssetName, "", m_LoadAssetCallbacks,
                 PlaySoundInfo.Create(serialId, soundGroup, playSoundParams, userData));
+
             return serialId;
         }
 
@@ -489,7 +488,7 @@ namespace GameFramework.Sound
                 return true;
             }
 
-            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            foreach (var soundGroup in m_SoundGroups)
             {
                 if (soundGroup.Value.StopSound(serialId, fadeOutSeconds))
                 {
@@ -514,7 +513,7 @@ namespace GameFramework.Sound
         /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
         public void StopAllLoadedSounds(float fadeOutSeconds)
         {
-            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            foreach (var soundGroup in m_SoundGroups)
             {
                 soundGroup.Value.StopAllLoadedSounds(fadeOutSeconds);
             }
@@ -525,7 +524,7 @@ namespace GameFramework.Sound
         /// </summary>
         public void StopAllLoadingSounds()
         {
-            foreach (int serialId in m_SoundsBeingLoaded)
+            foreach (var serialId in m_SoundsBeingLoaded)
             {
                 m_SoundsToReleaseOnLoad.Add(serialId);
             }
@@ -547,7 +546,7 @@ namespace GameFramework.Sound
         /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
         public void PauseSound(int serialId, float fadeOutSeconds)
         {
-            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            foreach (var soundGroup in m_SoundGroups)
             {
                 if (soundGroup.Value.PauseSound(serialId, fadeOutSeconds))
                 {
@@ -574,7 +573,7 @@ namespace GameFramework.Sound
         /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
         public void ResumeSound(int serialId, float fadeInSeconds)
         {
-            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            foreach (var soundGroup in m_SoundGroups)
             {
                 if (soundGroup.Value.ResumeSound(serialId, fadeInSeconds))
                 {
@@ -587,7 +586,7 @@ namespace GameFramework.Sound
 
         private void LoadAssetSuccessCallback(string soundAssetName, object soundAsset, float duration, object userData)
         {
-            PlaySoundInfo playSoundInfo = (PlaySoundInfo)userData;
+            var playSoundInfo = (PlaySoundInfo)userData;
             if (playSoundInfo == null)
             {
                 throw new GameFrameworkException("Play sound info is invalid.");
@@ -609,13 +608,13 @@ namespace GameFramework.Sound
             m_SoundsBeingLoaded.Remove(playSoundInfo.SerialId);
 
             PlaySoundErrorCode? errorCode = null;
-            ISoundAgent soundAgent = playSoundInfo.SoundGroup.PlaySound(playSoundInfo.SerialId, soundAsset,
+            var soundAgent = playSoundInfo.SoundGroup.PlaySound(playSoundInfo.SerialId, soundAsset,
                 playSoundInfo.PlaySoundParams, out errorCode);
             if (soundAgent != null)
             {
                 if (m_PlaySoundSuccessEventHandler != null)
                 {
-                    PlaySoundSuccessEventArgs playSoundSuccessEventArgs =
+                    var playSoundSuccessEventArgs =
                         PlaySoundSuccessEventArgs.Create(playSoundInfo.SerialId, soundAssetName, soundAgent, duration,
                             playSoundInfo.UserData);
                     m_PlaySoundSuccessEventHandler(this, playSoundSuccessEventArgs);
@@ -633,11 +632,11 @@ namespace GameFramework.Sound
 
             m_SoundsToReleaseOnLoad.Remove(playSoundInfo.SerialId);
             m_SoundHelper.ReleaseSoundAsset(soundAsset);
-            string errorMessage = Utility.Text.Format("Sound group '{0}' play sound '{1}' failure.",
+            var errorMessage = Utility.Text.Format("Sound group '{0}' play sound '{1}' failure.",
                 playSoundInfo.SoundGroup.Name, soundAssetName);
             if (m_PlaySoundFailureEventHandler != null)
             {
-                PlaySoundFailureEventArgs playSoundFailureEventArgs =
+                var playSoundFailureEventArgs =
                     PlaySoundFailureEventArgs.Create(playSoundInfo.SerialId, soundAssetName,
                         playSoundInfo.SoundGroup.Name, playSoundInfo.PlaySoundParams, errorCode.Value, errorMessage,
                         playSoundInfo.UserData);
@@ -665,7 +664,7 @@ namespace GameFramework.Sound
         private void LoadAssetFailureCallback(string soundAssetName, LoadResourceStatus status, string errorMessage,
             object userData)
         {
-            PlaySoundInfo playSoundInfo = (PlaySoundInfo)userData;
+            var playSoundInfo = (PlaySoundInfo)userData;
             if (playSoundInfo == null)
             {
                 throw new GameFrameworkException("Play sound info is invalid.");
@@ -683,12 +682,12 @@ namespace GameFramework.Sound
             }
 
             m_SoundsBeingLoaded.Remove(playSoundInfo.SerialId);
-            string appendErrorMessage =
+            var appendErrorMessage =
                 Utility.Text.Format("Load sound failure, asset name '{0}', status '{1}', error message '{2}'.",
                     soundAssetName, status, errorMessage);
             if (m_PlaySoundFailureEventHandler != null)
             {
-                PlaySoundFailureEventArgs playSoundFailureEventArgs = PlaySoundFailureEventArgs.Create(
+                var playSoundFailureEventArgs = PlaySoundFailureEventArgs.Create(
                     playSoundInfo.SerialId, soundAssetName, playSoundInfo.SoundGroup.Name,
                     playSoundInfo.PlaySoundParams, PlaySoundErrorCode.LoadAssetFailure, appendErrorMessage,
                     playSoundInfo.UserData);
@@ -704,24 +703,6 @@ namespace GameFramework.Sound
             }
 
             throw new GameFrameworkException(appendErrorMessage);
-        }
-
-        private void LoadAssetUpdateCallback(string soundAssetName, float progress, object userData)
-        {
-            PlaySoundInfo playSoundInfo = (PlaySoundInfo)userData;
-            if (playSoundInfo == null)
-            {
-                throw new GameFrameworkException("Play sound info is invalid.");
-            }
-
-            if (m_PlaySoundUpdateEventHandler != null)
-            {
-                PlaySoundUpdateEventArgs playSoundUpdateEventArgs =
-                    PlaySoundUpdateEventArgs.Create(playSoundInfo.SerialId, soundAssetName,
-                        playSoundInfo.SoundGroup.Name, playSoundInfo.PlaySoundParams, progress, playSoundInfo.UserData);
-                m_PlaySoundUpdateEventHandler(this, playSoundUpdateEventArgs);
-                ReferencePool.Release(playSoundUpdateEventArgs);
-            }
         }
     }
 }

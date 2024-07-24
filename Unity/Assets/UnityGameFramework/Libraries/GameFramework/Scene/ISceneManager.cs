@@ -1,6 +1,6 @@
-﻿using GameFramework.Resource;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework.Resource;
 
 namespace GameFramework.Scene
 {
@@ -23,11 +23,6 @@ namespace GameFramework.Scene
         /// 加载场景更新事件。
         /// </summary>
         event EventHandler<LoadSceneUpdateEventArgs> LoadSceneUpdate;
-
-        /// <summary>
-        /// 加载场景时加载依赖资源事件。
-        /// </summary>
-        event EventHandler<LoadSceneDependencyAssetEventArgs> LoadSceneDependencyAsset;
 
         /// <summary>
         /// 卸载场景成功事件。
@@ -117,15 +112,14 @@ namespace GameFramework.Scene
         /// <param name="packageName">场景资源所在包名</param>
         /// <param name="priority">加载场景资源的优先级。</param>
         /// <param name="suspendLoad">加载完成后是否挂起</param>
-        void LoadScene(string sceneAssetName, string packageName = "", int priority = 100, bool suspendLoad = false);
+        void LoadSceneAsync(string sceneAssetName, string packageName = "", LoadSceneCallbacks loadSceneCallbacks = null, int priority = 100, bool suspendLoad = false);
 
         /// <summary>
         /// 加载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="priority">加载场景资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        void LoadScene(string sceneAssetName, int priority);
+        void LoadSceneAsync(string sceneAssetName, int priority);
 
 
         /// <summary>

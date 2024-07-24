@@ -2,7 +2,9 @@
     "name": "UnityGameFramework.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:0e8b9c0362b30d64ba8b22ddad9737fa"
+        "GUID:0e8b9c0362b30d64ba8b22ddad9737fa",
+        "GUID:e34a5702dd353724aa315fb8011f08c3",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

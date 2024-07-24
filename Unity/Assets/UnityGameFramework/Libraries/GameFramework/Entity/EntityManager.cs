@@ -1,7 +1,8 @@
-﻿using GameFramework.ObjectPool;
-using GameFramework.Resource;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework.ObjectPool;
+using GameFramework.Resource;
+using Object = UnityEngine.Object;
 
 namespace GameFramework.Entity
 {
@@ -10,22 +11,21 @@ namespace GameFramework.Entity
     /// </summary>
     internal sealed partial class EntityManager : GameFrameworkModule, IEntityManager
     {
-        private readonly Dictionary<int, EntityInfo> m_EntityInfos;
-        private readonly Dictionary<string, EntityGroup> m_EntityGroups;
-        private readonly Dictionary<int, int> m_EntitiesBeingLoaded;
-        private readonly HashSet<int> m_EntitiesToReleaseOnLoad;
-        private readonly Queue<EntityInfo> m_RecycleQueue;
-        private readonly LoadAssetCallbacks m_LoadAssetCallbacks;
-        private IObjectPoolManager m_ObjectPoolManager;
-        private IResourceManager m_ResourceManager;
-        private IEntityHelper m_EntityHelper;
-        private int m_Serial;
-        private bool m_IsShutdown;
-        private EventHandler<ShowEntitySuccessEventArgs> m_ShowEntitySuccessEventHandler;
-        private EventHandler<ShowEntityFailureEventArgs> m_ShowEntityFailureEventHandler;
-        private EventHandler<ShowEntityUpdateEventArgs> m_ShowEntityUpdateEventHandler;
-        private EventHandler<ShowEntityDependencyAssetEventArgs> m_ShowEntityDependencyAssetEventHandler;
-        private EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
+        private readonly Dictionary<int, EntityInfo>               m_EntityInfos;
+        private readonly Dictionary<string, EntityGroup>           m_EntityGroups;
+        private readonly Dictionary<int, int>                      m_EntitiesBeingLoaded;
+        private readonly HashSet<int>                              m_EntitiesToReleaseOnLoad;
+        private readonly Queue<EntityInfo>                         m_RecycleQueue;
+        private readonly LoadAssetCallbacks                        m_LoadAssetCallbacks;
+        private          IObjectPoolManager                        m_ObjectPoolManager;
+        private          IResourceManager                          m_ResourceManager;
+        private          IEntityHelper                             m_EntityHelper;
+        private          int                                       m_Serial;
+        private          bool                                      m_IsShutdown;
+        private          EventHandler<ShowEntitySuccessEventArgs>  m_ShowEntitySuccessEventHandler;
+        private          EventHandler<ShowEntityFailureEventArgs>  m_ShowEntityFailureEventHandler;
+        private          EventHandler<ShowEntityUpdateEventArgs>   m_ShowEntityUpdateEventHandler;
+        private          EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
 
         /// <summary>
         /// 初始化实体管理器的新实例。
@@ -37,7 +37,7 @@ namespace GameFramework.Entity
             m_EntitiesBeingLoaded = new Dictionary<int, int>();
             m_EntitiesToReleaseOnLoad = new HashSet<int>();
             m_RecycleQueue = new Queue<EntityInfo>();
-            m_LoadAssetCallbacks = new LoadAssetCallbacks(LoadAssetSuccessCallback, LoadAssetFailureCallback, LoadAssetUpdateCallback, LoadAssetDependencyAssetCallback);
+            m_LoadAssetCallbacks = new LoadAssetCallbacks(LoadAssetSuccessCallback, LoadAssetFailureCallback);
             m_ObjectPoolManager = null;
             m_ResourceManager = null;
             m_EntityHelper = null;
@@ -46,45 +46,26 @@ namespace GameFramework.Entity
             m_ShowEntitySuccessEventHandler = null;
             m_ShowEntityFailureEventHandler = null;
             m_ShowEntityUpdateEventHandler = null;
-            m_ShowEntityDependencyAssetEventHandler = null;
             m_HideEntityCompleteEventHandler = null;
         }
 
         /// <summary>
         /// 获取实体数量。
         /// </summary>
-        public int EntityCount
-        {
-            get
-            {
-                return m_EntityInfos.Count;
-            }
-        }
+        public int EntityCount => m_EntityInfos.Count;
 
         /// <summary>
         /// 获取实体组数量。
         /// </summary>
-        public int EntityGroupCount
-        {
-            get
-            {
-                return m_EntityGroups.Count;
-            }
-        }
+        public int EntityGroupCount => m_EntityGroups.Count;
 
         /// <summary>
         /// 显示实体成功事件。
         /// </summary>
         public event EventHandler<ShowEntitySuccessEventArgs> ShowEntitySuccess
         {
-            add
-            {
-                m_ShowEntitySuccessEventHandler += value;
-            }
-            remove
-            {
-                m_ShowEntitySuccessEventHandler -= value;
-            }
+            add => m_ShowEntitySuccessEventHandler += value;
+            remove => m_ShowEntitySuccessEventHandler -= value;
         }
 
         /// <summary>
@@ -92,14 +73,8 @@ namespace GameFramework.Entity
         /// </summary>
         public event EventHandler<ShowEntityFailureEventArgs> ShowEntityFailure
         {
-            add
-            {
-                m_ShowEntityFailureEventHandler += value;
-            }
-            remove
-            {
-                m_ShowEntityFailureEventHandler -= value;
-            }
+            add => m_ShowEntityFailureEventHandler += value;
+            remove => m_ShowEntityFailureEventHandler -= value;
         }
 
         /// <summary>
@@ -107,44 +82,18 @@ namespace GameFramework.Entity
         /// </summary>
         public event EventHandler<ShowEntityUpdateEventArgs> ShowEntityUpdate
         {
-            add
-            {
-                m_ShowEntityUpdateEventHandler += value;
-            }
-            remove
-            {
-                m_ShowEntityUpdateEventHandler -= value;
-            }
+            add => m_ShowEntityUpdateEventHandler += value;
+            remove => m_ShowEntityUpdateEventHandler -= value;
         }
 
-        /// <summary>
-        /// 显示实体时加载依赖资源事件。
-        /// </summary>
-        public event EventHandler<ShowEntityDependencyAssetEventArgs> ShowEntityDependencyAsset
-        {
-            add
-            {
-                m_ShowEntityDependencyAssetEventHandler += value;
-            }
-            remove
-            {
-                m_ShowEntityDependencyAssetEventHandler -= value;
-            }
-        }
 
         /// <summary>
         /// 隐藏实体完成事件。
         /// </summary>
         public event EventHandler<HideEntityCompleteEventArgs> HideEntityComplete
         {
-            add
-            {
-                m_HideEntityCompleteEventHandler += value;
-            }
-            remove
-            {
-                m_HideEntityCompleteEventHandler -= value;
-            }
+            add => m_HideEntityCompleteEventHandler += value;
+            remove => m_HideEntityCompleteEventHandler -= value;
         }
 
         /// <summary>
@@ -156,9 +105,9 @@ namespace GameFramework.Entity
         {
             while (m_RecycleQueue.Count > 0)
             {
-                EntityInfo entityInfo = m_RecycleQueue.Dequeue();
-                IEntity entity = entityInfo.Entity;
-                EntityGroup entityGroup = (EntityGroup)entity.EntityGroup;
+                var entityInfo = m_RecycleQueue.Dequeue();
+                var entity = entityInfo.Entity;
+                var entityGroup = (EntityGroup)entity.EntityGroup;
                 if (entityGroup == null)
                 {
                     throw new GameFrameworkException("Entity group is invalid.");
@@ -171,7 +120,7 @@ namespace GameFramework.Entity
                 ReferencePool.Release(entityInfo);
             }
 
-            foreach (KeyValuePair<string, EntityGroup> entityGroup in m_EntityGroups)
+            foreach (var entityGroup in m_EntityGroups)
             {
                 entityGroup.Value.Update(elapseSeconds, realElapseSeconds);
             }
@@ -274,9 +223,9 @@ namespace GameFramework.Entity
         /// <returns>所有实体组。</returns>
         public IEntityGroup[] GetAllEntityGroups()
         {
-            int index = 0;
-            IEntityGroup[] results = new IEntityGroup[m_EntityGroups.Count];
-            foreach (KeyValuePair<string, EntityGroup> entityGroup in m_EntityGroups)
+            var index = 0;
+            var results = new IEntityGroup[m_EntityGroups.Count];
+            foreach (var entityGroup in m_EntityGroups)
             {
                 results[index++] = entityGroup.Value;
             }
@@ -296,7 +245,7 @@ namespace GameFramework.Entity
             }
 
             results.Clear();
-            foreach (KeyValuePair<string, EntityGroup> entityGroup in m_EntityGroups)
+            foreach (var entityGroup in m_EntityGroups)
             {
                 results.Add(entityGroup.Value);
             }
@@ -312,7 +261,8 @@ namespace GameFramework.Entity
         /// <param name="instancePriority">实体实例对象池的优先级。</param>
         /// <param name="entityGroupHelper">实体组辅助器。</param>
         /// <returns>是否增加实体组成功。</returns>
-        public bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority, IEntityGroupHelper entityGroupHelper)
+        public bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority,
+            IEntityGroupHelper entityGroupHelper)
         {
             if (string.IsNullOrEmpty(entityGroupName))
             {
@@ -334,7 +284,8 @@ namespace GameFramework.Entity
                 return false;
             }
 
-            m_EntityGroups.Add(entityGroupName, new EntityGroup(entityGroupName, instanceAutoReleaseInterval, instanceCapacity, instanceExpireTime, instancePriority, entityGroupHelper, m_ObjectPoolManager));
+            m_EntityGroups.Add(entityGroupName,
+                new EntityGroup(entityGroupName, instanceAutoReleaseInterval, instanceCapacity, instanceExpireTime, instancePriority, entityGroupHelper, m_ObjectPoolManager));
 
             return true;
         }
@@ -361,7 +312,7 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException("Entity asset name is invalid.");
             }
 
-            foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+            foreach (var entityInfo in m_EntityInfos)
             {
                 if (entityInfo.Value.Entity.EntityAssetName == entityAssetName)
                 {
@@ -379,7 +330,7 @@ namespace GameFramework.Entity
         /// <returns>要获取的实体。</returns>
         public IEntity GetEntity(int entityId)
         {
-            EntityInfo entityInfo = GetEntityInfo(entityId);
+            var entityInfo = GetEntityInfo(entityId);
             if (entityInfo == null)
             {
                 return null;
@@ -400,7 +351,7 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException("Entity asset name is invalid.");
             }
 
-            foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+            foreach (var entityInfo in m_EntityInfos)
             {
                 if (entityInfo.Value.Entity.EntityAssetName == entityAssetName)
                 {
@@ -423,8 +374,8 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException("Entity asset name is invalid.");
             }
 
-            List<IEntity> results = new List<IEntity>();
-            foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+            var results = new List<IEntity>();
+            foreach (var entityInfo in m_EntityInfos)
             {
                 if (entityInfo.Value.Entity.EntityAssetName == entityAssetName)
                 {
@@ -453,7 +404,7 @@ namespace GameFramework.Entity
             }
 
             results.Clear();
-            foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+            foreach (var entityInfo in m_EntityInfos)
             {
                 if (entityInfo.Value.Entity.EntityAssetName == entityAssetName)
                 {
@@ -468,9 +419,9 @@ namespace GameFramework.Entity
         /// <returns>所有已加载的实体。</returns>
         public IEntity[] GetAllLoadedEntities()
         {
-            int index = 0;
-            IEntity[] results = new IEntity[m_EntityInfos.Count];
-            foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+            var index = 0;
+            var results = new IEntity[m_EntityInfos.Count];
+            foreach (var entityInfo in m_EntityInfos)
             {
                 results[index++] = entityInfo.Value.Entity;
             }
@@ -490,7 +441,7 @@ namespace GameFramework.Entity
             }
 
             results.Clear();
-            foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+            foreach (var entityInfo in m_EntityInfos)
             {
                 results.Add(entityInfo.Value.Entity);
             }
@@ -502,9 +453,9 @@ namespace GameFramework.Entity
         /// <returns>所有正在加载实体的编号。</returns>
         public int[] GetAllLoadingEntityIds()
         {
-            int index = 0;
-            int[] results = new int[m_EntitiesBeingLoaded.Count];
-            foreach (KeyValuePair<int, int> entityBeingLoaded in m_EntitiesBeingLoaded)
+            var index = 0;
+            var results = new int[m_EntitiesBeingLoaded.Count];
+            foreach (var entityBeingLoaded in m_EntitiesBeingLoaded)
             {
                 results[index++] = entityBeingLoaded.Key;
             }
@@ -524,7 +475,7 @@ namespace GameFramework.Entity
             }
 
             results.Clear();
-            foreach (KeyValuePair<int, int> entityBeingLoaded in m_EntitiesBeingLoaded)
+            foreach (var entityBeingLoaded in m_EntitiesBeingLoaded)
             {
                 results.Add(entityBeingLoaded.Key);
             }
@@ -630,18 +581,18 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException(Utility.Text.Format("Entity '{0}' is already being loaded.", entityId));
             }
 
-            EntityGroup entityGroup = (EntityGroup)GetEntityGroup(entityGroupName);
+            var entityGroup = (EntityGroup)GetEntityGroup(entityGroupName);
             if (entityGroup == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Entity group '{0}' is not exist.", entityGroupName));
             }
 
-            EntityInstanceObject entityInstanceObject = entityGroup.SpawnEntityInstanceObject(entityAssetName);
+            var entityInstanceObject = entityGroup.SpawnEntityInstanceObject(entityAssetName);
             if (entityInstanceObject == null)
             {
-                int serialId = ++m_Serial;
+                var serialId = ++m_Serial;
                 m_EntitiesBeingLoaded.Add(entityId, serialId);
-                m_ResourceManager.LoadAsset(entityAssetName, priority, m_LoadAssetCallbacks, ShowEntityInfo.Create(serialId, entityId, entityGroup, userData));
+                m_ResourceManager.LoadAssetAsync<Object>(entityAssetName, "", m_LoadAssetCallbacks, ShowEntityInfo.Create(serialId, entityId, entityGroup, userData));
                 return;
             }
 
@@ -671,7 +622,7 @@ namespace GameFramework.Entity
                 return;
             }
 
-            EntityInfo entityInfo = GetEntityInfo(entityId);
+            var entityInfo = GetEntityInfo(entityId);
             if (entityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find entity '{0}'.", entityId));
@@ -720,7 +671,7 @@ namespace GameFramework.Entity
         {
             while (m_EntityInfos.Count > 0)
             {
-                foreach (KeyValuePair<int, EntityInfo> entityInfo in m_EntityInfos)
+                foreach (var entityInfo in m_EntityInfos)
                 {
                     InternalHideEntity(entityInfo.Value, userData);
                     break;
@@ -733,7 +684,7 @@ namespace GameFramework.Entity
         /// </summary>
         public void HideAllLoadingEntities()
         {
-            foreach (KeyValuePair<int, int> entityBeingLoaded in m_EntitiesBeingLoaded)
+            foreach (var entityBeingLoaded in m_EntitiesBeingLoaded)
             {
                 m_EntitiesToReleaseOnLoad.Add(entityBeingLoaded.Value);
             }
@@ -748,7 +699,7 @@ namespace GameFramework.Entity
         /// <returns>子实体的父实体。</returns>
         public IEntity GetParentEntity(int childEntityId)
         {
-            EntityInfo childEntityInfo = GetEntityInfo(childEntityId);
+            var childEntityInfo = GetEntityInfo(childEntityId);
             if (childEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.", childEntityId));
@@ -779,7 +730,7 @@ namespace GameFramework.Entity
         /// <returns>子实体数量。</returns>
         public int GetChildEntityCount(int parentEntityId)
         {
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntityId);
+            var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
@@ -795,7 +746,7 @@ namespace GameFramework.Entity
         /// <returns>子实体。</returns>
         public IEntity GetChildEntity(int parentEntityId)
         {
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntityId);
+            var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
@@ -826,7 +777,7 @@ namespace GameFramework.Entity
         /// <returns>所有子实体。</returns>
         public IEntity[] GetChildEntities(int parentEntityId)
         {
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntityId);
+            var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
@@ -842,7 +793,7 @@ namespace GameFramework.Entity
         /// <param name="results">所有子实体。</param>
         public void GetChildEntities(int parentEntityId, List<IEntity> results)
         {
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntityId);
+            var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
@@ -904,7 +855,7 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException(Utility.Text.Format("Can not attach entity when child entity id equals to parent entity id '{0}'.", parentEntityId));
             }
 
-            EntityInfo childEntityInfo = GetEntityInfo(childEntityId);
+            var childEntityInfo = GetEntityInfo(childEntityId);
             if (childEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.", childEntityId));
@@ -915,7 +866,7 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException(Utility.Text.Format("Can not attach entity when child entity status is '{0}'.", childEntityInfo.Status));
             }
 
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntityId);
+            var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
@@ -926,8 +877,8 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException(Utility.Text.Format("Can not attach entity when parent entity status is '{0}'.", parentEntityInfo.Status));
             }
 
-            IEntity childEntity = childEntityInfo.Entity;
-            IEntity parentEntity = parentEntityInfo.Entity;
+            var childEntity = childEntityInfo.Entity;
+            var parentEntity = parentEntityInfo.Entity;
             DetachEntity(childEntity.Id, userData);
             childEntityInfo.ParentEntity = parentEntity;
             parentEntityInfo.AddChildEntity(childEntity);
@@ -1034,25 +985,25 @@ namespace GameFramework.Entity
         /// <param name="userData">用户自定义数据。</param>
         public void DetachEntity(int childEntityId, object userData)
         {
-            EntityInfo childEntityInfo = GetEntityInfo(childEntityId);
+            var childEntityInfo = GetEntityInfo(childEntityId);
             if (childEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.", childEntityId));
             }
 
-            IEntity parentEntity = childEntityInfo.ParentEntity;
+            var parentEntity = childEntityInfo.ParentEntity;
             if (parentEntity == null)
             {
                 return;
             }
 
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntity.Id);
+            var parentEntityInfo = GetEntityInfo(parentEntity.Id);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntity.Id));
             }
 
-            IEntity childEntity = childEntityInfo.Entity;
+            var childEntity = childEntityInfo.Entity;
             childEntityInfo.ParentEntity = null;
             parentEntityInfo.RemoveChildEntity(childEntity);
             parentEntity.OnDetached(childEntity, userData);
@@ -1099,7 +1050,7 @@ namespace GameFramework.Entity
         /// <param name="userData">用户自定义数据。</param>
         public void DetachChildEntities(int parentEntityId, object userData)
         {
-            EntityInfo parentEntityInfo = GetEntityInfo(parentEntityId);
+            var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
@@ -1107,7 +1058,7 @@ namespace GameFramework.Entity
 
             while (parentEntityInfo.ChildEntityCount > 0)
             {
-                IEntity childEntity = parentEntityInfo.GetChildEntity();
+                var childEntity = parentEntityInfo.GetChildEntity();
                 DetachEntity(childEntity.Id, userData);
             }
         }
@@ -1156,13 +1107,13 @@ namespace GameFramework.Entity
         {
             try
             {
-                IEntity entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup, userData);
+                var entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup, userData);
                 if (entity == null)
                 {
                     throw new GameFrameworkException("Can not create entity in entity helper.");
                 }
 
-                EntityInfo entityInfo = EntityInfo.Create(entity);
+                var entityInfo = EntityInfo.Create(entity);
                 m_EntityInfos.Add(entityId, entityInfo);
                 entityInfo.Status = EntityStatus.WillInit;
                 entity.OnInit(entityId, entityAssetName, entityGroup, isNewInstance, userData);
@@ -1174,7 +1125,7 @@ namespace GameFramework.Entity
 
                 if (m_ShowEntitySuccessEventHandler != null)
                 {
-                    ShowEntitySuccessEventArgs showEntitySuccessEventArgs = ShowEntitySuccessEventArgs.Create(entity, duration, userData);
+                    var showEntitySuccessEventArgs = ShowEntitySuccessEventArgs.Create(entity, duration, userData);
                     m_ShowEntitySuccessEventHandler(this, showEntitySuccessEventArgs);
                     ReferencePool.Release(showEntitySuccessEventArgs);
                 }
@@ -1183,7 +1134,7 @@ namespace GameFramework.Entity
             {
                 if (m_ShowEntityFailureEventHandler != null)
                 {
-                    ShowEntityFailureEventArgs showEntityFailureEventArgs = ShowEntityFailureEventArgs.Create(entityId, entityAssetName, entityGroup.Name, exception.ToString(), userData);
+                    var showEntityFailureEventArgs = ShowEntityFailureEventArgs.Create(entityId, entityAssetName, entityGroup.Name, exception.ToString(), userData);
                     m_ShowEntityFailureEventHandler(this, showEntityFailureEventArgs);
                     ReferencePool.Release(showEntityFailureEventArgs);
                     return;
@@ -1197,7 +1148,7 @@ namespace GameFramework.Entity
         {
             while (entityInfo.ChildEntityCount > 0)
             {
-                IEntity childEntity = entityInfo.GetChildEntity();
+                var childEntity = entityInfo.GetChildEntity();
                 HideEntity(childEntity.Id, userData);
             }
 
@@ -1206,13 +1157,13 @@ namespace GameFramework.Entity
                 return;
             }
 
-            IEntity entity = entityInfo.Entity;
+            var entity = entityInfo.Entity;
             DetachEntity(entity.Id, userData);
             entityInfo.Status = EntityStatus.WillHide;
             entity.OnHide(m_IsShutdown, userData);
             entityInfo.Status = EntityStatus.Hidden;
 
-            EntityGroup entityGroup = (EntityGroup)entity.EntityGroup;
+            var entityGroup = (EntityGroup)entity.EntityGroup;
             if (entityGroup == null)
             {
                 throw new GameFrameworkException("Entity group is invalid.");
@@ -1226,7 +1177,7 @@ namespace GameFramework.Entity
 
             if (m_HideEntityCompleteEventHandler != null)
             {
-                HideEntityCompleteEventArgs hideEntityCompleteEventArgs = HideEntityCompleteEventArgs.Create(entity.Id, entity.EntityAssetName, entityGroup, userData);
+                var hideEntityCompleteEventArgs = HideEntityCompleteEventArgs.Create(entity.Id, entity.EntityAssetName, entityGroup, userData);
                 m_HideEntityCompleteEventHandler(this, hideEntityCompleteEventArgs);
                 ReferencePool.Release(hideEntityCompleteEventArgs);
             }
@@ -1236,7 +1187,7 @@ namespace GameFramework.Entity
 
         private void LoadAssetSuccessCallback(string entityAssetName, object entityAsset, float duration, object userData)
         {
-            ShowEntityInfo showEntityInfo = (ShowEntityInfo)userData;
+            var showEntityInfo = (ShowEntityInfo)userData;
             if (showEntityInfo == null)
             {
                 throw new GameFrameworkException("Show entity info is invalid.");
@@ -1251,7 +1202,7 @@ namespace GameFramework.Entity
             }
 
             m_EntitiesBeingLoaded.Remove(showEntityInfo.EntityId);
-            EntityInstanceObject entityInstanceObject = EntityInstanceObject.Create(entityAssetName, entityAsset, m_EntityHelper.InstantiateEntity(entityAsset), m_EntityHelper);
+            var entityInstanceObject = EntityInstanceObject.Create(entityAssetName, entityAsset, m_EntityHelper.InstantiateEntity(entityAsset), m_EntityHelper);
             showEntityInfo.EntityGroup.RegisterEntityInstanceObject(entityInstanceObject, true);
 
             InternalShowEntity(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup, entityInstanceObject.Target, true, duration, showEntityInfo.UserData);
@@ -1260,7 +1211,7 @@ namespace GameFramework.Entity
 
         private void LoadAssetFailureCallback(string entityAssetName, LoadResourceStatus status, string errorMessage, object userData)
         {
-            ShowEntityInfo showEntityInfo = (ShowEntityInfo)userData;
+            var showEntityInfo = (ShowEntityInfo)userData;
             if (showEntityInfo == null)
             {
                 throw new GameFrameworkException("Show entity info is invalid.");
@@ -1273,10 +1224,11 @@ namespace GameFramework.Entity
             }
 
             m_EntitiesBeingLoaded.Remove(showEntityInfo.EntityId);
-            string appendErrorMessage = Utility.Text.Format("Load entity failure, asset name '{0}', status '{1}', error message '{2}'.", entityAssetName, status, errorMessage);
+            var appendErrorMessage = Utility.Text.Format("Load entity failure, asset name '{0}', status '{1}', error message '{2}'.", entityAssetName, status, errorMessage);
             if (m_ShowEntityFailureEventHandler != null)
             {
-                ShowEntityFailureEventArgs showEntityFailureEventArgs = ShowEntityFailureEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, appendErrorMessage, showEntityInfo.UserData);
+                var showEntityFailureEventArgs = ShowEntityFailureEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, appendErrorMessage,
+                    showEntityInfo.UserData);
                 m_ShowEntityFailureEventHandler(this, showEntityFailureEventArgs);
                 ReferencePool.Release(showEntityFailureEventArgs);
                 return;
@@ -1287,7 +1239,7 @@ namespace GameFramework.Entity
 
         private void LoadAssetUpdateCallback(string entityAssetName, float progress, object userData)
         {
-            ShowEntityInfo showEntityInfo = (ShowEntityInfo)userData;
+            var showEntityInfo = (ShowEntityInfo)userData;
             if (showEntityInfo == null)
             {
                 throw new GameFrameworkException("Show entity info is invalid.");
@@ -1295,25 +1247,10 @@ namespace GameFramework.Entity
 
             if (m_ShowEntityUpdateEventHandler != null)
             {
-                ShowEntityUpdateEventArgs showEntityUpdateEventArgs = ShowEntityUpdateEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, progress, showEntityInfo.UserData);
+                var showEntityUpdateEventArgs =
+                    ShowEntityUpdateEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, progress, showEntityInfo.UserData);
                 m_ShowEntityUpdateEventHandler(this, showEntityUpdateEventArgs);
                 ReferencePool.Release(showEntityUpdateEventArgs);
-            }
-        }
-
-        private void LoadAssetDependencyAssetCallback(string entityAssetName, string dependencyAssetName, int loadedCount, int totalCount, object userData)
-        {
-            ShowEntityInfo showEntityInfo = (ShowEntityInfo)userData;
-            if (showEntityInfo == null)
-            {
-                throw new GameFrameworkException("Show entity info is invalid.");
-            }
-
-            if (m_ShowEntityDependencyAssetEventHandler != null)
-            {
-                ShowEntityDependencyAssetEventArgs showEntityDependencyAssetEventArgs = ShowEntityDependencyAssetEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, dependencyAssetName, loadedCount, totalCount, showEntityInfo.UserData);
-                m_ShowEntityDependencyAssetEventHandler(this, showEntityDependencyAssetEventArgs);
-                ReferencePool.Release(showEntityDependencyAssetEventArgs);
             }
         }
     }

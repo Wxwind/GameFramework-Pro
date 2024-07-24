@@ -1,7 +1,7 @@
-﻿using GameFramework.ObjectPool;
-using GameFramework.Resource;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework.ObjectPool;
+using GameFramework.Resource;
 
 namespace GameFramework.Entity
 {
@@ -13,18 +13,12 @@ namespace GameFramework.Entity
         /// <summary>
         /// 获取实体数量。
         /// </summary>
-        int EntityCount
-        {
-            get;
-        }
+        int EntityCount { get; }
 
         /// <summary>
         /// 获取实体组数量。
         /// </summary>
-        int EntityGroupCount
-        {
-            get;
-        }
+        int EntityGroupCount { get; }
 
         /// <summary>
         /// 显示实体成功事件。
@@ -41,10 +35,6 @@ namespace GameFramework.Entity
         /// </summary>
         event EventHandler<ShowEntityUpdateEventArgs> ShowEntityUpdate;
 
-        /// <summary>
-        /// 显示实体时加载依赖资源事件。
-        /// </summary>
-        event EventHandler<ShowEntityDependencyAssetEventArgs> ShowEntityDependencyAsset;
 
         /// <summary>
         /// 隐藏实体完成事件。
@@ -105,7 +95,8 @@ namespace GameFramework.Entity
         /// <param name="instancePriority">实体实例对象池的优先级。</param>
         /// <param name="entityGroupHelper">实体组辅助器。</param>
         /// <returns>是否增加实体组成功。</returns>
-        bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority, IEntityGroupHelper entityGroupHelper);
+        bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority,
+            IEntityGroupHelper entityGroupHelper);
 
         /// <summary>
         /// 是否存在实体。

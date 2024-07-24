@@ -1,5 +1,5 @@
-﻿using GameFramework.Resource;
-using System;
+﻿using System;
+using GameFramework.Resource;
 using UnityEngine;
 
 namespace GameFramework
@@ -10,16 +10,16 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     internal sealed class DataProvider<T> : IDataProvider<T>
     {
-        private const int BlockSize = 1024 * 4;
+        private const  int    BlockSize     = 1024 * 4;
         private static byte[] s_CachedBytes = null;
 
-        private readonly T m_Owner;
-        private readonly LoadAssetCallbacks m_LoadAssetCallbacks;
-        private IResourceManager m_ResourceManager;
-        private IDataProviderHelper<T> m_DataProviderHelper;
-        private EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
-        private EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
-        private EventHandler<ReadDataUpdateEventArgs> m_ReadDataUpdateEventHandler;
+        private readonly T                                      m_Owner;
+        private readonly LoadAssetCallbacks                     m_LoadAssetCallbacks;
+        private          IResourceManager                       m_ResourceManager;
+        private          IDataProviderHelper<T>                 m_DataProviderHelper;
+        private          EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
+        private          EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
+        private          EventHandler<ReadDataUpdateEventArgs>  m_ReadDataUpdateEventHandler;
 
         /// <summary>
         /// 初始化数据提供者的新实例。
@@ -40,18 +40,15 @@ namespace GameFramework
         /// <summary>
         /// 获取缓冲二进制流的大小。
         /// </summary>
-        public static int CachedBytesSize
-        {
-            get { return s_CachedBytes != null ? s_CachedBytes.Length : 0; }
-        }
+        public static int CachedBytesSize => s_CachedBytes != null ? s_CachedBytes.Length : 0;
 
         /// <summary>
         /// 读取数据成功事件。
         /// </summary>
         public event EventHandler<ReadDataSuccessEventArgs> ReadDataSuccess
         {
-            add { m_ReadDataSuccessEventHandler += value; }
-            remove { m_ReadDataSuccessEventHandler -= value; }
+            add => m_ReadDataSuccessEventHandler += value;
+            remove => m_ReadDataSuccessEventHandler -= value;
         }
 
         /// <summary>
@@ -59,8 +56,8 @@ namespace GameFramework
         /// </summary>
         public event EventHandler<ReadDataFailureEventArgs> ReadDataFailure
         {
-            add { m_ReadDataFailureEventHandler += value; }
-            remove { m_ReadDataFailureEventHandler -= value; }
+            add => m_ReadDataFailureEventHandler += value;
+            remove => m_ReadDataFailureEventHandler -= value;
         }
 
 
@@ -78,7 +75,7 @@ namespace GameFramework
             if (s_CachedBytes == null || s_CachedBytes.Length < ensureSize)
             {
                 FreeCachedBytes();
-                int size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
+                var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
                 s_CachedBytes = new byte[size];
             }
         }
@@ -141,7 +138,7 @@ namespace GameFramework
             var result = m_ResourceManager.HasAsset(dataAssetName);
             if (result)
             {
-                m_ResourceManager.LoadAssetAsync<GameObject>(dataAssetName, m_LoadAssetCallbacks, null);
+                m_ResourceManager.LoadAssetAsync<GameObject>(dataAssetName, "", m_LoadAssetCallbacks, null);
             }
         }
 
@@ -313,7 +310,7 @@ namespace GameFramework
 
                 if (m_ReadDataSuccessEventHandler != null)
                 {
-                    ReadDataSuccessEventArgs loadDataSuccessEventArgs =
+                    var loadDataSuccessEventArgs =
                         ReadDataSuccessEventArgs.Create(dataAssetName, duration, userData);
                     m_ReadDataSuccessEventHandler(this, loadDataSuccessEventArgs);
                     ReferencePool.Release(loadDataSuccessEventArgs);
@@ -323,7 +320,7 @@ namespace GameFramework
             {
                 if (m_ReadDataFailureEventHandler != null)
                 {
-                    ReadDataFailureEventArgs loadDataFailureEventArgs =
+                    var loadDataFailureEventArgs =
                         ReadDataFailureEventArgs.Create(dataAssetName, exception.ToString(), userData);
                     m_ReadDataFailureEventHandler(this, loadDataFailureEventArgs);
                     ReferencePool.Release(loadDataFailureEventArgs);
@@ -341,12 +338,12 @@ namespace GameFramework
         private void LoadAssetOrBinaryFailureCallback(string dataAssetName, LoadResourceStatus status,
             string errorMessage, object userData)
         {
-            string appendErrorMessage =
+            var appendErrorMessage =
                 Utility.Text.Format("Load data failure, data asset name '{0}', status '{1}', error message '{2}'.",
                     dataAssetName, status, errorMessage);
             if (m_ReadDataFailureEventHandler != null)
             {
-                ReadDataFailureEventArgs loadDataFailureEventArgs =
+                var loadDataFailureEventArgs =
                     ReadDataFailureEventArgs.Create(dataAssetName, appendErrorMessage, userData);
                 m_ReadDataFailureEventHandler(this, loadDataFailureEventArgs);
                 ReferencePool.Release(loadDataFailureEventArgs);

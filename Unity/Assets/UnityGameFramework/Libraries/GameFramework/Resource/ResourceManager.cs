@@ -51,20 +51,24 @@ namespace GameFramework.Resource
             return handle.AssetObject as T;
         }
 
-        public async UniTask<T> LoadAssetAsync<T>(string location, LoadAssetCallbacks loadAssetCallbacks,
-            string packageName = "", IProgress<float> progress = null)
+        public async UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
             where T : Object
         {
+            if (string.IsNullOrEmpty(location))
+            {
+                throw new GameFrameworkException("Asset name is invalid.");
+            }
+
             var duration = Time.time;
             var handle = GetAssetHandle<T>(location, packageName);
-            await handle.ToUniTask(progress);
-            loadAssetCallbacks.LoadAssetSuccessCallback?.Invoke(location, handle.AssetObject, Time.time - duration);
+            await handle.ToUniTask(loadAssetCallbacks.Progress);
+            loadAssetCallbacks.LoadAssetSuccessCallback?.Invoke(location, handle.AssetObject, Time.time - duration, userData);
             var asset = handle.AssetObject as T;
             if (asset == null)
             {
                 var errorMsg =
                     Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", location, "asset is not exist");
-                loadAssetCallbacks.LoadAssetFailureCallback?.Invoke(location, LoadResourceStatus.NotExist, errorMsg);
+                loadAssetCallbacks.LoadAssetFailureCallback?.Invoke(location, LoadResourceStatus.NotExist, errorMsg, userData);
             }
 
             return asset;
