@@ -10,15 +10,15 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     internal sealed class DataProvider<T> : IDataProvider<T>
     {
-        private const int BlockSize = 1024 * 4;
+        private const  int    BlockSize     = 1024 * 4;
         private static byte[] s_CachedBytes = null;
 
-        private readonly T m_Owner;
-        private readonly LoadAssetCallbacks m_LoadAssetCallbacks;
-        private IResourceManager m_ResourceManager;
-        private IDataProviderHelper<T> m_DataProviderHelper;
-        private EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
-        private EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
+        private readonly T                                      m_Owner;
+        private readonly LoadAssetCallbacks                     m_LoadAssetCallbacks;
+        private          IResourceManager                       m_ResourceManager;
+        private          IDataProviderHelper<T>                 m_DataProviderHelper;
+        private          EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
+        private          EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
 
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace GameFramework
             var result = m_ResourceManager.HasAsset(dataAssetName);
             if (result)
             {
-                m_ResourceManager.LoadAssetAsync<GameObject>(dataAssetName, "", m_LoadAssetCallbacks, null);
+                m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName, "", m_LoadAssetCallbacks, null);
             }
         }
 

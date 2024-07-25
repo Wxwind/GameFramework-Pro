@@ -84,7 +84,7 @@ namespace GameMain
         private void LoadFont(string fontName)
         {
             m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAssetAsync<TextAsset>(AssetUtility.GetFontAsset(fontName), null,
+            GameEntry.Resource.LoadAssetAsync<Font>(AssetUtility.GetFontAsset(fontName), null,
                 new LoadAssetCallbacks(
                     (assetName, asset, duration, userData) =>
                     {

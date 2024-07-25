@@ -107,7 +107,7 @@ namespace GameFramework.Resource
             }
             else
             {
-                string errorMessage = Utility.Text.Format("Can not load asset '{0}'.", location);
+                var errorMessage = Utility.Text.Format("Can not load asset '{0}'.", location);
                 loadSceneCallbacks?.LoadSceneFailureCallback?.Invoke(location, LoadResourceStatus.NotReady,
                     errorMessage,
                     userData);
@@ -127,6 +127,7 @@ namespace GameFramework.Resource
         public void UnloadScene(string sceneAssetName, string packageName = "", UnloadSceneCallbacks callbacks = null,
             object userData = null)
         {
+            // TODO
             // if (string.IsNullOrEmpty(sceneAssetName))
             // {
             //     throw new GameFrameworkException("Scene asset name is invalid.");
@@ -150,7 +151,7 @@ namespace GameFramework.Resource
 
         public void UnloadAsset(object asset, string packageName = "DefaultPackage")
         {
-            throw new NotImplementedException();
+            // TODO 使用对象池管理 asset handle
         }
 
         public void UnloadUnusedAssets()
@@ -164,6 +165,14 @@ namespace GameFramework.Resource
             }
         }
 
+        public void Initialize()
+        {
+            if (!YooAssets.Initialized)
+            {
+                YooAssets.Initialize();
+            }
+        }
+
 
         public async UniTask<InitializationOperation> InitPackage(ResourceMode mode, string packageName)
         {
@@ -174,6 +183,8 @@ namespace GameFramework.Resource
             var package = YooAssets.TryGetPackage(packageName);
             if (package == null)
                 package = YooAssets.CreatePackage(packageName);
+
+            YooAssets.SetDefaultPackage(package);
 
             m_PackagesDic.Add(packageName, package);
             // 编辑器下的模拟模式
@@ -252,6 +263,9 @@ namespace GameFramework.Resource
         internal override void Shutdown()
         {
             m_PackagesDic.Clear();
+#if !UNITY_WEBGL
+            YooAssets.Destroy();
+#endif
         }
     }
 }

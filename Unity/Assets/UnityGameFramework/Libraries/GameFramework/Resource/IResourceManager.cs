@@ -33,6 +33,7 @@ namespace GameFramework.Resource
         /// <param name="readWritePath">资源读写区路径。</param>
         void SetReadWritePath(string readWritePath);
 
+        void Initialize();
 
         /// <summary>
         ///     检查资源是否存在。

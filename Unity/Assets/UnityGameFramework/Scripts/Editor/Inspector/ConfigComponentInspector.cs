@@ -6,11 +6,9 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(ConfigComponent))]
     internal sealed class ConfigComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_EnableLoadConfigUpdateEvent = null;
-        private SerializedProperty m_EnableLoadConfigDependencyAssetEvent = null;
         private SerializedProperty m_CachedBytesSize = null;
 
-        private HelperInfo<ConfigHelperBase> m_ConfigHelperInfo = new HelperInfo<ConfigHelperBase>("Config");
+        private HelperInfo<ConfigHelperBase> m_ConfigHelperInfo = new("Config");
 
         public override void OnInspectorGUI()
         {
@@ -18,12 +16,10 @@ namespace UnityGameFramework.Editor
 
             serializedObject.Update();
 
-            ConfigComponent t = (ConfigComponent)target;
+            var t = (ConfigComponent)target;
 
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
-                EditorGUILayout.PropertyField(m_EnableLoadConfigUpdateEvent);
-                EditorGUILayout.PropertyField(m_EnableLoadConfigDependencyAssetEvent);
                 m_ConfigHelperInfo.Draw();
                 EditorGUILayout.PropertyField(m_CachedBytesSize);
             }
@@ -49,8 +45,6 @@ namespace UnityGameFramework.Editor
 
         private void OnEnable()
         {
-            m_EnableLoadConfigUpdateEvent = serializedObject.FindProperty("m_EnableLoadConfigUpdateEvent");
-            m_EnableLoadConfigDependencyAssetEvent = serializedObject.FindProperty("m_EnableLoadConfigDependencyAssetEvent");
             m_CachedBytesSize = serializedObject.FindProperty("m_CachedBytesSize");
 
             m_ConfigHelperInfo.Init(serializedObject);

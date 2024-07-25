@@ -2,7 +2,6 @@
 using GameFramework.Localization;
 using GameFramework.Resource;
 using UnityGameFramework.Runtime;
-using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace GameMain
@@ -30,8 +29,6 @@ namespace GameMain
             GameEntry.BuiltinData.InitDefaultDictionary();
 
             procedureOwner.SetData<VarString>("PackageName", "DefaultPackage");
-
-            YooAssets.Initialize();
         }
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
