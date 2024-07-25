@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameFramework.Resource;
+using UnityEngine.SceneManagement;
 
 namespace GameFramework.Scene
 {
@@ -111,15 +112,14 @@ namespace GameFramework.Scene
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="packageName">场景资源所在包名</param>
         /// <param name="priority">加载场景资源的优先级。</param>
+        /// <param name="sceneMode">场景加载模式</param>
         /// <param name="suspendLoad">加载完成后是否挂起</param>
-        void LoadSceneAsync(string sceneAssetName, string packageName = "", LoadSceneCallbacks loadSceneCallbacks = null, int priority = 100, bool suspendLoad = false);
-
-        /// <summary>
-        /// 加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="priority">加载场景资源的优先级。</param>
-        void LoadSceneAsync(string sceneAssetName, int priority);
+        /// <param name="loadSceneCallbacks">场景加载回调</param>
+        /// <param name="userData">用户自定义数据</param>
+        void LoadSceneAsync(string sceneAssetName, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            LoadSceneCallbacks loadSceneCallbacks = null,
+            object userData = null);
 
 
         /// <summary>

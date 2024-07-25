@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GameFramework.Resource;
+using UnityEngine.SceneManagement;
 
 namespace GameFramework.Scene
 {
@@ -9,17 +10,17 @@ namespace GameFramework.Scene
     /// </summary>
     internal sealed class SceneManager : GameFrameworkModule, ISceneManager
     {
-        private readonly List<string>                              m_LoadedSceneAssetNames;
-        private readonly List<string>                              m_LoadingSceneAssetNames;
-        private readonly List<string>                              m_UnloadingSceneAssetNames;
-        private readonly LoadSceneCallbacks                        m_LoadSceneCallbacks;
-        private readonly UnloadSceneCallbacks                      m_UnloadSceneCallbacks;
-        private          IResourceManager                          m_ResourceManager;
-        private          EventHandler<LoadSceneSuccessEventArgs>   m_LoadSceneSuccessEventHandler;
-        private          EventHandler<LoadSceneFailureEventArgs>   m_LoadSceneFailureEventHandler;
-        private          EventHandler<LoadSceneUpdateEventArgs>    m_LoadSceneUpdateEventHandler;
-        private          EventHandler<UnloadSceneSuccessEventArgs> m_UnloadSceneSuccessEventHandler;
-        private          EventHandler<UnloadSceneFailureEventArgs> m_UnloadSceneFailureEventHandler;
+        private readonly List<string> m_LoadedSceneAssetNames;
+        private readonly List<string> m_LoadingSceneAssetNames;
+        private readonly List<string> m_UnloadingSceneAssetNames;
+        private readonly LoadSceneCallbacks m_LoadSceneCallbacks;
+        private readonly UnloadSceneCallbacks m_UnloadSceneCallbacks;
+        private IResourceManager m_ResourceManager;
+        private EventHandler<LoadSceneSuccessEventArgs> m_LoadSceneSuccessEventHandler;
+        private EventHandler<LoadSceneFailureEventArgs> m_LoadSceneFailureEventHandler;
+        private EventHandler<LoadSceneUpdateEventArgs> m_LoadSceneUpdateEventHandler;
+        private EventHandler<UnloadSceneSuccessEventArgs> m_UnloadSceneSuccessEventHandler;
+        private EventHandler<UnloadSceneFailureEventArgs> m_UnloadSceneFailureEventHandler;
 
         /// <summary>
         /// 初始化场景管理器的新实例。
@@ -29,7 +30,8 @@ namespace GameFramework.Scene
             m_LoadedSceneAssetNames = new List<string>();
             m_LoadingSceneAssetNames = new List<string>();
             m_UnloadingSceneAssetNames = new List<string>();
-            m_LoadSceneCallbacks = new LoadSceneCallbacks(LoadSceneSuccessCallback, LoadSceneFailureCallback, LoadSceneUpdateCallback);
+            m_LoadSceneCallbacks = new LoadSceneCallbacks(LoadSceneSuccessCallback, LoadSceneFailureCallback,
+                LoadSceneUpdateCallback);
             m_UnloadSceneCallbacks = new UnloadSceneCallbacks(UnloadSceneSuccessCallback, UnloadSceneFailureCallback);
             m_ResourceManager = null;
             m_LoadSceneSuccessEventHandler = null;
@@ -244,8 +246,14 @@ namespace GameFramework.Scene
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="packageName">场景资源所在包名</param>
         /// <param name="priority">加载场景资源的优先级。</param>
+        /// <param name="sceneMode">场景加载模式</param>
         /// <param name="suspendLoad">加载完成后是否挂起</param>
-        public void LoadSceneAsync(string sceneAssetName, string packageName = "", LoadSceneCallbacks loadSceneCallbacks = null, int priority = 100, bool suspendLoad = false)
+        /// <param name="loadSceneCallbacks">场景加载回调</param>
+        /// <param name="userData">用户自定义数据</param>
+        public void LoadSceneAsync(string sceneAssetName, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            LoadSceneCallbacks loadSceneCallbacks = null,
+            object userData = null)
         {
             if (string.IsNullOrEmpty(sceneAssetName)) throw new GameFrameworkException("Scene asset name is invalid.");
 
@@ -264,12 +272,8 @@ namespace GameFramework.Scene
                     sceneAssetName));
 
             m_LoadingSceneAssetNames.Add(sceneAssetName);
-            m_ResourceManager.LoadSceneAsync(sceneAssetName, priority, m_LoadSceneCallbacks);
-        }
-
-        public void LoadSceneAsync(string sceneAssetName, int priority)
-        {
-            LoadSceneAsync(sceneAssetName, "", null, priority, false);
+            m_ResourceManager.LoadSceneAsync(sceneAssetName, packageName, sceneMode, suspendLoad, priority,
+                loadSceneCallbacks, userData);
         }
 
 
@@ -297,10 +301,11 @@ namespace GameFramework.Scene
                     sceneAssetName));
 
             m_UnloadingSceneAssetNames.Add(sceneAssetName);
-            m_ResourceManager.UnloadScene(sceneAssetName, m_UnloadSceneCallbacks, userData);
+            m_ResourceManager.UnloadScene(sceneAssetName, "", m_UnloadSceneCallbacks, userData);
         }
 
-        private void LoadSceneSuccessCallback(string sceneAssetName, UnityEngine.SceneManagement.Scene scene, float duration, object userData)
+        private void LoadSceneSuccessCallback(string sceneAssetName, UnityEngine.SceneManagement.Scene scene,
+            float duration, object userData)
         {
             m_LoadingSceneAssetNames.Remove(sceneAssetName);
             m_LoadedSceneAssetNames.Add(sceneAssetName);

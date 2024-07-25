@@ -17,13 +17,13 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private ISceneManager  m_SceneManager   = null;
+        private ISceneManager m_SceneManager = null;
         private EventComponent m_EventComponent = null;
 
         private readonly SortedDictionary<string, int> m_SceneOrder = new(StringComparer.Ordinal);
 
-        private Camera m_MainCamera         = null;
-        private Scene  m_GameFrameworkScene = default;
+        private Camera m_MainCamera = null;
+        private Scene m_GameFrameworkScene = default;
 
         [SerializeField] private bool m_EnableLoadSceneUpdateEvent = true;
 
@@ -231,8 +231,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="packageName">资源所在包名</param>
         /// <param name="priority">加载场景资源的优先级。</param>
         /// <param name="suspendLoad">场景加载完成后是否挂起</param>
-        public void LoadScene(string sceneAssetName, string packageName = "", int priority = 100,
-            bool suspendLoad = false)
+        public void LoadScene(string sceneAssetName, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            LoadSceneCallbacks loadSceneCallbacks = null,
+            object userData = null)
         {
             if (string.IsNullOrEmpty(sceneAssetName))
             {
@@ -247,7 +249,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            m_SceneManager.LoadSceneAsync(sceneAssetName, packageName, null, priority, suspendLoad);
+            m_SceneManager.LoadSceneAsync(sceneAssetName, packageName, sceneMode, suspendLoad, priority,
+                loadSceneCallbacks, userData);
         }
 
         /// <summary>

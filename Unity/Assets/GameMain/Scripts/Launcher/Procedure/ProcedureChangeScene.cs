@@ -23,7 +23,7 @@ namespace GameMain
             GameEntry.Event.Subscribe(LoadSceneSuccessEventArgs.EventId, OnLoadSceneSuccess);
             GameEntry.Event.Subscribe(LoadSceneFailureEventArgs.EventId, OnLoadSceneFailure);
             GameEntry.Event.Subscribe(LoadSceneUpdateEventArgs.EventId, OnLoadSceneUpdate);
-            GameEntry.Event.Subscribe(LoadSceneDependencyAssetEventArgs.EventId, OnLoadSceneDependencyAsset);
+
 
             // 停止所有声音
             GameEntry.Sound.StopAllLoadingSounds();
@@ -62,7 +62,7 @@ namespace GameMain
             GameEntry.Event.Unsubscribe(LoadSceneSuccessEventArgs.EventId, OnLoadSceneSuccess);
             GameEntry.Event.Unsubscribe(LoadSceneFailureEventArgs.EventId, OnLoadSceneFailure);
             GameEntry.Event.Unsubscribe(LoadSceneUpdateEventArgs.EventId, OnLoadSceneUpdate);
-            GameEntry.Event.Unsubscribe(LoadSceneDependencyAssetEventArgs.EventId, OnLoadSceneDependencyAsset);
+
 
             base.OnLeave(procedureOwner, isShutdown);
         }
@@ -105,15 +105,6 @@ namespace GameMain
             if (ne.UserData != this) return;
 
             Log.Info("Load scene '{0}' update, progress '{1}'.", ne.SceneAssetName, ne.Progress.ToString("P2"));
-        }
-
-        private void OnLoadSceneDependencyAsset(object sender, GameEventArgs e)
-        {
-            var ne = (LoadSceneDependencyAssetEventArgs)e;
-            if (ne.UserData != this) return;
-
-            Log.Info("Load scene '{0}' dependency asset '{1}', count '{2}/{3}'.", ne.SceneAssetName,
-                ne.DependencyAssetName, ne.LoadedCount.ToString(), ne.TotalCount.ToString());
         }
     }
 }

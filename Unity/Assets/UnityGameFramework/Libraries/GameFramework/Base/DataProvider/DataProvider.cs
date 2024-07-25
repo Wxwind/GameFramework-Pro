@@ -10,16 +10,16 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     internal sealed class DataProvider<T> : IDataProvider<T>
     {
-        private const  int    BlockSize     = 1024 * 4;
+        private const int BlockSize = 1024 * 4;
         private static byte[] s_CachedBytes = null;
 
-        private readonly T                                      m_Owner;
-        private readonly LoadAssetCallbacks                     m_LoadAssetCallbacks;
-        private          IResourceManager                       m_ResourceManager;
-        private          IDataProviderHelper<T>                 m_DataProviderHelper;
-        private          EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
-        private          EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
-        private          EventHandler<ReadDataUpdateEventArgs>  m_ReadDataUpdateEventHandler;
+        private readonly T m_Owner;
+        private readonly LoadAssetCallbacks m_LoadAssetCallbacks;
+        private IResourceManager m_ResourceManager;
+        private IDataProviderHelper<T> m_DataProviderHelper;
+        private EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
+        private EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
+
 
         /// <summary>
         /// 初始化数据提供者的新实例。
@@ -34,7 +34,6 @@ namespace GameFramework
             m_DataProviderHelper = null;
             m_ReadDataSuccessEventHandler = null;
             m_ReadDataFailureEventHandler = null;
-            m_ReadDataUpdateEventHandler = null;
         }
 
         /// <summary>

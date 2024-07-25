@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using UnityEngine.SceneManagement;
 using YooAsset;
 using Object = UnityEngine.Object;
 
@@ -42,36 +43,51 @@ namespace GameFramework.Resource
 
         UniTask<InitializationOperation> InitPackage(ResourceMode mode, string packageName);
 
-        UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
+        UniTaskVoid LoadAssetAsync<T>(string location, string packageName = "",
+            LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
             where T : Object;
 
-        UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", IProgress<float> progress = null)
+        UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", Action<float> progress = null)
             where T : Object;
+
+        /// <summary>
+        ///     异步加载场景。
+        /// </summary>
+        /// <param name="location">要加载场景资源的名称</param>
+        /// <param name="packageName">资源所在包名</param>
+        /// <param name="sceneMode">场景加载模式</param>
+        /// <param name="suspendLoad">加载完毕时是否挂起</param>
+        /// <param name="priority">加载场景优先级</param>
+        /// <param name="loadSceneCallbacks">加载场景回调函数集。</param>
+        /// <param name="userData">用户自定义数据</param>
+        UniTaskVoid LoadSceneAsync(string location, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            LoadSceneCallbacks loadSceneCallbacks = null,
+            object userData = null);
+
+        UniTaskVoid LoadSceneAsync(string location, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            Action<float> progress = null
+        );
+
+        /// <summary>
+        ///     异步卸载场景。
+        /// </summary>
+        /// <param name="sceneAssetName">要卸载场景资源的名称。</param>
+        /// <param name="packageName">资源所在包名</param>
+        /// <param name="progress">加载进度回调函数</param>
+        /// <param name="userData">用户自定义数据</param>
+        void UnloadScene(string sceneAssetName, string packageName = "", UnloadSceneCallbacks callbacks = null,
+            object userData = null);
 
 
         /// <summary>
         ///     卸载资源。
         /// </summary>
         /// <param name="location">要卸载的资源。</param>
-        void UnloadAsset(object location);
+        /// <param name="packageName">资源所在包名</param>
+        void UnloadAsset(object location, string packageName = "DefaultPackage");
 
         void UnloadUnusedAssets();
-
-        /// <summary>
-        ///     异步加载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">要加载场景资源的名称。</param>
-        /// <param name="priority">加载场景优先级</param>
-        /// <param name="loadSceneCallbacks">加载场景回调函数集。</param>
-        /// <param name="userData">用户自定义数据</param>
-        void LoadSceneAsync(string sceneAssetName, int priority, LoadSceneCallbacks loadSceneCallbacks, object userData = null);
-
-        /// <summary>
-        ///     异步卸载场景。
-        /// </summary>
-        /// <param name="sceneAssetName">要卸载场景资源的名称。</param>
-        /// <param name="unloadSceneCallbacks">卸载场景回调函数集。</param>
-        /// <param name="userData">用户自定义数据</param>
-        void UnloadScene(string sceneAssetName, UnloadSceneCallbacks unloadSceneCallbacks, object userData);
     }
 }

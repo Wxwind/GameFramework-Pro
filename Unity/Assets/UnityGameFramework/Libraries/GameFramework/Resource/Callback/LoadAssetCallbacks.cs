@@ -26,7 +26,7 @@ namespace GameFramework.Resource
         /// <param name="loadAssetFailureCallback">加载资源失败回调函数。</param>
         public LoadAssetCallbacks(LoadAssetSuccessCallback loadAssetSuccessCallback,
             LoadAssetFailureCallback loadAssetFailureCallback = null,
-            IProgress<float> progress = null
+            Action<float> progress = null
         )
 
         {
@@ -35,7 +35,7 @@ namespace GameFramework.Resource
 
             LoadAssetSuccessCallback = loadAssetSuccessCallback;
             LoadAssetFailureCallback = loadAssetFailureCallback;
-            Progress = progress;
+            if (progress != null) Progress = new Progress<float>(progress);
         }
     }
 }
