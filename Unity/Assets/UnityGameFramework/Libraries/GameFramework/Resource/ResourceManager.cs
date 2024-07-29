@@ -86,7 +86,7 @@ namespace GameFramework.Resource
             return package.LoadSceneAsync(location, sceneMode, suspendLoad, priority);
         }
 
-        public async UniTaskVoid LoadSceneAsync(string location, string packageName = "",
+        public void LoadSceneAsync(string location, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             LoadSceneCallbacks loadSceneCallbacks = null,
             object userData = null)
@@ -98,24 +98,25 @@ namespace GameFramework.Resource
                 InvokeProgress(location, handle, loadSceneCallbacks.LoadSceneUpdateCallback, userData).Forget();
             }
 
-            await handle.ToUniTask();
+            handle.Completed += OnCompleted;
+            return;
 
-            if (handle.Status == EOperationStatus.Succeed)
+            void OnCompleted(SceneHandle h)
             {
-                loadSceneCallbacks?.LoadSceneSuccessCallback?.Invoke(location, handle.SceneObject, Time.time - duration,
-                    userData);
-            }
-            else
-            {
-                var errorMessage = Utility.Text.Format("Can not load asset '{0}'.", location);
-                loadSceneCallbacks?.LoadSceneFailureCallback?.Invoke(location, LoadResourceStatus.NotReady,
-                    errorMessage,
-                    userData);
+                if (h.Status == EOperationStatus.Succeed)
+                {
+                    loadSceneCallbacks?.LoadSceneSuccessCallback?.Invoke(location, h.SceneObject, Time.time - duration, userData);
+                }
+                else
+                {
+                    var errorMessage = Utility.Text.Format("Can not load asset '{0}'.", location);
+                    loadSceneCallbacks?.LoadSceneFailureCallback?.Invoke(location, LoadResourceStatus.NotReady, errorMessage, userData);
+                }
             }
         }
 
 
-        public async UniTaskVoid LoadSceneAsync(string location, string packageName = "",
+        public async UniTask LoadSceneAsync(string location, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             Action<float> progress = null
         )

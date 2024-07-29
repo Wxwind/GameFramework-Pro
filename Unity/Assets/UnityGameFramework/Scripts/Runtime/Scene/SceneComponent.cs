@@ -17,13 +17,13 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private ISceneManager m_SceneManager = null;
+        private ISceneManager  m_SceneManager   = null;
         private EventComponent m_EventComponent = null;
 
         private readonly SortedDictionary<string, int> m_SceneOrder = new(StringComparer.Ordinal);
 
-        private Camera m_MainCamera = null;
-        private Scene m_GameFrameworkScene = default;
+        private Camera m_MainCamera         = null;
+        private Scene  m_GameFrameworkScene = default;
 
         [SerializeField] private bool m_EnableLoadSceneUpdateEvent = true;
 
@@ -53,7 +53,6 @@ namespace UnityGameFramework.Runtime
             {
                 m_SceneManager.LoadSceneUpdate += OnLoadSceneUpdate;
             }
-
 
             m_SceneManager.UnloadSceneSuccess += OnUnloadSceneSuccess;
             m_SceneManager.UnloadSceneFailure += OnUnloadSceneFailure;
@@ -232,8 +231,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="priority">加载场景资源的优先级。</param>
         /// <param name="suspendLoad">场景加载完成后是否挂起</param>
         public void LoadScene(string sceneAssetName, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
-            LoadSceneCallbacks loadSceneCallbacks = null,
+            LoadSceneMode sceneMode = LoadSceneMode.Additive, bool suspendLoad = false, uint priority = 100,
             object userData = null)
         {
             if (string.IsNullOrEmpty(sceneAssetName))
@@ -250,7 +248,7 @@ namespace UnityGameFramework.Runtime
             }
 
             m_SceneManager.LoadSceneAsync(sceneAssetName, packageName, sceneMode, suspendLoad, priority,
-                loadSceneCallbacks, userData);
+                userData);
         }
 
         /// <summary>
@@ -411,11 +409,6 @@ namespace UnityGameFramework.Runtime
         private void OnLoadSceneUpdate(object sender, GameFramework.Scene.LoadSceneUpdateEventArgs e)
         {
             m_EventComponent.Fire(this, LoadSceneUpdateEventArgs.Create(e));
-        }
-
-        private void OnLoadSceneDependencyAsset(object sender, GameFramework.Scene.LoadSceneDependencyAssetEventArgs e)
-        {
-            m_EventComponent.Fire(this, LoadSceneDependencyAssetEventArgs.Create(e));
         }
 
         private void OnUnloadSceneSuccess(object sender, GameFramework.Scene.UnloadSceneSuccessEventArgs e)

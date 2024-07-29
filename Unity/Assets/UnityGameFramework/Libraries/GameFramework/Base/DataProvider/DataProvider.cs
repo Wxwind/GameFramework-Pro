@@ -137,7 +137,7 @@ namespace GameFramework
             var result = m_ResourceManager.HasAsset(dataAssetName);
             if (result)
             {
-                m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName, "", m_LoadAssetCallbacks, null);
+                m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName, "", m_LoadAssetCallbacks, userData);
             }
         }
 

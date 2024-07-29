@@ -16,8 +16,7 @@ namespace UnityGameFramework.Runtime
 
         private ILocalizationManager m_LocalizationManager = null;
         private EventComponent m_EventComponent = null;
-
-        [SerializeField] private bool m_EnableLoadDictionaryUpdateEvent = false;
+        
 
         [SerializeField]
         private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";

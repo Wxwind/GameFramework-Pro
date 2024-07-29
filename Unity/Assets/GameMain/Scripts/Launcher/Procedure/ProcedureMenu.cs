@@ -7,7 +7,7 @@ namespace GameMain
     public class ProcedureMenu : ProcedureBase
     {
         private MenuForm m_MenuForm;
-        private bool m_StartGame;
+        private bool     m_StartGame;
 
         public override bool UseNativeDialog => false;
 
@@ -19,7 +19,7 @@ namespace GameMain
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
-
+            Log.Info("change into ProcedureMenu");
             GameEntry.Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
 
             m_StartGame = false;

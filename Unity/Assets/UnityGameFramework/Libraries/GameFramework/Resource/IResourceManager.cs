@@ -61,12 +61,12 @@ namespace GameFramework.Resource
         /// <param name="priority">加载场景优先级</param>
         /// <param name="loadSceneCallbacks">加载场景回调函数集。</param>
         /// <param name="userData">用户自定义数据</param>
-        UniTaskVoid LoadSceneAsync(string location, string packageName = "",
+        void LoadSceneAsync(string location, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             LoadSceneCallbacks loadSceneCallbacks = null,
             object userData = null);
 
-        UniTaskVoid LoadSceneAsync(string location, string packageName = "",
+        UniTask LoadSceneAsync(string location, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             Action<float> progress = null
         );

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GameFramework.Resource;
 using UnityEngine.SceneManagement;
 
@@ -118,8 +119,10 @@ namespace GameFramework.Scene
         /// <param name="userData">用户自定义数据</param>
         void LoadSceneAsync(string sceneAssetName, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
-            LoadSceneCallbacks loadSceneCallbacks = null,
             object userData = null);
+
+        UniTaskVoid LoadSceneAsync(string sceneAssetName, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100);
 
 
         /// <summary>

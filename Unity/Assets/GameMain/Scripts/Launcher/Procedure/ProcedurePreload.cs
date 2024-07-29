@@ -47,6 +47,7 @@ namespace GameMain
                     return;
 
             procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
+            Log.Info("change into ProcedureChangeScene");
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
 

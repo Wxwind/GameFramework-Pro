@@ -1,4 +1,5 @@
 ﻿using GameFramework.Event;
+using UnityEngine.SceneManagement;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -7,7 +8,7 @@ namespace GameMain
     public class ProcedureChangeScene : ProcedureBase
     {
         private const int MenuSceneId = 1;
-        private int m_BackgroundMusicId;
+        private       int m_BackgroundMusicId;
 
         private bool m_ChangeToMenu;
         private bool m_IsChangeSceneComplete;
@@ -51,9 +52,9 @@ namespace GameMain
                 return;
             }
 
-            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), null,
-                Constant.AssetPriority.SceneAsset,
-                false);
+            Log.Info($"change scene to id:${sceneId}, m_ChangeToMenu={m_ChangeToMenu}");
+            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), null, LoadSceneMode.Additive,
+                false, Constant.AssetPriority.SceneAsset, this);
             m_BackgroundMusicId = drScene.BackgroundMusicId;
         }
 

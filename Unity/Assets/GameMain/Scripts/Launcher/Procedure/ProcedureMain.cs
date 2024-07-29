@@ -9,9 +9,9 @@ namespace GameMain
         private const float GameOverDelayedSeconds = 2f;
 
         private readonly Dictionary<GameMode, GameBase> m_Games = new();
-        private GameBase m_CurrentGame;
-        private bool m_GotoMenu;
-        private float m_GotoMenuDelaySeconds;
+        private          GameBase                       m_CurrentGame;
+        private          bool                           m_GotoMenu;
+        private          float                          m_GotoMenuDelaySeconds;
 
         public override bool UseNativeDialog => false;
 
@@ -37,7 +37,7 @@ namespace GameMain
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
-
+            Log.Info("change into ProcedureMain");
             m_GotoMenu = false;
             var gameMode = (GameMode)procedureOwner.GetData<VarByte>("GameMode").Value;
             m_CurrentGame = m_Games[gameMode];
