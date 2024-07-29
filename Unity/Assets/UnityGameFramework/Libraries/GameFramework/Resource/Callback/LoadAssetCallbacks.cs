@@ -17,16 +17,19 @@ namespace GameFramework.Resource
         /// </summary>
         public LoadAssetFailureCallback LoadAssetFailureCallback { get; }
 
-        public IProgress<float> Progress { get; }
+
+        public LoadSceneUpdateCallback LoadAssetUpdateCallback { get; }
+
 
         /// <summary>
         ///     初始化加载资源回调函数集的新实例。
         /// </summary>
         /// <param name="loadAssetSuccessCallback">加载资源成功回调函数。</param>
         /// <param name="loadAssetFailureCallback">加载资源失败回调函数。</param>
+        /// <param name="loadAssetUpdateCallback">加载资源更新回调函数。</param>
         public LoadAssetCallbacks(LoadAssetSuccessCallback loadAssetSuccessCallback,
             LoadAssetFailureCallback loadAssetFailureCallback = null,
-            Action<float> progress = null
+            LoadSceneUpdateCallback loadAssetUpdateCallback = null
         )
 
         {
@@ -35,7 +38,7 @@ namespace GameFramework.Resource
 
             LoadAssetSuccessCallback = loadAssetSuccessCallback;
             LoadAssetFailureCallback = loadAssetFailureCallback;
-            if (progress != null) Progress = new Progress<float>(progress);
+            LoadAssetUpdateCallback = loadAssetUpdateCallback;
         }
     }
 }

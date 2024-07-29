@@ -32,5 +32,11 @@ namespace GameMain
         {
             _uiRoot.ShowDownloadProgress(value, text);
         }
+
+        public static void DestroySelf()
+        {
+            if (_uiRoot == null) return;
+            Object.Destroy(_uiRoot.gameObject);
+        }
     }
 }

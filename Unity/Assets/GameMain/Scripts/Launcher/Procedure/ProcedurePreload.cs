@@ -47,7 +47,8 @@ namespace GameMain
                     return;
 
             procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
-            Log.Info("change into ProcedureChangeScene");
+            Log.Info("热更流程完毕，准备进入场景切换流程");
+            UILaunchMgr.DestroySelf();
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
 

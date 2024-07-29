@@ -13,10 +13,12 @@ namespace GameFramework.Resource
     /// </summary>
     internal sealed partial class ResourceManager : GameFrameworkModule, IResourceManager
     {
-        private readonly Dictionary<string, ResourcePackage> m_PackagesDic = new();
+        private readonly Dictionary<string, ResourcePackage> m_PackagesDict = new();
+        private readonly Dictionary<string, SceneHandle> m_SceneDict = new();
 
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
+
 
         public void SetReadOnlyPath(string readOnlyPath)
         {
@@ -52,7 +54,7 @@ namespace GameFramework.Resource
         }
 
 
-        public async UniTaskVoid LoadAssetAsync<T>(string location, string packageName = "",
+        public void LoadAssetAsync<T>(string location, string packageName = "",
             LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
             where T : Object
         {
@@ -63,16 +65,28 @@ namespace GameFramework.Resource
 
             var duration = Time.time;
             var handle = GetAssetHandle<T>(location, packageName);
-            await handle.ToUniTask(loadAssetCallbacks?.Progress);
-            loadAssetCallbacks?.LoadAssetSuccessCallback?.Invoke(location, handle.AssetObject, Time.time - duration,
-                userData);
-            var asset = handle.AssetObject as T;
-            if (asset == null)
+
+            if (loadAssetCallbacks?.LoadAssetUpdateCallback != null)
             {
-                var errorMsg =
-                    Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", location, "asset is not exist");
-                loadAssetCallbacks?.LoadAssetFailureCallback?.Invoke(location, LoadResourceStatus.NotExist, errorMsg,
+                InvokeProgress(location, handle, loadAssetCallbacks.LoadAssetUpdateCallback, userData).Forget();
+            }
+
+
+            handle.Completed += OnCompleted;
+            return;
+
+            void OnCompleted(AssetHandle handle)
+            {
+                loadAssetCallbacks?.LoadAssetSuccessCallback?.Invoke(location, handle.AssetObject, Time.time - duration,
                     userData);
+                var asset = handle.AssetObject as T;
+                if (asset == null)
+                {
+                    var errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", location,
+                        "asset is not exist");
+                    loadAssetCallbacks?.LoadAssetFailureCallback?.Invoke(location, LoadResourceStatus.NotExist,
+                        errorMsg, userData);
+                }
             }
         }
 
@@ -105,49 +119,66 @@ namespace GameFramework.Resource
             {
                 if (h.Status == EOperationStatus.Succeed)
                 {
-                    loadSceneCallbacks?.LoadSceneSuccessCallback?.Invoke(location, h.SceneObject, Time.time - duration, userData);
+                    loadSceneCallbacks?.LoadSceneSuccessCallback?.Invoke(location, h, Time.time - duration,
+                        userData);
+                    m_SceneDict.Add(location, handle);
                 }
                 else
                 {
                     var errorMessage = Utility.Text.Format("Can not load asset '{0}'.", location);
-                    loadSceneCallbacks?.LoadSceneFailureCallback?.Invoke(location, LoadResourceStatus.NotReady, errorMessage, userData);
+                    loadSceneCallbacks?.LoadSceneFailureCallback?.Invoke(location, LoadResourceStatus.NotReady,
+                        errorMessage, userData);
                 }
             }
         }
 
-
-        public async UniTask LoadSceneAsync(string location, string packageName = "",
+        public async UniTask<SceneHandle> LoadSceneAsync(string sceneAssetName, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             Action<float> progress = null
         )
         {
+            var location = GetSceneAssetLocationKey(packageName, sceneAssetName);
+            if (m_SceneDict.ContainsKey(location))
+            {
+                throw new GameFrameworkException($"scene asset {location} has already been loaded");
+            }
+
             var handle = GetSceneHandle(location, packageName, sceneMode, suspendLoad, priority);
             await handle.ToUniTask(progress != null ? new Progress<float>(progress) : null);
+            m_SceneDict.Add(location, handle);
+            return handle;
+        }
+
+        private static string GetSceneAssetLocationKey(string sceneAssetName, string packageName = "")
+        {
+            return $"{packageName}/sceneAssetName";
         }
 
         public void UnloadScene(string sceneAssetName, string packageName = "", UnloadSceneCallbacks callbacks = null,
             object userData = null)
         {
-            // TODO
-            // if (string.IsNullOrEmpty(sceneAssetName))
-            // {
-            //     throw new GameFrameworkException("Scene asset name is invalid.");
-            // }
-            //
-            // var handle = GetSceneHandle();
-            // var unloadSceneOperation = handle.UnloadAsync();
-            //
-            // unloadSceneOperation.Completed += operation =>
-            // {
-            //     if (operation.Status == EOperationStatus.Failed)
-            //     {
-            //         callbacks?.UnloadSceneFailureCallback(sceneAssetName, userData);
-            //     }
-            //     else
-            //     {
-            //         callbacks?.UnloadSceneSuccessCallback(sceneAssetName, userData);
-            //     }
-            // };
+            var location = GetSceneAssetLocationKey(packageName, sceneAssetName);
+            if (m_SceneDict.TryGetValue(location, out var handle))
+            {
+                var unloadSceneOperation = handle.UnloadAsync();
+                unloadSceneOperation.Completed += operation =>
+                {
+                    if (operation.Status == EOperationStatus.Failed)
+                    {
+                        callbacks?.UnloadSceneFailureCallback(sceneAssetName, userData);
+                    }
+                    else
+                    {
+                        callbacks?.UnloadSceneSuccessCallback(sceneAssetName, userData);
+                        m_SceneDict.Remove(location);
+                    }
+                };
+            }
+            else
+            {
+                GameFrameworkLog.Error($"scene {location} not exist");
+                callbacks?.UnloadSceneFailureCallback(sceneAssetName, userData);
+            }
         }
 
         public void UnloadAsset(object asset, string packageName = "DefaultPackage")
@@ -157,7 +188,7 @@ namespace GameFramework.Resource
 
         public void UnloadUnusedAssets()
         {
-            foreach (var package in m_PackagesDic.Values)
+            foreach (var package in m_PackagesDict.Values)
             {
                 if (package.InitializeStatus == EOperationStatus.Succeed)
                 {
@@ -177,7 +208,7 @@ namespace GameFramework.Resource
 
         public async UniTask<InitializationOperation> InitPackage(ResourceMode mode, string packageName)
         {
-            if (m_PackagesDic.ContainsKey(packageName))
+            if (m_PackagesDict.ContainsKey(packageName))
                 throw new GameFrameworkException($"package '{packageName}' has already benn inited!");
 
             // 创建资源包裹类
@@ -187,7 +218,7 @@ namespace GameFramework.Resource
 
             YooAssets.SetDefaultPackage(package);
 
-            m_PackagesDic.Add(packageName, package);
+            m_PackagesDict.Add(packageName, package);
             // 编辑器下的模拟模式
             InitializationOperation initializationOperation = null;
             if (mode == ResourceMode.EditorSimulateMode)
@@ -243,6 +274,25 @@ namespace GameFramework.Resource
         {
             if (string.IsNullOrEmpty(location))
             {
+                throw new GameFrameworkException("Asset Scene name is invalid.");
+            }
+
+            if (loadAssetUpdateCallback != null)
+            {
+                while (assetHandle is { IsValid: true, IsDone: false })
+                {
+                    await UniTask.Yield();
+
+                    loadAssetUpdateCallback.Invoke(location, assetHandle.Progress, userData);
+                }
+            }
+        }
+
+        private async UniTaskVoid InvokeProgress(string location, AssetHandle assetHandle,
+            LoadSceneUpdateCallback loadAssetUpdateCallback, object userData)
+        {
+            if (string.IsNullOrEmpty(location))
+            {
                 throw new GameFrameworkException("Asset name is invalid.");
             }
 
@@ -263,7 +313,7 @@ namespace GameFramework.Resource
 
         internal override void Shutdown()
         {
-            m_PackagesDic.Clear();
+            m_PackagesDict.Clear();
 #if !UNITY_WEBGL
             YooAssets.Destroy();
 #endif

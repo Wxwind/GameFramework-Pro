@@ -44,7 +44,7 @@ namespace GameFramework.Resource
 
         UniTask<InitializationOperation> InitPackage(ResourceMode mode, string packageName);
 
-        UniTaskVoid LoadAssetAsync<T>(string location, string packageName = "",
+        void LoadAssetAsync<T>(string location, string packageName = "",
             LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
             where T : Object;
 
@@ -66,7 +66,7 @@ namespace GameFramework.Resource
             LoadSceneCallbacks loadSceneCallbacks = null,
             object userData = null);
 
-        UniTask LoadSceneAsync(string location, string packageName = "",
+        UniTask<SceneHandle> LoadSceneAsync(string location, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             Action<float> progress = null
         );
@@ -76,7 +76,7 @@ namespace GameFramework.Resource
         /// </summary>
         /// <param name="sceneAssetName">要卸载场景资源的名称。</param>
         /// <param name="packageName">资源所在包名</param>
-        /// <param name="progress">加载进度回调函数</param>
+        /// <param name="callbacks">卸载场景回调</param>
         /// <param name="userData">用户自定义数据</param>
         void UnloadScene(string sceneAssetName, string packageName = "", UnloadSceneCallbacks callbacks = null,
             object userData = null);

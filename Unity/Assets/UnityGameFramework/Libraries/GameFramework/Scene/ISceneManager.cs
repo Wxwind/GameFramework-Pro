@@ -108,7 +108,7 @@ namespace GameFramework.Scene
 
 
         /// <summary>
-        /// 加载场景。
+        /// 加载场景 原版。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
         /// <param name="packageName">场景资源所在包名</param>
@@ -121,8 +121,18 @@ namespace GameFramework.Scene
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             object userData = null);
 
-        UniTaskVoid LoadSceneAsync(string sceneAssetName, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100);
+        /// <summary>
+        /// 加载场景 UniTask版。
+        /// </summary>
+        /// <param name="sceneAssetName">场景资源名称。</param>
+        /// <param name="packageName">场景资源所在包名</param>
+        /// <param name="priority">加载场景资源的优先级。</param>
+        /// <param name="sceneMode">场景加载模式</param>
+        /// <param name="suspendLoad">加载完成后是否挂起</param>
+        /// <param name="progress">场景加载进度回调</param>
+        UniTask LoadSceneAsync(string sceneAssetName, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            Action<float> progress = null);
 
 
         /// <summary>

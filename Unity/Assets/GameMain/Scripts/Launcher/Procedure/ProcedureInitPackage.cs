@@ -14,9 +14,6 @@ namespace GameMain
         {
             base.OnEnter(procedureOwner);
 
-
-            UILaunchMgr.Initialize();
-
             UILaunchMgr.ShowTip("初始化资源包！");
             InitPackage(procedureOwner).Forget();
         }

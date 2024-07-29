@@ -1,4 +1,6 @@
-﻿namespace GameFramework.Resource
+﻿using YooAsset;
+
+namespace GameFramework.Resource
 {
     /// <summary>
     /// 加载场景成功回调函数。
@@ -7,5 +9,6 @@
     /// <param name="scene">场景对象。</param>
     /// <param name="duration">加载持续时间。</param>
     /// <param name="userData">用户自定义数据。</param>
-    public delegate void LoadSceneSuccessCallback(string sceneAssetName,UnityEngine.SceneManagement.Scene scene, float duration, object userData);
+    public delegate void LoadSceneSuccessCallback(string sceneAssetName, SceneHandle scene, float duration,
+        object userData);
 }
