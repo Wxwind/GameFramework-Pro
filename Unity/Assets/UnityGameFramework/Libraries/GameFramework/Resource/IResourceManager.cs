@@ -54,19 +54,13 @@ namespace GameFramework.Resource
         /// <summary>
         ///     异步加载场景。
         /// </summary>
-        /// <param name="location">要加载场景资源的名称</param>
+        /// <param name="sceneName">要加载场景资源的名称</param>
         /// <param name="packageName">资源所在包名</param>
         /// <param name="sceneMode">场景加载模式</param>
         /// <param name="suspendLoad">加载完毕时是否挂起</param>
         /// <param name="priority">加载场景优先级</param>
-        /// <param name="loadSceneCallbacks">加载场景回调函数集。</param>
-        /// <param name="userData">用户自定义数据</param>
-        void LoadSceneAsync(string location, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
-            LoadSceneCallbacks loadSceneCallbacks = null,
-            object userData = null);
-
-        UniTask<SceneHandle> LoadSceneAsync(string location, string packageName = "",
+        /// <param name="progress">场景进度更新回调。</param>
+        UniTask<SceneHandle> LoadSceneAsync(string sceneName, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             Action<float> progress = null
         );
@@ -76,10 +70,8 @@ namespace GameFramework.Resource
         /// </summary>
         /// <param name="sceneAssetName">要卸载场景资源的名称。</param>
         /// <param name="packageName">资源所在包名</param>
-        /// <param name="callbacks">卸载场景回调</param>
-        /// <param name="userData">用户自定义数据</param>
-        void UnloadScene(string sceneAssetName, string packageName = "", UnloadSceneCallbacks callbacks = null,
-            object userData = null);
+        /// <param name="progress">场景进度更新回调。</param>
+        UniTask<bool> UnloadScene(string sceneAssetName, string packageName = "", Action<float> progress = null);
 
 
         /// <summary>

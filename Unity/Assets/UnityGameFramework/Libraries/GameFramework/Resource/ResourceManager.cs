@@ -14,7 +14,7 @@ namespace GameFramework.Resource
     internal sealed partial class ResourceManager : GameFrameworkModule, IResourceManager
     {
         private readonly Dictionary<string, ResourcePackage> m_PackagesDict = new();
-        private readonly Dictionary<string, SceneHandle> m_SceneDict = new();
+        private readonly Dictionary<string, SceneHandle>     m_SceneDict    = new();
 
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
@@ -100,84 +100,43 @@ namespace GameFramework.Resource
             return package.LoadSceneAsync(location, sceneMode, suspendLoad, priority);
         }
 
-        public void LoadSceneAsync(string location, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
-            LoadSceneCallbacks loadSceneCallbacks = null,
-            object userData = null)
-        {
-            var duration = Time.time;
-            var handle = GetSceneHandle(location, packageName, sceneMode, suspendLoad, priority);
-            if (loadSceneCallbacks?.LoadSceneUpdateCallback != null)
-            {
-                InvokeProgress(location, handle, loadSceneCallbacks.LoadSceneUpdateCallback, userData).Forget();
-            }
-
-            handle.Completed += OnCompleted;
-            return;
-
-            void OnCompleted(SceneHandle h)
-            {
-                if (h.Status == EOperationStatus.Succeed)
-                {
-                    loadSceneCallbacks?.LoadSceneSuccessCallback?.Invoke(location, h, Time.time - duration,
-                        userData);
-                    m_SceneDict.Add(location, handle);
-                }
-                else
-                {
-                    var errorMessage = Utility.Text.Format("Can not load asset '{0}'.", location);
-                    loadSceneCallbacks?.LoadSceneFailureCallback?.Invoke(location, LoadResourceStatus.NotReady,
-                        errorMessage, userData);
-                }
-            }
-        }
-
-        public async UniTask<SceneHandle> LoadSceneAsync(string sceneAssetName, string packageName = "",
+        public async UniTask<SceneHandle> LoadSceneAsync(string sceneName, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
             Action<float> progress = null
         )
         {
-            var location = GetSceneAssetLocationKey(packageName, sceneAssetName);
-            if (m_SceneDict.ContainsKey(location))
+            if (m_SceneDict.ContainsKey(sceneName))
             {
-                throw new GameFrameworkException($"scene asset {location} has already been loaded");
+                throw new GameFrameworkException($"scene asset {sceneName} has already been loaded");
             }
 
-            var handle = GetSceneHandle(location, packageName, sceneMode, suspendLoad, priority);
+            var handle = GetSceneHandle(sceneName, packageName, sceneMode, suspendLoad, priority);
             await handle.ToUniTask(progress != null ? new Progress<float>(progress) : null);
-            m_SceneDict.Add(location, handle);
+            m_SceneDict.Add(sceneName, handle);
             return handle;
         }
 
-        private static string GetSceneAssetLocationKey(string sceneAssetName, string packageName = "")
+        public async UniTask<bool> UnloadScene(string sceneName, string packageName = "", Action<float> progress = null)
         {
-            return $"{packageName}/sceneAssetName";
-        }
-
-        public void UnloadScene(string sceneAssetName, string packageName = "", UnloadSceneCallbacks callbacks = null,
-            object userData = null)
-        {
-            var location = GetSceneAssetLocationKey(packageName, sceneAssetName);
-            if (m_SceneDict.TryGetValue(location, out var handle))
+            if (m_SceneDict.TryGetValue(sceneName, out var handle))
             {
-                var unloadSceneOperation = handle.UnloadAsync();
-                unloadSceneOperation.Completed += operation =>
+                var operation = handle.UnloadAsync();
+                await operation.ToUniTask(progress != null ? new Progress<float>(progress) : null);
+
+                if (operation.Status == EOperationStatus.Failed)
                 {
-                    if (operation.Status == EOperationStatus.Failed)
-                    {
-                        callbacks?.UnloadSceneFailureCallback(sceneAssetName, userData);
-                    }
-                    else
-                    {
-                        callbacks?.UnloadSceneSuccessCallback(sceneAssetName, userData);
-                        m_SceneDict.Remove(location);
-                    }
-                };
+                    return false;
+                }
+                else
+                {
+                    m_SceneDict.Remove(sceneName);
+                    return true;
+                }
             }
             else
             {
-                GameFrameworkLog.Error($"scene {location} not exist");
-                callbacks?.UnloadSceneFailureCallback(sceneAssetName, userData);
+                GameFrameworkLog.Error($"UnloadScene error: scene {sceneName} not loaded");
+                return false;
             }
         }
 

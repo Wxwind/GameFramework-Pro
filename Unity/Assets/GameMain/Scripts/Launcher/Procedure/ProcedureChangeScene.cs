@@ -1,4 +1,4 @@
-﻿using GameFramework.Event;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
@@ -21,10 +21,6 @@ namespace GameMain
 
             m_IsChangeSceneComplete = false;
 
-            GameEntry.Event.Subscribe(LoadSceneSuccessEventArgs.EventId, OnLoadSceneSuccess);
-            GameEntry.Event.Subscribe(LoadSceneFailureEventArgs.EventId, OnLoadSceneFailure);
-            GameEntry.Event.Subscribe(LoadSceneUpdateEventArgs.EventId, OnLoadSceneUpdate);
-
 
             // 停止所有声音
             GameEntry.Sound.StopAllLoadingSounds();
@@ -37,7 +33,7 @@ namespace GameMain
             // 卸载所有场景
             var loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
             for (var i = 0; i < loadedSceneAssetNames.Length; i++)
-                GameEntry.Scene.UnloadScene(loadedSceneAssetNames[i]);
+                GameEntry.Scene.UnloadScene(loadedSceneAssetNames[i]).Forget();
 
             // 还原游戏速度
             GameEntry.Base.ResetNormalGameSpeed();
@@ -53,20 +49,27 @@ namespace GameMain
             }
 
             Log.Info($"change scene to id:${sceneId}, m_ChangeToMenu={m_ChangeToMenu}");
-            GameEntry.Scene.LoadScene(AssetUtility.GetSceneAsset(drScene.AssetName), null, LoadSceneMode.Additive,
-                false, Constant.AssetPriority.SceneAsset, this);
+            LoadScene(drScene.AssetName).Forget();
             m_BackgroundMusicId = drScene.BackgroundMusicId;
         }
 
-        protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
+        private async UniTask LoadScene(string sceneName)
         {
-            GameEntry.Event.Unsubscribe(LoadSceneSuccessEventArgs.EventId, OnLoadSceneSuccess);
-            GameEntry.Event.Unsubscribe(LoadSceneFailureEventArgs.EventId, OnLoadSceneFailure);
-            GameEntry.Event.Unsubscribe(LoadSceneUpdateEventArgs.EventId, OnLoadSceneUpdate);
+            await GameEntry.Scene.LoadSceneAsync(sceneName, null, LoadSceneMode.Additive,
+                false, Constant.AssetPriority.SceneAsset, OnLoadSceneUpdate);
+            Log.Info("Load scene '{0}' OK.", sceneName);
 
+            if (m_BackgroundMusicId > 0) GameEntry.Sound.PlayMusic(m_BackgroundMusicId);
 
-            base.OnLeave(procedureOwner, isShutdown);
+            m_IsChangeSceneComplete = true;
+            return;
+
+            void OnLoadSceneUpdate(float progress)
+            {
+                Log.Info("Load scene '{0}' update, progress '{1}'.", sceneName, progress);
+            }
         }
+
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
@@ -78,34 +81,6 @@ namespace GameMain
                 ChangeState<ProcedureMenu>(procedureOwner);
             else
                 ChangeState<ProcedureMain>(procedureOwner);
-        }
-
-        private void OnLoadSceneSuccess(object sender, GameEventArgs e)
-        {
-            var ne = (LoadSceneSuccessEventArgs)e;
-            if (ne.UserData != this) return;
-
-            Log.Info("Load scene '{0}' OK.", ne.SceneAssetName);
-
-            if (m_BackgroundMusicId > 0) GameEntry.Sound.PlayMusic(m_BackgroundMusicId);
-
-            m_IsChangeSceneComplete = true;
-        }
-
-        private void OnLoadSceneFailure(object sender, GameEventArgs e)
-        {
-            var ne = (LoadSceneFailureEventArgs)e;
-            if (ne.UserData != this) return;
-
-            Log.Error("Load scene '{0}' failure, error message '{1}'.", ne.SceneAssetName, ne.ErrorMessage);
-        }
-
-        private void OnLoadSceneUpdate(object sender, GameEventArgs e)
-        {
-            var ne = (LoadSceneUpdateEventArgs)e;
-            if (ne.UserData != this) return;
-
-            Log.Info("Load scene '{0}' update, progress '{1}'.", ne.SceneAssetName, ne.Progress.ToString("P2"));
         }
     }
 }

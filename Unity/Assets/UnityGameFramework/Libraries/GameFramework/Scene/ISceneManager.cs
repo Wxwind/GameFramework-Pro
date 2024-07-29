@@ -12,31 +12,6 @@ namespace GameFramework.Scene
     public interface ISceneManager
     {
         /// <summary>
-        /// 加载场景成功事件。
-        /// </summary>
-        event EventHandler<LoadSceneSuccessEventArgs> LoadSceneSuccess;
-
-        /// <summary>
-        /// 加载场景失败事件。
-        /// </summary>
-        event EventHandler<LoadSceneFailureEventArgs> LoadSceneFailure;
-
-        /// <summary>
-        /// 加载场景更新事件。
-        /// </summary>
-        event EventHandler<LoadSceneUpdateEventArgs> LoadSceneUpdate;
-
-        /// <summary>
-        /// 卸载场景成功事件。
-        /// </summary>
-        event EventHandler<UnloadSceneSuccessEventArgs> UnloadSceneSuccess;
-
-        /// <summary>
-        /// 卸载场景失败事件。
-        /// </summary>
-        event EventHandler<UnloadSceneFailureEventArgs> UnloadSceneFailure;
-
-        /// <summary>
         /// 设置资源管理器。
         /// </summary>
         /// <param name="resourceManager">资源管理器。</param>
@@ -108,20 +83,6 @@ namespace GameFramework.Scene
 
 
         /// <summary>
-        /// 加载场景 原版。
-        /// </summary>
-        /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="packageName">场景资源所在包名</param>
-        /// <param name="priority">加载场景资源的优先级。</param>
-        /// <param name="sceneMode">场景加载模式</param>
-        /// <param name="suspendLoad">加载完成后是否挂起</param>
-        /// <param name="loadSceneCallbacks">场景加载回调</param>
-        /// <param name="userData">用户自定义数据</param>
-        void LoadSceneAsync(string sceneAssetName, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
-            object userData = null);
-
-        /// <summary>
         /// 加载场景 UniTask版。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
@@ -139,7 +100,7 @@ namespace GameFramework.Scene
         /// 卸载场景。
         /// </summary>
         /// <param name="sceneAssetName">场景资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        void UnloadScene(string sceneAssetName, object userData = null);
+        /// <param name="callbacks">场景加载回调。</param>
+        UniTask UnloadScene(string sceneAssetName, Action<float> progress=null);
     }
 }
