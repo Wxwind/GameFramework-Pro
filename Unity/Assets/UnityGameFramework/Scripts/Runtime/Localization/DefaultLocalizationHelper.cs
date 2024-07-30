@@ -83,18 +83,19 @@ namespace UnityGameFramework.Runtime
         /// <param name="dictionaryAsset">字典资源。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否读取字典成功。</returns>
-        public override bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName, object dictionaryAsset, object userData)
+        public override bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+            object dictionaryAsset)
         {
             TextAsset dictionaryTextAsset = dictionaryAsset as TextAsset;
             if (dictionaryTextAsset != null)
             {
                 if (dictionaryAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
                 {
-                    return localizationManager.ParseData(dictionaryTextAsset.bytes, userData);
+                    return localizationManager.ParseData(dictionaryTextAsset.bytes);
                 }
                 else
                 {
-                    return localizationManager.ParseData(dictionaryTextAsset.text, userData);
+                    return localizationManager.ParseData(dictionaryTextAsset.text);
                 }
             }
 
@@ -112,15 +113,16 @@ namespace UnityGameFramework.Runtime
         /// <param name="length">字典二进制流的长度。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否读取字典成功。</returns>
-        public override bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName, byte[] dictionaryBytes, int startIndex, int length, object userData)
+        public override bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+            byte[] dictionaryBytes, int startIndex, int length)
         {
             if (dictionaryAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
             {
-                return localizationManager.ParseData(dictionaryBytes, startIndex, length, userData);
+                return localizationManager.ParseData(dictionaryBytes, startIndex, length);
             }
             else
             {
-                return localizationManager.ParseData(Utility.Converter.GetString(dictionaryBytes, startIndex, length), userData);
+                return localizationManager.ParseData(Utility.Converter.GetString(dictionaryBytes, startIndex, length));
             }
         }
 
@@ -131,7 +133,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="dictionaryString">要解析的字典字符串。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, string dictionaryString, object userData)
+        public override bool ParseData(ILocalizationManager localizationManager, string dictionaryString)
         {
             try
             {
@@ -147,7 +149,8 @@ namespace UnityGameFramework.Runtime
                     string[] splitedLine = dictionaryLineString.Split(ColumnSplitSeparator, StringSplitOptions.None);
                     if (splitedLine.Length != ColumnCount)
                     {
-                        Log.Warning("Can not parse dictionary line string '{0}' which column count is invalid.", dictionaryLineString);
+                        Log.Warning("Can not parse dictionary line string '{0}' which column count is invalid.",
+                            dictionaryLineString);
                         return false;
                     }
 
@@ -155,7 +158,9 @@ namespace UnityGameFramework.Runtime
                     string dictionaryValue = splitedLine[3];
                     if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                     {
-                        Log.Warning("Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.", dictionaryKey);
+                        Log.Warning(
+                            "Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.",
+                            dictionaryKey);
                         return false;
                     }
                 }
@@ -178,7 +183,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="length">字典二进制流的长度。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex, int length, object userData)
+        public override bool ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
+            int length)
         {
             try
             {
@@ -192,7 +198,9 @@ namespace UnityGameFramework.Runtime
                             string dictionaryValue = binaryReader.ReadString();
                             if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                             {
-                                Log.Warning("Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.", dictionaryKey);
+                                Log.Warning(
+                                    "Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.",
+                                    dictionaryKey);
                                 return false;
                             }
                         }

@@ -12,49 +12,30 @@
         {
             DataAssetName = null;
             Duration = 0f;
-            UserData = null;
         }
 
         /// <summary>
         /// 获取内容资源名称。
         /// </summary>
-        public string DataAssetName
-        {
-            get;
-            private set;
-        }
+        public string DataAssetName { get; private set; }
 
         /// <summary>
         /// 获取加载持续时间。
         /// </summary>
-        public float Duration
-        {
-            get;
-            private set;
-        }
+        public float Duration { get; private set; }
 
-        /// <summary>
-        /// 获取用户自定义数据。
-        /// </summary>
-        public object UserData
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// 创建读取数据成功事件。
         /// </summary>
         /// <param name="dataAssetName">内容资源名称。</param>
         /// <param name="duration">加载持续时间。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>创建的读取数据成功事件。</returns>
-        public static ReadDataSuccessEventArgs Create(string dataAssetName, float duration, object userData)
+        public static ReadDataSuccessEventArgs Create(string dataAssetName, float duration)
         {
             ReadDataSuccessEventArgs loadDataSuccessEventArgs = ReferencePool.Acquire<ReadDataSuccessEventArgs>();
             loadDataSuccessEventArgs.DataAssetName = dataAssetName;
             loadDataSuccessEventArgs.Duration = duration;
-            loadDataSuccessEventArgs.UserData = userData;
             return loadDataSuccessEventArgs;
         }
 
@@ -65,7 +46,6 @@
         {
             DataAssetName = null;
             Duration = 0f;
-            UserData = null;
         }
     }
 }

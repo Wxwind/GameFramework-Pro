@@ -26,18 +26,18 @@ namespace UnityGameFramework.Runtime
         /// <param name="configAsset">全局配置资源。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public override bool ReadData(IConfigManager configManager, string configAssetName, object configAsset, object userData)
+        public override bool ReadData(IConfigManager configManager, string configAssetName, object configAsset)
         {
             TextAsset configTextAsset = configAsset as TextAsset;
             if (configTextAsset != null)
             {
                 if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
                 {
-                    return configManager.ParseData(configTextAsset.bytes, userData);
+                    return configManager.ParseData(configTextAsset.bytes);
                 }
                 else
                 {
-                    return configManager.ParseData(configTextAsset.text, userData);
+                    return configManager.ParseData(configTextAsset.text);
                 }
             }
 
@@ -55,15 +55,16 @@ namespace UnityGameFramework.Runtime
         /// <param name="length">全局配置二进制流的长度。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public override bool ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes, int startIndex, int length, object userData)
+        public override bool ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
+            int startIndex, int length)
         {
             if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
             {
-                return configManager.ParseData(configBytes, startIndex, length, userData);
+                return configManager.ParseData(configBytes, startIndex, length);
             }
             else
             {
-                return configManager.ParseData(Utility.Converter.GetString(configBytes, startIndex, length), userData);
+                return configManager.ParseData(Utility.Converter.GetString(configBytes, startIndex, length));
             }
         }
 
@@ -74,7 +75,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configString">要解析的全局配置字符串。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析全局配置成功。</returns>
-        public override bool ParseData(IConfigManager configManager, string configString, object userData)
+        public override bool ParseData(IConfigManager configManager, string configString)
         {
             try
             {
@@ -90,7 +91,8 @@ namespace UnityGameFramework.Runtime
                     string[] splitedLine = configLineString.Split(ColumnSplitSeparator, StringSplitOptions.None);
                     if (splitedLine.Length != ColumnCount)
                     {
-                        Log.Warning("Can not parse config line string '{0}' which column count is invalid.", configLineString);
+                        Log.Warning("Can not parse config line string '{0}' which column count is invalid.",
+                            configLineString);
                         return false;
                     }
 
@@ -98,7 +100,8 @@ namespace UnityGameFramework.Runtime
                     string configValue = splitedLine[3];
                     if (!configManager.AddConfig(configName, configValue))
                     {
-                        Log.Warning("Can not add config with config name '{0}' which may be invalid or duplicate.", configName);
+                        Log.Warning("Can not add config with config name '{0}' which may be invalid or duplicate.",
+                            configName);
                         return false;
                     }
                 }
@@ -119,9 +122,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">要解析的全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析全局配置成功。</returns>
-        public override bool ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length, object userData)
+        public override bool ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length)
         {
             try
             {
@@ -135,7 +137,9 @@ namespace UnityGameFramework.Runtime
                             string configValue = binaryReader.ReadString();
                             if (!configManager.AddConfig(configName, configValue))
                             {
-                                Log.Warning("Can not add config with config name '{0}' which may be invalid or duplicate.", configName);
+                                Log.Warning(
+                                    "Can not add config with config name '{0}' which may be invalid or duplicate.",
+                                    configName);
                                 return false;
                             }
                         }

@@ -52,12 +52,12 @@ namespace GameMain
         }
 
 #if UNITY_2017_3_OR_NEWER
-        protected override void OnInit(object userData)
+        protected override void OnInit()
 #else
-        protected internal override void OnInit(object userData)
+        protected internal override void OnInit()
 #endif
         {
-            base.OnInit(userData);
+            base.OnInit();
 
             m_CachedCanvas = gameObject.GetOrAddComponent<Canvas>();
             m_CachedCanvas.overrideSorting = true;
@@ -94,7 +94,7 @@ namespace GameMain
 #if UNITY_2017_3_OR_NEWER
         protected override void OnOpen(object userData)
 #else
-        protected internal override void OnOpen(object userData)
+        protected internal override void OnOpen()
 #endif
         {
             base.OnOpen(userData);
@@ -105,12 +105,12 @@ namespace GameMain
         }
 
 #if UNITY_2017_3_OR_NEWER
-        protected override void OnClose(bool isShutdown, object userData)
+        protected override void OnClose(bool isShutdown)
 #else
-        protected internal override void OnClose(bool isShutdown, object userData)
+        protected internal override void OnClose(bool isShutdown, )
 #endif
         {
-            base.OnClose(isShutdown, userData);
+            base.OnClose(isShutdown);
         }
 
 #if UNITY_2017_3_OR_NEWER
@@ -154,12 +154,12 @@ namespace GameMain
         }
 
 #if UNITY_2017_3_OR_NEWER
-        protected override void OnRefocus(object userData)
+        protected override void OnRefocus()
 #else
-        protected internal override void OnRefocus(object userData)
+        protected internal override void OnRefocus()
 #endif
         {
-            base.OnRefocus(userData);
+            base.OnRefocus();
         }
 
 #if UNITY_2017_3_OR_NEWER

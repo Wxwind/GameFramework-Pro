@@ -18,10 +18,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public UIForm UIForm
         {
-            get
-            {
-                return m_UIForm;
-            }
+            get { return m_UIForm; }
         }
 
         /// <summary>
@@ -29,14 +26,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public string Name
         {
-            get
-            {
-                return gameObject.name;
-            }
-            set
-            {
-                gameObject.name = value;
-            }
+            get { return gameObject.name; }
+            set { gameObject.name = value; }
         }
 
         /// <summary>
@@ -44,10 +35,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public bool Available
         {
-            get
-            {
-                return m_Available;
-            }
+            get { return m_Available; }
         }
 
         /// <summary>
@@ -55,10 +43,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public bool Visible
         {
-            get
-            {
-                return m_Available && m_Visible;
-            }
+            get { return m_Available && m_Visible; }
             set
             {
                 if (!m_Available)
@@ -82,17 +67,13 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public Transform CachedTransform
         {
-            get
-            {
-                return m_CachedTransform;
-            }
+            get { return m_CachedTransform; }
         }
 
         /// <summary>
         /// 界面初始化。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
-        protected internal virtual void OnInit(object userData)
+        protected internal virtual void OnInit()
         {
             if (m_CachedTransform == null)
             {
@@ -113,7 +94,6 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 界面打开。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
         protected internal virtual void OnOpen(object userData)
         {
             m_Available = true;
@@ -124,8 +104,7 @@ namespace UnityGameFramework.Runtime
         /// 界面关闭。
         /// </summary>
         /// <param name="isShutdown">是否是关闭界面管理器时触发。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        protected internal virtual void OnClose(bool isShutdown, object userData)
+        protected internal virtual void OnClose(bool isShutdown)
         {
             gameObject.SetLayerRecursively(m_OriginalLayer);
             Visible = false;
@@ -165,8 +144,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 界面激活。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
-        protected internal virtual void OnRefocus(object userData)
+        protected internal virtual void OnRefocus()
         {
         }
 

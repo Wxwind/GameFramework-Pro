@@ -21,10 +21,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public int SerialId
         {
-            get
-            {
-                return m_SerialId;
-            }
+            get { return m_SerialId; }
         }
 
         /// <summary>
@@ -32,10 +29,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public string UIFormAssetName
         {
-            get
-            {
-                return m_UIFormAssetName;
-            }
+            get { return m_UIFormAssetName; }
         }
 
         /// <summary>
@@ -43,10 +37,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public object Handle
         {
-            get
-            {
-                return gameObject;
-            }
+            get { return gameObject; }
         }
 
         /// <summary>
@@ -54,10 +45,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public IUIGroup UIGroup
         {
-            get
-            {
-                return m_UIGroup;
-            }
+            get { return m_UIGroup; }
         }
 
         /// <summary>
@@ -65,10 +53,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public int DepthInUIGroup
         {
-            get
-            {
-                return m_DepthInUIGroup;
-            }
+            get { return m_DepthInUIGroup; }
         }
 
         /// <summary>
@@ -76,10 +61,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public bool PauseCoveredUIForm
         {
-            get
-            {
-                return m_PauseCoveredUIForm;
-            }
+            get { return m_PauseCoveredUIForm; }
         }
 
         /// <summary>
@@ -87,10 +69,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public UIFormLogic Logic
         {
-            get
-            {
-                return m_UIFormLogic;
-            }
+            get { return m_UIFormLogic; }
         }
 
         /// <summary>
@@ -101,8 +80,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="uiGroup">界面所处的界面组。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
         /// <param name="isNewInstance">是否是新实例。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void OnInit(int serialId, string uiFormAssetName, IUIGroup uiGroup, bool pauseCoveredUIForm, bool isNewInstance, object userData)
+        public void OnInit(int serialId, string uiFormAssetName, IUIGroup uiGroup, bool pauseCoveredUIForm,
+            bool isNewInstance)
         {
             m_SerialId = serialId;
             m_UIFormAssetName = uiFormAssetName;
@@ -124,7 +103,7 @@ namespace UnityGameFramework.Runtime
 
             try
             {
-                m_UIFormLogic.OnInit(userData);
+                m_UIFormLogic.OnInit();
             }
             catch (Exception exception)
             {
@@ -143,7 +122,8 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Error("UI form '[{0}]{1}' OnRecycle with exception '{2}'.", m_SerialId, m_UIFormAssetName, exception);
+                Log.Error("UI form '[{0}]{1}' OnRecycle with exception '{2}'.", m_SerialId, m_UIFormAssetName,
+                    exception);
             }
 
             m_SerialId = 0;
@@ -154,7 +134,6 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 界面打开。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
         public void OnOpen(object userData)
         {
             try
@@ -171,12 +150,11 @@ namespace UnityGameFramework.Runtime
         /// 界面关闭。
         /// </summary>
         /// <param name="isShutdown">是否是关闭界面管理器时触发。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void OnClose(bool isShutdown, object userData)
+        public void OnClose(bool isShutdown)
         {
             try
             {
-                m_UIFormLogic.OnClose(isShutdown, userData);
+                m_UIFormLogic.OnClose(isShutdown);
             }
             catch (Exception exception)
             {
@@ -210,7 +188,8 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Error("UI form '[{0}]{1}' OnResume with exception '{2}'.", m_SerialId, m_UIFormAssetName, exception);
+                Log.Error("UI form '[{0}]{1}' OnResume with exception '{2}'.", m_SerialId, m_UIFormAssetName,
+                    exception);
             }
         }
 
@@ -240,23 +219,24 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Error("UI form '[{0}]{1}' OnReveal with exception '{2}'.", m_SerialId, m_UIFormAssetName, exception);
+                Log.Error("UI form '[{0}]{1}' OnReveal with exception '{2}'.", m_SerialId, m_UIFormAssetName,
+                    exception);
             }
         }
 
         /// <summary>
         /// 界面激活。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
-        public void OnRefocus(object userData)
+        public void OnRefocus()
         {
             try
             {
-                m_UIFormLogic.OnRefocus(userData);
+                m_UIFormLogic.OnRefocus();
             }
             catch (Exception exception)
             {
-                Log.Error("UI form '[{0}]{1}' OnRefocus with exception '{2}'.", m_SerialId, m_UIFormAssetName, exception);
+                Log.Error("UI form '[{0}]{1}' OnRefocus with exception '{2}'.", m_SerialId, m_UIFormAssetName,
+                    exception);
             }
         }
 
@@ -273,7 +253,8 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Error("UI form '[{0}]{1}' OnUpdate with exception '{2}'.", m_SerialId, m_UIFormAssetName, exception);
+                Log.Error("UI form '[{0}]{1}' OnUpdate with exception '{2}'.", m_SerialId, m_UIFormAssetName,
+                    exception);
             }
         }
 
@@ -291,7 +272,8 @@ namespace UnityGameFramework.Runtime
             }
             catch (Exception exception)
             {
-                Log.Error("UI form '[{0}]{1}' OnDepthChanged with exception '{2}'.", m_SerialId, m_UIFormAssetName, exception);
+                Log.Error("UI form '[{0}]{1}' OnDepthChanged with exception '{2}'.", m_SerialId, m_UIFormAssetName,
+                    exception);
             }
         }
     }

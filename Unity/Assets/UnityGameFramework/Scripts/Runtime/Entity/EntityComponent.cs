@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GameFramework;
 using GameFramework.Entity;
 using GameFramework.ObjectPool;
@@ -17,7 +18,7 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private IEntityManager m_EntityManager  = null;
+        private IEntityManager m_EntityManager = null;
         private EventComponent m_EventComponent = null;
 
         private readonly List<IEntity> m_InternalEntityResults = new();
@@ -31,7 +32,8 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private EntityHelperBase m_CustomEntityHelper = null;
 
-        [SerializeField] private string m_EntityGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityGroupHelper";
+        [SerializeField]
+        private string m_EntityGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityGroupHelper";
 
         [SerializeField] private EntityGroupHelperBase m_CustomEntityGroupHelper = null;
 
@@ -59,14 +61,6 @@ namespace UnityGameFramework.Runtime
             {
                 Log.Fatal("Entity manager is invalid.");
                 return;
-            }
-
-            m_EntityManager.ShowEntitySuccess += OnShowEntitySuccess;
-            m_EntityManager.ShowEntityFailure += OnShowEntityFailure;
-
-            if (m_EnableShowEntityUpdateEvent)
-            {
-                m_EntityManager.ShowEntityUpdate += OnShowEntityUpdate;
             }
 
 
@@ -439,10 +433,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority,
+        public UniTask ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority,
             object userData) where T : EntityLogic
         {
-            ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, priority, userData);
+            return ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, priority, userData);
         }
 
         /// <summary>
@@ -454,7 +448,8 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
+        public async UniTask ShowEntity(int entityId, Type entityLogicType, string entityAssetName,
+            string entityGroupName,
             int priority, object userData)
         {
             if (entityLogicType == null)
@@ -463,7 +458,7 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            m_EntityManager.ShowEntity(entityId, entityAssetName, entityGroupName, priority,
+            await m_EntityManager.ShowEntity(entityId, entityAssetName, entityGroupName, priority,
                 ShowEntityInfo.Create(entityLogicType, userData));
         }
 
@@ -1091,29 +1086,6 @@ namespace UnityGameFramework.Runtime
             entityGroup.SetEntityInstancePriority(entity.gameObject, priority);
         }
 
-        private void OnShowEntitySuccess(object sender, GameFramework.Entity.ShowEntitySuccessEventArgs e)
-        {
-            m_EventComponent.Fire(this, ShowEntitySuccessEventArgs.Create(e));
-        }
-
-        private void OnShowEntityFailure(object sender, GameFramework.Entity.ShowEntityFailureEventArgs e)
-        {
-            Log.Warning(
-                "Show entity failure, entity id '{0}', asset name '{1}', entity group name '{2}', error message '{3}'.",
-                e.EntityId, e.EntityAssetName, e.EntityGroupName, e.ErrorMessage);
-            m_EventComponent.Fire(this, ShowEntityFailureEventArgs.Create(e));
-        }
-
-        private void OnShowEntityUpdate(object sender, GameFramework.Entity.ShowEntityUpdateEventArgs e)
-        {
-            m_EventComponent.Fire(this, ShowEntityUpdateEventArgs.Create(e));
-        }
-
-        private void OnShowEntityDependencyAsset(object sender,
-            GameFramework.Entity.ShowEntityDependencyAssetEventArgs e)
-        {
-            m_EventComponent.Fire(this, ShowEntityDependencyAssetEventArgs.Create(e));
-        }
 
         private void OnHideEntityComplete(object sender, GameFramework.Entity.HideEntityCompleteEventArgs e)
         {

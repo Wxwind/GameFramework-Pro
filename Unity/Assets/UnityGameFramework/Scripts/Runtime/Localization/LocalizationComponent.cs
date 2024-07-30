@@ -1,4 +1,5 @@
-﻿using GameFramework;
+﻿using Cysharp.Threading.Tasks;
+using GameFramework;
 using GameFramework.Localization;
 using GameFramework.Resource;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace UnityGameFramework.Runtime
 
         private ILocalizationManager m_LocalizationManager = null;
         private EventComponent m_EventComponent = null;
-        
+
 
         [SerializeField]
         private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
@@ -137,13 +138,14 @@ namespace UnityGameFramework.Runtime
             m_LocalizationManager.FreeCachedBytes();
         }
 
+
         /// <summary>
         /// 读取字典。
         /// </summary>
         /// <param name="dictionaryAssetName">字典资源名称。</param>
-        public void ReadData(string dictionaryAssetName)
+        public async UniTask ReadData(string dictionaryAssetName)
         {
-            m_LocalizationManager.ReadData(dictionaryAssetName);
+            await m_LocalizationManager.ReadData(dictionaryAssetName);
         }
 
         /// <summary>
@@ -151,30 +153,9 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="dictionaryAssetName">字典资源名称。</param>
         /// <param name="priority">加载字典资源的优先级。</param>
-        public void ReadData(string dictionaryAssetName, int priority)
+        public async UniTask ReadData(string dictionaryAssetName, int priority)
         {
-            m_LocalizationManager.ReadData(dictionaryAssetName, priority);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, object userData)
-        {
-            m_LocalizationManager.ReadData(dictionaryAssetName, userData);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, int priority, object userData)
-        {
-            m_LocalizationManager.ReadData(dictionaryAssetName, priority, userData);
+            await m_LocalizationManager.ReadData(dictionaryAssetName, priority);
         }
 
         /// <summary>
@@ -187,16 +168,6 @@ namespace UnityGameFramework.Runtime
             return m_LocalizationManager.ParseData(dictionaryString);
         }
 
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString, object userData)
-        {
-            return m_LocalizationManager.ParseData(dictionaryString, userData);
-        }
 
         /// <summary>
         /// 解析字典。
@@ -208,16 +179,6 @@ namespace UnityGameFramework.Runtime
             return m_LocalizationManager.ParseData(dictionaryBytes);
         }
 
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, object userData)
-        {
-            return m_LocalizationManager.ParseData(dictionaryBytes, userData);
-        }
 
         /// <summary>
         /// 解析字典。
@@ -231,18 +192,6 @@ namespace UnityGameFramework.Runtime
             return m_LocalizationManager.ParseData(dictionaryBytes, startIndex, length);
         }
 
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length, object userData)
-        {
-            return m_LocalizationManager.ParseData(dictionaryBytes, startIndex, length, userData);
-        }
 
         /// <summary>
         /// 根据字典主键获取字典内容字符串。

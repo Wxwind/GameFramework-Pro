@@ -19,38 +19,22 @@
         /// <summary>
         /// 获取界面序列编号。
         /// </summary>
-        public int SerialId
-        {
-            get;
-            private set;
-        }
+        public int SerialId { get; private set; }
 
         /// <summary>
         /// 获取界面资源名称。
         /// </summary>
-        public string UIFormAssetName
-        {
-            get;
-            private set;
-        }
+        public string UIFormAssetName { get; private set; }
 
         /// <summary>
         /// 获取界面所属的界面组。
         /// </summary>
-        public IUIGroup UIGroup
-        {
-            get;
-            private set;
-        }
+        public IUIGroup UIGroup { get; private set; }
 
         /// <summary>
         /// 获取用户自定义数据。
         /// </summary>
-        public object UserData
-        {
-            get;
-            private set;
-        }
+        public object UserData { get; private set; }
 
         /// <summary>
         /// 创建关闭界面完成事件。
@@ -60,13 +44,13 @@
         /// <param name="uiGroup">界面所属的界面组。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>创建的关闭界面完成事件。</returns>
-        public static CloseUIFormCompleteEventArgs Create(int serialId, string uiFormAssetName, IUIGroup uiGroup, object userData)
+        public static CloseUIFormCompleteEventArgs Create(int serialId, string uiFormAssetName, IUIGroup uiGroup)
         {
-            CloseUIFormCompleteEventArgs closeUIFormCompleteEventArgs = ReferencePool.Acquire<CloseUIFormCompleteEventArgs>();
+            CloseUIFormCompleteEventArgs closeUIFormCompleteEventArgs =
+                ReferencePool.Acquire<CloseUIFormCompleteEventArgs>();
             closeUIFormCompleteEventArgs.SerialId = serialId;
             closeUIFormCompleteEventArgs.UIFormAssetName = uiFormAssetName;
             closeUIFormCompleteEventArgs.UIGroup = uiGroup;
-            closeUIFormCompleteEventArgs.UserData = userData;
             return closeUIFormCompleteEventArgs;
         }
 

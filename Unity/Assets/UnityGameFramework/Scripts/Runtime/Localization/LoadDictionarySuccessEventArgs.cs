@@ -20,7 +20,6 @@ namespace UnityGameFramework.Runtime
         {
             DictionaryAssetName = null;
             Duration = 0f;
-            UserData = null;
         }
 
         /// <summary>
@@ -28,38 +27,19 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public override int Id
         {
-            get
-            {
-                return EventId;
-            }
+            get { return EventId; }
         }
 
         /// <summary>
         /// 获取字典资源名称。
         /// </summary>
-        public string DictionaryAssetName
-        {
-            get;
-            private set;
-        }
+        public string DictionaryAssetName { get; private set; }
 
         /// <summary>
         /// 获取加载持续时间。
         /// </summary>
-        public float Duration
-        {
-            get;
-            private set;
-        }
+        public float Duration { get; private set; }
 
-        /// <summary>
-        /// 获取用户自定义数据。
-        /// </summary>
-        public object UserData
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// 创建加载字典成功事件。
@@ -68,10 +48,10 @@ namespace UnityGameFramework.Runtime
         /// <returns>创建的加载字典成功事件。</returns>
         public static LoadDictionarySuccessEventArgs Create(ReadDataSuccessEventArgs e)
         {
-            LoadDictionarySuccessEventArgs loadDictionarySuccessEventArgs = ReferencePool.Acquire<LoadDictionarySuccessEventArgs>();
+            LoadDictionarySuccessEventArgs loadDictionarySuccessEventArgs =
+                ReferencePool.Acquire<LoadDictionarySuccessEventArgs>();
             loadDictionarySuccessEventArgs.DictionaryAssetName = e.DataAssetName;
             loadDictionarySuccessEventArgs.Duration = e.Duration;
-            loadDictionarySuccessEventArgs.UserData = e.UserData;
             return loadDictionarySuccessEventArgs;
         }
 
@@ -82,7 +62,6 @@ namespace UnityGameFramework.Runtime
         {
             DictionaryAssetName = null;
             Duration = 0f;
-            UserData = null;
         }
     }
 }

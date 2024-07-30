@@ -3,6 +3,7 @@ using GameFramework.ObjectPool;
 using GameFramework.Resource;
 using GameFramework.UI;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -21,15 +22,6 @@ namespace UnityGameFramework.Runtime
 
         private readonly List<IUIForm> m_InternalUIFormResults = new List<IUIForm>();
 
-        [SerializeField] private bool m_EnableOpenUIFormSuccessEvent = true;
-
-        [SerializeField] private bool m_EnableOpenUIFormFailureEvent = true;
-
-        [SerializeField] private bool m_EnableOpenUIFormUpdateEvent = false;
-
-        [SerializeField] private bool m_EnableOpenUIFormDependencyAssetEvent = false;
-
-        [SerializeField] private bool m_EnableCloseUIFormCompleteEvent = true;
 
         [SerializeField] private float m_InstanceAutoReleaseInterval = 60f;
 
@@ -107,28 +99,6 @@ namespace UnityGameFramework.Runtime
             {
                 Log.Fatal("UI manager is invalid.");
                 return;
-            }
-
-            if (m_EnableOpenUIFormSuccessEvent)
-            {
-                m_UIManager.OpenUIFormSuccess += OnOpenUIFormSuccess;
-            }
-
-            m_UIManager.OpenUIFormFailure += OnOpenUIFormFailure;
-
-            if (m_EnableOpenUIFormUpdateEvent)
-            {
-                m_UIManager.OpenUIFormUpdate += OnOpenUIFormUpdate;
-            }
-
-            if (m_EnableOpenUIFormDependencyAssetEvent)
-            {
-                m_UIManager.OpenUIFormDependencyAsset += OnOpenUIFormDependencyAsset;
-            }
-
-            if (m_EnableCloseUIFormCompleteEvent)
-            {
-                m_UIManager.CloseUIFormComplete += OnCloseUIFormComplete;
             }
         }
 
@@ -435,9 +405,9 @@ namespace UnityGameFramework.Runtime
         /// <param name="uiFormAssetName">界面资源名称。</param>
         /// <param name="uiGroupName">界面组名称。</param>
         /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName)
+        public UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, DefaultPriority, false, null);
+            return OpenUIForm(uiFormAssetName, uiGroupName, DefaultPriority, false);
         }
 
         /// <summary>
@@ -447,9 +417,9 @@ namespace UnityGameFramework.Runtime
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="priority">加载界面资源的优先级。</param>
         /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, int priority)
+        public UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, priority, false, null);
+            return OpenUIForm(uiFormAssetName, uiGroupName, priority, false);
         }
 
         /// <summary>
@@ -459,21 +429,9 @@ namespace UnityGameFramework.Runtime
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
         /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm)
+        public UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, DefaultPriority, pauseCoveredUIForm, null);
-        }
-
-        /// <summary>
-        /// 打开界面。
-        /// </summary>
-        /// <param name="uiFormAssetName">界面资源名称。</param>
-        /// <param name="uiGroupName">界面组名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, object userData)
-        {
-            return OpenUIForm(uiFormAssetName, uiGroupName, DefaultPriority, false, userData);
+            return OpenUIForm(uiFormAssetName, uiGroupName, DefaultPriority, pauseCoveredUIForm);
         }
 
         /// <summary>
@@ -484,50 +442,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="priority">加载界面资源的优先级。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
         /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, bool pauseCoveredUIForm)
+        public UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority,
+            bool pauseCoveredUIForm)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, priority, pauseCoveredUIForm, null);
-        }
-
-        /// <summary>
-        /// 打开界面。
-        /// </summary>
-        /// <param name="uiFormAssetName">界面资源名称。</param>
-        /// <param name="uiGroupName">界面组名称。</param>
-        /// <param name="priority">加载界面资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, object userData)
-        {
-            return OpenUIForm(uiFormAssetName, uiGroupName, priority, false, userData);
-        }
-
-        /// <summary>
-        /// 打开界面。
-        /// </summary>
-        /// <param name="uiFormAssetName">界面资源名称。</param>
-        /// <param name="uiGroupName">界面组名称。</param>
-        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm, object userData)
-        {
-            return OpenUIForm(uiFormAssetName, uiGroupName, DefaultPriority, pauseCoveredUIForm, userData);
-        }
-
-        /// <summary>
-        /// 打开界面。
-        /// </summary>
-        /// <param name="uiFormAssetName">界面资源名称。</param>
-        /// <param name="uiGroupName">界面组名称。</param>
-        /// <param name="priority">加载界面资源的优先级。</param>
-        /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>界面的序列编号。</returns>
-        public int OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, bool pauseCoveredUIForm,
-            object userData)
-        {
-            return m_UIManager.OpenUIForm(uiFormAssetName, uiGroupName, priority, pauseCoveredUIForm, userData);
+            return m_UIManager.OpenUIForm(uiFormAssetName, uiGroupName, priority, pauseCoveredUIForm);
         }
 
         /// <summary>
@@ -539,15 +457,6 @@ namespace UnityGameFramework.Runtime
             m_UIManager.CloseUIForm(serialId);
         }
 
-        /// <summary>
-        /// 关闭界面。
-        /// </summary>
-        /// <param name="serialId">要关闭界面的序列编号。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void CloseUIForm(int serialId, object userData)
-        {
-            m_UIManager.CloseUIForm(serialId, userData);
-        }
 
         /// <summary>
         /// 关闭界面。
@@ -558,15 +467,6 @@ namespace UnityGameFramework.Runtime
             m_UIManager.CloseUIForm(uiForm);
         }
 
-        /// <summary>
-        /// 关闭界面。
-        /// </summary>
-        /// <param name="uiForm">要关闭的界面。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void CloseUIForm(UIForm uiForm, object userData)
-        {
-            m_UIManager.CloseUIForm(uiForm, userData);
-        }
 
         /// <summary>
         /// 关闭所有已加载的界面。
@@ -576,14 +476,6 @@ namespace UnityGameFramework.Runtime
             m_UIManager.CloseAllLoadedUIForms();
         }
 
-        /// <summary>
-        /// 关闭所有已加载的界面。
-        /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
-        public void CloseAllLoadedUIForms(object userData)
-        {
-            m_UIManager.CloseAllLoadedUIForms(userData);
-        }
 
         /// <summary>
         /// 关闭所有正在加载的界面。
@@ -602,15 +494,6 @@ namespace UnityGameFramework.Runtime
             m_UIManager.RefocusUIForm(uiForm);
         }
 
-        /// <summary>
-        /// 激活界面。
-        /// </summary>
-        /// <param name="uiForm">要激活的界面。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void RefocusUIForm(UIForm uiForm, object userData)
-        {
-            m_UIManager.RefocusUIForm(uiForm, userData);
-        }
 
         /// <summary>
         /// 设置界面是否被加锁。
@@ -642,37 +525,6 @@ namespace UnityGameFramework.Runtime
             }
 
             m_UIManager.SetUIFormInstancePriority(uiForm.gameObject, priority);
-        }
-
-        private void OnOpenUIFormSuccess(object sender, GameFramework.UI.OpenUIFormSuccessEventArgs e)
-        {
-            m_EventComponent.Fire(this, OpenUIFormSuccessEventArgs.Create(e));
-        }
-
-        private void OnOpenUIFormFailure(object sender, GameFramework.UI.OpenUIFormFailureEventArgs e)
-        {
-            Log.Warning(
-                "Open UI form failure, asset name '{0}', UI group name '{1}', pause covered UI form '{2}', error message '{3}'.",
-                e.UIFormAssetName, e.UIGroupName, e.PauseCoveredUIForm, e.ErrorMessage);
-            if (m_EnableOpenUIFormFailureEvent)
-            {
-                m_EventComponent.Fire(this, OpenUIFormFailureEventArgs.Create(e));
-            }
-        }
-
-        private void OnOpenUIFormUpdate(object sender, GameFramework.UI.OpenUIFormUpdateEventArgs e)
-        {
-            m_EventComponent.Fire(this, OpenUIFormUpdateEventArgs.Create(e));
-        }
-
-        private void OnOpenUIFormDependencyAsset(object sender, GameFramework.UI.OpenUIFormDependencyAssetEventArgs e)
-        {
-            m_EventComponent.Fire(this, OpenUIFormDependencyAssetEventArgs.Create(e));
-        }
-
-        private void OnCloseUIFormComplete(object sender, GameFramework.UI.CloseUIFormCompleteEventArgs e)
-        {
-            m_EventComponent.Fire(this, CloseUIFormCompleteEventArgs.Create(e));
         }
     }
 }

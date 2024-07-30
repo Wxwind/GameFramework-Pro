@@ -20,10 +20,6 @@ namespace GameMain
             return Utility.Text.Format("Assets/GameMain/Fonts/{0}.ttf", assetName);
         }
 
-        public static string GetSceneAsset(string assetName)
-        {
-            return Utility.Text.Format("Assets/GameMain/Scenes/{0}.unity", assetName);
-        }
 
         public static string GetMusicAsset(string assetName)
         {

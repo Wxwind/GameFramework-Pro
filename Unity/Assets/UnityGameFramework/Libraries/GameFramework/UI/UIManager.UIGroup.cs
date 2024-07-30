@@ -47,10 +47,7 @@ namespace GameFramework.UI
             /// </summary>
             public string Name
             {
-                get
-                {
-                    return m_Name;
-                }
+                get { return m_Name; }
             }
 
             /// <summary>
@@ -58,10 +55,7 @@ namespace GameFramework.UI
             /// </summary>
             public int Depth
             {
-                get
-                {
-                    return m_Depth;
-                }
+                get { return m_Depth; }
                 set
                 {
                     if (m_Depth == value)
@@ -80,10 +74,7 @@ namespace GameFramework.UI
             /// </summary>
             public bool Pause
             {
-                get
-                {
-                    return m_Pause;
-                }
+                get { return m_Pause; }
                 set
                 {
                     if (m_Pause == value)
@@ -101,10 +92,7 @@ namespace GameFramework.UI
             /// </summary>
             public int UIFormCount
             {
-                get
-                {
-                    return m_UIFormInfos.Count;
-                }
+                get { return m_UIFormInfos.Count; }
             }
 
             /// <summary>
@@ -112,10 +100,7 @@ namespace GameFramework.UI
             /// </summary>
             public IUIForm CurrentUIForm
             {
-                get
-                {
-                    return m_UIFormInfos.First != null ? m_UIFormInfos.First.Value.UIForm : null;
-                }
+                get { return m_UIFormInfos.First != null ? m_UIFormInfos.First.Value.UIForm : null; }
             }
 
             /// <summary>
@@ -123,10 +108,7 @@ namespace GameFramework.UI
             /// </summary>
             public IUIGroupHelper Helper
             {
-                get
-                {
-                    return m_UIGroupHelper;
-                }
+                get { return m_UIGroupHelper; }
             }
 
             /// <summary>
@@ -335,7 +317,9 @@ namespace GameFramework.UI
                 UIFormInfo uiFormInfo = GetUIFormInfo(uiForm);
                 if (uiFormInfo == null)
                 {
-                    throw new GameFrameworkException(Utility.Text.Format("Can not find UI form info for serial id '{0}', UI form asset name is '{1}'.", uiForm.SerialId, uiForm.UIFormAssetName));
+                    throw new GameFrameworkException(Utility.Text.Format(
+                        "Can not find UI form info for serial id '{0}', UI form asset name is '{1}'.", uiForm.SerialId,
+                        uiForm.UIFormAssetName));
                 }
 
                 if (!uiFormInfo.Covered)
@@ -357,7 +341,9 @@ namespace GameFramework.UI
 
                 if (!m_UIFormInfos.Remove(uiFormInfo))
                 {
-                    throw new GameFrameworkException(Utility.Text.Format("UI group '{0}' not exists specified UI form '[{1}]{2}'.", m_Name, uiForm.SerialId, uiForm.UIFormAssetName));
+                    throw new GameFrameworkException(Utility.Text.Format(
+                        "UI group '{0}' not exists specified UI form '[{1}]{2}'.", m_Name, uiForm.SerialId,
+                        uiForm.UIFormAssetName));
                 }
 
                 ReferencePool.Release(uiFormInfo);
@@ -367,8 +353,7 @@ namespace GameFramework.UI
             /// 激活界面。
             /// </summary>
             /// <param name="uiForm">要激活的界面。</param>
-            /// <param name="userData">用户自定义数据。</param>
-            public void RefocusUIForm(IUIForm uiForm, object userData)
+            public void RefocusUIForm(IUIForm uiForm)
             {
                 UIFormInfo uiFormInfo = GetUIFormInfo(uiForm);
                 if (uiFormInfo == null)

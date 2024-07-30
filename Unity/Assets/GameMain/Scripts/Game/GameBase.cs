@@ -1,4 +1,5 @@
-﻿using GameFramework.Event;
+﻿using Cysharp.Threading.Tasks;
+using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -14,7 +15,7 @@ namespace GameMain
 
         public bool GameOver { get; protected set; }
 
-        public virtual void Initialize()
+        public virtual async UniTaskVoid Initialize()
         {
             GameEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
             GameEntry.Event.Subscribe(ShowEntityFailureEventArgs.EventId, OnShowEntityFailure);
@@ -27,11 +28,12 @@ namespace GameMain
             }
 
             SceneBackground.VisibleBoundary.gameObject.GetOrAddComponent<HideByBoundary>();
-            GameEntry.Entity.ShowMyAircraft(new MyAircraftData(GameEntry.Entity.GenerateSerialId(), 10000)
+            var entity = GameEntry.Entity.ShowMyAircraft(new MyAircraftData(GameEntry.Entity.GenerateSerialId(), 10000)
             {
                 Name = "My Aircraft",
                 Position = Vector3.zero
             });
+            m_MyAircraft = (MyAircraft)entity.Logic;
 
             GameOver = false;
             m_MyAircraft = null;
@@ -54,7 +56,7 @@ namespace GameMain
         protected virtual void OnShowEntitySuccess(object sender, GameEventArgs e)
         {
             var ne = (ShowEntitySuccessEventArgs)e;
-            if (ne.EntityLogicType == typeof(MyAircraft)) m_MyAircraft = (MyAircraft)ne.Entity.Logic;
+            if (ne.EntityLogicType == typeof(MyAircraft)) ;
         }
 
         protected virtual void OnShowEntityFailure(object sender, GameEventArgs e)

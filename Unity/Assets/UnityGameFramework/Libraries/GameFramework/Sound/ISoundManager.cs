@@ -12,10 +12,7 @@ namespace GameFramework.Sound
         /// <summary>
         /// 获取声音组数量。
         /// </summary>
-        int SoundGroupCount
-        {
-            get;
-        }
+        int SoundGroupCount { get; }
 
         /// <summary>
         /// 播放声音成功事件。
@@ -27,15 +24,6 @@ namespace GameFramework.Sound
         /// </summary>
         event EventHandler<PlaySoundFailureEventArgs> PlaySoundFailure;
 
-        /// <summary>
-        /// 播放声音更新事件。
-        /// </summary>
-        event EventHandler<PlaySoundUpdateEventArgs> PlaySoundUpdate;
-
-        /// <summary>
-        /// 播放声音时加载依赖资源事件。
-        /// </summary>
-        event EventHandler<PlaySoundDependencyAssetEventArgs> PlaySoundDependencyAsset;
 
         /// <summary>
         /// 设置资源管理器。
@@ -92,7 +80,8 @@ namespace GameFramework.Sound
         /// <param name="soundGroupVolume">声音组音量。</param>
         /// <param name="soundGroupHelper">声音组辅助器。</param>
         /// <returns>是否增加声音组成功。</returns>
-        bool AddSoundGroup(string soundGroupName, bool soundGroupAvoidBeingReplacedBySamePriority, bool soundGroupMute, float soundGroupVolume, ISoundGroupHelper soundGroupHelper);
+        bool AddSoundGroup(string soundGroupName, bool soundGroupAvoidBeingReplacedBySamePriority, bool soundGroupMute,
+            float soundGroupVolume, ISoundGroupHelper soundGroupHelper);
 
         /// <summary>
         /// 增加声音代理辅助器。
@@ -194,7 +183,8 @@ namespace GameFramework.Sound
         /// <param name="playSoundParams">播放声音参数。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>声音的序列编号。</returns>
-        int PlaySound(string soundAssetName, string soundGroupName, int priority, PlaySoundParams playSoundParams, object userData);
+        int PlaySound(string soundAssetName, string soundGroupName, int priority, PlaySoundParams playSoundParams,
+            object userData);
 
         /// <summary>
         /// 停止播放声音。

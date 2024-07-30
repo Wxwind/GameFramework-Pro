@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
 
@@ -19,22 +20,6 @@ namespace GameFramework.Entity
         /// 获取实体组数量。
         /// </summary>
         int EntityGroupCount { get; }
-
-        /// <summary>
-        /// 显示实体成功事件。
-        /// </summary>
-        event EventHandler<ShowEntitySuccessEventArgs> ShowEntitySuccess;
-
-        /// <summary>
-        /// 显示实体失败事件。
-        /// </summary>
-        event EventHandler<ShowEntityFailureEventArgs> ShowEntityFailure;
-
-        /// <summary>
-        /// 显示实体更新事件。
-        /// </summary>
-        event EventHandler<ShowEntityUpdateEventArgs> ShowEntityUpdate;
-
 
         /// <summary>
         /// 隐藏实体完成事件。
@@ -95,7 +80,8 @@ namespace GameFramework.Entity
         /// <param name="instancePriority">实体实例对象池的优先级。</param>
         /// <param name="entityGroupHelper">实体组辅助器。</param>
         /// <returns>是否增加实体组成功。</returns>
-        bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority,
+        bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity,
+            float instanceExpireTime, int instancePriority,
             IEntityGroupHelper entityGroupHelper);
 
         /// <summary>
@@ -212,7 +198,7 @@ namespace GameFramework.Entity
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        void ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority, object userData);
+        UniTask ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority, object userData);
 
         /// <summary>
         /// 隐藏实体。

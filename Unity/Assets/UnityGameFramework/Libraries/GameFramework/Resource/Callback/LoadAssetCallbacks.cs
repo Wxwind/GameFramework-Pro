@@ -18,9 +18,6 @@ namespace GameFramework.Resource
         public LoadAssetFailureCallback LoadAssetFailureCallback { get; }
 
 
-        public LoadSceneUpdateCallback LoadAssetUpdateCallback { get; }
-
-
         /// <summary>
         ///     初始化加载资源回调函数集的新实例。
         /// </summary>
@@ -28,8 +25,7 @@ namespace GameFramework.Resource
         /// <param name="loadAssetFailureCallback">加载资源失败回调函数。</param>
         /// <param name="loadAssetUpdateCallback">加载资源更新回调函数。</param>
         public LoadAssetCallbacks(LoadAssetSuccessCallback loadAssetSuccessCallback,
-            LoadAssetFailureCallback loadAssetFailureCallback = null,
-            LoadSceneUpdateCallback loadAssetUpdateCallback = null
+            LoadAssetFailureCallback loadAssetFailureCallback = null
         )
 
         {
@@ -38,7 +34,6 @@ namespace GameFramework.Resource
 
             LoadAssetSuccessCallback = loadAssetSuccessCallback;
             LoadAssetFailureCallback = loadAssetFailureCallback;
-            LoadAssetUpdateCallback = loadAssetUpdateCallback;
         }
     }
 }

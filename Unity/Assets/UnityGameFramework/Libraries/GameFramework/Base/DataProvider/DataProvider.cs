@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using GameFramework.Resource;
 using UnityEngine;
 
@@ -10,15 +11,14 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     internal sealed class DataProvider<T> : IDataProvider<T>
     {
-        private const  int    BlockSize     = 1024 * 4;
+        private const int BlockSize = 1024 * 4;
         private static byte[] s_CachedBytes = null;
 
-        private readonly T                                      m_Owner;
-        private readonly LoadAssetCallbacks                     m_LoadAssetCallbacks;
-        private          IResourceManager                       m_ResourceManager;
-        private          IDataProviderHelper<T>                 m_DataProviderHelper;
-        private          EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
-        private          EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
+        private readonly T m_Owner;
+        private IResourceManager m_ResourceManager;
+        private IDataProviderHelper<T> m_DataProviderHelper;
+        private EventHandler<ReadDataSuccessEventArgs> m_ReadDataSuccessEventHandler;
+        private EventHandler<ReadDataFailureEventArgs> m_ReadDataFailureEventHandler;
 
 
         /// <summary>
@@ -28,8 +28,6 @@ namespace GameFramework
         public DataProvider(T owner)
         {
             m_Owner = owner;
-            m_LoadAssetCallbacks = new LoadAssetCallbacks(LoadAssetSuccessCallback, LoadAssetOrBinaryFailureCallback
-            );
             m_ResourceManager = null;
             m_DataProviderHelper = null;
             m_ReadDataSuccessEventHandler = null;
@@ -87,13 +85,14 @@ namespace GameFramework
             s_CachedBytes = null;
         }
 
+
         /// <summary>
         /// 读取数据。
         /// </summary>
         /// <param name="dataAssetName">内容资源名称。</param>
-        public void ReadData(string dataAssetName)
+        public async UniTask ReadData(string dataAssetName)
         {
-            ReadData(dataAssetName, 0, null);
+            await ReadData(dataAssetName, 0);
         }
 
         /// <summary>
@@ -101,28 +100,7 @@ namespace GameFramework
         /// </summary>
         /// <param name="dataAssetName">内容资源名称。</param>
         /// <param name="priority">加载数据资源的优先级。</param>
-        public void ReadData(string dataAssetName, int priority)
-        {
-            ReadData(dataAssetName, priority, null);
-        }
-
-        /// <summary>
-        /// 读取数据。
-        /// </summary>
-        /// <param name="dataAssetName">内容资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dataAssetName, object userData)
-        {
-            ReadData(dataAssetName, 0, userData);
-        }
-
-        /// <summary>
-        /// 读取数据。
-        /// </summary>
-        /// <param name="dataAssetName">内容资源名称。</param>
-        /// <param name="priority">加载数据资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dataAssetName, int priority, object userData)
+        public async UniTask ReadData(string dataAssetName, int priority)
         {
             if (m_ResourceManager == null)
             {
@@ -137,19 +115,18 @@ namespace GameFramework
             var result = m_ResourceManager.HasAsset(dataAssetName);
             if (result)
             {
-                m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName, "", m_LoadAssetCallbacks, userData);
+                var textAsset = await m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName);
+                if (textAsset != null)
+                {
+                    LoadAssetSuccessCallback(dataAssetName, textAsset, 0f);
+                }
+                else
+                {
+                    LoadAssetOrBinaryFailureCallback(dataAssetName, "");
+                }
             }
         }
 
-        /// <summary>
-        /// 解析内容。
-        /// </summary>
-        /// <param name="dataString">要解析的内容字符串。</param>
-        /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(string dataString)
-        {
-            return ParseData(dataString, null);
-        }
 
         /// <summary>
         /// 解析内容。
@@ -157,7 +134,7 @@ namespace GameFramework
         /// <param name="dataString">要解析的内容字符串。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(string dataString, object userData)
+        public bool ParseData(string dataString)
         {
             if (m_DataProviderHelper == null)
             {
@@ -171,7 +148,7 @@ namespace GameFramework
 
             try
             {
-                return m_DataProviderHelper.ParseData(m_Owner, dataString, userData);
+                return m_DataProviderHelper.ParseData(m_Owner, dataString);
             }
             catch (Exception exception)
             {
@@ -185,10 +162,12 @@ namespace GameFramework
             }
         }
 
+
         /// <summary>
         /// 解析内容。
         /// </summary>
         /// <param name="dataBytes">要解析的内容二进制流。</param>
+        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析内容成功。</returns>
         public bool ParseData(byte[] dataBytes)
         {
@@ -197,24 +176,9 @@ namespace GameFramework
                 throw new GameFrameworkException("Data bytes is invalid.");
             }
 
-            return ParseData(dataBytes, 0, dataBytes.Length, null);
+            return ParseData(dataBytes, 0, dataBytes.Length);
         }
 
-        /// <summary>
-        /// 解析内容。
-        /// </summary>
-        /// <param name="dataBytes">要解析的内容二进制流。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(byte[] dataBytes, object userData)
-        {
-            if (dataBytes == null)
-            {
-                throw new GameFrameworkException("Data bytes is invalid.");
-            }
-
-            return ParseData(dataBytes, 0, dataBytes.Length, userData);
-        }
 
         /// <summary>
         /// 解析内容。
@@ -224,19 +188,6 @@ namespace GameFramework
         /// <param name="length">内容二进制流的长度。</param>
         /// <returns>是否解析内容成功。</returns>
         public bool ParseData(byte[] dataBytes, int startIndex, int length)
-        {
-            return ParseData(dataBytes, startIndex, length, null);
-        }
-
-        /// <summary>
-        /// 解析内容。
-        /// </summary>
-        /// <param name="dataBytes">要解析的内容二进制流。</param>
-        /// <param name="startIndex">内容二进制流的起始位置。</param>
-        /// <param name="length">内容二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(byte[] dataBytes, int startIndex, int length, object userData)
         {
             if (m_DataProviderHelper == null)
             {
@@ -255,7 +206,7 @@ namespace GameFramework
 
             try
             {
-                return m_DataProviderHelper.ParseData(m_Owner, dataBytes, startIndex, length, userData);
+                return m_DataProviderHelper.ParseData(m_Owner, dataBytes, startIndex, length);
             }
             catch (Exception exception)
             {
@@ -297,11 +248,11 @@ namespace GameFramework
             m_DataProviderHelper = dataProviderHelper;
         }
 
-        private void LoadAssetSuccessCallback(string dataAssetName, object dataAsset, float duration, object userData)
+        private void LoadAssetSuccessCallback(string dataAssetName, object dataAsset, float duration)
         {
             try
             {
-                if (!m_DataProviderHelper.ReadData(m_Owner, dataAssetName, dataAsset, userData))
+                if (!m_DataProviderHelper.ReadData(m_Owner, dataAssetName, dataAsset))
                 {
                     throw new GameFrameworkException(Utility.Text.Format(
                         "Load data failure in data provider helper, data asset name '{0}'.", dataAssetName));
@@ -310,7 +261,7 @@ namespace GameFramework
                 if (m_ReadDataSuccessEventHandler != null)
                 {
                     var loadDataSuccessEventArgs =
-                        ReadDataSuccessEventArgs.Create(dataAssetName, duration, userData);
+                        ReadDataSuccessEventArgs.Create(dataAssetName, duration);
                     m_ReadDataSuccessEventHandler(this, loadDataSuccessEventArgs);
                     ReferencePool.Release(loadDataSuccessEventArgs);
                 }
@@ -320,7 +271,7 @@ namespace GameFramework
                 if (m_ReadDataFailureEventHandler != null)
                 {
                     var loadDataFailureEventArgs =
-                        ReadDataFailureEventArgs.Create(dataAssetName, exception.ToString(), userData);
+                        ReadDataFailureEventArgs.Create(dataAssetName, exception.ToString());
                     m_ReadDataFailureEventHandler(this, loadDataFailureEventArgs);
                     ReferencePool.Release(loadDataFailureEventArgs);
                     return;
@@ -334,16 +285,15 @@ namespace GameFramework
             }
         }
 
-        private void LoadAssetOrBinaryFailureCallback(string dataAssetName, LoadResourceStatus status,
-            string errorMessage, object userData)
+        private void LoadAssetOrBinaryFailureCallback(string dataAssetName, string errorMessage)
         {
             var appendErrorMessage =
-                Utility.Text.Format("Load data failure, data asset name '{0}', status '{1}', error message '{2}'.",
-                    dataAssetName, status, errorMessage);
+                Utility.Text.Format("Load data failure, data asset name '{0}', error message '{2}'.",
+                    dataAssetName, errorMessage);
             if (m_ReadDataFailureEventHandler != null)
             {
                 var loadDataFailureEventArgs =
-                    ReadDataFailureEventArgs.Create(dataAssetName, appendErrorMessage, userData);
+                    ReadDataFailureEventArgs.Create(dataAssetName, appendErrorMessage);
                 m_ReadDataFailureEventHandler(this, loadDataFailureEventArgs);
                 ReferencePool.Release(loadDataFailureEventArgs);
                 return;

@@ -14,7 +14,7 @@ namespace GameFramework.Resource
     internal sealed partial class ResourceManager : GameFrameworkModule, IResourceManager
     {
         private readonly Dictionary<string, ResourcePackage> m_PackagesDict = new();
-        private readonly Dictionary<string, SceneHandle>     m_SceneDict    = new();
+        private readonly Dictionary<string, SceneHandle> m_SceneDict = new();
 
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
@@ -53,42 +53,6 @@ namespace GameFramework.Resource
             return handle.AssetObject as T;
         }
 
-
-        public void LoadAssetAsync<T>(string location, string packageName = "",
-            LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
-            where T : Object
-        {
-            if (string.IsNullOrEmpty(location))
-            {
-                throw new GameFrameworkException("Asset name is invalid.");
-            }
-
-            var duration = Time.time;
-            var handle = GetAssetHandle<T>(location, packageName);
-
-            if (loadAssetCallbacks?.LoadAssetUpdateCallback != null)
-            {
-                InvokeProgress(location, handle, loadAssetCallbacks.LoadAssetUpdateCallback, userData).Forget();
-            }
-
-
-            handle.Completed += OnCompleted;
-            return;
-
-            void OnCompleted(AssetHandle handle)
-            {
-                loadAssetCallbacks?.LoadAssetSuccessCallback?.Invoke(location, handle.AssetObject, Time.time - duration,
-                    userData);
-                var asset = handle.AssetObject as T;
-                if (asset == null)
-                {
-                    var errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", location,
-                        "asset is not exist");
-                    loadAssetCallbacks?.LoadAssetFailureCallback?.Invoke(location, LoadResourceStatus.NotExist,
-                        errorMsg, userData);
-                }
-            }
-        }
 
         private SceneHandle GetSceneHandle(string location, string packageName = "",
             LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100)
@@ -228,43 +192,6 @@ namespace GameFramework.Resource
             return initializationOperation;
         }
 
-        private async UniTaskVoid InvokeProgress(string location, SceneHandle assetHandle,
-            LoadSceneUpdateCallback loadAssetUpdateCallback, object userData)
-        {
-            if (string.IsNullOrEmpty(location))
-            {
-                throw new GameFrameworkException("Asset Scene name is invalid.");
-            }
-
-            if (loadAssetUpdateCallback != null)
-            {
-                while (assetHandle is { IsValid: true, IsDone: false })
-                {
-                    await UniTask.Yield();
-
-                    loadAssetUpdateCallback.Invoke(location, assetHandle.Progress, userData);
-                }
-            }
-        }
-
-        private async UniTaskVoid InvokeProgress(string location, AssetHandle assetHandle,
-            LoadSceneUpdateCallback loadAssetUpdateCallback, object userData)
-        {
-            if (string.IsNullOrEmpty(location))
-            {
-                throw new GameFrameworkException("Asset name is invalid.");
-            }
-
-            if (loadAssetUpdateCallback != null)
-            {
-                while (assetHandle is { IsValid: true, IsDone: false })
-                {
-                    await UniTask.Yield();
-
-                    loadAssetUpdateCallback.Invoke(location, assetHandle.Progress, userData);
-                }
-            }
-        }
 
         internal override void Update(float elapseSeconds, float realElapseSeconds)
         {

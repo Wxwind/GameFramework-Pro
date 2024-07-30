@@ -16,8 +16,7 @@ namespace GameMain
         /// <param name="dictionaryString">要解析的字典字符串。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, string dictionaryString,
-            object userData)
+        public override bool ParseData(ILocalizationManager localizationManager, string dictionaryString)
         {
             try
             {

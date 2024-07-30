@@ -87,7 +87,7 @@ namespace GameMain
         }
 
 #if UNITY_2017_3_OR_NEWER
-        protected override void OnClose(bool isShutdown, object userData)
+        protected override void OnClose(bool isShutdown)
 #else
         protected internal override void OnClose(bool isShutdown, object userData)
 #endif
@@ -109,7 +109,7 @@ namespace GameMain
             RefreshOtherText(string.Empty);
             m_OnClickOther = null;
 
-            base.OnClose(isShutdown, userData);
+            base.OnClose(isShutdown);
         }
 
         private void RefreshDialogMode()

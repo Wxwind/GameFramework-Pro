@@ -20,9 +20,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="uiFormInstance">界面实例。</param>
         /// <param name="uiGroup">界面所属的界面组。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>界面。</returns>
-        public abstract IUIForm CreateUIForm(object uiFormInstance, IUIGroup uiGroup, object userData);
+        public abstract IUIForm CreateUIForm(object uiFormInstance, IUIGroup uiGroup);
 
         /// <summary>
         /// 释放界面。

@@ -20,13 +20,10 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private ISoundManager  m_SoundManager   = null;
+        private ISoundManager m_SoundManager = null;
         private EventComponent m_EventComponent = null;
-        private AudioListener  m_AudioListener  = null;
+        private AudioListener m_AudioListener = null;
 
-        [SerializeField] private bool m_EnablePlaySoundUpdateEvent = false;
-
-        [SerializeField] private bool m_EnablePlaySoundDependencyAssetEvent = false;
 
         [SerializeField] private Transform m_InstanceRoot = null;
 
@@ -36,11 +33,13 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private SoundHelperBase m_CustomSoundHelper = null;
 
-        [SerializeField] private string m_SoundGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundGroupHelper";
+        [SerializeField]
+        private string m_SoundGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundGroupHelper";
 
         [SerializeField] private SoundGroupHelperBase m_CustomSoundGroupHelper = null;
 
-        [SerializeField] private string m_SoundAgentHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundAgentHelper";
+        [SerializeField]
+        private string m_SoundAgentHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundAgentHelper";
 
         [SerializeField] private SoundAgentHelperBase m_CustomSoundAgentHelper = null;
 
@@ -73,15 +72,6 @@ namespace UnityGameFramework.Runtime
             m_SoundManager.PlaySoundSuccess += OnPlaySoundSuccess;
             m_SoundManager.PlaySoundFailure += OnPlaySoundFailure;
 
-            if (m_EnablePlaySoundUpdateEvent)
-            {
-                m_SoundManager.PlaySoundUpdate += OnPlaySoundUpdate;
-            }
-
-            if (m_EnablePlaySoundDependencyAssetEvent)
-            {
-                m_SoundManager.PlaySoundDependencyAsset += OnPlaySoundDependencyAsset;
-            }
 
             m_AudioListener = gameObject.GetOrAddComponent<AudioListener>();
 
@@ -604,8 +594,6 @@ namespace UnityGameFramework.Runtime
                     soundAgentHelper.SetWorldPosition(playSoundInfo.WorldPosition);
                 }
             }
-
-            m_EventComponent.Fire(this, PlaySoundSuccessEventArgs.Create(e));
         }
 
         private void OnPlaySoundFailure(object sender, GameFramework.Sound.PlaySoundFailureEventArgs e)
@@ -622,19 +610,8 @@ namespace UnityGameFramework.Runtime
             {
                 Log.Warning(logMessage);
             }
-
-            m_EventComponent.Fire(this, PlaySoundFailureEventArgs.Create(e));
         }
 
-        private void OnPlaySoundUpdate(object sender, GameFramework.Sound.PlaySoundUpdateEventArgs e)
-        {
-            m_EventComponent.Fire(this, PlaySoundUpdateEventArgs.Create(e));
-        }
-
-        private void OnPlaySoundDependencyAsset(object sender, GameFramework.Sound.PlaySoundDependencyAssetEventArgs e)
-        {
-            m_EventComponent.Fire(this, PlaySoundDependencyAssetEventArgs.Create(e));
-        }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {

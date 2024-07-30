@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GameFramework;
 using GameFramework.Event;
 using GameFramework.Resource;
@@ -18,25 +20,12 @@ namespace GameMain
         {
             base.OnEnter(procedureOwner);
 
-            GameEntry.Event.Subscribe(LoadConfigSuccessEventArgs.EventId, OnLoadConfigSuccess);
-            GameEntry.Event.Subscribe(LoadConfigFailureEventArgs.EventId, OnLoadConfigFailure);
-            GameEntry.Event.Subscribe(LoadDictionarySuccessEventArgs.EventId, OnLoadDictionarySuccess);
-            GameEntry.Event.Subscribe(LoadDictionaryFailureEventArgs.EventId, OnLoadDictionaryFailure);
 
             m_LoadedFlag.Clear();
 
             PreloadResources();
         }
 
-        protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
-        {
-            GameEntry.Event.Unsubscribe(LoadConfigSuccessEventArgs.EventId, OnLoadConfigSuccess);
-            GameEntry.Event.Unsubscribe(LoadConfigFailureEventArgs.EventId, OnLoadConfigFailure);
-            GameEntry.Event.Unsubscribe(LoadDictionarySuccessEventArgs.EventId, OnLoadDictionarySuccess);
-            GameEntry.Event.Unsubscribe(LoadDictionaryFailureEventArgs.EventId, OnLoadDictionaryFailure);
-
-            base.OnLeave(procedureOwner, isShutdown);
-        }
 
         protected override void OnUpdate(ProcedureOwner procedureOwner, float elapseSeconds, float realElapseSeconds)
         {
@@ -62,80 +51,67 @@ namespace GameMain
             // TODO 在这里使用异步加载 LubanConfig
 
             // Preload dictionaries
-            LoadL10N();
+            LoadL10N().Forget();
 
             // Preload fonts
-            LoadFont("MainFont");
+            LoadFont("MainFont").Forget();
         }
 
-        private void LoadConfig(string configName)
+        private async UniTaskVoid LoadConfig(string configName)
         {
-            var configAssetName = AssetUtility.GetConfigAsset(configName, false);
-            m_LoadedFlag.Add(configAssetName, false);
-            GameEntry.Config.ReadData(configAssetName, this);
+            try
+            {
+                var configAssetName = AssetUtility.GetConfigAsset(configName, false);
+                m_LoadedFlag.Add(configAssetName, false);
+                await GameEntry.Config.ReadData(configAssetName);
+                m_LoadedFlag[configAssetName] = true;
+                Log.Info("Load config '{0}' OK.", configAssetName);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Can not load config  '{0}' with error message '{2}'.", configName,
+                    e.Message);
+                throw;
+            }
         }
 
 
-        private void LoadL10N()
+        private async UniTaskVoid LoadL10N()
         {
             var dictionaryAssetName = AssetUtility.GetDictionaryAsset();
-            m_LoadedFlag.Add(dictionaryAssetName, false);
-            GameEntry.Localization.ReadData(dictionaryAssetName, this);
+            try
+            {
+                m_LoadedFlag.Add(dictionaryAssetName, false);
+                await GameEntry.Localization.ReadData(dictionaryAssetName);
+                m_LoadedFlag[dictionaryAssetName] = true;
+                Log.Info("Load dictionary '{0}' OK.", dictionaryAssetName);
+            }
+            catch (Exception e)
+            {
+                Log.Error("Can not load dictionary '{0}' with error message '{2}'.", dictionaryAssetName,
+                    e.Message);
+            }
         }
 
-        private void LoadFont(string fontName)
+        private async UniTaskVoid LoadFont(string fontName)
         {
             m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            GameEntry.Resource.LoadAssetAsync<Font>(AssetUtility.GetFontAsset(fontName), null,
-                new LoadAssetCallbacks(
-                    (assetName, asset, duration, userData) =>
-                    {
-                        m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                        UGuiForm.SetMainFont((Font)asset);
-                        Log.Info("Load font '{0}' OK.", fontName);
-                    },
-                    (assetName, status, errorMessage, userData) =>
-                    {
-                        Log.Error("Can not load font '{0}' from '{1}' with error message '{2}'.", fontName, assetName,
-                            errorMessage);
-                    }));
-        }
+            var asset = await GameEntry.Resource.LoadAssetAsync<Font>(fontName, "", null
+            );
 
-        private void OnLoadConfigSuccess(object sender, GameEventArgs e)
-        {
-            var ne = (LoadConfigSuccessEventArgs)e;
-            if (ne.UserData != this) return;
-
-            m_LoadedFlag[ne.ConfigAssetName] = true;
-            Log.Info("Load config '{0}' OK.", ne.ConfigAssetName);
-        }
-
-        private void OnLoadConfigFailure(object sender, GameEventArgs e)
-        {
-            var ne = (LoadConfigFailureEventArgs)e;
-            if (ne.UserData != this) return;
-
-            Log.Error("Can not load config '{0}' from '{1}' with error message '{2}'.", ne.ConfigAssetName,
-                ne.ConfigAssetName, ne.ErrorMessage);
-        }
-
-
-        private void OnLoadDictionarySuccess(object sender, GameEventArgs e)
-        {
-            var ne = (LoadDictionarySuccessEventArgs)e;
-            if (ne.UserData != this) return;
-
-            m_LoadedFlag[ne.DictionaryAssetName] = true;
-            Log.Info("Load dictionary '{0}' OK.", ne.DictionaryAssetName);
-        }
-
-        private void OnLoadDictionaryFailure(object sender, GameEventArgs e)
-        {
-            var ne = (LoadDictionaryFailureEventArgs)e;
-            if (ne.UserData != this) return;
-
-            Log.Error("Can not load dictionary '{0}' from '{1}' with error message '{2}'.", ne.DictionaryAssetName,
-                ne.DictionaryAssetName, ne.ErrorMessage);
+            if (asset == null)
+            {
+                var errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", fontName,
+                    "asset is not exist");
+                Log.Error("Can not load font '{0}' with error message '{2}'.", fontName,
+                    errorMsg);
+            }
+            else
+            {
+                m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
+                UGuiForm.SetMainFont((Font)asset);
+                Log.Info("Load font '{0}' OK.", fontName);
+            }
         }
     }
 }

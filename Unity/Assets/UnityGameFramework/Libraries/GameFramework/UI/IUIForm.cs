@@ -8,50 +8,32 @@
         /// <summary>
         /// 获取界面序列编号。
         /// </summary>
-        int SerialId
-        {
-            get;
-        }
+        int SerialId { get; }
 
         /// <summary>
         /// 获取界面资源名称。
         /// </summary>
-        string UIFormAssetName
-        {
-            get;
-        }
+        string UIFormAssetName { get; }
 
         /// <summary>
         /// 获取界面实例。
         /// </summary>
-        object Handle
-        {
-            get;
-        }
+        object Handle { get; }
 
         /// <summary>
         /// 获取界面所属的界面组。
         /// </summary>
-        IUIGroup UIGroup
-        {
-            get;
-        }
+        IUIGroup UIGroup { get; }
 
         /// <summary>
         /// 获取界面在界面组中的深度。
         /// </summary>
-        int DepthInUIGroup
-        {
-            get;
-        }
+        int DepthInUIGroup { get; }
 
         /// <summary>
         /// 获取是否暂停被覆盖的界面。
         /// </summary>
-        bool PauseCoveredUIForm
-        {
-            get;
-        }
+        bool PauseCoveredUIForm { get; }
 
         /// <summary>
         /// 初始化界面。
@@ -61,8 +43,8 @@
         /// <param name="uiGroup">界面所属的界面组。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
         /// <param name="isNewInstance">是否是新实例。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        void OnInit(int serialId, string uiFormAssetName, IUIGroup uiGroup, bool pauseCoveredUIForm, bool isNewInstance, object userData);
+        void OnInit(int serialId, string uiFormAssetName, IUIGroup uiGroup, bool pauseCoveredUIForm,
+            bool isNewInstance);
 
         /// <summary>
         /// 界面回收。
@@ -72,15 +54,13 @@
         /// <summary>
         /// 界面打开。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
         void OnOpen(object userData);
 
         /// <summary>
         /// 界面关闭。
         /// </summary>
         /// <param name="isShutdown">是否是关闭界面管理器时触发。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        void OnClose(bool isShutdown, object userData);
+        void OnClose(bool isShutdown);
 
         /// <summary>
         /// 界面暂停。
@@ -105,8 +85,7 @@
         /// <summary>
         /// 界面激活。
         /// </summary>
-        /// <param name="userData">用户自定义数据。</param>
-        void OnRefocus(object userData);
+        void OnRefocus();
 
         /// <summary>
         /// 界面轮询。

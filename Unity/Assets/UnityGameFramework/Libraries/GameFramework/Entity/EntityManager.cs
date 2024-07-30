@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace GameFramework.Entity
@@ -11,21 +13,17 @@ namespace GameFramework.Entity
     /// </summary>
     internal sealed partial class EntityManager : GameFrameworkModule, IEntityManager
     {
-        private readonly Dictionary<int, EntityInfo>               m_EntityInfos;
-        private readonly Dictionary<string, EntityGroup>           m_EntityGroups;
-        private readonly Dictionary<int, int>                      m_EntitiesBeingLoaded;
-        private readonly HashSet<int>                              m_EntitiesToReleaseOnLoad;
-        private readonly Queue<EntityInfo>                         m_RecycleQueue;
-        private readonly LoadAssetCallbacks                        m_LoadAssetCallbacks;
-        private          IObjectPoolManager                        m_ObjectPoolManager;
-        private          IResourceManager                          m_ResourceManager;
-        private          IEntityHelper                             m_EntityHelper;
-        private          int                                       m_Serial;
-        private          bool                                      m_IsShutdown;
-        private          EventHandler<ShowEntitySuccessEventArgs>  m_ShowEntitySuccessEventHandler;
-        private          EventHandler<ShowEntityFailureEventArgs>  m_ShowEntityFailureEventHandler;
-        private          EventHandler<ShowEntityUpdateEventArgs>   m_ShowEntityUpdateEventHandler;
-        private          EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
+        private readonly Dictionary<int, EntityInfo> m_EntityInfos;
+        private readonly Dictionary<string, EntityGroup> m_EntityGroups;
+        private readonly Dictionary<int, int> m_EntitiesBeingLoaded;
+        private readonly HashSet<int> m_EntitiesToReleaseOnLoad;
+        private readonly Queue<EntityInfo> m_RecycleQueue;
+        private IObjectPoolManager m_ObjectPoolManager;
+        private IResourceManager m_ResourceManager;
+        private IEntityHelper m_EntityHelper;
+        private int m_Serial;
+        private bool m_IsShutdown;
+        private EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
 
         /// <summary>
         /// 初始化实体管理器的新实例。
@@ -37,15 +35,11 @@ namespace GameFramework.Entity
             m_EntitiesBeingLoaded = new Dictionary<int, int>();
             m_EntitiesToReleaseOnLoad = new HashSet<int>();
             m_RecycleQueue = new Queue<EntityInfo>();
-            m_LoadAssetCallbacks = new LoadAssetCallbacks(LoadAssetSuccessCallback, LoadAssetFailureCallback);
             m_ObjectPoolManager = null;
             m_ResourceManager = null;
             m_EntityHelper = null;
             m_Serial = 0;
             m_IsShutdown = false;
-            m_ShowEntitySuccessEventHandler = null;
-            m_ShowEntityFailureEventHandler = null;
-            m_ShowEntityUpdateEventHandler = null;
             m_HideEntityCompleteEventHandler = null;
         }
 
@@ -58,33 +52,6 @@ namespace GameFramework.Entity
         /// 获取实体组数量。
         /// </summary>
         public int EntityGroupCount => m_EntityGroups.Count;
-
-        /// <summary>
-        /// 显示实体成功事件。
-        /// </summary>
-        public event EventHandler<ShowEntitySuccessEventArgs> ShowEntitySuccess
-        {
-            add => m_ShowEntitySuccessEventHandler += value;
-            remove => m_ShowEntitySuccessEventHandler -= value;
-        }
-
-        /// <summary>
-        /// 显示实体失败事件。
-        /// </summary>
-        public event EventHandler<ShowEntityFailureEventArgs> ShowEntityFailure
-        {
-            add => m_ShowEntityFailureEventHandler += value;
-            remove => m_ShowEntityFailureEventHandler -= value;
-        }
-
-        /// <summary>
-        /// 显示实体更新事件。
-        /// </summary>
-        public event EventHandler<ShowEntityUpdateEventArgs> ShowEntityUpdate
-        {
-            add => m_ShowEntityUpdateEventHandler += value;
-            remove => m_ShowEntityUpdateEventHandler -= value;
-        }
 
 
         /// <summary>
@@ -261,7 +228,8 @@ namespace GameFramework.Entity
         /// <param name="instancePriority">实体实例对象池的优先级。</param>
         /// <param name="entityGroupHelper">实体组辅助器。</param>
         /// <returns>是否增加实体组成功。</returns>
-        public bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority,
+        public bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity,
+            float instanceExpireTime, int instancePriority,
             IEntityGroupHelper entityGroupHelper)
         {
             if (string.IsNullOrEmpty(entityGroupName))
@@ -285,7 +253,8 @@ namespace GameFramework.Entity
             }
 
             m_EntityGroups.Add(entityGroupName,
-                new EntityGroup(entityGroupName, instanceAutoReleaseInterval, instanceCapacity, instanceExpireTime, instancePriority, entityGroupHelper, m_ObjectPoolManager));
+                new EntityGroup(entityGroupName, instanceAutoReleaseInterval, instanceCapacity, instanceExpireTime,
+                    instancePriority, entityGroupHelper, m_ObjectPoolManager));
 
             return true;
         }
@@ -549,7 +518,8 @@ namespace GameFramework.Entity
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority, object userData)
+        public async UniTask ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority,
+            object userData)
         {
             if (m_ResourceManager == null)
             {
@@ -578,25 +548,39 @@ namespace GameFramework.Entity
 
             if (IsLoadingEntity(entityId))
             {
-                throw new GameFrameworkException(Utility.Text.Format("Entity '{0}' is already being loaded.", entityId));
+                throw new GameFrameworkException(Utility.Text.Format("Entity '{0}' is already being loaded.",
+                    entityId));
             }
 
             var entityGroup = (EntityGroup)GetEntityGroup(entityGroupName);
             if (entityGroup == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Entity group '{0}' is not exist.", entityGroupName));
+                throw new GameFrameworkException(Utility.Text.Format("Entity group '{0}' is not exist.",
+                    entityGroupName));
             }
 
             var entityInstanceObject = entityGroup.SpawnEntityInstanceObject(entityAssetName);
             if (entityInstanceObject == null)
             {
                 var serialId = ++m_Serial;
+                var info = ShowEntityInfo.Create(serialId, entityId, entityGroup, userData);
                 m_EntitiesBeingLoaded.Add(entityId, serialId);
-                m_ResourceManager.LoadAssetAsync<Object>(entityAssetName, "", m_LoadAssetCallbacks, ShowEntityInfo.Create(serialId, entityId, entityGroup, userData));
-                return;
+                try
+                {
+                    var time = Time.time;
+                    var asset = await m_ResourceManager.LoadAssetAsync<Object>(entityAssetName);
+                    LoadAssetSuccessCallback(entityAssetName, asset, Time.time - time, info);
+                    return;
+                }
+                catch (Exception e)
+                {
+                    LoadAssetFailureCallback(entityAssetName, e.Message, info);
+                    throw;
+                }
             }
 
-            InternalShowEntity(entityId, entityAssetName, entityGroup, entityInstanceObject.Target, false, 0f, userData);
+            InternalShowEntity(entityId, entityAssetName, entityGroup, entityInstanceObject.Target, false,
+                userData);
         }
 
         /// <summary>
@@ -702,7 +686,8 @@ namespace GameFramework.Entity
             var childEntityInfo = GetEntityInfo(childEntityId);
             if (childEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.", childEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.",
+                    childEntityId));
             }
 
             return childEntityInfo.ParentEntity;
@@ -733,7 +718,8 @@ namespace GameFramework.Entity
             var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntityId));
             }
 
             return parentEntityInfo.ChildEntityCount;
@@ -749,7 +735,8 @@ namespace GameFramework.Entity
             var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntityId));
             }
 
             return parentEntityInfo.GetChildEntity();
@@ -780,7 +767,8 @@ namespace GameFramework.Entity
             var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntityId));
             }
 
             return parentEntityInfo.GetChildEntities();
@@ -796,7 +784,8 @@ namespace GameFramework.Entity
             var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntityId));
             }
 
             parentEntityInfo.GetChildEntities(results);
@@ -852,29 +841,35 @@ namespace GameFramework.Entity
         {
             if (childEntityId == parentEntityId)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not attach entity when child entity id equals to parent entity id '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format(
+                    "Can not attach entity when child entity id equals to parent entity id '{0}'.", parentEntityId));
             }
 
             var childEntityInfo = GetEntityInfo(childEntityId);
             if (childEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.", childEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.",
+                    childEntityId));
             }
 
             if (childEntityInfo.Status >= EntityStatus.WillHide)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not attach entity when child entity status is '{0}'.", childEntityInfo.Status));
+                throw new GameFrameworkException(
+                    Utility.Text.Format("Can not attach entity when child entity status is '{0}'.",
+                        childEntityInfo.Status));
             }
 
             var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntityId));
             }
 
             if (parentEntityInfo.Status >= EntityStatus.WillHide)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not attach entity when parent entity status is '{0}'.", parentEntityInfo.Status));
+                throw new GameFrameworkException(Utility.Text.Format(
+                    "Can not attach entity when parent entity status is '{0}'.", parentEntityInfo.Status));
             }
 
             var childEntity = childEntityInfo.Entity;
@@ -988,7 +983,8 @@ namespace GameFramework.Entity
             var childEntityInfo = GetEntityInfo(childEntityId);
             if (childEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.", childEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find child entity '{0}'.",
+                    childEntityId));
             }
 
             var parentEntity = childEntityInfo.ParentEntity;
@@ -1000,7 +996,8 @@ namespace GameFramework.Entity
             var parentEntityInfo = GetEntityInfo(parentEntity.Id);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntity.Id));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntity.Id));
             }
 
             var childEntity = childEntityInfo.Entity;
@@ -1053,7 +1050,8 @@ namespace GameFramework.Entity
             var parentEntityInfo = GetEntityInfo(parentEntityId);
             if (parentEntityInfo == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.", parentEntityId));
+                throw new GameFrameworkException(Utility.Text.Format("Can not find parent entity '{0}'.",
+                    parentEntityId));
             }
 
             while (parentEntityInfo.ChildEntityCount > 0)
@@ -1103,45 +1101,24 @@ namespace GameFramework.Entity
             return null;
         }
 
-        private void InternalShowEntity(int entityId, string entityAssetName, EntityGroup entityGroup, object entityInstance, bool isNewInstance, float duration, object userData)
+        private void InternalShowEntity(int entityId, string entityAssetName, EntityGroup entityGroup,
+            object entityInstance, bool isNewInstance, object userData)
         {
-            try
+            var entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup, userData);
+            if (entity == null)
             {
-                var entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup, userData);
-                if (entity == null)
-                {
-                    throw new GameFrameworkException("Can not create entity in entity helper.");
-                }
-
-                var entityInfo = EntityInfo.Create(entity);
-                m_EntityInfos.Add(entityId, entityInfo);
-                entityInfo.Status = EntityStatus.WillInit;
-                entity.OnInit(entityId, entityAssetName, entityGroup, isNewInstance, userData);
-                entityInfo.Status = EntityStatus.Inited;
-                entityGroup.AddEntity(entity);
-                entityInfo.Status = EntityStatus.WillShow;
-                entity.OnShow(userData);
-                entityInfo.Status = EntityStatus.Showed;
-
-                if (m_ShowEntitySuccessEventHandler != null)
-                {
-                    var showEntitySuccessEventArgs = ShowEntitySuccessEventArgs.Create(entity, duration, userData);
-                    m_ShowEntitySuccessEventHandler(this, showEntitySuccessEventArgs);
-                    ReferencePool.Release(showEntitySuccessEventArgs);
-                }
+                throw new GameFrameworkException("Can not create entity in entity helper.");
             }
-            catch (Exception exception)
-            {
-                if (m_ShowEntityFailureEventHandler != null)
-                {
-                    var showEntityFailureEventArgs = ShowEntityFailureEventArgs.Create(entityId, entityAssetName, entityGroup.Name, exception.ToString(), userData);
-                    m_ShowEntityFailureEventHandler(this, showEntityFailureEventArgs);
-                    ReferencePool.Release(showEntityFailureEventArgs);
-                    return;
-                }
 
-                throw;
-            }
+            var entityInfo = EntityInfo.Create(entity);
+            m_EntityInfos.Add(entityId, entityInfo);
+            entityInfo.Status = EntityStatus.WillInit;
+            entity.OnInit(entityId, entityAssetName, entityGroup, isNewInstance, userData);
+            entityInfo.Status = EntityStatus.Inited;
+            entityGroup.AddEntity(entity);
+            entityInfo.Status = EntityStatus.WillShow;
+            entity.OnShow(userData);
+            entityInfo.Status = EntityStatus.Showed;
         }
 
         private void InternalHideEntity(EntityInfo entityInfo, object userData)
@@ -1177,7 +1154,8 @@ namespace GameFramework.Entity
 
             if (m_HideEntityCompleteEventHandler != null)
             {
-                var hideEntityCompleteEventArgs = HideEntityCompleteEventArgs.Create(entity.Id, entity.EntityAssetName, entityGroup, userData);
+                var hideEntityCompleteEventArgs =
+                    HideEntityCompleteEventArgs.Create(entity.Id, entity.EntityAssetName, entityGroup, userData);
                 m_HideEntityCompleteEventHandler(this, hideEntityCompleteEventArgs);
                 ReferencePool.Release(hideEntityCompleteEventArgs);
             }
@@ -1185,14 +1163,9 @@ namespace GameFramework.Entity
             m_RecycleQueue.Enqueue(entityInfo);
         }
 
-        private void LoadAssetSuccessCallback(string entityAssetName, object entityAsset, float duration, object userData)
+        private void LoadAssetSuccessCallback(string entityAssetName, object entityAsset, float duration,
+            ShowEntityInfo showEntityInfo)
         {
-            var showEntityInfo = (ShowEntityInfo)userData;
-            if (showEntityInfo == null)
-            {
-                throw new GameFrameworkException("Show entity info is invalid.");
-            }
-
             if (m_EntitiesToReleaseOnLoad.Contains(showEntityInfo.SerialId))
             {
                 m_EntitiesToReleaseOnLoad.Remove(showEntityInfo.SerialId);
@@ -1202,21 +1175,18 @@ namespace GameFramework.Entity
             }
 
             m_EntitiesBeingLoaded.Remove(showEntityInfo.EntityId);
-            var entityInstanceObject = EntityInstanceObject.Create(entityAssetName, entityAsset, m_EntityHelper.InstantiateEntity(entityAsset), m_EntityHelper);
+            var entityInstanceObject = EntityInstanceObject.Create(entityAssetName, entityAsset,
+                m_EntityHelper.InstantiateEntity(entityAsset), m_EntityHelper);
             showEntityInfo.EntityGroup.RegisterEntityInstanceObject(entityInstanceObject, true);
 
-            InternalShowEntity(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup, entityInstanceObject.Target, true, duration, showEntityInfo.UserData);
+            InternalShowEntity(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup,
+                entityInstanceObject.Target, true, showEntityInfo.UserData);
             ReferencePool.Release(showEntityInfo);
         }
 
-        private void LoadAssetFailureCallback(string entityAssetName, LoadResourceStatus status, string errorMessage, object userData)
+        private void LoadAssetFailureCallback(string entityAssetName, string errorMessage,
+            ShowEntityInfo showEntityInfo)
         {
-            var showEntityInfo = (ShowEntityInfo)userData;
-            if (showEntityInfo == null)
-            {
-                throw new GameFrameworkException("Show entity info is invalid.");
-            }
-
             if (m_EntitiesToReleaseOnLoad.Contains(showEntityInfo.SerialId))
             {
                 m_EntitiesToReleaseOnLoad.Remove(showEntityInfo.SerialId);
@@ -1224,34 +1194,11 @@ namespace GameFramework.Entity
             }
 
             m_EntitiesBeingLoaded.Remove(showEntityInfo.EntityId);
-            var appendErrorMessage = Utility.Text.Format("Load entity failure, asset name '{0}', status '{1}', error message '{2}'.", entityAssetName, status, errorMessage);
-            if (m_ShowEntityFailureEventHandler != null)
-            {
-                var showEntityFailureEventArgs = ShowEntityFailureEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, appendErrorMessage,
-                    showEntityInfo.UserData);
-                m_ShowEntityFailureEventHandler(this, showEntityFailureEventArgs);
-                ReferencePool.Release(showEntityFailureEventArgs);
-                return;
-            }
+            var appendErrorMessage =
+                Utility.Text.Format("Load entity failure, asset name '{0}', error message '{2}'.",
+                    entityAssetName, errorMessage);
 
             throw new GameFrameworkException(appendErrorMessage);
-        }
-
-        private void LoadAssetUpdateCallback(string entityAssetName, float progress, object userData)
-        {
-            var showEntityInfo = (ShowEntityInfo)userData;
-            if (showEntityInfo == null)
-            {
-                throw new GameFrameworkException("Show entity info is invalid.");
-            }
-
-            if (m_ShowEntityUpdateEventHandler != null)
-            {
-                var showEntityUpdateEventArgs =
-                    ShowEntityUpdateEventArgs.Create(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup.Name, progress, showEntityInfo.UserData);
-                m_ShowEntityUpdateEventHandler(this, showEntityUpdateEventArgs);
-                ReferencePool.Release(showEntityUpdateEventArgs);
-            }
         }
     }
 }

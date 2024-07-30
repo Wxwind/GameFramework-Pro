@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
@@ -92,12 +93,12 @@ namespace GameMain
             uiComponent.CloseUIForm(uiForm.UIForm);
         }
 
-        public static int? OpenUIForm(this UIComponent uiComponent, UIFormId uiFormId, object userData = null)
+        public static UniTask<int?> OpenUIForm(this UIComponent uiComponent, UIFormId uiFormId, object userData = null)
         {
-            return uiComponent.OpenUIForm((int)uiFormId, userData);
+            return uiComponent.OpenUIForm((int)uiFormId);
         }
 
-        public static int? OpenUIForm(this UIComponent uiComponent, int uiFormId, object userData = null)
+        public static async UniTask<int?> OpenUIForm(this UIComponent uiComponent, int uiFormId)
         {
             var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
@@ -115,8 +116,8 @@ namespace GameMain
                 if (uiComponent.HasUIForm(assetName)) return null;
             }
 
-            return uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset,
-                drUIForm.PauseCoveredUIForm, userData);
+            return await uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset,
+                drUIForm.PauseCoveredUIForm);
         }
 
         public static void OpenDialog(this UIComponent uiComponent, DialogParams dialogParams)
@@ -124,6 +125,7 @@ namespace GameMain
             if (((ProcedureBase)GameEntry.Procedure.CurrentProcedure).UseNativeDialog)
                 OpenNativeDialog(dialogParams);
             else
+                // TODO: 支持dialogParams
                 uiComponent.OpenUIForm(UIFormId.DialogForm, dialogParams);
         }
 

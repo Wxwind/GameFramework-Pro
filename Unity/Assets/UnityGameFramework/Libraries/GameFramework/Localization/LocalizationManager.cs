@@ -1,6 +1,7 @@
 ﻿using GameFramework.Resource;
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace GameFramework.Localization
 {
@@ -162,9 +163,9 @@ namespace GameFramework.Localization
         /// 读取字典。
         /// </summary>
         /// <param name="dictionaryAssetName">字典资源名称。</param>
-        public void ReadData(string dictionaryAssetName)
+        public async UniTask ReadData(string dictionaryAssetName)
         {
-            m_DataProvider.ReadData(dictionaryAssetName);
+            await m_DataProvider.ReadData(dictionaryAssetName);
         }
 
         /// <summary>
@@ -172,31 +173,11 @@ namespace GameFramework.Localization
         /// </summary>
         /// <param name="dictionaryAssetName">字典资源名称。</param>
         /// <param name="priority">加载字典资源的优先级。</param>
-        public void ReadData(string dictionaryAssetName, int priority)
+        public async UniTask ReadData(string dictionaryAssetName, int priority)
         {
-            m_DataProvider.ReadData(dictionaryAssetName, priority);
+            await m_DataProvider.ReadData(dictionaryAssetName, priority);
         }
 
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, object userData)
-        {
-            m_DataProvider.ReadData(dictionaryAssetName, userData);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public void ReadData(string dictionaryAssetName, int priority, object userData)
-        {
-            m_DataProvider.ReadData(dictionaryAssetName, priority, userData);
-        }
 
         /// <summary>
         /// 解析字典。
@@ -208,16 +189,6 @@ namespace GameFramework.Localization
             return m_DataProvider.ParseData(dictionaryString);
         }
 
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString, object userData)
-        {
-            return m_DataProvider.ParseData(dictionaryString, userData);
-        }
 
         /// <summary>
         /// 解析字典。
@@ -229,16 +200,6 @@ namespace GameFramework.Localization
             return m_DataProvider.ParseData(dictionaryBytes);
         }
 
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, object userData)
-        {
-            return m_DataProvider.ParseData(dictionaryBytes, userData);
-        }
 
         /// <summary>
         /// 解析字典。
@@ -252,18 +213,6 @@ namespace GameFramework.Localization
             return m_DataProvider.ParseData(dictionaryBytes, startIndex, length);
         }
 
-        /// <summary>
-        /// 解析字典。
-        /// </summary>
-        /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <param name="startIndex">字典二进制流的起始位置。</param>
-        /// <param name="length">字典二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length, object userData)
-        {
-            return m_DataProvider.ParseData(dictionaryBytes, startIndex, length, userData);
-        }
 
         /// <summary>
         /// 根据字典主键获取字典内容字符串。

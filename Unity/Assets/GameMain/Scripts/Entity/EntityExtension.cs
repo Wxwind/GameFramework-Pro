@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityGameFramework.Runtime;
 
 namespace GameMain
@@ -30,47 +31,50 @@ namespace GameMain
             entityComponent.AttachEntity(entity.Entity, ownerId, parentTransformPath, userData);
         }
 
-        public static void ShowMyAircraft(this EntityComponent entityComponent, MyAircraftData data)
+        public static async UniTask<MyAircraft> ShowMyAircraft(this EntityComponent entityComponent,
+            MyAircraftData data)
         {
-            entityComponent.ShowEntity(typeof(MyAircraft), "Aircraft", Constant.AssetPriority.MyAircraftAsset, data);
+            await entityComponent.ShowEntity(typeof(MyAircraft), "Aircraft", Constant.AssetPriority.MyAircraftAsset,
+                data) as MyAircraft;
         }
 
-        public static void ShowAircraft(this EntityComponent entityComponent, AircraftData data)
+        public static async UniTask ShowAircraft(this EntityComponent entityComponent, AircraftData data)
         {
-            entityComponent.ShowEntity(typeof(Aircraft), "Aircraft", Constant.AssetPriority.AircraftAsset, data);
+            await entityComponent.ShowEntity(typeof(Aircraft), "Aircraft", Constant.AssetPriority.AircraftAsset, data);
         }
 
-        public static void ShowThruster(this EntityComponent entityComponent, ThrusterData data)
+        public static async UniTask ShowThruster(this EntityComponent entityComponent, ThrusterData data)
         {
-            entityComponent.ShowEntity(typeof(Thruster), "Thruster", Constant.AssetPriority.ThrusterAsset, data);
+            await entityComponent.ShowEntity(typeof(Thruster), "Thruster", Constant.AssetPriority.ThrusterAsset, data);
         }
 
-        public static void ShowWeapon(this EntityComponent entityComponent, WeaponData data)
+        public static async UniTask ShowWeapon(this EntityComponent entityComponent, WeaponData data)
         {
-            entityComponent.ShowEntity(typeof(Weapon), "Weapon", Constant.AssetPriority.WeaponAsset, data);
+            await entityComponent.ShowEntity(typeof(Weapon), "Weapon", Constant.AssetPriority.WeaponAsset, data);
         }
 
-        public static void ShowArmor(this EntityComponent entityComponent, ArmorData data)
+        public static async UniTask ShowArmor(this EntityComponent entityComponent, ArmorData data)
         {
-            entityComponent.ShowEntity(typeof(Armor), "Armor", Constant.AssetPriority.ArmorAsset, data);
+            await entityComponent.ShowEntity(typeof(Armor), "Armor", Constant.AssetPriority.ArmorAsset, data);
         }
 
-        public static void ShowBullet(this EntityComponent entityCompoennt, BulletData data)
+        public static async UniTask ShowBullet(this EntityComponent entityCompoennt, BulletData data)
         {
-            entityCompoennt.ShowEntity(typeof(Bullet), "Bullet", Constant.AssetPriority.BulletAsset, data);
+            await entityCompoennt.ShowEntity(typeof(Bullet), "Bullet", Constant.AssetPriority.BulletAsset, data);
         }
 
-        public static void ShowAsteroid(this EntityComponent entityCompoennt, AsteroidData data)
+        public static async UniTask ShowAsteroid(this EntityComponent entityCompoennt, AsteroidData data)
         {
-            entityCompoennt.ShowEntity(typeof(Asteroid), "Asteroid", Constant.AssetPriority.AsteroiAsset, data);
+            await entityCompoennt.ShowEntity(typeof(Asteroid), "Asteroid", Constant.AssetPriority.AsteroiAsset, data);
         }
 
-        public static void ShowEffect(this EntityComponent entityComponent, EffectData data)
+        public static async UniTask ShowEffect(this EntityComponent entityComponent, EffectData data)
         {
-            entityComponent.ShowEntity(typeof(Effect), "Effect", Constant.AssetPriority.EffectAsset, data);
+            await entityComponent.ShowEntity(typeof(Effect), "Effect", Constant.AssetPriority.EffectAsset, data);
         }
 
-        private static void ShowEntity(this EntityComponent entityComponent, Type logicType, string entityGroup,
+        private static async UniTask ShowEntity(this EntityComponent entityComponent, Type logicType,
+            string entityGroup,
             int priority, EntityData data)
         {
             if (data == null)
@@ -88,7 +92,8 @@ namespace GameMain
                 return;
             }
 
-            entityComponent.ShowEntity(data.Id, logicType, AssetUtility.GetEntityAsset(drEntity.AssetName), entityGroup,
+            await entityComponent.ShowEntity(data.Id, logicType, AssetUtility.GetEntityAsset(drEntity.AssetName),
+                entityGroup,
                 priority, data);
         }
 

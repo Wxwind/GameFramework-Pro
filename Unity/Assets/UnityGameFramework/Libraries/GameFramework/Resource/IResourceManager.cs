@@ -44,10 +44,6 @@ namespace GameFramework.Resource
 
         UniTask<InitializationOperation> InitPackage(ResourceMode mode, string packageName);
 
-        void LoadAssetAsync<T>(string location, string packageName = "",
-            LoadAssetCallbacks loadAssetCallbacks = null, object userData = null)
-            where T : Object;
-
         UniTask<T> LoadAssetAsync<T>(string location, string packageName = "", Action<float> progress = null)
             where T : Object;
 

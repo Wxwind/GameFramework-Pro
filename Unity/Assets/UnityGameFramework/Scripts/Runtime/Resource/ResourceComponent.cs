@@ -109,12 +109,6 @@ namespace UnityGameFramework.Runtime
                 : packageName);
         }
 
-        public void LoadAssetAsync<T>(string location, string packageName, LoadAssetCallbacks loadAssetCallbacks)
-            where T : Object
-        {
-            m_ResourceManager.LoadAssetAsync<T>(location, packageName, loadAssetCallbacks);
-        }
-
         public UniTask<T> LoadAssetAsync<T>(string location, string packageName, Action<float> progress)
             where T : Object
         {
