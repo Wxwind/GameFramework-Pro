@@ -1,8 +1,7 @@
-﻿using GameFramework.ObjectPool;
-using GameFramework.Resource;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GameFramework.ObjectPool;
+using GameFramework.Resource;
 
 namespace GameFramework.UI
 {
@@ -190,8 +189,9 @@ namespace GameFramework.UI
         /// </summary>
         /// <param name="uiFormAssetName">界面资源名称。</param>
         /// <param name="uiGroupName">界面组名称。</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns>界面的序列编号。</returns>
-        UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName);
+        UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, object userData = null);
 
         /// <summary>
         /// 打开界面。
@@ -199,8 +199,9 @@ namespace GameFramework.UI
         /// <param name="uiFormAssetName">界面资源名称。</param>
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="priority">加载界面资源的优先级。</param>
+        /// <param name="userData"用户自定义数据></param>
         /// <returns>界面的序列编号。</returns>
-        UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority);
+        UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, object userData = null);
 
         /// <summary>
         /// 打开界面。
@@ -208,8 +209,9 @@ namespace GameFramework.UI
         /// <param name="uiFormAssetName">界面资源名称。</param>
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns>界面的序列编号。</returns>
-        UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm);
+        UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm, object userData = null);
 
 
         /// <summary>
@@ -219,8 +221,9 @@ namespace GameFramework.UI
         /// <param name="uiGroupName">界面组名称。</param>
         /// <param name="priority">加载界面资源的优先级。</param>
         /// <param name="pauseCoveredUIForm">是否暂停被覆盖的界面。</param>
+        /// <param name="userData">用户自定义数据</param>
         /// <returns>界面的序列编号。</returns>
-        UniTask<int> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, bool pauseCoveredUIForm,
+        UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, bool pauseCoveredUIForm,
             object userData = null);
 
 

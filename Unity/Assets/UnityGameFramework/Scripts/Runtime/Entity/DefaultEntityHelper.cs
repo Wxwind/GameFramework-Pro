@@ -29,14 +29,14 @@ namespace UnityGameFramework.Runtime
         /// <returns>实体。</returns>
         public override IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup, object userData)
         {
-            GameObject gameObject = entityInstance as GameObject;
+            var gameObject = entityInstance as GameObject;
             if (gameObject == null)
             {
                 Log.Error("Entity instance is invalid.");
                 return null;
             }
 
-            Transform transform = gameObject.transform;
+            var transform = gameObject.transform;
             transform.SetParent(((MonoBehaviour)entityGroup.Helper).transform);
 
             return gameObject.GetOrAddComponent<Entity>();

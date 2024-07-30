@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GameFramework;
-using GameFramework.Event;
-using GameFramework.Resource;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
@@ -45,7 +43,7 @@ namespace GameMain
         {
             // TODO 全部使用 yooasset 加载
             // Preload configs
-            LoadConfig("DefaultConfig");
+            LoadConfig("DefaultConfig").Forget();
 
             // Preload data tables
             // TODO 在这里使用异步加载 LubanConfig

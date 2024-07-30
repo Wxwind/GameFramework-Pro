@@ -41,7 +41,7 @@ namespace GameMain
             m_GotoMenu = false;
             var gameMode = (GameMode)procedureOwner.GetData<VarByte>("GameMode").Value;
             m_CurrentGame = m_Games[gameMode];
-            m_CurrentGame.Initialize();
+            m_CurrentGame.Initialize().Forget();
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -35,13 +36,13 @@ namespace GameMain
 
             Name = Utility.Text.Format("Aircraft ({0})", Id);
 
-            GameEntry.Entity.ShowThruster(m_AircraftData.GetThrusterData());
+            GameEntry.Entity.ShowThruster(m_AircraftData.GetThrusterData()).Forget();
 
             var weaponDatas = m_AircraftData.GetAllWeaponDatas();
-            for (var i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]);
+            for (var i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]).Forget();
 
             var armorDatas = m_AircraftData.GetAllArmorDatas();
-            for (var i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]);
+            for (var i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]).Forget();
         }
 
 #if UNITY_2017_3_OR_NEWER
@@ -112,7 +113,7 @@ namespace GameMain
             GameEntry.Entity.ShowEffect(new EffectData(GameEntry.Entity.GenerateSerialId(), m_AircraftData.DeadEffectId)
             {
                 Position = CachedTransform.localPosition
-            });
+            }).Forget();
             GameEntry.Sound.PlaySound(m_AircraftData.DeadSoundId);
         }
 

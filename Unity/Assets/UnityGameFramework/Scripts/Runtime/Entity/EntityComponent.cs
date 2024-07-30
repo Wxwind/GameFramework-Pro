@@ -18,12 +18,10 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private IEntityManager m_EntityManager = null;
+        private IEntityManager m_EntityManager  = null;
         private EventComponent m_EventComponent = null;
 
         private readonly List<IEntity> m_InternalEntityResults = new();
-
-        [SerializeField] private bool m_EnableShowEntityUpdateEvent = false;
 
 
         [SerializeField] private Transform m_InstanceRoot = null;
@@ -32,8 +30,7 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private EntityHelperBase m_CustomEntityHelper = null;
 
-        [SerializeField]
-        private string m_EntityGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityGroupHelper";
+        [SerializeField] private string m_EntityGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityGroupHelper";
 
         [SerializeField] private EntityGroupHelperBase m_CustomEntityGroupHelper = null;
 
@@ -390,10 +387,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
-        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
+        public UniTask<IEntity> ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
             int priority)
         {
-            ShowEntity(entityId, entityLogicType, entityAssetName, entityGroupName, priority, null);
+            return ShowEntity(entityId, entityLogicType, entityAssetName, entityGroupName, priority, null);
         }
 
         /// <summary>
@@ -404,10 +401,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, object userData)
+        public UniTask<IEntity> ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, object userData)
             where T : EntityLogic
         {
-            ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, DefaultPriority, userData);
+            return ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, DefaultPriority, userData);
         }
 
         /// <summary>
@@ -418,10 +415,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
+        public UniTask<IEntity> ShowEntity(int entityId, Type entityLogicType, string entityAssetName, string entityGroupName,
             object userData)
         {
-            ShowEntity(entityId, entityLogicType, entityAssetName, entityGroupName, DefaultPriority, userData);
+            return ShowEntity(entityId, entityLogicType, entityAssetName, entityGroupName, DefaultPriority, userData);
         }
 
         /// <summary>
@@ -433,7 +430,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public UniTask ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority,
+        public UniTask<IEntity> ShowEntity<T>(int entityId, string entityAssetName, string entityGroupName, int priority,
             object userData) where T : EntityLogic
         {
             return ShowEntity(entityId, typeof(T), entityAssetName, entityGroupName, priority, userData);
@@ -448,17 +445,11 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public async UniTask ShowEntity(int entityId, Type entityLogicType, string entityAssetName,
+        public UniTask<IEntity> ShowEntity(int entityId, Type entityLogicType, string entityAssetName,
             string entityGroupName,
             int priority, object userData)
         {
-            if (entityLogicType == null)
-            {
-                Log.Error("Entity type is invalid.");
-                return;
-            }
-
-            await m_EntityManager.ShowEntity(entityId, entityAssetName, entityGroupName, priority,
+            return m_EntityManager.ShowEntity(entityId, entityAssetName, entityGroupName, priority,
                 ShowEntityInfo.Create(entityLogicType, userData));
         }
 

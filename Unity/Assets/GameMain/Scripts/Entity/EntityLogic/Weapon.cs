@@ -1,4 +1,5 @@
-﻿using GameFramework;
+﻿using Cysharp.Threading.Tasks;
+using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -63,7 +64,7 @@ namespace GameMain
                 m_WeaponData.OwnerId, m_WeaponData.OwnerCamp, m_WeaponData.Attack, m_WeaponData.BulletSpeed)
             {
                 Position = CachedTransform.position
-            });
+            }).Forget();
             GameEntry.Sound.PlaySound(m_WeaponData.BulletSoundId);
         }
     }

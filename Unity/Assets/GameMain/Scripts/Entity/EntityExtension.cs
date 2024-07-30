@@ -34,53 +34,61 @@ namespace GameMain
         public static async UniTask<MyAircraft> ShowMyAircraft(this EntityComponent entityComponent,
             MyAircraftData data)
         {
-            await entityComponent.ShowEntity(typeof(MyAircraft), "Aircraft", Constant.AssetPriority.MyAircraftAsset,
-                data) as MyAircraft;
+            var entity = await entityComponent.ShowEntity(typeof(MyAircraft), "Aircraft", Constant.AssetPriority.MyAircraftAsset,
+                data);
+            return entity.Logic as MyAircraft;
         }
 
-        public static async UniTask ShowAircraft(this EntityComponent entityComponent, AircraftData data)
+        public static async UniTask<Aircraft> ShowAircraft(this EntityComponent entityComponent, AircraftData data)
         {
-            await entityComponent.ShowEntity(typeof(Aircraft), "Aircraft", Constant.AssetPriority.AircraftAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Aircraft), "Aircraft", Constant.AssetPriority.AircraftAsset, data);
+            return entity.Logic as Aircraft;
         }
 
-        public static async UniTask ShowThruster(this EntityComponent entityComponent, ThrusterData data)
+        public static async UniTask<Thruster> ShowThruster(this EntityComponent entityComponent, ThrusterData data)
         {
-            await entityComponent.ShowEntity(typeof(Thruster), "Thruster", Constant.AssetPriority.ThrusterAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Thruster), "Thruster", Constant.AssetPriority.ThrusterAsset, data);
+            return entity.Logic as Thruster;
         }
 
-        public static async UniTask ShowWeapon(this EntityComponent entityComponent, WeaponData data)
+        public static async UniTask<Weapon> ShowWeapon(this EntityComponent entityComponent, WeaponData data)
         {
-            await entityComponent.ShowEntity(typeof(Weapon), "Weapon", Constant.AssetPriority.WeaponAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Weapon), "Weapon", Constant.AssetPriority.WeaponAsset, data);
+            return entity.Logic as Weapon;
         }
 
-        public static async UniTask ShowArmor(this EntityComponent entityComponent, ArmorData data)
+        public static async UniTask<Armor> ShowArmor(this EntityComponent entityComponent, ArmorData data)
         {
-            await entityComponent.ShowEntity(typeof(Armor), "Armor", Constant.AssetPriority.ArmorAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Armor), "Armor", Constant.AssetPriority.ArmorAsset, data);
+            return entity.Logic as Armor;
         }
 
-        public static async UniTask ShowBullet(this EntityComponent entityCompoennt, BulletData data)
+        public static async UniTask<Bullet> ShowBullet(this EntityComponent entityCompoennt, BulletData data)
         {
-            await entityCompoennt.ShowEntity(typeof(Bullet), "Bullet", Constant.AssetPriority.BulletAsset, data);
+            var entity = await entityCompoennt.ShowEntity(typeof(Bullet), "Bullet", Constant.AssetPriority.BulletAsset, data);
+            return entity.Logic as Bullet;
         }
 
-        public static async UniTask ShowAsteroid(this EntityComponent entityCompoennt, AsteroidData data)
+        public static async UniTask<Asteroid> ShowAsteroid(this EntityComponent entityCompoennt, AsteroidData data)
         {
-            await entityCompoennt.ShowEntity(typeof(Asteroid), "Asteroid", Constant.AssetPriority.AsteroiAsset, data);
+            var entity = await entityCompoennt.ShowEntity(typeof(Asteroid), "Asteroid", Constant.AssetPriority.AsteroiAsset, data);
+            return entity.Logic as Asteroid;
         }
 
-        public static async UniTask ShowEffect(this EntityComponent entityComponent, EffectData data)
+        public static async UniTask<Effect> ShowEffect(this EntityComponent entityComponent, EffectData data)
         {
-            await entityComponent.ShowEntity(typeof(Effect), "Effect", Constant.AssetPriority.EffectAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Effect), "Effect", Constant.AssetPriority.EffectAsset, data);
+            return entity.Logic as Effect;
         }
 
-        private static async UniTask ShowEntity(this EntityComponent entityComponent, Type logicType,
+        private static async UniTask<UnityGameFramework.Runtime.Entity> ShowEntity(this EntityComponent entityComponent, Type logicType,
             string entityGroup,
             int priority, EntityData data)
         {
             if (data == null)
             {
                 Log.Warning("Data is invalid.");
-                return;
+                return null;
             }
 
             var tbEntity = GameEntry.LubanConfig.Tables.TbEntity;
@@ -89,12 +97,12 @@ namespace GameMain
             if (drEntity == null)
             {
                 Log.Warning("Can not load entity id '{0}' from data table.", data.TypeId.ToString());
-                return;
+                return null;
             }
 
-            await entityComponent.ShowEntity(data.Id, logicType, AssetUtility.GetEntityAsset(drEntity.AssetName),
+            return await entityComponent.ShowEntity(data.Id, logicType, AssetUtility.GetEntityAsset(drEntity.AssetName),
                 entityGroup,
-                priority, data);
+                priority, data) as UnityGameFramework.Runtime.Entity;
         }
 
         public static int GenerateSerialId(this EntityComponent entityComponent)

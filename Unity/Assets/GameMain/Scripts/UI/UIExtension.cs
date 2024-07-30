@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Cysharp.Threading.Tasks;
+using GameFramework.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
@@ -93,12 +94,12 @@ namespace GameMain
             uiComponent.CloseUIForm(uiForm.UIForm);
         }
 
-        public static UniTask<int?> OpenUIForm(this UIComponent uiComponent, UIFormId uiFormId, object userData = null)
+        public static UniTask<IUIForm> OpenUIForm(this UIComponent uiComponent, UIFormId uiFormId, object userData = null)
         {
-            return uiComponent.OpenUIForm((int)uiFormId);
+            return uiComponent.OpenUIForm((int)uiFormId, userData);
         }
 
-        public static async UniTask<int?> OpenUIForm(this UIComponent uiComponent, int uiFormId)
+        public static async UniTask<IUIForm> OpenUIForm(this UIComponent uiComponent, int uiFormId, object userData = null)
         {
             var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
@@ -117,7 +118,7 @@ namespace GameMain
             }
 
             return await uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset,
-                drUIForm.PauseCoveredUIForm);
+                drUIForm.PauseCoveredUIForm, userData);
         }
 
         public static void OpenDialog(this UIComponent uiComponent, DialogParams dialogParams)

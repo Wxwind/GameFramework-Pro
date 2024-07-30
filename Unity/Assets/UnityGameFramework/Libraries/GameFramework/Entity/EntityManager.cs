@@ -13,17 +13,17 @@ namespace GameFramework.Entity
     /// </summary>
     internal sealed partial class EntityManager : GameFrameworkModule, IEntityManager
     {
-        private readonly Dictionary<int, EntityInfo> m_EntityInfos;
-        private readonly Dictionary<string, EntityGroup> m_EntityGroups;
-        private readonly Dictionary<int, int> m_EntitiesBeingLoaded;
-        private readonly HashSet<int> m_EntitiesToReleaseOnLoad;
-        private readonly Queue<EntityInfo> m_RecycleQueue;
-        private IObjectPoolManager m_ObjectPoolManager;
-        private IResourceManager m_ResourceManager;
-        private IEntityHelper m_EntityHelper;
-        private int m_Serial;
-        private bool m_IsShutdown;
-        private EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
+        private readonly Dictionary<int, EntityInfo>               m_EntityInfos;
+        private readonly Dictionary<string, EntityGroup>           m_EntityGroups;
+        private readonly Dictionary<int, int>                      m_EntitiesBeingLoaded;
+        private readonly HashSet<int>                              m_EntitiesToReleaseOnLoad;
+        private readonly Queue<EntityInfo>                         m_RecycleQueue;
+        private          IObjectPoolManager                        m_ObjectPoolManager;
+        private          IResourceManager                          m_ResourceManager;
+        private          IEntityHelper                             m_EntityHelper;
+        private          int                                       m_Serial;
+        private          bool                                      m_IsShutdown;
+        private          EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
 
         /// <summary>
         /// 初始化实体管理器的新实例。
@@ -481,9 +481,9 @@ namespace GameFramework.Entity
         /// <param name="entityId">实体编号。</param>
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
-        public void ShowEntity(int entityId, string entityAssetName, string entityGroupName)
+        public UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName)
         {
-            ShowEntity(entityId, entityAssetName, entityGroupName, 0, null);
+            return ShowEntity(entityId, entityAssetName, entityGroupName, 0, null);
         }
 
         /// <summary>
@@ -493,9 +493,9 @@ namespace GameFramework.Entity
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
-        public void ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority)
+        public UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority)
         {
-            ShowEntity(entityId, entityAssetName, entityGroupName, priority, null);
+            return ShowEntity(entityId, entityAssetName, entityGroupName, priority, null);
         }
 
         /// <summary>
@@ -505,9 +505,9 @@ namespace GameFramework.Entity
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public void ShowEntity(int entityId, string entityAssetName, string entityGroupName, object userData)
+        public UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, object userData)
         {
-            ShowEntity(entityId, entityAssetName, entityGroupName, 0, userData);
+            return ShowEntity(entityId, entityAssetName, entityGroupName, 0, userData);
         }
 
         /// <summary>
@@ -518,7 +518,7 @@ namespace GameFramework.Entity
         /// <param name="entityGroupName">实体组名称。</param>
         /// <param name="priority">加载实体资源的优先级。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public async UniTask ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority,
+        public async UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority,
             object userData)
         {
             if (m_ResourceManager == null)
@@ -569,18 +569,18 @@ namespace GameFramework.Entity
                 {
                     var time = Time.time;
                     var asset = await m_ResourceManager.LoadAssetAsync<Object>(entityAssetName);
-                    LoadAssetSuccessCallback(entityAssetName, asset, Time.time - time, info);
-                    return;
+                    return LoadAssetSuccessCallback(entityAssetName, asset, Time.time - time, info);
                 }
                 catch (Exception e)
                 {
                     LoadAssetFailureCallback(entityAssetName, e.Message, info);
-                    throw;
+                    return null;
                 }
             }
 
-            InternalShowEntity(entityId, entityAssetName, entityGroup, entityInstanceObject.Target, false,
+            var entity = InternalShowEntity(entityId, entityAssetName, entityGroup, entityInstanceObject.Target, false,
                 userData);
+            return entity;
         }
 
         /// <summary>
@@ -1101,7 +1101,7 @@ namespace GameFramework.Entity
             return null;
         }
 
-        private void InternalShowEntity(int entityId, string entityAssetName, EntityGroup entityGroup,
+        private IEntity InternalShowEntity(int entityId, string entityAssetName, EntityGroup entityGroup,
             object entityInstance, bool isNewInstance, object userData)
         {
             var entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup, userData);
@@ -1119,6 +1119,7 @@ namespace GameFramework.Entity
             entityInfo.Status = EntityStatus.WillShow;
             entity.OnShow(userData);
             entityInfo.Status = EntityStatus.Showed;
+            return entity;
         }
 
         private void InternalHideEntity(EntityInfo entityInfo, object userData)
@@ -1163,7 +1164,7 @@ namespace GameFramework.Entity
             m_RecycleQueue.Enqueue(entityInfo);
         }
 
-        private void LoadAssetSuccessCallback(string entityAssetName, object entityAsset, float duration,
+        private IEntity LoadAssetSuccessCallback(string entityAssetName, Object entityAsset, float duration,
             ShowEntityInfo showEntityInfo)
         {
             if (m_EntitiesToReleaseOnLoad.Contains(showEntityInfo.SerialId))
@@ -1171,7 +1172,7 @@ namespace GameFramework.Entity
                 m_EntitiesToReleaseOnLoad.Remove(showEntityInfo.SerialId);
                 ReferencePool.Release(showEntityInfo);
                 m_EntityHelper.ReleaseEntity(entityAsset, null);
-                return;
+                return null;
             }
 
             m_EntitiesBeingLoaded.Remove(showEntityInfo.EntityId);
@@ -1179,9 +1180,10 @@ namespace GameFramework.Entity
                 m_EntityHelper.InstantiateEntity(entityAsset), m_EntityHelper);
             showEntityInfo.EntityGroup.RegisterEntityInstanceObject(entityInstanceObject, true);
 
-            InternalShowEntity(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup,
+            var entity = InternalShowEntity(showEntityInfo.EntityId, entityAssetName, showEntityInfo.EntityGroup,
                 entityInstanceObject.Target, true, showEntityInfo.UserData);
             ReferencePool.Release(showEntityInfo);
+            return entity;
         }
 
         private void LoadAssetFailureCallback(string entityAssetName, string errorMessage,

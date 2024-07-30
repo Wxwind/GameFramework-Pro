@@ -1,4 +1,4 @@
-﻿using GameFramework.Event;
+﻿using Cysharp.Threading.Tasks;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -20,17 +20,21 @@ namespace GameMain
         {
             base.OnEnter(procedureOwner);
             Log.Info("change into ProcedureMenu");
-            GameEntry.Event.Subscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
 
             m_StartGame = false;
-            GameEntry.UI.OpenUIForm(UIFormId.MenuForm, this);
+            OpenMenuForm().Forget();
+        }
+
+        private async UniTaskVoid OpenMenuForm()
+        {
+            var form = await GameEntry.UI.OpenUIForm(UIFormId.MenuForm, this) as UIForm;
+            if (form == null) return;
+            m_MenuForm = (MenuForm)form.Logic;
         }
 
         protected override void OnLeave(ProcedureOwner procedureOwner, bool isShutdown)
         {
             base.OnLeave(procedureOwner, isShutdown);
-
-            GameEntry.Event.Unsubscribe(OpenUIFormSuccessEventArgs.EventId, OnOpenUIFormSuccess);
 
             if (m_MenuForm != null)
             {
@@ -49,14 +53,6 @@ namespace GameMain
                 procedureOwner.SetData<VarByte>("GameMode", (byte)GameMode.Survival);
                 ChangeState<ProcedureChangeScene>(procedureOwner);
             }
-        }
-
-        private void OnOpenUIFormSuccess(object sender, GameEventArgs e)
-        {
-            var ne = (OpenUIFormSuccessEventArgs)e;
-            if (ne.UserData != this) return;
-
-            m_MenuForm = (MenuForm)ne.UIForm.Logic;
         }
     }
 }

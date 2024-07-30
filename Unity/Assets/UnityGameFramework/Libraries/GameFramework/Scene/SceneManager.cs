@@ -52,10 +52,14 @@ namespace GameFramework.Scene
         internal override void Shutdown()
         {
             var loadedSceneAssetNames = m_LoadedSceneAssetNames.ToArray();
-            foreach (var loadedSceneAssetName in loadedSceneAssetNames)
+            // 退出游戏时已经在ResourcesComponent里调用了YooAssets.Destroy，无需再清理场景
+            if (YooAssets.Initialized)
             {
-                if (SceneIsUnloading(loadedSceneAssetName)) continue;
-                UnloadScene(loadedSceneAssetName).Forget();
+                foreach (var loadedSceneAssetName in loadedSceneAssetNames)
+                {
+                    if (SceneIsUnloading(loadedSceneAssetName)) continue;
+                    UnloadScene(loadedSceneAssetName).Forget();
+                }
             }
 
             m_LoadedSceneAssetNames.Clear();

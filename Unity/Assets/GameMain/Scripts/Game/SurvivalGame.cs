@@ -1,4 +1,5 @@
-﻿using GameFramework;
+﻿using Cysharp.Threading.Tasks;
+using GameFramework;
 using UnityEngine;
 
 namespace GameMain
@@ -28,7 +29,7 @@ namespace GameMain
                     60000 + Utility.Random.GetRandom(tbAsteroid.DataList.Count))
                 {
                     Position = new Vector3(randomPositionX, 0f, randomPositionZ)
-                });
+                }).Forget();
             }
         }
     }

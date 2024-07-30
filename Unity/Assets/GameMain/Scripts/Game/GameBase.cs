@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using GameFramework.Event;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -17,9 +16,8 @@ namespace GameMain
 
         public virtual async UniTaskVoid Initialize()
         {
-            GameEntry.Event.Subscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
-            GameEntry.Event.Subscribe(ShowEntityFailureEventArgs.EventId, OnShowEntityFailure);
-
+            GameOver = false;
+            m_MyAircraft = null;
             SceneBackground = Object.FindObjectOfType<ScrollableBackground>();
             if (SceneBackground == null)
             {
@@ -28,21 +26,16 @@ namespace GameMain
             }
 
             SceneBackground.VisibleBoundary.gameObject.GetOrAddComponent<HideByBoundary>();
-            var entity = GameEntry.Entity.ShowMyAircraft(new MyAircraftData(GameEntry.Entity.GenerateSerialId(), 10000)
+            var entity = await GameEntry.Entity.ShowMyAircraft(new MyAircraftData(GameEntry.Entity.GenerateSerialId(), 10000)
             {
                 Name = "My Aircraft",
                 Position = Vector3.zero
             });
-            m_MyAircraft = (MyAircraft)entity.Logic;
-
-            GameOver = false;
-            m_MyAircraft = null;
+            m_MyAircraft = entity;
         }
 
         public virtual void Shutdown()
         {
-            GameEntry.Event.Unsubscribe(ShowEntitySuccessEventArgs.EventId, OnShowEntitySuccess);
-            GameEntry.Event.Unsubscribe(ShowEntityFailureEventArgs.EventId, OnShowEntityFailure);
         }
 
         public virtual void Update(float elapseSeconds, float realElapseSeconds)
@@ -51,18 +44,6 @@ namespace GameMain
             {
                 GameOver = true;
             }
-        }
-
-        protected virtual void OnShowEntitySuccess(object sender, GameEventArgs e)
-        {
-            var ne = (ShowEntitySuccessEventArgs)e;
-            if (ne.EntityLogicType == typeof(MyAircraft)) ;
-        }
-
-        protected virtual void OnShowEntityFailure(object sender, GameEventArgs e)
-        {
-            var ne = (ShowEntityFailureEventArgs)e;
-            Log.Warning("Show entity failure with error message '{0}'.", ne.ErrorMessage);
         }
     }
 }

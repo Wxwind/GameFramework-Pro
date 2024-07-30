@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 using UnityGameFramework.Runtime;
 
 namespace GameMain
@@ -58,7 +59,7 @@ namespace GameMain
             GameEntry.Entity.ShowEffect(new EffectData(GameEntry.Entity.GenerateSerialId(), m_AsteroidData.DeadEffectId)
             {
                 Position = CachedTransform.localPosition
-            });
+            }).Forget();
             GameEntry.Sound.PlaySound(m_AsteroidData.DeadSoundId);
         }
 
