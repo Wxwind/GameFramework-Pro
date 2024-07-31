@@ -20,7 +20,6 @@ namespace GameMain
             // 语言配置：设置当前使用的语言，如果不设置，则默认使用操作系统语言
             InitLanguageSettings();
 
-
             // 声音配置：根据用户配置数据，设置即将使用的声音选项
             InitSoundSettings();
 
@@ -46,11 +45,11 @@ namespace GameMain
                 // 编辑器资源模式直接使用 Inspector 上设置的语言
                 return;
 
-            var language = GameEntry.Localization.Language;
+            Language language = GameEntry.Localization.Language;
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
                 try
                 {
-                    var languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
+                    string languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
                     language = (Language)Enum.Parse(typeof(Language), languageString);
                 }
                 catch

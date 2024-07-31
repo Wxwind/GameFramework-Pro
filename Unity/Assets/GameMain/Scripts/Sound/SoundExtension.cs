@@ -1,4 +1,6 @@
-﻿using GameFramework;
+﻿using cfg;
+using cfg.StarForce;
+using GameFramework;
 using GameFramework.Sound;
 using UnityGameFramework.Runtime;
 
@@ -6,14 +8,14 @@ namespace GameMain
 {
     public static class SoundExtension
     {
-        private const float FadeVolumeDuration = 1f;
-        private static int? s_MusicSerialId;
+        private const  float FadeVolumeDuration = 1f;
+        private static int?  s_MusicSerialId;
 
         public static int? PlayMusic(this SoundComponent soundComponent, int musicId, object userData = null)
         {
             soundComponent.StopMusic();
-            var tbMusic = GameEntry.LubanConfig.Tables.TbMusic;
-            var drMusic = tbMusic.GetOrDefault(musicId);
+            TbMusic tbMusic = GameEntry.LubanConfig.Tables.TbMusic;
+            Music drMusic = tbMusic.GetOrDefault(musicId);
             if (drMusic == null)
             {
                 Log.Warning("Can not load music '{0}' from data table.", musicId.ToString());
@@ -26,7 +28,7 @@ namespace GameMain
             playSoundParams.VolumeInSoundGroup = 1f;
             playSoundParams.FadeInSeconds = FadeVolumeDuration;
             playSoundParams.SpatialBlend = 0f;
-            s_MusicSerialId = soundComponent.PlaySound(AssetUtility.GetMusicAsset(drMusic.AssetName), "Music",
+            s_MusicSerialId = soundComponent.PlaySound(drMusic.AssetName, "Music",
                 Constant.AssetPriority.MusicAsset, playSoundParams, null, userData);
             return s_MusicSerialId;
         }
@@ -42,8 +44,8 @@ namespace GameMain
         public static int? PlaySound(this SoundComponent soundComponent, int soundId, Entity bindingEntity = null,
             object userData = null)
         {
-            var tbSound = GameEntry.LubanConfig.Tables.TbSound;
-            var drSound = tbSound.GetOrDefault(soundId);
+            TbSound tbSound = GameEntry.LubanConfig.Tables.TbSound;
+            Sound drSound = tbSound.GetOrDefault(soundId);
             if (drSound == null)
             {
                 Log.Warning("Can not load sound '{0}' from data table.", soundId.ToString());
@@ -55,15 +57,15 @@ namespace GameMain
             playSoundParams.Loop = drSound.Loop;
             playSoundParams.VolumeInSoundGroup = drSound.Volume;
             playSoundParams.SpatialBlend = drSound.SpatialBlend;
-            return soundComponent.PlaySound(AssetUtility.GetSoundAsset(drSound.AssetName), "Sound",
+            return soundComponent.PlaySound(drSound.AssetName, "Sound",
                 Constant.AssetPriority.SoundAsset, playSoundParams,
                 bindingEntity != null ? bindingEntity.Entity : null, userData);
         }
 
         public static int? PlayUISound(this SoundComponent soundComponent, int uiSoundId, object userData = null)
         {
-            var tbUISound = GameEntry.LubanConfig.Tables.TbUISound;
-            var drUISound = tbUISound.GetOrDefault(uiSoundId);
+            TbUISound tbUISound = GameEntry.LubanConfig.Tables.TbUISound;
+            UISound drUISound = tbUISound.GetOrDefault(uiSoundId);
             if (drUISound == null)
             {
                 Log.Warning("Can not load UI sound '{0}' from data table.", uiSoundId.ToString());
@@ -75,7 +77,7 @@ namespace GameMain
             playSoundParams.Loop = false;
             playSoundParams.VolumeInSoundGroup = drUISound.Volume;
             playSoundParams.SpatialBlend = 0f;
-            return soundComponent.PlaySound(AssetUtility.GetUISoundAsset(drUISound.AssetName), "UISound",
+            return soundComponent.PlaySound(drUISound.AssetName, "UISound",
                 Constant.AssetPriority.UISoundAsset, playSoundParams, userData);
         }
 
@@ -87,7 +89,7 @@ namespace GameMain
                 return true;
             }
 
-            var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
+            ISoundGroup soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
                 Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
@@ -105,7 +107,7 @@ namespace GameMain
                 return;
             }
 
-            var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
+            ISoundGroup soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
                 Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
@@ -126,7 +128,7 @@ namespace GameMain
                 return 0f;
             }
 
-            var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
+            ISoundGroup soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
                 Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
@@ -144,7 +146,7 @@ namespace GameMain
                 return;
             }
 
-            var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
+            ISoundGroup soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
                 Log.Warning("Sound group '{0}' is invalid.", soundGroupName);

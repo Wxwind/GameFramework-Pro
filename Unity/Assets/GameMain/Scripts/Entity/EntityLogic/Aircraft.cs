@@ -19,11 +19,8 @@ namespace GameMain
 
         [SerializeField] private AircraftData m_AircraftData;
 
-#if UNITY_2017_3_OR_NEWER
+
         protected override void OnShow(object userData)
-#else
-        protected internal override void OnShow(object userData)
-#endif
         {
             base.OnShow(userData);
 
@@ -45,20 +42,8 @@ namespace GameMain
             for (var i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]).Forget();
         }
 
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnHide(bool isShutdown, object userData)
-#else
-        protected internal override void OnHide(bool isShutdown, object userData)
-#endif
-        {
-            base.OnHide(isShutdown, userData);
-        }
 
-#if UNITY_2017_3_OR_NEWER
         protected override void OnAttached(EntityLogic childEntity, Transform parentTransform, object userData)
-#else
-        protected internal override void OnAttached(EntityLogic childEntity, Transform parentTransform, object userData)
-#endif
         {
             base.OnAttached(childEntity, parentTransform, userData);
 
@@ -74,17 +59,11 @@ namespace GameMain
                 return;
             }
 
-            if (childEntity is Armor)
-            {
-                m_Armors.Add((Armor)childEntity);
-            }
+            if (childEntity is Armor) m_Armors.Add((Armor)childEntity);
         }
 
-#if UNITY_2017_3_OR_NEWER
+
         protected override void OnDetached(EntityLogic childEntity, object userData)
-#else
-        protected internal override void OnDetached(EntityLogic childEntity, object userData)
-#endif
         {
             base.OnDetached(childEntity, userData);
 
@@ -100,10 +79,7 @@ namespace GameMain
                 return;
             }
 
-            if (childEntity is Armor)
-            {
-                m_Armors.Remove((Armor)childEntity);
-            }
+            if (childEntity is Armor) m_Armors.Remove((Armor)childEntity);
         }
 
         protected override void OnDead(Entity attacker)

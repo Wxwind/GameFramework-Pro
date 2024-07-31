@@ -1,5 +1,4 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace GameFramework
 {
@@ -9,17 +8,6 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     public interface IDataProvider<T>
     {
-        /// <summary>
-        /// 读取数据成功事件。
-        /// </summary>
-        event EventHandler<ReadDataSuccessEventArgs> ReadDataSuccess;
-
-        /// <summary>
-        /// 读取数据失败事件。
-        /// </summary>
-        event EventHandler<ReadDataFailureEventArgs> ReadDataFailure;
-
-
         /// <summary>
         /// 读取数据。
         /// </summary>

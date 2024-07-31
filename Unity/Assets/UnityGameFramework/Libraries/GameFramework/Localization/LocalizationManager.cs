@@ -1,7 +1,7 @@
-﻿using GameFramework.Resource;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GameFramework.Resource;
 
 namespace GameFramework.Localization
 {
@@ -10,10 +10,10 @@ namespace GameFramework.Localization
     /// </summary>
     internal sealed partial class LocalizationManager : GameFrameworkModule, ILocalizationManager
     {
-        private readonly Dictionary<string, string> m_Dictionary;
+        private readonly Dictionary<string, string>         m_Dictionary;
         private readonly DataProvider<ILocalizationManager> m_DataProvider;
-        private ILocalizationHelper m_LocalizationHelper;
-        private Language m_Language;
+        private          ILocalizationHelper                m_LocalizationHelper;
+        private          Language                           m_Language;
 
         /// <summary>
         /// 初始化本地化管理器的新实例。
@@ -31,7 +31,7 @@ namespace GameFramework.Localization
         /// </summary>
         public Language Language
         {
-            get { return m_Language; }
+            get => m_Language;
             set
             {
                 if (value == Language.Unspecified)
@@ -62,36 +62,12 @@ namespace GameFramework.Localization
         /// <summary>
         /// 获取字典数量。
         /// </summary>
-        public int DictionaryCount
-        {
-            get { return m_Dictionary.Count; }
-        }
+        public int DictionaryCount => m_Dictionary.Count;
 
         /// <summary>
         /// 获取缓冲二进制流的大小。
         /// </summary>
-        public int CachedBytesSize
-        {
-            get { return DataProvider<ILocalizationManager>.CachedBytesSize; }
-        }
-
-        /// <summary>
-        /// 读取字典成功事件。
-        /// </summary>
-        public event EventHandler<ReadDataSuccessEventArgs> ReadDataSuccess
-        {
-            add { m_DataProvider.ReadDataSuccess += value; }
-            remove { m_DataProvider.ReadDataSuccess -= value; }
-        }
-
-        /// <summary>
-        /// 读取字典失败事件。
-        /// </summary>
-        public event EventHandler<ReadDataFailureEventArgs> ReadDataFailure
-        {
-            add { m_DataProvider.ReadDataFailure += value; }
-            remove { m_DataProvider.ReadDataFailure -= value; }
-        }
+        public int CachedBytesSize => DataProvider<ILocalizationManager>.CachedBytesSize;
 
 
         /// <summary>

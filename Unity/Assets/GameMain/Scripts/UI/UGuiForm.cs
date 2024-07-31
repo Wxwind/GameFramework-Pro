@@ -12,8 +12,8 @@ namespace GameMain
         private const float FadeTime = 0.3f;
 
         private static Font s_MainFont;
-        private Canvas m_CachedCanvas;
         private readonly List<Canvas> m_CachedCanvasContainer = new();
+        private Canvas m_CachedCanvas;
         private CanvasGroup m_CanvasGroup;
 
         public int OriginalDepth { get; private set; }
@@ -51,11 +51,8 @@ namespace GameMain
             s_MainFont = mainFont;
         }
 
-#if UNITY_2017_3_OR_NEWER
+
         protected override void OnInit()
-#else
-        protected internal override void OnInit()
-#endif
         {
             base.OnInit();
 
@@ -82,20 +79,8 @@ namespace GameMain
             }
         }
 
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnRecycle()
-#else
-        protected internal override void OnRecycle()
-#endif
-        {
-            base.OnRecycle();
-        }
 
-#if UNITY_2017_3_OR_NEWER
         protected override void OnOpen(object userData)
-#else
-        protected internal override void OnOpen()
-#endif
         {
             base.OnOpen(userData);
 
@@ -104,29 +89,8 @@ namespace GameMain
             StartCoroutine(m_CanvasGroup.FadeToAlpha(1f, FadeTime));
         }
 
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnClose(bool isShutdown)
-#else
-        protected internal override void OnClose(bool isShutdown, )
-#endif
-        {
-            base.OnClose(isShutdown);
-        }
 
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnPause()
-#else
-        protected internal override void OnPause()
-#endif
-        {
-            base.OnPause();
-        }
-
-#if UNITY_2017_3_OR_NEWER
         protected override void OnResume()
-#else
-        protected internal override void OnResume()
-#endif
         {
             base.OnResume();
 
@@ -135,47 +99,8 @@ namespace GameMain
             StartCoroutine(m_CanvasGroup.FadeToAlpha(1f, FadeTime));
         }
 
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnCover()
-#else
-        protected internal override void OnCover()
-#endif
-        {
-            base.OnCover();
-        }
 
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnReveal()
-#else
-        protected internal override void OnReveal()
-#endif
-        {
-            base.OnReveal();
-        }
-
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnRefocus()
-#else
-        protected internal override void OnRefocus()
-#endif
-        {
-            base.OnRefocus();
-        }
-
-#if UNITY_2017_3_OR_NEWER
-        protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
-#else
-        protected internal override void OnUpdate(float elapseSeconds, float realElapseSeconds)
-#endif
-        {
-            base.OnUpdate(elapseSeconds, realElapseSeconds);
-        }
-
-#if UNITY_2017_3_OR_NEWER
         protected override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)
-#else
-        protected internal override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)
-#endif
         {
             var oldDepth = Depth;
             base.OnDepthChanged(uiGroupDepth, depthInUIGroup);

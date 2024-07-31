@@ -1,7 +1,7 @@
-﻿using GameFramework.Resource;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GameFramework.Resource;
 
 namespace GameFramework.Config
 {
@@ -11,8 +11,8 @@ namespace GameFramework.Config
     internal sealed partial class ConfigManager : GameFrameworkModule, IConfigManager
     {
         private readonly Dictionary<string, ConfigData> m_ConfigDatas;
-        private readonly DataProvider<IConfigManager> m_DataProvider;
-        private IConfigHelper m_ConfigHelper;
+        private readonly DataProvider<IConfigManager>   m_DataProvider;
+        private          IConfigHelper                  m_ConfigHelper;
 
         /// <summary>
         /// 初始化全局配置管理器的新实例。
@@ -38,24 +38,6 @@ namespace GameFramework.Config
         public int CachedBytesSize
         {
             get { return DataProvider<IConfigManager>.CachedBytesSize; }
-        }
-
-        /// <summary>
-        /// 读取全局配置成功事件。
-        /// </summary>
-        public event EventHandler<ReadDataSuccessEventArgs> ReadDataSuccess
-        {
-            add { m_DataProvider.ReadDataSuccess += value; }
-            remove { m_DataProvider.ReadDataSuccess -= value; }
-        }
-
-        /// <summary>
-        /// 读取全局配置失败事件。
-        /// </summary>
-        public event EventHandler<ReadDataFailureEventArgs> ReadDataFailure
-        {
-            add { m_DataProvider.ReadDataFailure += value; }
-            remove { m_DataProvider.ReadDataFailure -= value; }
         }
 
 
@@ -196,7 +178,7 @@ namespace GameFramework.Config
         /// <returns>读取的布尔值。</returns>
         public bool GetBool(string configName)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             if (!configData.HasValue)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Config name '{0}' is not exist.", configName));
@@ -213,7 +195,7 @@ namespace GameFramework.Config
         /// <returns>读取的布尔值。</returns>
         public bool GetBool(string configName, bool defaultValue)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             return configData.HasValue ? configData.Value.BoolValue : defaultValue;
         }
 
@@ -224,7 +206,7 @@ namespace GameFramework.Config
         /// <returns>读取的整数值。</returns>
         public int GetInt(string configName)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             if (!configData.HasValue)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Config name '{0}' is not exist.", configName));
@@ -241,7 +223,7 @@ namespace GameFramework.Config
         /// <returns>读取的整数值。</returns>
         public int GetInt(string configName, int defaultValue)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             return configData.HasValue ? configData.Value.IntValue : defaultValue;
         }
 
@@ -252,7 +234,7 @@ namespace GameFramework.Config
         /// <returns>读取的浮点数值。</returns>
         public float GetFloat(string configName)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             if (!configData.HasValue)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Config name '{0}' is not exist.", configName));
@@ -269,7 +251,7 @@ namespace GameFramework.Config
         /// <returns>读取的浮点数值。</returns>
         public float GetFloat(string configName, float defaultValue)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             return configData.HasValue ? configData.Value.FloatValue : defaultValue;
         }
 
@@ -280,7 +262,7 @@ namespace GameFramework.Config
         /// <returns>读取的字符串值。</returns>
         public string GetString(string configName)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             if (!configData.HasValue)
             {
                 throw new GameFrameworkException(Utility.Text.Format("Config name '{0}' is not exist.", configName));
@@ -297,7 +279,7 @@ namespace GameFramework.Config
         /// <returns>读取的字符串值。</returns>
         public string GetString(string configName, string defaultValue)
         {
-            ConfigData? configData = GetConfigData(configName);
+            var configData = GetConfigData(configName);
             return configData.HasValue ? configData.Value.StringValue : defaultValue;
         }
 
@@ -370,7 +352,7 @@ namespace GameFramework.Config
                 throw new GameFrameworkException("Config name is invalid.");
             }
 
-            ConfigData configData = default(ConfigData);
+            var configData = default(ConfigData);
             if (m_ConfigDatas.TryGetValue(configName, out configData))
             {
                 return configData;

@@ -1,11 +1,7 @@
 ﻿using GameFramework;
 using GameFramework.WebRequest;
 using System;
-#if UNITY_5_4_OR_NEWER
 using UnityEngine.Networking;
-#else
-using UnityEngine.Experimental.Networking;
-#endif
 using Utility = GameFramework.Utility;
 
 namespace UnityGameFramework.Runtime
@@ -26,14 +22,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public override event EventHandler<WebRequestAgentHelperCompleteEventArgs> WebRequestAgentHelperComplete
         {
-            add
-            {
-                m_WebRequestAgentHelperCompleteEventHandler += value;
-            }
-            remove
-            {
-                m_WebRequestAgentHelperCompleteEventHandler -= value;
-            }
+            add { m_WebRequestAgentHelperCompleteEventHandler += value; }
+            remove { m_WebRequestAgentHelperCompleteEventHandler -= value; }
         }
 
         /// <summary>
@@ -41,14 +31,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public override event EventHandler<WebRequestAgentHelperErrorEventArgs> WebRequestAgentHelperError
         {
-            add
-            {
-                m_WebRequestAgentHelperErrorEventHandler += value;
-            }
-            remove
-            {
-                m_WebRequestAgentHelperErrorEventHandler -= value;
-            }
+            add { m_WebRequestAgentHelperErrorEventHandler += value; }
+            remove { m_WebRequestAgentHelperErrorEventHandler -= value; }
         }
 
         /// <summary>
@@ -74,11 +58,7 @@ namespace UnityGameFramework.Runtime
                 m_UnityWebRequest = UnityWebRequest.Post(webRequestUri, wwwFormInfo.WWWForm);
             }
 
-#if UNITY_2017_2_OR_NEWER
             m_UnityWebRequest.SendWebRequest();
-#else
-            m_UnityWebRequest.Send();
-#endif
         }
 
         /// <summary>
@@ -96,11 +76,7 @@ namespace UnityGameFramework.Runtime
             }
 
             m_UnityWebRequest = UnityWebRequest.Post(webRequestUri, Utility.Converter.GetString(postData));
-#if UNITY_2017_2_OR_NEWER
             m_UnityWebRequest.SendWebRequest();
-#else
-            m_UnityWebRequest.Send();
-#endif
         }
 
         /// <summary>
@@ -155,22 +131,18 @@ namespace UnityGameFramework.Runtime
             }
 
             bool isError = false;
-#if UNITY_2020_2_OR_NEWER
             isError = m_UnityWebRequest.result != UnityWebRequest.Result.Success;
-#elif UNITY_2017_1_OR_NEWER
-            isError = m_UnityWebRequest.isNetworkError || m_UnityWebRequest.isHttpError;
-#else
-            isError = m_UnityWebRequest.isError;
-#endif
             if (isError)
             {
-                WebRequestAgentHelperErrorEventArgs webRequestAgentHelperErrorEventArgs = WebRequestAgentHelperErrorEventArgs.Create(m_UnityWebRequest.error);
+                WebRequestAgentHelperErrorEventArgs webRequestAgentHelperErrorEventArgs =
+                    WebRequestAgentHelperErrorEventArgs.Create(m_UnityWebRequest.error);
                 m_WebRequestAgentHelperErrorEventHandler(this, webRequestAgentHelperErrorEventArgs);
                 ReferencePool.Release(webRequestAgentHelperErrorEventArgs);
             }
             else if (m_UnityWebRequest.downloadHandler.isDone)
             {
-                WebRequestAgentHelperCompleteEventArgs webRequestAgentHelperCompleteEventArgs = WebRequestAgentHelperCompleteEventArgs.Create(m_UnityWebRequest.downloadHandler.data);
+                WebRequestAgentHelperCompleteEventArgs webRequestAgentHelperCompleteEventArgs =
+                    WebRequestAgentHelperCompleteEventArgs.Create(m_UnityWebRequest.downloadHandler.data);
                 m_WebRequestAgentHelperCompleteEventHandler(this, webRequestAgentHelperCompleteEventArgs);
                 ReferencePool.Release(webRequestAgentHelperCompleteEventArgs);
             }

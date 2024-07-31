@@ -59,11 +59,10 @@ namespace GameMain
         {
             try
             {
-                var configAssetName = AssetUtility.GetConfigAsset(configName, false);
-                m_LoadedFlag.Add(configAssetName, false);
-                await GameEntry.Config.ReadData(configAssetName);
-                m_LoadedFlag[configAssetName] = true;
-                Log.Info("Load config '{0}' OK.", configAssetName);
+                m_LoadedFlag.Add(configName, false);
+                await GameEntry.Config.ReadData(configName);
+                m_LoadedFlag[configName] = true;
+                Log.Info("Load config '{0}' OK.", configName);
             }
             catch (Exception e)
             {
@@ -76,7 +75,7 @@ namespace GameMain
 
         private async UniTaskVoid LoadL10N()
         {
-            var dictionaryAssetName = AssetUtility.GetDictionaryAsset();
+            string dictionaryAssetName = GameEntry.Localization.Language.ToString();
             try
             {
                 m_LoadedFlag.Add(dictionaryAssetName, false);
@@ -99,7 +98,7 @@ namespace GameMain
 
             if (asset == null)
             {
-                var errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", fontName,
+                string errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", fontName,
                     "asset is not exist");
                 Log.Error("Can not load font '{0}' with error message '{2}'.", fontName,
                     errorMsg);

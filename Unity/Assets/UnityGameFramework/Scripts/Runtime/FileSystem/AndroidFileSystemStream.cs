@@ -66,7 +66,8 @@ namespace UnityGameFramework.Runtime
 
             if (access != FileSystemAccess.Read)
             {
-                throw new GameFrameworkException(Utility.Text.Format("'{0}' is not supported in AndroidFileSystemStream.", access));
+                throw new GameFrameworkException(
+                    Utility.Text.Format("'{0}' is not supported in AndroidFileSystemStream.", access));
             }
 
             if (createNew)
@@ -84,7 +85,8 @@ namespace UnityGameFramework.Runtime
             m_FileStream = InternalOpen(fileName);
             if (m_FileStream == null)
             {
-                throw new GameFrameworkException(Utility.Text.Format("Open file '{0}' from Android asset manager failure.", fullPath));
+                throw new GameFrameworkException(
+                    Utility.Text.Format("Open file '{0}' from Android asset manager failure.", fullPath));
             }
 
             m_FileStreamRawObject = m_FileStream.GetRawObject();
@@ -95,14 +97,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         protected override long Position
         {
-            get
-            {
-                throw new GameFrameworkException("Get position is not supported in AndroidFileSystemStream.");
-            }
-            set
-            {
-                Seek(value, SeekOrigin.Begin);
-            }
+            get { throw new GameFrameworkException("Get position is not supported in AndroidFileSystemStream."); }
+            set { Seek(value, SeekOrigin.Begin); }
         }
 
         /// <summary>
@@ -110,10 +106,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         protected override long Length
         {
-            get
-            {
-                return InternalAvailable();
-            }
+            get { return InternalAvailable(); }
         }
 
         /// <summary>
@@ -238,13 +231,9 @@ namespace UnityGameFramework.Runtime
 
         private int InternalRead(int length, out byte[] result)
         {
-#if UNITY_2019_2_OR_NEWER
 #pragma warning disable CS0618
-#endif
             IntPtr resultPtr = AndroidJNI.NewByteArray(length);
-#if UNITY_2019_2_OR_NEWER
 #pragma warning restore CS0618
-#endif
             int offset = 0;
             int bytesLeft = length;
             while (bytesLeft > 0)
@@ -252,7 +241,8 @@ namespace UnityGameFramework.Runtime
                 s_InternalReadArgs[0] = new jvalue() { l = resultPtr };
                 s_InternalReadArgs[1] = new jvalue() { i = offset };
                 s_InternalReadArgs[2] = new jvalue() { i = bytesLeft };
-                int bytesRead = AndroidJNI.CallIntMethod(m_FileStreamRawObject, s_InternalReadMethodId, s_InternalReadArgs);
+                int bytesRead =
+                    AndroidJNI.CallIntMethod(m_FileStreamRawObject, s_InternalReadMethodId, s_InternalReadArgs);
                 if (bytesRead <= 0)
                 {
                     break;
@@ -262,13 +252,9 @@ namespace UnityGameFramework.Runtime
                 bytesLeft -= bytesRead;
             }
 
-#if UNITY_2019_2_OR_NEWER
 #pragma warning disable CS0618
-#endif
             result = AndroidJNI.FromByteArray(resultPtr);
-#if UNITY_2019_2_OR_NEWER
 #pragma warning restore CS0618
-#endif
             AndroidJNI.DeleteLocalRef(resultPtr);
             return offset;
         }

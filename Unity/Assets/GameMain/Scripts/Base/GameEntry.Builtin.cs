@@ -18,11 +18,6 @@ namespace GameMain
         /// </summary>
         public static ConfigComponent Config { get; private set; }
 
-        /// <summary>
-        ///     获取数据结点组件。
-        /// </summary>
-        public static DataNodeComponent DataNode { get; private set; }
-
 
         /// <summary>
         ///     获取调试组件。
@@ -109,7 +104,6 @@ namespace GameMain
         {
             Base = UnityGameFramework.Runtime.GameEntry.GetComponent<BaseComponent>();
             Config = UnityGameFramework.Runtime.GameEntry.GetComponent<ConfigComponent>();
-            DataNode = UnityGameFramework.Runtime.GameEntry.GetComponent<DataNodeComponent>();
             Debugger = UnityGameFramework.Runtime.GameEntry.GetComponent<DebuggerComponent>();
             Download = UnityGameFramework.Runtime.GameEntry.GetComponent<DownloadComponent>();
             Entity = UnityGameFramework.Runtime.GameEntry.GetComponent<EntityComponent>();

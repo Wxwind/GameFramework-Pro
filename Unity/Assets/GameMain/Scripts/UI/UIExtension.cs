@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using cfg.StarForce;
 using Cysharp.Threading.Tasks;
 using GameFramework.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
+using UIForm = cfg.UIForm;
 
 namespace GameMain
 {
@@ -11,8 +13,8 @@ namespace GameMain
     {
         public static IEnumerator FadeToAlpha(this CanvasGroup canvasGroup, float alpha, float duration)
         {
-            var time = 0f;
-            var originalAlpha = canvasGroup.alpha;
+            float time = 0f;
+            float originalAlpha = canvasGroup.alpha;
             while (time < duration)
             {
                 time += Time.deltaTime;
@@ -25,8 +27,8 @@ namespace GameMain
 
         public static IEnumerator SmoothValue(this Slider slider, float value, float duration)
         {
-            var time = 0f;
-            var originalValue = slider.value;
+            float time = 0f;
+            float originalValue = slider.value;
             while (time < duration)
             {
                 time += Time.deltaTime;
@@ -44,14 +46,14 @@ namespace GameMain
 
         public static bool HasUIForm(this UIComponent uiComponent, int uiFormId, string uiGroupName = null)
         {
-            var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
-            var drUIForm = tbUIForm.GetOrDefault(uiFormId);
+            TbUIForm tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
+            UIForm drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null) return false;
 
-            var assetName = AssetUtility.GetUIFormAsset(drUIForm.AssetName);
+            string assetName = drUIForm.AssetName;
             if (string.IsNullOrEmpty(uiGroupName)) return uiComponent.HasUIForm(assetName);
 
-            var uiGroup = uiComponent.GetUIGroup(uiGroupName);
+            IUIGroup uiGroup = uiComponent.GetUIGroup(uiGroupName);
             if (uiGroup == null) return false;
 
             return uiGroup.HasUIForm(assetName);
@@ -64,14 +66,14 @@ namespace GameMain
 
         public static UGuiForm GetUIForm(this UIComponent uiComponent, int uiFormId, string uiGroupName = null)
         {
-            var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
-            var drUIForm = tbUIForm.GetOrDefault(uiFormId);
+            TbUIForm tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
+            UIForm drUIForm = tbUIForm.GetOrDefault(uiFormId);
 
 
             if (drUIForm == null) return null;
 
-            var assetName = AssetUtility.GetUIFormAsset(drUIForm.AssetName);
-            UIForm uiForm = null;
+            string assetName = drUIForm.AssetName;
+            UnityGameFramework.Runtime.UIForm uiForm = null;
             if (string.IsNullOrEmpty(uiGroupName))
             {
                 uiForm = uiComponent.GetUIForm(assetName);
@@ -80,10 +82,10 @@ namespace GameMain
                 return (UGuiForm)uiForm.Logic;
             }
 
-            var uiGroup = uiComponent.GetUIGroup(uiGroupName);
+            IUIGroup uiGroup = uiComponent.GetUIGroup(uiGroupName);
             if (uiGroup == null) return null;
 
-            uiForm = (UIForm)uiGroup.GetUIForm(assetName);
+            uiForm = (UnityGameFramework.Runtime.UIForm)uiGroup.GetUIForm(assetName);
             if (uiForm == null) return null;
 
             return (UGuiForm)uiForm.Logic;
@@ -101,15 +103,15 @@ namespace GameMain
 
         public static async UniTask<IUIForm> OpenUIForm(this UIComponent uiComponent, int uiFormId, object userData = null)
         {
-            var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
-            var drUIForm = tbUIForm.GetOrDefault(uiFormId);
+            TbUIForm tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
+            UIForm drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null)
             {
                 Log.Warning("Can not load UI form '{0}' from data table.", uiFormId.ToString());
                 return null;
             }
 
-            var assetName = AssetUtility.GetUIFormAsset(drUIForm.AssetName);
+            string assetName = drUIForm.AssetName;
             if (!drUIForm.AllowMultiInstance)
             {
                 if (uiComponent.IsLoadingUIForm(assetName)) return null;

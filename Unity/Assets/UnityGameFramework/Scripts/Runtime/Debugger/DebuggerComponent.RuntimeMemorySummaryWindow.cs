@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_5_5_OR_NEWER
 using UnityEngine.Profiling;
-#endif
 
 namespace UnityGameFramework.Runtime
 {
@@ -34,7 +32,9 @@ namespace UnityGameFramework.Runtime
                     }
                     else
                     {
-                        GUILayout.Label(Utility.Text.Format("<b>{0} Objects ({1}) obtained at {2:yyyy-MM-dd HH:mm:ss}.</b>", m_SampleCount, GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime()));
+                        GUILayout.Label(Utility.Text.Format(
+                            "<b>{0} Objects ({1}) obtained at {2:yyyy-MM-dd HH:mm:ss}.</b>", m_SampleCount,
+                            GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime()));
 
                         GUILayout.BeginHorizontal();
                         {
@@ -70,11 +70,7 @@ namespace UnityGameFramework.Runtime
                 for (int i = 0; i < samples.Length; i++)
                 {
                     long sampleSize = 0L;
-#if UNITY_5_6_OR_NEWER
                     sampleSize = Profiler.GetRuntimeMemorySizeLong(samples[i]);
-#else
-                    sampleSize = Profiler.GetRuntimeMemorySize(samples[i]);
-#endif
                     string name = samples[i].GetType().Name;
                     m_SampleCount++;
                     m_SampleSize += sampleSize;

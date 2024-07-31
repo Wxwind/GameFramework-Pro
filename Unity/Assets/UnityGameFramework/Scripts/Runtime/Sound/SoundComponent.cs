@@ -5,9 +5,6 @@ using GameFramework.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-#if UNITY_5_3
-using GameFramework.Scene;
-#endif
 
 namespace UnityGameFramework.Runtime
 {
@@ -72,25 +69,10 @@ namespace UnityGameFramework.Runtime
             m_SoundManager.PlaySoundSuccess += OnPlaySoundSuccess;
             m_SoundManager.PlaySoundFailure += OnPlaySoundFailure;
 
-
             m_AudioListener = gameObject.GetOrAddComponent<AudioListener>();
 
-#if UNITY_5_4_OR_NEWER
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-#else
-            ISceneManager sceneManager = GameFrameworkEntry.GetModule<ISceneManager>();
-            if (sceneManager == null)
-            {
-                Log.Fatal("Scene manager is invalid.");
-                return;
-            }
-
-            sceneManager.LoadSceneSuccess += OnLoadSceneSuccess;
-            sceneManager.LoadSceneFailure += OnLoadSceneFailure;
-            sceneManager.UnloadSceneSuccess += OnUnloadSceneSuccess;
-            sceneManager.UnloadSceneFailure += OnUnloadSceneFailure;
-#endif
         }
 
         private void Start()
@@ -146,10 +128,8 @@ namespace UnityGameFramework.Runtime
 
         private void OnDestroy()
         {
-#if UNITY_5_4_OR_NEWER
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
-#endif
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private string m_JsonHelperTypeName = "UnityGameFramework.Runtime.DefaultJsonHelper";
 
-        [SerializeField] private int m_FrameRate = 30;
+        [SerializeField] private int m_FrameRate = 60;
 
         [SerializeField] private float m_GameSpeed = 1f;
 
@@ -119,7 +119,6 @@ namespace UnityGameFramework.Runtime
                 GameFramework.Version.InternalGameVersion);
             Log.Info("Unity Version: {0}", Application.unityVersion);
 
-#if UNITY_5_3_OR_NEWER || UNITY_5_3
             InitCompressionHelper();
             InitJsonHelper();
 
@@ -130,13 +129,7 @@ namespace UnityGameFramework.Runtime
             Time.timeScale = m_GameSpeed;
             Application.runInBackground = m_RunInBackground;
             Screen.sleepTimeout = m_NeverSleep ? SleepTimeout.NeverSleep : SleepTimeout.SystemSetting;
-#else
-            Log.Error("Game Framework only applies with Unity 5.3 and above, but current Unity version is {0}.", Application.unityVersion);
-            GameEntry.Shutdown(ShutdownType.Quit);
-#endif
-#if UNITY_5_6_OR_NEWER
             Application.lowMemory += OnLowMemory;
-#endif
         }
 
         private void Start()
@@ -150,9 +143,8 @@ namespace UnityGameFramework.Runtime
 
         private void OnApplicationQuit()
         {
-#if UNITY_5_6_OR_NEWER
             Application.lowMemory -= OnLowMemory;
-#endif
+
             StopAllCoroutines();
         }
 

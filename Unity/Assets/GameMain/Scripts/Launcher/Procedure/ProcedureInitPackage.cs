@@ -20,9 +20,9 @@ namespace GameMain
 
         private async UniTaskVoid InitPackage(ProcedureOwner procedureOwner)
         {
-            var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-            var resourceMode = GameEntry.Base.ResourceMode;
-            var initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
+            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+            ResourceMode resourceMode = GameEntry.Base.ResourceMode;
+            InitializationOperation initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
 
             // 如果初始化失败弹出提示界面
             if (initializationOperation.Status != EOperationStatus.Succeed)
@@ -34,7 +34,7 @@ namespace GameMain
             }
             else
             {
-                var version = initializationOperation.PackageVersion;
+                string version = initializationOperation.PackageVersion;
                 Log.Info($"Init resource package version : {version}");
                 GameEntry.Resource.ApplicableGameVersion = initializationOperation.PackageVersion;
 
@@ -43,13 +43,13 @@ namespace GameMain
                 // 编辑器模式。
                 if (GameEntry.Base.ResourceMode == ResourceMode.EditorSimulateMode)
                 {
-                    Log.Info("Editor resource mode detected. Into ProcedurePreload.");
+                    Log.Info("EditorSimulateMode detected. Into ProcedurePreload.");
                     ChangeState<ProcedurePreload>(procedureOwner);
                 }
                 // 单机模式。
                 else if (GameEntry.Base.ResourceMode == ResourceMode.OfflinePlayMode)
                 {
-                    Log.Info("Package resource mode detected. Into ProcedurePreload.");
+                    Log.Info("OfflinePlayMode detected. Into ProcedurePreload.");
                     ChangeState<ProcedurePreload>(procedureOwner);
                 }
                 // 可更新模式。

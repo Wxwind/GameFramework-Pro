@@ -20,17 +20,11 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Processor Count", SystemInfo.processorCount.ToString());
                     DrawItem("Processor Frequency", Utility.Text.Format("{0} MHz", SystemInfo.processorFrequency));
                     DrawItem("System Memory Size", Utility.Text.Format("{0} MB", SystemInfo.systemMemorySize));
-#if UNITY_5_5_OR_NEWER
                     DrawItem("Operating System Family", SystemInfo.operatingSystemFamily.ToString());
-#endif
                     DrawItem("Operating System", SystemInfo.operatingSystem);
-#if UNITY_5_6_OR_NEWER
                     DrawItem("Battery Status", SystemInfo.batteryStatus.ToString());
                     DrawItem("Battery Level", GetBatteryLevelString(SystemInfo.batteryLevel));
-#endif
-#if UNITY_5_4_OR_NEWER
                     DrawItem("Supports Audio", SystemInfo.supportsAudio.ToString());
-#endif
                     DrawItem("Supports Location Service", SystemInfo.supportsLocationService.ToString());
                     DrawItem("Supports Accelerometer", SystemInfo.supportsAccelerometer.ToString());
                     DrawItem("Supports Gyroscope", SystemInfo.supportsGyroscope.ToString());

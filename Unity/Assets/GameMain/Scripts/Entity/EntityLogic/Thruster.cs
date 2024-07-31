@@ -4,29 +4,23 @@ using UnityGameFramework.Runtime;
 
 namespace GameMain
 {
-        /// <summary>
-        ///     推进器类。
-        /// </summary>
-        public class Thruster : Entity
+    /// <summary>
+    ///     推进器类。
+    /// </summary>
+    public class Thruster : Entity
     {
         private const string AttachPoint = "Thruster Point";
 
         [SerializeField] private ThrusterData m_ThrusterData;
 
-#if UNITY_2017_3_OR_NEWER
+
         protected override void OnInit(object userData)
-#else
-        protected internal override void OnInit(object userData)
-#endif
         {
             base.OnInit(userData);
         }
 
-#if UNITY_2017_3_OR_NEWER
+
         protected override void OnShow(object userData)
-#else
-        protected internal override void OnShow(object userData)
-#endif
         {
             base.OnShow(userData);
 
@@ -40,11 +34,8 @@ namespace GameMain
             GameEntry.Entity.AttachEntity(this, m_ThrusterData.OwnerId, AttachPoint);
         }
 
-#if UNITY_2017_3_OR_NEWER
+
         protected override void OnAttachTo(EntityLogic parentEntity, Transform parentTransform, object userData)
-#else
-        protected internal override void OnAttachTo(EntityLogic parentEntity, Transform parentTransform, object userData)
-#endif
         {
             base.OnAttachTo(parentEntity, parentTransform, userData);
 

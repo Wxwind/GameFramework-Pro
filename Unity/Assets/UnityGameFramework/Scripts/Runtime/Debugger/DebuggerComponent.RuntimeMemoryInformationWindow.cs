@@ -2,15 +2,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-#if UNITY_5_5_OR_NEWER
 using UnityEngine.Profiling;
-#endif
 
 namespace UnityGameFramework.Runtime
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
-        private sealed partial class RuntimeMemoryInformationWindow<T> : ScrollableDebuggerWindowBase where T : UnityEngine.Object
+        private sealed partial class RuntimeMemoryInformationWindow<T> : ScrollableDebuggerWindowBase
+            where T : UnityEngine.Object
         {
             private const int ShowSampleCount = 300;
 
@@ -40,11 +39,17 @@ namespace UnityGameFramework.Runtime
                     {
                         if (m_DuplicateSimpleCount > 0)
                         {
-                            GUILayout.Label(Utility.Text.Format("<b>{0} {1}s ({2}) obtained at {3:yyyy-MM-dd HH:mm:ss}, while {4} {1}s ({5}) might be duplicated.</b>", m_Samples.Count, typeName, GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime(), m_DuplicateSimpleCount, GetByteLengthString(m_DuplicateSampleSize)));
+                            GUILayout.Label(Utility.Text.Format(
+                                "<b>{0} {1}s ({2}) obtained at {3:yyyy-MM-dd HH:mm:ss}, while {4} {1}s ({5}) might be duplicated.</b>",
+                                m_Samples.Count, typeName, GetByteLengthString(m_SampleSize),
+                                m_SampleTime.ToLocalTime(), m_DuplicateSimpleCount,
+                                GetByteLengthString(m_DuplicateSampleSize)));
                         }
                         else
                         {
-                            GUILayout.Label(Utility.Text.Format("<b>{0} {1}s ({2}) obtained at {3:yyyy-MM-dd HH:mm:ss}.</b>", m_Samples.Count, typeName, GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime()));
+                            GUILayout.Label(Utility.Text.Format(
+                                "<b>{0} {1}s ({2}) obtained at {3:yyyy-MM-dd HH:mm:ss}.</b>", m_Samples.Count, typeName,
+                                GetByteLengthString(m_SampleSize), m_SampleTime.ToLocalTime()));
                         }
 
                         if (m_Samples.Count > 0)
@@ -63,9 +68,18 @@ namespace UnityGameFramework.Runtime
                         {
                             GUILayout.BeginHorizontal();
                             {
-                                GUILayout.Label(m_Samples[i].Highlight ? Utility.Text.Format("<color=yellow>{0}</color>", m_Samples[i].Name) : m_Samples[i].Name);
-                                GUILayout.Label(m_Samples[i].Highlight ? Utility.Text.Format("<color=yellow>{0}</color>", m_Samples[i].Type) : m_Samples[i].Type, GUILayout.Width(240f));
-                                GUILayout.Label(m_Samples[i].Highlight ? Utility.Text.Format("<color=yellow>{0}</color>", GetByteLengthString(m_Samples[i].Size)) : GetByteLengthString(m_Samples[i].Size), GUILayout.Width(80f));
+                                GUILayout.Label(m_Samples[i].Highlight
+                                    ? Utility.Text.Format("<color=yellow>{0}</color>", m_Samples[i].Name)
+                                    : m_Samples[i].Name);
+                                GUILayout.Label(
+                                    m_Samples[i].Highlight
+                                        ? Utility.Text.Format("<color=yellow>{0}</color>", m_Samples[i].Type)
+                                        : m_Samples[i].Type, GUILayout.Width(240f));
+                                GUILayout.Label(
+                                    m_Samples[i].Highlight
+                                        ? Utility.Text.Format("<color=yellow>{0}</color>",
+                                            GetByteLengthString(m_Samples[i].Size))
+                                        : GetByteLengthString(m_Samples[i].Size), GUILayout.Width(80f));
                             }
                             GUILayout.EndHorizontal();
 
@@ -92,11 +106,9 @@ namespace UnityGameFramework.Runtime
                 for (int i = 0; i < samples.Length; i++)
                 {
                     long sampleSize = 0L;
-#if UNITY_5_6_OR_NEWER
+
                     sampleSize = Profiler.GetRuntimeMemorySizeLong(samples[i]);
-#else
-                    sampleSize = Profiler.GetRuntimeMemorySize(samples[i]);
-#endif
+
                     m_SampleSize += sampleSize;
                     m_Samples.Add(new Sample(samples[i].name, samples[i].GetType().Name, sampleSize));
                 }
@@ -105,7 +117,8 @@ namespace UnityGameFramework.Runtime
 
                 for (int i = 1; i < m_Samples.Count; i++)
                 {
-                    if (m_Samples[i].Name == m_Samples[i - 1].Name && m_Samples[i].Type == m_Samples[i - 1].Type && m_Samples[i].Size == m_Samples[i - 1].Size)
+                    if (m_Samples[i].Name == m_Samples[i - 1].Name && m_Samples[i].Type == m_Samples[i - 1].Type &&
+                        m_Samples[i].Size == m_Samples[i - 1].Size)
                     {
                         m_Samples[i].Highlight = true;
                         m_DuplicateSampleSize += m_Samples[i].Size;

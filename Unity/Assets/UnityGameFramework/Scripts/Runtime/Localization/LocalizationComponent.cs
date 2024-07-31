@@ -16,11 +16,10 @@ namespace UnityGameFramework.Runtime
         private const int DefaultPriority = 0;
 
         private ILocalizationManager m_LocalizationManager = null;
-        private EventComponent m_EventComponent = null;
+        private EventComponent       m_EventComponent      = null;
 
 
-        [SerializeField]
-        private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
+        [SerializeField] private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
 
         [SerializeField] private LocalizationHelperBase m_CustomLocalizationHelper = null;
 
@@ -31,33 +30,24 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         public Language Language
         {
-            get { return m_LocalizationManager.Language; }
-            set { m_LocalizationManager.Language = value; }
+            get => m_LocalizationManager.Language;
+            set => m_LocalizationManager.Language = value;
         }
 
         /// <summary>
         /// 获取系统语言。
         /// </summary>
-        public Language SystemLanguage
-        {
-            get { return m_LocalizationManager.SystemLanguage; }
-        }
+        public Language SystemLanguage => m_LocalizationManager.SystemLanguage;
 
         /// <summary>
         /// 获取字典数量。
         /// </summary>
-        public int DictionaryCount
-        {
-            get { return m_LocalizationManager.DictionaryCount; }
-        }
+        public int DictionaryCount => m_LocalizationManager.DictionaryCount;
 
         /// <summary>
         /// 获取缓冲二进制流的大小。
         /// </summary>
-        public int CachedBytesSize
-        {
-            get { return m_LocalizationManager.CachedBytesSize; }
-        }
+        public int CachedBytesSize => m_LocalizationManager.CachedBytesSize;
 
         /// <summary>
         /// 游戏框架组件初始化。
@@ -72,14 +62,11 @@ namespace UnityGameFramework.Runtime
                 Log.Fatal("Localization manager is invalid.");
                 return;
             }
-
-            m_LocalizationManager.ReadDataSuccess += OnReadDataSuccess;
-            m_LocalizationManager.ReadDataFailure += OnReadDataFailure;
         }
 
         private void Start()
         {
-            BaseComponent baseComponent = GameEntry.GetComponent<BaseComponent>();
+            var baseComponent = GameEntry.GetComponent<BaseComponent>();
             if (baseComponent == null)
             {
                 Log.Fatal("Base component is invalid.");
@@ -691,28 +678,6 @@ namespace UnityGameFramework.Runtime
         public void RemoveAllRawStrings()
         {
             m_LocalizationManager.RemoveAllRawStrings();
-        }
-
-        private void OnReadDataSuccess(object sender, ReadDataSuccessEventArgs e)
-        {
-            m_EventComponent.Fire(this, LoadDictionarySuccessEventArgs.Create(e));
-        }
-
-        private void OnReadDataFailure(object sender, ReadDataFailureEventArgs e)
-        {
-            Log.Warning("Load dictionary failure, asset name '{0}', error message '{1}'.", e.DataAssetName,
-                e.ErrorMessage);
-            m_EventComponent.Fire(this, LoadDictionaryFailureEventArgs.Create(e));
-        }
-
-        private void OnReadDataUpdate(object sender, ReadDataUpdateEventArgs e)
-        {
-            m_EventComponent.Fire(this, LoadDictionaryUpdateEventArgs.Create(e));
-        }
-
-        private void OnReadDataDependencyAsset(object sender, ReadDataDependencyAssetEventArgs e)
-        {
-            m_EventComponent.Fire(this, LoadDictionaryDependencyAssetEventArgs.Create(e));
         }
     }
 }

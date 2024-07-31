@@ -11,21 +11,15 @@ namespace UnityGameFramework.Editor
     {
         private static readonly string[] RuntimeAssemblyNames =
         {
-#if UNITY_2017_3_OR_NEWER
             "UnityGameFramework.Runtime",
-#endif
             "Assembly-CSharp",
         };
 
         private static readonly string[] RuntimeOrEditorAssemblyNames =
         {
-#if UNITY_2017_3_OR_NEWER
             "UnityGameFramework.Runtime",
-#endif
             "Assembly-CSharp",
-#if UNITY_2017_3_OR_NEWER
             "UnityGameFramework.Editor",
-#endif
             "Assembly-CSharp-Editor",
         };
 
@@ -43,7 +37,8 @@ namespace UnityGameFramework.Editor
                     continue;
                 }
 
-                foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+                foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Static | BindingFlags.Public |
+                                                               BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
                 {
                     if (fieldInfo.FieldType == typeof(string) && fieldInfo.IsDefined(typeof(T), false))
                     {
@@ -51,7 +46,9 @@ namespace UnityGameFramework.Editor
                     }
                 }
 
-                foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+                foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Static | BindingFlags.Public |
+                                                                         BindingFlags.NonPublic |
+                                                                         BindingFlags.DeclaredOnly))
                 {
                     if (propertyInfo.PropertyType == typeof(string) && propertyInfo.IsDefined(typeof(T), false))
                     {
