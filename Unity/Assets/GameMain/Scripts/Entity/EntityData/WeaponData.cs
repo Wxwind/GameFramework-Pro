@@ -20,7 +20,7 @@ namespace GameMain
             : base(entityId, typeId, ownerId, ownerCamp)
         {
             var tbWeapon = GameEntry.LubanConfig.Tables.TbWeapon;
-            cfg.Weapon drWeapon = null;
+            cfg.StarForce.Weapon drWeapon = null;
             if (TypeId != 0) drWeapon = tbWeapon.GetOrDefault(TypeId);
             if (drWeapon == null) return;
 

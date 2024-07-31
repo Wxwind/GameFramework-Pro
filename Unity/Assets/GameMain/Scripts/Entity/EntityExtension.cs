@@ -1,5 +1,4 @@
 ﻿using System;
-using cfg.StarForce;
 using Cysharp.Threading.Tasks;
 using UnityGameFramework.Runtime;
 
@@ -15,7 +14,7 @@ namespace GameMain
 
         public static Entity GetGameEntity(this EntityComponent entityComponent, int entityId)
         {
-            UnityGameFramework.Runtime.Entity entity = entityComponent.GetEntity(entityId);
+            var entity = entityComponent.GetEntity(entityId);
             if (entity == null) return null;
 
             return (Entity)entity.Logic;
@@ -35,50 +34,50 @@ namespace GameMain
         public static async UniTask<MyAircraft> ShowMyAircraft(this EntityComponent entityComponent,
             MyAircraftData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityComponent.ShowEntity(typeof(MyAircraft), "Aircraft", Constant.AssetPriority.MyAircraftAsset,
+            var entity = await entityComponent.ShowEntity(typeof(MyAircraft), "Aircraft", Constant.AssetPriority.MyAircraftAsset,
                 data);
             return entity.Logic as MyAircraft;
         }
 
         public static async UniTask<Aircraft> ShowAircraft(this EntityComponent entityComponent, AircraftData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityComponent.ShowEntity(typeof(Aircraft), "Aircraft", Constant.AssetPriority.AircraftAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Aircraft), "Aircraft", Constant.AssetPriority.AircraftAsset, data);
             return entity.Logic as Aircraft;
         }
 
         public static async UniTask<Thruster> ShowThruster(this EntityComponent entityComponent, ThrusterData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityComponent.ShowEntity(typeof(Thruster), "Thruster", Constant.AssetPriority.ThrusterAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Thruster), "Thruster", Constant.AssetPriority.ThrusterAsset, data);
             return entity.Logic as Thruster;
         }
 
         public static async UniTask<Weapon> ShowWeapon(this EntityComponent entityComponent, WeaponData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityComponent.ShowEntity(typeof(Weapon), "Weapon", Constant.AssetPriority.WeaponAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Weapon), "Weapon", Constant.AssetPriority.WeaponAsset, data);
             return entity.Logic as Weapon;
         }
 
         public static async UniTask<Armor> ShowArmor(this EntityComponent entityComponent, ArmorData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityComponent.ShowEntity(typeof(Armor), "Armor", Constant.AssetPriority.ArmorAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Armor), "Armor", Constant.AssetPriority.ArmorAsset, data);
             return entity.Logic as Armor;
         }
 
         public static async UniTask<Bullet> ShowBullet(this EntityComponent entityCompoennt, BulletData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityCompoennt.ShowEntity(typeof(Bullet), "Bullet", Constant.AssetPriority.BulletAsset, data);
+            var entity = await entityCompoennt.ShowEntity(typeof(Bullet), "Bullet", Constant.AssetPriority.BulletAsset, data);
             return entity.Logic as Bullet;
         }
 
         public static async UniTask<Asteroid> ShowAsteroid(this EntityComponent entityCompoennt, AsteroidData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityCompoennt.ShowEntity(typeof(Asteroid), "Asteroid", Constant.AssetPriority.AsteroiAsset, data);
+            var entity = await entityCompoennt.ShowEntity(typeof(Asteroid), "Asteroid", Constant.AssetPriority.AsteroiAsset, data);
             return entity.Logic as Asteroid;
         }
 
         public static async UniTask<Effect> ShowEffect(this EntityComponent entityComponent, EffectData data)
         {
-            UnityGameFramework.Runtime.Entity entity = await entityComponent.ShowEntity(typeof(Effect), "Effect", Constant.AssetPriority.EffectAsset, data);
+            var entity = await entityComponent.ShowEntity(typeof(Effect), "Effect", Constant.AssetPriority.EffectAsset, data);
             return entity.Logic as Effect;
         }
 
@@ -92,8 +91,8 @@ namespace GameMain
                 return null;
             }
 
-            TbEntity tbEntity = GameEntry.LubanConfig.Tables.TbEntity;
-            cfg.Entity drEntity = tbEntity.GetOrDefault(data.TypeId);
+            var tbEntity = GameEntry.LubanConfig.Tables.TbEntity;
+            var drEntity = tbEntity.GetOrDefault(data.TypeId);
 
             if (drEntity == null)
             {
