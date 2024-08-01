@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
@@ -20,11 +19,6 @@ namespace GameFramework.Entity
         /// 获取实体组数量。
         /// </summary>
         int EntityGroupCount { get; }
-
-        /// <summary>
-        /// 隐藏实体完成事件。
-        /// </summary>
-        event EventHandler<HideEntityCompleteEventArgs> HideEntityComplete;
 
         /// <summary>
         /// 设置对象池管理器。

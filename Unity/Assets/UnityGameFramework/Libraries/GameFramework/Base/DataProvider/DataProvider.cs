@@ -242,7 +242,7 @@ namespace GameFramework
         private void LoadAssetFailureCallback(string dataAssetName, string errorMessage)
         {
             string appendErrorMessage =
-                Utility.Text.Format("Load data failure, data asset name '{0}', error message '{2}'.",
+                Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
                     dataAssetName, errorMessage);
 
             throw new GameFrameworkException(appendErrorMessage);

@@ -13,17 +13,16 @@ namespace GameFramework.Entity
     /// </summary>
     internal sealed partial class EntityManager : GameFrameworkModule, IEntityManager
     {
-        private readonly Dictionary<int, EntityInfo>               m_EntityInfos;
-        private readonly Dictionary<string, EntityGroup>           m_EntityGroups;
-        private readonly Dictionary<int, int>                      m_EntitiesBeingLoaded;
-        private readonly HashSet<int>                              m_EntitiesToReleaseOnLoad;
-        private readonly Queue<EntityInfo>                         m_RecycleQueue;
-        private          IObjectPoolManager                        m_ObjectPoolManager;
-        private          IResourceManager                          m_ResourceManager;
-        private          IEntityHelper                             m_EntityHelper;
-        private          int                                       m_Serial;
-        private          bool                                      m_IsShutdown;
-        private          EventHandler<HideEntityCompleteEventArgs> m_HideEntityCompleteEventHandler;
+        private readonly Dictionary<int, EntityInfo>     m_EntityInfos;
+        private readonly Dictionary<string, EntityGroup> m_EntityGroups;
+        private readonly Dictionary<int, int>            m_EntitiesBeingLoaded;
+        private readonly HashSet<int>                    m_EntitiesToReleaseOnLoad;
+        private readonly Queue<EntityInfo>               m_RecycleQueue;
+        private          IObjectPoolManager              m_ObjectPoolManager;
+        private          IResourceManager                m_ResourceManager;
+        private          IEntityHelper                   m_EntityHelper;
+        private          int                             m_Serial;
+        private          bool                            m_IsShutdown;
 
         /// <summary>
         /// 初始化实体管理器的新实例。
@@ -40,7 +39,6 @@ namespace GameFramework.Entity
             m_EntityHelper = null;
             m_Serial = 0;
             m_IsShutdown = false;
-            m_HideEntityCompleteEventHandler = null;
         }
 
         /// <summary>
@@ -53,15 +51,6 @@ namespace GameFramework.Entity
         /// </summary>
         public int EntityGroupCount => m_EntityGroups.Count;
 
-
-        /// <summary>
-        /// 隐藏实体完成事件。
-        /// </summary>
-        public event EventHandler<HideEntityCompleteEventArgs> HideEntityComplete
-        {
-            add => m_HideEntityCompleteEventHandler += value;
-            remove => m_HideEntityCompleteEventHandler -= value;
-        }
 
         /// <summary>
         /// 实体管理器轮询。
@@ -190,7 +179,7 @@ namespace GameFramework.Entity
         /// <returns>所有实体组。</returns>
         public IEntityGroup[] GetAllEntityGroups()
         {
-            var index = 0;
+            int index = 0;
             var results = new IEntityGroup[m_EntityGroups.Count];
             foreach (var entityGroup in m_EntityGroups)
             {
@@ -388,7 +377,7 @@ namespace GameFramework.Entity
         /// <returns>所有已加载的实体。</returns>
         public IEntity[] GetAllLoadedEntities()
         {
-            var index = 0;
+            int index = 0;
             var results = new IEntity[m_EntityInfos.Count];
             foreach (var entityInfo in m_EntityInfos)
             {
@@ -422,8 +411,8 @@ namespace GameFramework.Entity
         /// <returns>所有正在加载实体的编号。</returns>
         public int[] GetAllLoadingEntityIds()
         {
-            var index = 0;
-            var results = new int[m_EntitiesBeingLoaded.Count];
+            int index = 0;
+            int[] results = new int[m_EntitiesBeingLoaded.Count];
             foreach (var entityBeingLoaded in m_EntitiesBeingLoaded)
             {
                 results[index++] = entityBeingLoaded.Key;
@@ -562,12 +551,12 @@ namespace GameFramework.Entity
             var entityInstanceObject = entityGroup.SpawnEntityInstanceObject(entityAssetName);
             if (entityInstanceObject == null)
             {
-                var serialId = ++m_Serial;
+                int serialId = ++m_Serial;
                 var info = ShowEntityInfo.Create(serialId, entityId, entityGroup, userData);
                 m_EntitiesBeingLoaded.Add(entityId, serialId);
                 try
                 {
-                    var time = Time.time;
+                    float time = Time.time;
                     var asset = await m_ResourceManager.LoadAssetAsync<Object>(entityAssetName);
                     return LoadAssetSuccessCallback(entityAssetName, asset, Time.time - time, info);
                 }
@@ -1153,14 +1142,6 @@ namespace GameFramework.Entity
                 throw new GameFrameworkException("Entity info is unmanaged.");
             }
 
-            if (m_HideEntityCompleteEventHandler != null)
-            {
-                var hideEntityCompleteEventArgs =
-                    HideEntityCompleteEventArgs.Create(entity.Id, entity.EntityAssetName, entityGroup, userData);
-                m_HideEntityCompleteEventHandler(this, hideEntityCompleteEventArgs);
-                ReferencePool.Release(hideEntityCompleteEventArgs);
-            }
-
             m_RecycleQueue.Enqueue(entityInfo);
         }
 
@@ -1196,8 +1177,8 @@ namespace GameFramework.Entity
             }
 
             m_EntitiesBeingLoaded.Remove(showEntityInfo.EntityId);
-            var appendErrorMessage =
-                Utility.Text.Format("Load entity failure, asset name '{0}', error message '{2}'.",
+            string appendErrorMessage =
+                Utility.Text.Format("Load entity failure, asset name '{0}', error message '{1}'.",
                     entityAssetName, errorMessage);
 
             throw new GameFrameworkException(appendErrorMessage);

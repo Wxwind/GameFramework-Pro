@@ -12,14 +12,14 @@ namespace GameFramework.Sound
     /// </summary>
     internal sealed partial class SoundManager : GameFrameworkModule, ISoundManager
     {
-        private readonly Dictionary<string, SoundGroup> m_SoundGroups;
-        private readonly List<int> m_SoundsBeingLoaded;
-        private readonly HashSet<int> m_SoundsToReleaseOnLoad;
-        private IResourceManager m_ResourceManager;
-        private ISoundHelper m_SoundHelper;
-        private int m_Serial;
-        private EventHandler<PlaySoundSuccessEventArgs> m_PlaySoundSuccessEventHandler;
-        private EventHandler<PlaySoundFailureEventArgs> m_PlaySoundFailureEventHandler;
+        private readonly Dictionary<string, SoundGroup>          m_SoundGroups;
+        private readonly List<int>                               m_SoundsBeingLoaded;
+        private readonly HashSet<int>                            m_SoundsToReleaseOnLoad;
+        private          IResourceManager                        m_ResourceManager;
+        private          ISoundHelper                            m_SoundHelper;
+        private          int                                     m_Serial;
+        private          EventHandler<PlaySoundSuccessEventArgs> m_PlaySoundSuccessEventHandler;
+        private          EventHandler<PlaySoundFailureEventArgs> m_PlaySoundFailureEventHandler;
 
         /// <summary>
         /// 初始化声音管理器的新实例。
@@ -150,7 +150,7 @@ namespace GameFramework.Sound
         /// <returns>所有声音组。</returns>
         public ISoundGroup[] GetAllSoundGroups()
         {
-            var index = 0;
+            int index = 0;
             var results = new ISoundGroup[m_SoundGroups.Count];
             foreach (var soundGroup in m_SoundGroups)
             {
@@ -399,7 +399,7 @@ namespace GameFramework.Sound
                 playSoundParams = PlaySoundParams.Create();
             }
 
-            var serialId = ++m_Serial;
+            int serialId = ++m_Serial;
             PlaySoundErrorCode? errorCode = null;
             string errorMessage = null;
             var soundGroup = (SoundGroup)GetSoundGroup(soundGroupName);
@@ -436,16 +436,16 @@ namespace GameFramework.Sound
 
             m_SoundsBeingLoaded.Add(serialId);
 
-            PlaySoundInfo playSoundInfo = PlaySoundInfo.Create(serialId, soundGroup, playSoundParams, userData);
+            var playSoundInfo = PlaySoundInfo.Create(serialId, soundGroup, playSoundParams, userData);
             InternalPlaySound(soundAssetName, playSoundInfo).Forget();
             return serialId;
         }
 
         private async UniTaskVoid InternalPlaySound(string soundAssetName, PlaySoundInfo playSoundInfo)
         {
-            var time = Time.time;
+            float time = Time.time;
             var audioClip = await m_ResourceManager.LoadAssetAsync<Object>(soundAssetName);
-            var duration = Time.time - time;
+            float duration = Time.time - time;
             if (audioClip != null)
             {
                 LoadAssetSuccessCallback(soundAssetName, audioClip, duration, playSoundInfo);
@@ -517,7 +517,7 @@ namespace GameFramework.Sound
         /// </summary>
         public void StopAllLoadingSounds()
         {
-            foreach (var serialId in m_SoundsBeingLoaded)
+            foreach (int serialId in m_SoundsBeingLoaded)
             {
                 m_SoundsToReleaseOnLoad.Add(serialId);
             }
@@ -620,7 +620,7 @@ namespace GameFramework.Sound
 
             m_SoundsToReleaseOnLoad.Remove(playSoundInfo.SerialId);
             m_SoundHelper.ReleaseSoundAsset(soundAsset);
-            var errorMessage = Utility.Text.Format("Sound group '{0}' play sound '{1}' failure.",
+            string errorMessage = Utility.Text.Format("Sound group '{0}' play sound '{1}' failure.",
                 playSoundInfo.SoundGroup.Name, soundAssetName);
             if (m_PlaySoundFailureEventHandler != null)
             {
@@ -664,8 +664,8 @@ namespace GameFramework.Sound
             }
 
             m_SoundsBeingLoaded.Remove(playSoundInfo.SerialId);
-            var appendErrorMessage =
-                Utility.Text.Format("Load sound failure, asset name '{0}', error message '{2}'.",
+            string appendErrorMessage =
+                Utility.Text.Format("Load sound failure, asset name '{0}', error message '{1}'.",
                     soundAssetName, errorMessage);
             if (m_PlaySoundFailureEventHandler != null)
             {

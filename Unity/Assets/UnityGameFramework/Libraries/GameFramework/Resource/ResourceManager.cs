@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using YooAsset;
 using Object = UnityEngine.Object;
@@ -14,7 +13,7 @@ namespace GameFramework.Resource
     internal sealed partial class ResourceManager : GameFrameworkModule, IResourceManager
     {
         private readonly Dictionary<string, ResourcePackage> m_PackagesDict = new();
-        private readonly Dictionary<string, SceneHandle> m_SceneDict = new();
+        private readonly Dictionary<string, SceneHandle>     m_SceneDict    = new();
 
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
@@ -163,8 +162,8 @@ namespace GameFramework.Resource
             // 联机运行模式
             else if (mode == ResourceMode.HostPlayMode)
             {
-                var defaultHostServer = GetHostServerURL();
-                var fallbackHostServer = GetHostServerURL();
+                string defaultHostServer = GetHostServerURL();
+                string fallbackHostServer = GetHostServerURL();
                 var createParameters = new HostPlayModeParameters();
                 createParameters.DecryptionServices = new FileStreamDecryption();
                 createParameters.BuildinQueryServices = new GameQueryServices();
@@ -175,8 +174,8 @@ namespace GameFramework.Resource
             // WebGL运行模式
             else if (mode == ResourceMode.WebPlayMode)
             {
-                var defaultHostServer = GetHostServerURL();
-                var fallbackHostServer = GetHostServerURL();
+                string defaultHostServer = GetHostServerURL();
+                string fallbackHostServer = GetHostServerURL();
                 var createParameters = new WebPlayModeParameters();
                 createParameters.DecryptionServices = new FileStreamDecryption();
                 createParameters.BuildinQueryServices = new GameQueryServices();

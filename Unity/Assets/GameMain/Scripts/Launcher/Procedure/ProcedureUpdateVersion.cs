@@ -35,8 +35,7 @@ namespace GameMain
             var package = YooAssets.GetPackage(packageName);
             var operation = package.UpdatePackageVersionAsync();
             await operation.ToUniTask();
-
-
+            
             if (operation.Status != EOperationStatus.Succeed)
             {
                 Log.Warning(operation.Error);

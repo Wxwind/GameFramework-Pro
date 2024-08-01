@@ -92,22 +92,21 @@ namespace GameMain
 
         private async UniTaskVoid LoadFont(string fontName)
         {
-            m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-            var asset = await GameEntry.Resource.LoadAssetAsync<Font>(fontName, "", null
-            );
-
-            if (asset == null)
+            try
             {
-                string errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", fontName,
-                    "asset is not exist");
-                Log.Error("Can not load font '{0}' with error message '{2}'.", fontName,
-                    errorMsg);
-            }
-            else
-            {
+                m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
+                var asset = await GameEntry.Resource.LoadAssetAsync<Font>(fontName, "", null
+                );
                 m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
                 UGuiForm.SetMainFont((Font)asset);
                 Log.Info("Load font '{0}' OK.", fontName);
+            }
+            catch (Exception e)
+            {
+                string errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", fontName,
+                    e.Message);
+                Log.Error("Can not load font '{0}' with error message '{2}'.", fontName,
+                    errorMsg);
             }
         }
     }
