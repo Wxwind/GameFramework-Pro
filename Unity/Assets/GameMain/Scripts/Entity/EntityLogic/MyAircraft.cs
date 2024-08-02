@@ -7,14 +7,8 @@ namespace GameMain
     {
         [SerializeField] private MyAircraftData m_MyAircraftData;
 
-        private Rect m_PlayerMoveBoundary;
+        private Rect    m_PlayerMoveBoundary;
         private Vector3 m_TargetPosition = Vector3.zero;
-
-
-        protected override void OnInit(object userData)
-        {
-            base.OnInit(userData);
-        }
 
 
         protected override void OnShow(object userData)
@@ -50,7 +44,7 @@ namespace GameMain
                 var point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 m_TargetPosition = new Vector3(point.x, 0f, point.z);
 
-                for (var i = 0; i < m_Weapons.Count; i++) m_Weapons[i].TryAttack();
+                for (int i = 0; i < m_Weapons.Count; i++) m_Weapons[i].TryAttack();
             }
 
             var direction = m_TargetPosition - CachedTransform.localPosition;

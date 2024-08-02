@@ -15,28 +15,28 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Sound")]
     public sealed partial class SoundComponent : GameFrameworkComponent
     {
-        private ISoundManager  m_SoundManager   = null;
-        private EventComponent m_EventComponent = null;
-        private AudioListener  m_AudioListener  = null;
+        private ISoundManager  m_SoundManager;
+        private EventComponent m_EventComponent;
+        private AudioListener  m_AudioListener;
 
 
-        [SerializeField] private Transform m_InstanceRoot = null;
+        [SerializeField] private Transform m_InstanceRoot;
 
-        [SerializeField] private AudioMixer m_AudioMixer = null;
+        [SerializeField] private AudioMixer m_AudioMixer;
 
         [SerializeField] private string m_SoundHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundHelper";
 
-        [SerializeField] private SoundHelperBase m_CustomSoundHelper = null;
+        [SerializeField] private SoundHelperBase m_CustomSoundHelper;
 
         [SerializeField] private string m_SoundGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundGroupHelper";
 
-        [SerializeField] private SoundGroupHelperBase m_CustomSoundGroupHelper = null;
+        [SerializeField] private SoundGroupHelperBase m_CustomSoundGroupHelper;
 
         [SerializeField] private string m_SoundAgentHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundAgentHelper";
 
-        [SerializeField] private SoundAgentHelperBase m_CustomSoundAgentHelper = null;
+        [SerializeField] private SoundAgentHelperBase m_CustomSoundAgentHelper;
 
-        [SerializeField] private SoundGroup[] m_SoundGroups = null;
+        [SerializeField] private SoundGroup[] m_SoundGroups;
 
         /// <summary>
         /// 获取声音组数量。
@@ -114,7 +114,6 @@ namespace UnityGameFramework.Runtime
                         m_SoundGroups[i].Mute, m_SoundGroups[i].Volume, m_SoundGroups[i].AgentHelperCount))
                 {
                     Log.Warning("Add sound group '{0}' failure.", m_SoundGroups[i].Name);
-                    continue;
                 }
             }
         }
@@ -325,7 +324,7 @@ namespace UnityGameFramework.Runtime
             PlaySoundParams playSoundParams, Entity bindingEntity)
         {
             playSoundParams.BindingEntity = bindingEntity;
-            return PlaySound(soundAssetName, soundGroupName, playSoundParams, bindingEntity);
+            return m_SoundManager.PlaySound(soundAssetName, soundGroupName, playSoundParams);
         }
 
 

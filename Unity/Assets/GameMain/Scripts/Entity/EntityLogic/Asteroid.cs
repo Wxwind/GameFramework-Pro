@@ -14,12 +14,6 @@ namespace GameMain
         private Vector3 m_RotateSphere = Vector3.zero;
 
 
-        protected override void OnInit(object userData)
-        {
-            base.OnInit(userData);
-        }
-
-
         protected override void OnShow(object userData)
         {
             base.OnShow(userData);

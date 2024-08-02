@@ -17,12 +17,6 @@ namespace GameMain
         private float m_NextAttackTime;
 
 
-        protected override void OnInit(object userData)
-        {
-            base.OnInit(userData);
-        }
-
-
         protected override void OnShow(object userData)
         {
             base.OnShow(userData);

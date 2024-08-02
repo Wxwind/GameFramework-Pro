@@ -14,12 +14,6 @@ namespace GameMain
         [SerializeField] private ThrusterData m_ThrusterData;
 
 
-        protected override void OnInit(object userData)
-        {
-            base.OnInit(userData);
-        }
-
-
         protected override void OnShow(object userData)
         {
             base.OnShow(userData);
