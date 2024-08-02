@@ -58,9 +58,9 @@ namespace UnityGameFramework.Runtime
             {
                 if (process != null)
                 {
-                    var output = "输出信息:" + process.StandardOutput.ReadToEnd();
+                    string output = "输出信息:" + process.StandardOutput.ReadToEnd();
                     Debug.Log(output);
-                    var outError = process.StandardError.ReadToEnd();
+                    string outError = process.StandardError.ReadToEnd();
                     if (outError == "")
                     {
                         Debug.Log("执行成功");
@@ -78,7 +78,7 @@ namespace UnityGameFramework.Runtime
 
         public static void RunCmd(string path, string cmdFileName, string args = "")
         {
-            var batFileFullPath = path + '\\' + cmdFileName;
+            string batFileFullPath = Path.Combine(path, cmdFileName);
             if (!File.Exists(batFileFullPath))
             {
                 Debug.LogError($"{cmdFileName}文件不存在此目录中:{path}");

@@ -13,9 +13,7 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Config")]
     public sealed class ConfigComponent : GameFrameworkComponent
     {
-        private const int DefaultPriority = 0;
-
-        private IConfigManager m_ConfigManager = null;
+        private IConfigManager m_ConfigManager  = null;
         private EventComponent m_EventComponent = null;
 
         [SerializeField] private string m_ConfigHelperTypeName = "UnityGameFramework.Runtime.DefaultConfigHelper";
@@ -27,18 +25,12 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取全局配置项数量。
         /// </summary>
-        public int Count
-        {
-            get { return m_ConfigManager.Count; }
-        }
+        public int Count => m_ConfigManager.Count;
 
         /// <summary>
         /// 获取缓冲二进制流的大小。
         /// </summary>
-        public int CachedBytesSize
-        {
-            get { return m_ConfigManager.CachedBytesSize; }
-        }
+        public int CachedBytesSize => m_ConfigManager.CachedBytesSize;
 
         /// <summary>
         /// 游戏框架组件初始化。
@@ -57,7 +49,7 @@ namespace UnityGameFramework.Runtime
 
         private void Start()
         {
-            BaseComponent baseComponent = GameEntry.GetComponent<BaseComponent>();
+            var baseComponent = GameEntry.GetComponent<BaseComponent>();
             if (baseComponent == null)
             {
                 Log.Fatal("Base component is invalid.");
@@ -75,7 +67,7 @@ namespace UnityGameFramework.Runtime
             m_ConfigManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
 
-            ConfigHelperBase configHelper = Helper.CreateHelper(m_ConfigHelperTypeName, m_CustomConfigHelper);
+            var configHelper = Helper.CreateHelper(m_ConfigHelperTypeName, m_CustomConfigHelper);
             if (configHelper == null)
             {
                 Log.Error("Can not create config helper.");
@@ -83,7 +75,7 @@ namespace UnityGameFramework.Runtime
             }
 
             configHelper.name = "Config Helper";
-            Transform transform = configHelper.transform;
+            var transform = configHelper.transform;
             transform.SetParent(this.transform);
             transform.localScale = Vector3.one;
 

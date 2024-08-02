@@ -27,7 +27,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="entityGroup">实体所属的实体组。</param>
         /// <param name="userData">用户自定义数据。</param>
         /// <returns>实体。</returns>
-        public override IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup, object userData)
+        public override IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup)
         {
             var gameObject = entityInstance as GameObject;
             if (gameObject == null)

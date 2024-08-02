@@ -15,15 +15,14 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Resource")]
     public sealed class ResourceComponent : GameFrameworkComponent
     {
-        [SerializeField] private float m_MinUnloadUnusedAssetsInterval = 60f;
-        [SerializeField] private float m_MaxUnloadUnusedAssetsInterval = 300f;
-        private AsyncOperation m_AsyncOperation;
-        private EventComponent m_EventComponent;
-        private bool m_ForceUnloadUnusedAssets;
-        private float m_LastUnloadUnusedAssetsOperationElapseSeconds;
-        private bool m_PerformGCCollect;
-        private bool m_PreorderUnloadUnusedAssets;
-        private IResourceManager m_ResourceManager;
+        [SerializeField] private float            m_MinUnloadUnusedAssetsInterval = 60f;
+        [SerializeField] private float            m_MaxUnloadUnusedAssetsInterval = 300f;
+        private                  AsyncOperation   m_AsyncOperation;
+        private                  bool             m_ForceUnloadUnusedAssets;
+        private                  float            m_LastUnloadUnusedAssetsOperationElapseSeconds;
+        private                  bool             m_PerformGCCollect;
+        private                  bool             m_PreorderUnloadUnusedAssets;
+        private                  IResourceManager m_ResourceManager;
 
 
         /// <summary>
@@ -48,22 +47,14 @@ namespace UnityGameFramework.Runtime
 
         private void Start()
         {
-            var baseComponent = GameEntry.GetComponent<BaseComponent>();
-            if (baseComponent == null)
-            {
-                Log.Fatal("Base component is invalid.");
-                return;
-            }
-
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
-                return;
-            }
-
             m_ResourceManager = GameFrameworkEntry.GetModule<IResourceManager>();
-            if (m_ResourceManager == null) Log.Fatal("Resource manager is invalid.");
+            if (m_ResourceManager == null)
+            {
+                Log.Fatal("Resource manager is invalid.");
+                return;
+            }
+
+
             m_ResourceManager.Initialize();
         }
 
@@ -73,8 +64,8 @@ namespace UnityGameFramework.Runtime
             if (m_AsyncOperation == null && (m_ForceUnloadUnusedAssets ||
                                              m_LastUnloadUnusedAssetsOperationElapseSeconds >=
                                              m_MaxUnloadUnusedAssetsInterval || (m_PreorderUnloadUnusedAssets &&
-                                                 m_LastUnloadUnusedAssetsOperationElapseSeconds >=
-                                                 m_MinUnloadUnusedAssetsInterval)))
+                                                                                 m_LastUnloadUnusedAssetsOperationElapseSeconds >=
+                                                                                 m_MinUnloadUnusedAssetsInterval)))
             {
                 Log.Info("Unload unused assets...");
                 m_ForceUnloadUnusedAssets = false;

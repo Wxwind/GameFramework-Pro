@@ -1,8 +1,8 @@
-﻿using GameFramework;
-using GameFramework.Config;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
+using GameFramework;
+using GameFramework.Config;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -13,8 +13,8 @@ namespace UnityGameFramework.Runtime
     public class DefaultConfigHelper : ConfigHelperBase
     {
         private static readonly string[] ColumnSplitSeparator = new string[] { "\t" };
-        private static readonly string BytesAssetExtension = ".bytes";
-        private const int ColumnCount = 4;
+        private static readonly string   BytesAssetExtension  = ".bytes";
+        private const           int      ColumnCount          = 4;
 
         private ResourceComponent m_ResourceComponent = null;
 
@@ -24,11 +24,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否读取全局配置成功。</returns>
         public override bool ReadData(IConfigManager configManager, string configAssetName, object configAsset)
         {
-            TextAsset configTextAsset = configAsset as TextAsset;
+            var configTextAsset = configAsset as TextAsset;
             if (configTextAsset != null)
             {
                 if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
@@ -53,7 +52,6 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否读取全局配置成功。</returns>
         public override bool ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
             int startIndex, int length)
@@ -73,7 +71,6 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configString">要解析的全局配置字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析全局配置成功。</returns>
         public override bool ParseData(IConfigManager configManager, string configString)
         {
@@ -127,9 +124,9 @@ namespace UnityGameFramework.Runtime
         {
             try
             {
-                using (MemoryStream memoryStream = new MemoryStream(configBytes, startIndex, length, false))
+                using (var memoryStream = new MemoryStream(configBytes, startIndex, length, false))
                 {
-                    using (BinaryReader binaryReader = new BinaryReader(memoryStream, Encoding.UTF8))
+                    using (var binaryReader = new BinaryReader(memoryStream, Encoding.UTF8))
                     {
                         while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
                         {

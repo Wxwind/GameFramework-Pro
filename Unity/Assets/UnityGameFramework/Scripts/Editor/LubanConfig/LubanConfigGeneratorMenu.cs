@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityGameFramework.Editor;
 using UnityGameFramework.Runtime;
@@ -13,7 +14,7 @@ namespace UnityGameFramework.Scripts.Editor.LubanConfig
         [MenuItem("Excel/Generate DataTables")]
         private static void GenerateDataTables()
         {
-            ShellExecutor.RunCmd(ProjectRootPath + "/Tools/Luban", "genJson.bat");
+            ShellExecutor.RunCmd(Path.Combine(ProjectRootPath, "Tools/Luban"), RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "genJson.bat" : "genJson.sh");
         }
 
         [MenuItem("Excel/Open Folder %E")]

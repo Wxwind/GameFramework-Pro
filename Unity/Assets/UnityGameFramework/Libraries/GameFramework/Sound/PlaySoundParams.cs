@@ -1,22 +1,28 @@
-﻿namespace GameFramework.Sound
+﻿using GameFramework.Entity;
+using UnityEngine;
+
+namespace GameFramework.Sound
 {
     /// <summary>
     /// 播放声音参数。
     /// </summary>
     public sealed class PlaySoundParams : IReference
     {
-        private bool m_Referenced;
-        private float m_Time;
-        private bool m_MuteInSoundGroup;
-        private bool m_Loop;
-        private int m_Priority;
-        private float m_VolumeInSoundGroup;
-        private float m_FadeInSeconds;
-        private float m_Pitch;
-        private float m_PanStereo;
-        private float m_SpatialBlend;
-        private float m_MaxDistance;
-        private float m_DopplerLevel;
+        private bool    m_Referenced;
+        private float   m_Time;
+        private bool    m_MuteInSoundGroup;
+        private bool    m_Loop;
+        private int     m_Priority;
+        private float   m_VolumeInSoundGroup;
+        private float   m_FadeInSeconds;
+        private float   m_Pitch;
+        private float   m_PanStereo;
+        private float   m_SpatialBlend;
+        private float   m_MaxDistance;
+        private float   m_DopplerLevel;
+        private IEntity m_BindingEntity;
+        private Vector3 m_WorldPosition;
+
 
         /// <summary>
         /// 初始化播放声音参数的新实例。
@@ -42,14 +48,8 @@
         /// </summary>
         public float Time
         {
-            get
-            {
-                return m_Time;
-            }
-            set
-            {
-                m_Time = value;
-            }
+            get => m_Time;
+            set => m_Time = value;
         }
 
         /// <summary>
@@ -57,14 +57,8 @@
         /// </summary>
         public bool MuteInSoundGroup
         {
-            get
-            {
-                return m_MuteInSoundGroup;
-            }
-            set
-            {
-                m_MuteInSoundGroup = value;
-            }
+            get => m_MuteInSoundGroup;
+            set => m_MuteInSoundGroup = value;
         }
 
         /// <summary>
@@ -72,14 +66,8 @@
         /// </summary>
         public bool Loop
         {
-            get
-            {
-                return m_Loop;
-            }
-            set
-            {
-                m_Loop = value;
-            }
+            get => m_Loop;
+            set => m_Loop = value;
         }
 
         /// <summary>
@@ -87,14 +75,8 @@
         /// </summary>
         public int Priority
         {
-            get
-            {
-                return m_Priority;
-            }
-            set
-            {
-                m_Priority = value;
-            }
+            get => m_Priority;
+            set => m_Priority = value;
         }
 
         /// <summary>
@@ -102,14 +84,8 @@
         /// </summary>
         public float VolumeInSoundGroup
         {
-            get
-            {
-                return m_VolumeInSoundGroup;
-            }
-            set
-            {
-                m_VolumeInSoundGroup = value;
-            }
+            get => m_VolumeInSoundGroup;
+            set => m_VolumeInSoundGroup = value;
         }
 
         /// <summary>
@@ -117,14 +93,8 @@
         /// </summary>
         public float FadeInSeconds
         {
-            get
-            {
-                return m_FadeInSeconds;
-            }
-            set
-            {
-                m_FadeInSeconds = value;
-            }
+            get => m_FadeInSeconds;
+            set => m_FadeInSeconds = value;
         }
 
         /// <summary>
@@ -132,14 +102,8 @@
         /// </summary>
         public float Pitch
         {
-            get
-            {
-                return m_Pitch;
-            }
-            set
-            {
-                m_Pitch = value;
-            }
+            get => m_Pitch;
+            set => m_Pitch = value;
         }
 
         /// <summary>
@@ -147,14 +111,8 @@
         /// </summary>
         public float PanStereo
         {
-            get
-            {
-                return m_PanStereo;
-            }
-            set
-            {
-                m_PanStereo = value;
-            }
+            get => m_PanStereo;
+            set => m_PanStereo = value;
         }
 
         /// <summary>
@@ -162,14 +120,8 @@
         /// </summary>
         public float SpatialBlend
         {
-            get
-            {
-                return m_SpatialBlend;
-            }
-            set
-            {
-                m_SpatialBlend = value;
-            }
+            get => m_SpatialBlend;
+            set => m_SpatialBlend = value;
         }
 
         /// <summary>
@@ -177,14 +129,8 @@
         /// </summary>
         public float MaxDistance
         {
-            get
-            {
-                return m_MaxDistance;
-            }
-            set
-            {
-                m_MaxDistance = value;
-            }
+            get => m_MaxDistance;
+            set => m_MaxDistance = value;
         }
 
         /// <summary>
@@ -192,23 +138,24 @@
         /// </summary>
         public float DopplerLevel
         {
-            get
-            {
-                return m_DopplerLevel;
-            }
-            set
-            {
-                m_DopplerLevel = value;
-            }
+            get => m_DopplerLevel;
+            set => m_DopplerLevel = value;
         }
 
-        internal bool Referenced
+        public IEntity BindingEntity
         {
-            get
-            {
-                return m_Referenced;
-            }
+            get => m_BindingEntity;
+            set => m_BindingEntity = value;
         }
+
+
+        public Vector3 WorldPosition
+        {
+            get => m_WorldPosition;
+            set => m_WorldPosition = value;
+        }
+
+        internal bool Referenced => m_Referenced;
 
         /// <summary>
         /// 创建播放声音参数。
@@ -216,7 +163,7 @@
         /// <returns>创建的播放声音参数。</returns>
         public static PlaySoundParams Create()
         {
-            PlaySoundParams playSoundParams = ReferencePool.Acquire<PlaySoundParams>();
+            var playSoundParams = ReferencePool.Acquire<PlaySoundParams>();
             playSoundParams.m_Referenced = true;
             return playSoundParams;
         }
@@ -237,6 +184,8 @@
             m_SpatialBlend = Constant.DefaultSpatialBlend;
             m_MaxDistance = Constant.DefaultMaxDistance;
             m_DopplerLevel = Constant.DefaultDopplerLevel;
+            m_BindingEntity = null;
+            m_WorldPosition = Vector3.zero;
         }
     }
 }

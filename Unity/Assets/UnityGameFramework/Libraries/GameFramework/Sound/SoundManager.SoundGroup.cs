@@ -9,12 +9,12 @@ namespace GameFramework.Sound
         /// </summary>
         private sealed class SoundGroup : ISoundGroup
         {
-            private readonly string m_Name;
+            private readonly string            m_Name;
             private readonly ISoundGroupHelper m_SoundGroupHelper;
-            private readonly List<SoundAgent> m_SoundAgents;
-            private bool m_AvoidBeingReplacedBySamePriority;
-            private bool m_Mute;
-            private float m_Volume;
+            private readonly List<SoundAgent>  m_SoundAgents;
+            private          bool              m_AvoidBeingReplacedBySamePriority;
+            private          bool              m_Mute;
+            private          float             m_Volume;
 
             /// <summary>
             /// 初始化声音组的新实例。
@@ -41,38 +41,20 @@ namespace GameFramework.Sound
             /// <summary>
             /// 获取声音组名称。
             /// </summary>
-            public string Name
-            {
-                get
-                {
-                    return m_Name;
-                }
-            }
+            public string Name => m_Name;
 
             /// <summary>
             /// 获取声音代理数。
             /// </summary>
-            public int SoundAgentCount
-            {
-                get
-                {
-                    return m_SoundAgents.Count;
-                }
-            }
+            public int SoundAgentCount => m_SoundAgents.Count;
 
             /// <summary>
             /// 获取或设置声音组中的声音是否避免被同优先级声音替换。
             /// </summary>
             public bool AvoidBeingReplacedBySamePriority
             {
-                get
-                {
-                    return m_AvoidBeingReplacedBySamePriority;
-                }
-                set
-                {
-                    m_AvoidBeingReplacedBySamePriority = value;
-                }
+                get => m_AvoidBeingReplacedBySamePriority;
+                set => m_AvoidBeingReplacedBySamePriority = value;
             }
 
             /// <summary>
@@ -80,14 +62,11 @@ namespace GameFramework.Sound
             /// </summary>
             public bool Mute
             {
-                get
-                {
-                    return m_Mute;
-                }
+                get => m_Mute;
                 set
                 {
                     m_Mute = value;
-                    foreach (SoundAgent soundAgent in m_SoundAgents)
+                    foreach (var soundAgent in m_SoundAgents)
                     {
                         soundAgent.RefreshMute();
                     }
@@ -99,14 +78,11 @@ namespace GameFramework.Sound
             /// </summary>
             public float Volume
             {
-                get
-                {
-                    return m_Volume;
-                }
+                get => m_Volume;
                 set
                 {
                     m_Volume = value;
-                    foreach (SoundAgent soundAgent in m_SoundAgents)
+                    foreach (var soundAgent in m_SoundAgents)
                     {
                         soundAgent.RefreshVolume();
                     }
@@ -116,13 +92,7 @@ namespace GameFramework.Sound
             /// <summary>
             /// 获取声音组辅助器。
             /// </summary>
-            public ISoundGroupHelper Helper
-            {
-                get
-                {
-                    return m_SoundGroupHelper;
-                }
-            }
+            public ISoundGroupHelper Helper => m_SoundGroupHelper;
 
             /// <summary>
             /// 增加声音代理辅助器。
@@ -146,7 +116,7 @@ namespace GameFramework.Sound
             {
                 errorCode = null;
                 SoundAgent candidateAgent = null;
-                foreach (SoundAgent soundAgent in m_SoundAgents)
+                foreach (var soundAgent in m_SoundAgents)
                 {
                     if (!soundAgent.IsPlaying)
                     {
@@ -205,7 +175,7 @@ namespace GameFramework.Sound
             /// <returns>是否停止播放声音成功。</returns>
             public bool StopSound(int serialId, float fadeOutSeconds)
             {
-                foreach (SoundAgent soundAgent in m_SoundAgents)
+                foreach (var soundAgent in m_SoundAgents)
                 {
                     if (soundAgent.SerialId != serialId)
                     {
@@ -227,7 +197,7 @@ namespace GameFramework.Sound
             /// <returns>是否暂停播放声音成功。</returns>
             public bool PauseSound(int serialId, float fadeOutSeconds)
             {
-                foreach (SoundAgent soundAgent in m_SoundAgents)
+                foreach (var soundAgent in m_SoundAgents)
                 {
                     if (soundAgent.SerialId != serialId)
                     {
@@ -249,7 +219,7 @@ namespace GameFramework.Sound
             /// <returns>是否恢复播放声音成功。</returns>
             public bool ResumeSound(int serialId, float fadeInSeconds)
             {
-                foreach (SoundAgent soundAgent in m_SoundAgents)
+                foreach (var soundAgent in m_SoundAgents)
                 {
                     if (soundAgent.SerialId != serialId)
                     {
@@ -268,7 +238,7 @@ namespace GameFramework.Sound
             /// </summary>
             public void StopAllLoadedSounds()
             {
-                foreach (SoundAgent soundAgent in m_SoundAgents)
+                foreach (var soundAgent in m_SoundAgents)
                 {
                     if (soundAgent.IsPlaying)
                     {
@@ -283,7 +253,7 @@ namespace GameFramework.Sound
             /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
             public void StopAllLoadedSounds(float fadeOutSeconds)
             {
-                foreach (SoundAgent soundAgent in m_SoundAgents)
+                foreach (var soundAgent in m_SoundAgents)
                 {
                     if (soundAgent.IsPlaying)
                     {

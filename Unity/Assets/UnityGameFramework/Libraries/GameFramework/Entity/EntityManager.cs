@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using GameFramework.ObjectPool;
 using GameFramework.Resource;
-using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace GameFramework.Entity
@@ -464,16 +463,6 @@ namespace GameFramework.Entity
             return HasEntity(entity.Id);
         }
 
-        /// <summary>
-        /// 显示实体。
-        /// </summary>
-        /// <param name="entityId">实体编号。</param>
-        /// <param name="entityAssetName">实体资源名称。</param>
-        /// <param name="entityGroupName">实体组名称。</param>
-        public UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName)
-        {
-            return ShowEntity(entityId, entityAssetName, entityGroupName, 0, null);
-        }
 
         /// <summary>
         /// 显示实体。
@@ -481,34 +470,7 @@ namespace GameFramework.Entity
         /// <param name="entityId">实体编号。</param>
         /// <param name="entityAssetName">实体资源名称。</param>
         /// <param name="entityGroupName">实体组名称。</param>
-        /// <param name="priority">加载实体资源的优先级。</param>
-        public UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority)
-        {
-            return ShowEntity(entityId, entityAssetName, entityGroupName, priority, null);
-        }
-
-        /// <summary>
-        /// 显示实体。
-        /// </summary>
-        /// <param name="entityId">实体编号。</param>
-        /// <param name="entityAssetName">实体资源名称。</param>
-        /// <param name="entityGroupName">实体组名称。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, object userData)
-        {
-            return ShowEntity(entityId, entityAssetName, entityGroupName, 0, userData);
-        }
-
-        /// <summary>
-        /// 显示实体。
-        /// </summary>
-        /// <param name="entityId">实体编号。</param>
-        /// <param name="entityAssetName">实体资源名称。</param>
-        /// <param name="entityGroupName">实体组名称。</param>
-        /// <param name="priority">加载实体资源的优先级。</param>
-        /// <param name="userData">用户自定义数据。</param>
-        public async UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, int priority,
-            object userData)
+        public async UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, object userData)
         {
             if (m_ResourceManager == null)
             {
@@ -556,9 +518,8 @@ namespace GameFramework.Entity
                 m_EntitiesBeingLoaded.Add(entityId, serialId);
                 try
                 {
-                    float time = Time.time;
                     var asset = await m_ResourceManager.LoadAssetAsync<Object>(entityAssetName);
-                    return LoadAssetSuccessCallback(entityAssetName, asset, Time.time - time, info);
+                    return LoadAssetSuccessCallback(entityAssetName, asset, info);
                 }
                 catch (Exception e)
                 {
@@ -1093,7 +1054,7 @@ namespace GameFramework.Entity
         private IEntity InternalShowEntity(int entityId, string entityAssetName, EntityGroup entityGroup,
             object entityInstance, bool isNewInstance, object userData)
         {
-            var entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup, userData);
+            var entity = m_EntityHelper.CreateEntity(entityInstance, entityGroup);
             if (entity == null)
             {
                 throw new GameFrameworkException("Can not create entity in entity helper.");
@@ -1145,8 +1106,7 @@ namespace GameFramework.Entity
             m_RecycleQueue.Enqueue(entityInfo);
         }
 
-        private IEntity LoadAssetSuccessCallback(string entityAssetName, Object entityAsset, float duration,
-            ShowEntityInfo showEntityInfo)
+        private IEntity LoadAssetSuccessCallback(string entityAssetName, Object entityAsset, ShowEntityInfo showEntityInfo)
         {
             if (m_EntitiesToReleaseOnLoad.Contains(showEntityInfo.SerialId))
             {

@@ -17,9 +17,8 @@
         /// </summary>
         /// <param name="entityInstance">实体实例。</param>
         /// <param name="entityGroup">实体所属的实体组。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>实体。</returns>
-        IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup, object userData);
+        IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup);
 
         /// <summary>
         /// 释放实体。
