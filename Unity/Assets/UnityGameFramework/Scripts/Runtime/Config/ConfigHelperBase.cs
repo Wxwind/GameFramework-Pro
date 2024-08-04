@@ -16,7 +16,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public abstract bool ReadData(IConfigManager configManager, string configAssetName, object configAsset);
+        public abstract bool ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset);
 
         /// <summary>
         /// 读取全局配置。
@@ -53,6 +53,6 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configAsset">要释放的全局配置资源。</param>
-        public abstract void ReleaseDataAsset(IConfigManager configManager, object configAsset);
+        public abstract void ReleaseDataAsset(IConfigManager configManager, TextAsset configAsset);
     }
 }

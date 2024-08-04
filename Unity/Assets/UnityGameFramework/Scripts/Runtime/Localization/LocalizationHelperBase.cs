@@ -23,7 +23,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="dictionaryAsset">字典资源。</param>
         /// <returns>是否读取字典成功。</returns>
         public abstract bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
-            object dictionaryAsset);
+            TextAsset dictionaryAsset);
 
         /// <summary>
         /// 读取字典。
@@ -61,6 +61,6 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="localizationManager">本地化管理器。</param>
         /// <param name="dictionaryAsset">要释放的字典资源。</param>
-        public abstract void ReleaseDataAsset(ILocalizationManager localizationManager, object dictionaryAsset);
+        public abstract void ReleaseDataAsset(ILocalizationManager localizationManager, TextAsset dictionaryAsset);
     }
 }

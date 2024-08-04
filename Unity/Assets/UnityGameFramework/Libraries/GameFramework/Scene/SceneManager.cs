@@ -18,6 +18,8 @@ namespace GameFramework.Scene
         private readonly List<string>     m_UnloadingSceneAssetNames;
         private          IResourceManager m_ResourceManager;
 
+        private readonly Dictionary<string, SceneHandle> m_SceneDict = new();
+
 
         /// <summary>
         /// 初始化场景管理器的新实例。
@@ -211,7 +213,7 @@ namespace GameFramework.Scene
 
             m_LoadingSceneAssetNames.Add(sceneAssetName);
             var duration = Time.time;
-            var handle = await m_ResourceManager.LoadSceneAsync(sceneAssetName, packageName, sceneMode, suspendLoad,
+            var handle = await LoadSceneAsyncInternal(sceneAssetName, packageName, sceneMode, suspendLoad,
                 priority,
                 progress);
             if (handle.Status == EOperationStatus.Succeed)
@@ -255,18 +257,75 @@ namespace GameFramework.Scene
                 throw new GameFrameworkException(Utility.Text.Format("Scene asset '{0}' is not loaded yet.",
                     sceneAssetName));
 
-            m_UnloadingSceneAssetNames.Add(sceneAssetName);
-            var ok = await m_ResourceManager.UnloadScene(sceneAssetName, "", progress);
-            if (ok)
+            try
             {
+                m_UnloadingSceneAssetNames.Add(sceneAssetName);
+                await UnloadSceneInternal(sceneAssetName, progress);
+
                 m_UnloadingSceneAssetNames.Remove(sceneAssetName);
                 m_LoadedSceneAssetNames.Remove(sceneAssetName);
             }
-            else
+            catch (Exception e)
             {
                 m_UnloadingSceneAssetNames.Remove(sceneAssetName);
-                throw new GameFrameworkException(Utility.Text.Format("Unload scene failure, scene asset name '{0}'.",
-                    sceneAssetName));
+                throw new GameFrameworkException(Utility.Text.Format("Unload scene failure, scene asset name '{0}' reason: '{1}'.",
+                    sceneAssetName, e.Message));
+            }
+        }
+
+
+        private SceneHandle GetSceneHandle(string location, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100)
+        {
+            if (string.IsNullOrEmpty(packageName))
+                return YooAssets.LoadSceneAsync(location, sceneMode, suspendLoad, priority);
+
+            var package = YooAssets.GetPackage(packageName);
+            return package.LoadSceneAsync(location, sceneMode, suspendLoad, priority);
+        }
+
+        /// <summary>
+        ///     异步加载场景。
+        /// </summary>
+        /// <param name="sceneName">要加载场景资源的名称</param>
+        /// <param name="packageName">资源所在包名</param>
+        /// <param name="sceneMode">场景加载模式</param>
+        /// <param name="suspendLoad">加载完毕时是否挂起</param>
+        /// <param name="priority">加载场景优先级</param>
+        /// <param name="progress">场景进度更新回调。</param>
+        private async UniTask<SceneHandle> LoadSceneAsyncInternal(string sceneName, string packageName = "",
+            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
+            Action<float> progress = null
+        )
+        {
+            if (m_SceneDict.ContainsKey(sceneName))
+            {
+                throw new GameFrameworkException($"scene asset {sceneName} has already been loaded");
+            }
+
+            var handle = GetSceneHandle(sceneName, packageName, sceneMode, suspendLoad, priority);
+            await handle.ToUniTask(progress != null ? new Progress<float>(progress) : null);
+            m_SceneDict.Add(sceneName, handle);
+            return handle;
+        }
+
+
+        /// <summary>
+        ///     异步卸载场景。
+        /// </summary>
+        /// <param name="sceneName">要卸载场景资源的名称。</param>
+        /// <param name="progress">场景进度更新回调。</param>
+        private async UniTask UnloadSceneInternal(string sceneName, Action<float> progress = null)
+        {
+            if (m_SceneDict.TryGetValue(sceneName, out var handle))
+            {
+                var operation = handle.UnloadAsync();
+                await operation.ToUniTask(progress != null ? new Progress<float>(progress) : null);
+                m_SceneDict.Remove(sceneName);
+            }
+            else
+            {
+                throw new GameFrameworkException($"UnloadScene error: scene {sceneName} not loaded");
             }
         }
     }

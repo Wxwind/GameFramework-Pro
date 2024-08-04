@@ -50,7 +50,7 @@ namespace GameFramework
             if (s_CachedBytes == null || s_CachedBytes.Length < ensureSize)
             {
                 FreeCachedBytes();
-                int size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
+                var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
                 s_CachedBytes = new byte[size];
             }
         }
@@ -223,7 +223,7 @@ namespace GameFramework
             m_DataProviderHelper = dataProviderHelper;
         }
 
-        private void LoadAssetSuccessCallback(string dataAssetName, object dataAsset)
+        private void LoadAssetSuccessCallback(string dataAssetName, TextAsset dataAsset)
         {
             try
             {
@@ -241,7 +241,7 @@ namespace GameFramework
 
         private void LoadAssetFailureCallback(string dataAssetName, string errorMessage)
         {
-            string appendErrorMessage =
+            var appendErrorMessage =
                 Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
                     dataAssetName, errorMessage);
 

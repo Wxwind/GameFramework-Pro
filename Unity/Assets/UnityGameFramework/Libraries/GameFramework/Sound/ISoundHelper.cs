@@ -1,4 +1,6 @@
-﻿namespace GameFramework.Sound
+﻿using UnityEngine;
+
+namespace GameFramework.Sound
 {
     /// <summary>
     /// 声音辅助器接口。
@@ -9,6 +11,6 @@
         /// 释放声音资源。
         /// </summary>
         /// <param name="soundAsset">要释放的声音资源。</param>
-        void ReleaseSoundAsset(object soundAsset);
+        void ReleaseSoundAsset(Object soundAsset);
     }
 }

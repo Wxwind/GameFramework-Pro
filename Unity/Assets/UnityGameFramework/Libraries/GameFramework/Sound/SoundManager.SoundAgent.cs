@@ -1,4 +1,5 @@
 ﻿using System;
+using Object = UnityEngine.Object;
 
 namespace GameFramework.Sound
 {
@@ -9,14 +10,14 @@ namespace GameFramework.Sound
         /// </summary>
         private sealed class SoundAgent : ISoundAgent
         {
-            private readonly SoundGroup m_SoundGroup;
-            private readonly ISoundHelper m_SoundHelper;
+            private readonly SoundGroup        m_SoundGroup;
+            private readonly ISoundHelper      m_SoundHelper;
             private readonly ISoundAgentHelper m_SoundAgentHelper;
-            private int m_SerialId;
-            private object m_SoundAsset;
-            private DateTime m_SetSoundAssetTime;
-            private bool m_MuteInSoundGroup;
-            private float m_VolumeInSoundGroup;
+            private          int               m_SerialId;
+            private          Object            m_SoundAsset;
+            private          DateTime          m_SetSoundAssetTime;
+            private          bool              m_MuteInSoundGroup;
+            private          float             m_VolumeInSoundGroup;
 
             /// <summary>
             /// 初始化声音代理的新实例。
@@ -53,86 +54,47 @@ namespace GameFramework.Sound
             /// <summary>
             /// 获取所在的声音组。
             /// </summary>
-            public ISoundGroup SoundGroup
-            {
-                get
-                {
-                    return m_SoundGroup;
-                }
-            }
+            public ISoundGroup SoundGroup => m_SoundGroup;
 
             /// <summary>
             /// 获取或设置声音的序列编号。
             /// </summary>
             public int SerialId
             {
-                get
-                {
-                    return m_SerialId;
-                }
-                set
-                {
-                    m_SerialId = value;
-                }
+                get => m_SerialId;
+                set => m_SerialId = value;
             }
 
             /// <summary>
             /// 获取当前是否正在播放。
             /// </summary>
-            public bool IsPlaying
-            {
-                get
-                {
-                    return m_SoundAgentHelper.IsPlaying;
-                }
-            }
+            public bool IsPlaying => m_SoundAgentHelper.IsPlaying;
 
             /// <summary>
             /// 获取声音长度。
             /// </summary>
-            public float Length
-            {
-                get
-                {
-                    return m_SoundAgentHelper.Length;
-                }
-            }
+            public float Length => m_SoundAgentHelper.Length;
 
             /// <summary>
             /// 获取或设置播放位置。
             /// </summary>
             public float Time
             {
-                get
-                {
-                    return m_SoundAgentHelper.Time;
-                }
-                set
-                {
-                    m_SoundAgentHelper.Time = value;
-                }
+                get => m_SoundAgentHelper.Time;
+                set => m_SoundAgentHelper.Time = value;
             }
 
             /// <summary>
             /// 获取是否静音。
             /// </summary>
-            public bool Mute
-            {
-                get
-                {
-                    return m_SoundAgentHelper.Mute;
-                }
-            }
+            public bool Mute => m_SoundAgentHelper.Mute;
 
             /// <summary>
             /// 获取或设置在声音组内是否静音。
             /// </summary>
             public bool MuteInSoundGroup
             {
-                get
-                {
-                    return m_MuteInSoundGroup;
-                }
+                get => m_MuteInSoundGroup;
                 set
                 {
                     m_MuteInSoundGroup = value;
@@ -145,14 +107,8 @@ namespace GameFramework.Sound
             /// </summary>
             public bool Loop
             {
-                get
-                {
-                    return m_SoundAgentHelper.Loop;
-                }
-                set
-                {
-                    m_SoundAgentHelper.Loop = value;
-                }
+                get => m_SoundAgentHelper.Loop;
+                set => m_SoundAgentHelper.Loop = value;
             }
 
             /// <summary>
@@ -160,36 +116,21 @@ namespace GameFramework.Sound
             /// </summary>
             public int Priority
             {
-                get
-                {
-                    return m_SoundAgentHelper.Priority;
-                }
-                set
-                {
-                    m_SoundAgentHelper.Priority = value;
-                }
+                get => m_SoundAgentHelper.Priority;
+                set => m_SoundAgentHelper.Priority = value;
             }
 
             /// <summary>
             /// 获取音量大小。
             /// </summary>
-            public float Volume
-            {
-                get
-                {
-                    return m_SoundAgentHelper.Volume;
-                }
-            }
+            public float Volume => m_SoundAgentHelper.Volume;
 
             /// <summary>
             /// 获取或设置在声音组内音量大小。
             /// </summary>
             public float VolumeInSoundGroup
             {
-                get
-                {
-                    return m_VolumeInSoundGroup;
-                }
+                get => m_VolumeInSoundGroup;
                 set
                 {
                     m_VolumeInSoundGroup = value;
@@ -202,14 +143,8 @@ namespace GameFramework.Sound
             /// </summary>
             public float Pitch
             {
-                get
-                {
-                    return m_SoundAgentHelper.Pitch;
-                }
-                set
-                {
-                    m_SoundAgentHelper.Pitch = value;
-                }
+                get => m_SoundAgentHelper.Pitch;
+                set => m_SoundAgentHelper.Pitch = value;
             }
 
             /// <summary>
@@ -217,14 +152,8 @@ namespace GameFramework.Sound
             /// </summary>
             public float PanStereo
             {
-                get
-                {
-                    return m_SoundAgentHelper.PanStereo;
-                }
-                set
-                {
-                    m_SoundAgentHelper.PanStereo = value;
-                }
+                get => m_SoundAgentHelper.PanStereo;
+                set => m_SoundAgentHelper.PanStereo = value;
             }
 
             /// <summary>
@@ -232,14 +161,8 @@ namespace GameFramework.Sound
             /// </summary>
             public float SpatialBlend
             {
-                get
-                {
-                    return m_SoundAgentHelper.SpatialBlend;
-                }
-                set
-                {
-                    m_SoundAgentHelper.SpatialBlend = value;
-                }
+                get => m_SoundAgentHelper.SpatialBlend;
+                set => m_SoundAgentHelper.SpatialBlend = value;
             }
 
             /// <summary>
@@ -247,14 +170,8 @@ namespace GameFramework.Sound
             /// </summary>
             public float MaxDistance
             {
-                get
-                {
-                    return m_SoundAgentHelper.MaxDistance;
-                }
-                set
-                {
-                    m_SoundAgentHelper.MaxDistance = value;
-                }
+                get => m_SoundAgentHelper.MaxDistance;
+                set => m_SoundAgentHelper.MaxDistance = value;
             }
 
             /// <summary>
@@ -262,37 +179,19 @@ namespace GameFramework.Sound
             /// </summary>
             public float DopplerLevel
             {
-                get
-                {
-                    return m_SoundAgentHelper.DopplerLevel;
-                }
-                set
-                {
-                    m_SoundAgentHelper.DopplerLevel = value;
-                }
+                get => m_SoundAgentHelper.DopplerLevel;
+                set => m_SoundAgentHelper.DopplerLevel = value;
             }
 
             /// <summary>
             /// 获取声音代理辅助器。
             /// </summary>
-            public ISoundAgentHelper Helper
-            {
-                get
-                {
-                    return m_SoundAgentHelper;
-                }
-            }
+            public ISoundAgentHelper Helper => m_SoundAgentHelper;
 
             /// <summary>
             /// 获取声音创建时间。
             /// </summary>
-            internal DateTime SetSoundAssetTime
-            {
-                get
-                {
-                    return m_SetSoundAssetTime;
-                }
-            }
+            internal DateTime SetSoundAssetTime => m_SetSoundAssetTime;
 
             /// <summary>
             /// 播放声音。
@@ -387,7 +286,7 @@ namespace GameFramework.Sound
                 m_SoundAgentHelper.Reset();
             }
 
-            internal bool SetSoundAsset(object soundAsset)
+            internal bool SetSoundAsset(Object soundAsset)
             {
                 Reset();
                 m_SoundAsset = soundAsset;

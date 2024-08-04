@@ -25,18 +25,17 @@ namespace UnityGameFramework.Runtime
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public override bool ReadData(IConfigManager configManager, string configAssetName, object configAsset)
+        public override bool ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset)
         {
-            var configTextAsset = configAsset as TextAsset;
-            if (configTextAsset != null)
+            if (configAsset != null)
             {
                 if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
                 {
-                    return configManager.ParseData(configTextAsset.bytes);
+                    return configManager.ParseData(configAsset.bytes);
                 }
                 else
                 {
-                    return configManager.ParseData(configTextAsset.text);
+                    return configManager.ParseData(configAsset.text);
                 }
             }
 
@@ -76,7 +75,7 @@ namespace UnityGameFramework.Runtime
         {
             try
             {
-                int position = 0;
+                var position = 0;
                 string configLineString = null;
                 while ((configLineString = configString.ReadLine(ref position)) != null)
                 {
@@ -85,7 +84,7 @@ namespace UnityGameFramework.Runtime
                         continue;
                     }
 
-                    string[] splitedLine = configLineString.Split(ColumnSplitSeparator, StringSplitOptions.None);
+                    var splitedLine = configLineString.Split(ColumnSplitSeparator, StringSplitOptions.None);
                     if (splitedLine.Length != ColumnCount)
                     {
                         Log.Warning("Can not parse config line string '{0}' which column count is invalid.",
@@ -93,8 +92,8 @@ namespace UnityGameFramework.Runtime
                         return false;
                     }
 
-                    string configName = splitedLine[1];
-                    string configValue = splitedLine[3];
+                    var configName = splitedLine[1];
+                    var configValue = splitedLine[3];
                     if (!configManager.AddConfig(configName, configValue))
                     {
                         Log.Warning("Can not add config with config name '{0}' which may be invalid or duplicate.",
@@ -130,8 +129,8 @@ namespace UnityGameFramework.Runtime
                     {
                         while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
                         {
-                            string configName = binaryReader.ReadString();
-                            string configValue = binaryReader.ReadString();
+                            var configName = binaryReader.ReadString();
+                            var configValue = binaryReader.ReadString();
                             if (!configManager.AddConfig(configName, configValue))
                             {
                                 Log.Warning(
@@ -157,7 +156,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configAsset">要释放的全局配置资源。</param>
-        public override void ReleaseDataAsset(IConfigManager configManager, object configAsset)
+        public override void ReleaseDataAsset(IConfigManager configManager, TextAsset configAsset)
         {
             m_ResourceComponent.UnloadAsset(configAsset);
         }

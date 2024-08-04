@@ -200,7 +200,7 @@ namespace GameFramework.UI
         /// <returns>所有界面组。</returns>
         public IUIGroup[] GetAllUIGroups()
         {
-            int index = 0;
+            var index = 0;
             var results = new IUIGroup[m_UIGroups.Count];
             foreach (var uiGroup in m_UIGroups)
             {
@@ -436,8 +436,8 @@ namespace GameFramework.UI
         /// <returns>所有正在加载界面的序列编号。</returns>
         public int[] GetAllLoadingUIFormSerialIds()
         {
-            int index = 0;
-            int[] results = new int[m_UIFormsBeingLoaded.Count];
+            var index = 0;
+            var results = new int[m_UIFormsBeingLoaded.Count];
             foreach (var uiFormBeingLoaded in m_UIFormsBeingLoaded)
             {
                 results[index++] = uiFormBeingLoaded.Key;
@@ -554,17 +554,16 @@ namespace GameFramework.UI
                 throw new GameFrameworkException(Utility.Text.Format("UI group '{0}' is not exist.", uiGroupName));
             }
 
-            int serialId = ++m_Serial;
+            var serialId = ++m_Serial;
             var uiFormInstanceObject = m_InstancePool.Spawn(uiFormAssetName);
             var info = OpenUIFormInfo.Create(serialId, uiGroup, pauseCoveredUIForm);
             if (uiFormInstanceObject == null)
             {
                 m_UIFormsBeingLoaded.Add(serialId, uiFormAssetName);
-                float time = Time.time;
                 try
                 {
                     var asset = await m_ResourceManager.LoadAssetAsync<Object>(uiFormAssetName);
-                    return LoadAssetSuccessCallback(uiFormAssetName, asset, Time.time - time, info, userData);
+                    return LoadAssetSuccessCallback(uiFormAssetName, asset, info, userData);
                 }
                 catch (Exception e)
                 {
@@ -574,7 +573,7 @@ namespace GameFramework.UI
             }
             else
             {
-                return InternalOpenUIForm(serialId, uiFormAssetName, uiGroup, uiFormInstanceObject.Target,
+                return InternalOpenUIForm(serialId, uiFormAssetName, uiGroup, uiFormInstanceObject.Target as GameObject,
                     pauseCoveredUIForm,
                     false, userData);
             }
@@ -585,7 +584,6 @@ namespace GameFramework.UI
         /// 关闭界面。
         /// </summary>
         /// <param name="serialId">要关闭界面的序列编号。</param>
-        /// <param name="userData">用户自定义数据。</param>
         public void CloseUIForm(int serialId)
         {
             if (IsLoadingUIForm(serialId))
@@ -712,7 +710,7 @@ namespace GameFramework.UI
             m_InstancePool.SetPriority(uiFormInstance, priority);
         }
 
-        private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetName, UIGroup uiGroup, object uiFormInstance,
+        private IUIForm InternalOpenUIForm(int serialId, string uiFormAssetName, UIGroup uiGroup, GameObject uiFormInstance,
             bool pauseCoveredUIForm, bool isNewInstance, object userData)
         {
             var uiForm = m_UIFormHelper.CreateUIForm(uiFormInstance, uiGroup);
@@ -728,7 +726,7 @@ namespace GameFramework.UI
             return uiForm;
         }
 
-        private IUIForm LoadAssetSuccessCallback(string uiFormAssetName, object uiFormAsset, float duration,
+        private IUIForm LoadAssetSuccessCallback(string uiFormAssetName, Object uiFormAsset,
             OpenUIFormInfo openUIFormInfo, object userData)
         {
             if (m_UIFormsToReleaseOnLoad.Contains(openUIFormInfo.SerialId))
@@ -745,7 +743,7 @@ namespace GameFramework.UI
             m_InstancePool.Register(uiFormInstanceObject, true);
 
             var uiForm = InternalOpenUIForm(openUIFormInfo.SerialId, uiFormAssetName, openUIFormInfo.UIGroup,
-                uiFormInstanceObject.Target, openUIFormInfo.PauseCoveredUIForm, true, userData);
+                uiFormInstanceObject.Target as GameObject, openUIFormInfo.PauseCoveredUIForm, true, userData);
             ReferencePool.Release(openUIFormInfo);
             return uiForm;
         }
@@ -760,7 +758,7 @@ namespace GameFramework.UI
             }
 
             m_UIFormsBeingLoaded.Remove(openUIFormInfo.SerialId);
-            string appendErrorMessage =
+            var appendErrorMessage =
                 Utility.Text.Format("Load UI form failure, asset name '{0}', error message '{1}'.",
                     uiFormAssetName, errorMessage);
 

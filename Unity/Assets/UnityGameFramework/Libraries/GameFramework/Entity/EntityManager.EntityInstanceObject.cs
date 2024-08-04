@@ -1,4 +1,5 @@
 ﻿using GameFramework.ObjectPool;
+using UnityEngine;
 
 namespace GameFramework.Entity
 {
@@ -9,7 +10,7 @@ namespace GameFramework.Entity
         /// </summary>
         private sealed class EntityInstanceObject : ObjectBase
         {
-            private object m_EntityAsset;
+            private Object        m_EntityAsset;
             private IEntityHelper m_EntityHelper;
 
             public EntityInstanceObject()
@@ -18,7 +19,7 @@ namespace GameFramework.Entity
                 m_EntityHelper = null;
             }
 
-            public static EntityInstanceObject Create(string name, object entityAsset, object entityInstance, IEntityHelper entityHelper)
+            public static EntityInstanceObject Create(string name, Object entityAsset, object entityInstance, IEntityHelper entityHelper)
             {
                 if (entityAsset == null)
                 {
@@ -30,7 +31,7 @@ namespace GameFramework.Entity
                     throw new GameFrameworkException("Entity helper is invalid.");
                 }
 
-                EntityInstanceObject entityInstanceObject = ReferencePool.Acquire<EntityInstanceObject>();
+                var entityInstanceObject = ReferencePool.Acquire<EntityInstanceObject>();
                 entityInstanceObject.Initialize(name, entityInstance);
                 entityInstanceObject.m_EntityAsset = entityAsset;
                 entityInstanceObject.m_EntityHelper = entityHelper;
@@ -46,7 +47,12 @@ namespace GameFramework.Entity
 
             protected internal override void Release(bool isShutdown)
             {
-                m_EntityHelper.ReleaseEntity(m_EntityAsset, Target);
+                // 如果是关闭对象池，那么资源的销毁交给ResourceComponent.AssetObjectPool，这里不做处理
+                // EntityInstanceObject负责维护PrefabAsset和实例化出来的GameObject(对象池的Target)，而AssetObject负责管理AssetHandle和Asset(对象池的Target)
+                if (!isShutdown)
+                {
+                    m_EntityHelper.ReleaseEntity(m_EntityAsset, Target as Object);
+                }
             }
         }
     }

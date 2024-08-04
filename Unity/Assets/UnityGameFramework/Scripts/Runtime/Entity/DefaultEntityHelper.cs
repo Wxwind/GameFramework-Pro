@@ -47,10 +47,10 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="entityAsset">要释放的实体资源。</param>
         /// <param name="entityInstance">要释放的实体实例。</param>
-        public override void ReleaseEntity(object entityAsset, object entityInstance)
+        public override void ReleaseEntity(Object entityAsset, Object entityInstance)
         {
             m_ResourceComponent.UnloadAsset(entityAsset);
-            Destroy((Object)entityInstance);
+            Destroy(entityInstance);
         }
 
         private void Start()
@@ -59,7 +59,6 @@ namespace UnityGameFramework.Runtime
             if (m_ResourceComponent == null)
             {
                 Log.Fatal("Resource component is invalid.");
-                return;
             }
         }
     }

@@ -15,9 +15,9 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="uiFormAsset">要实例化的界面资源。</param>
         /// <returns>实例化后的界面。</returns>
-        public override object InstantiateUIForm(object uiFormAsset)
+        public override object InstantiateUIForm(Object uiFormAsset)
         {
-            return Instantiate((Object)uiFormAsset);
+            return Instantiate(uiFormAsset);
         }
 
         /// <summary>
@@ -26,16 +26,16 @@ namespace UnityGameFramework.Runtime
         /// <param name="uiFormInstance">界面实例。</param>
         /// <param name="uiGroup">界面所属的界面组。</param>
         /// <returns>界面。</returns>
-        public override IUIForm CreateUIForm(object uiFormInstance, IUIGroup uiGroup)
+        public override IUIForm CreateUIForm(GameObject uiFormInstance, IUIGroup uiGroup)
         {
-            GameObject gameObject = uiFormInstance as GameObject;
+            var gameObject = uiFormInstance;
             if (gameObject == null)
             {
                 Log.Error("UI form instance is invalid.");
                 return null;
             }
 
-            Transform transform = gameObject.transform;
+            var transform = gameObject.transform;
             transform.SetParent(((MonoBehaviour)uiGroup.Helper).transform);
             transform.localScale = Vector3.one;
 
@@ -47,10 +47,10 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="uiFormAsset">要释放的界面资源。</param>
         /// <param name="uiFormInstance">要释放的界面实例。</param>
-        public override void ReleaseUIForm(object uiFormAsset, object uiFormInstance)
+        public override void ReleaseUIForm(Object uiFormAsset, GameObject uiFormInstance)
         {
             m_ResourceComponent.UnloadAsset(uiFormAsset);
-            Destroy((Object)uiFormInstance);
+            Destroy(uiFormInstance);
         }
 
         private void Start()

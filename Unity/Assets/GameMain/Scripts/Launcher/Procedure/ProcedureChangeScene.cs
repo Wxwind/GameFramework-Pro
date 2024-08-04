@@ -53,10 +53,10 @@ namespace GameMain
             m_BackgroundMusicId = drScene.BackgroundMusicId;
         }
 
-        private async UniTask LoadScene(string sceneName)
+        private async UniTask LoadScene(string sceneName, uint priority = 0)
         {
             await GameEntry.Scene.LoadSceneAsync(sceneName, null, LoadSceneMode.Additive,
-                false, Constant.AssetPriority.SceneAsset, OnLoadSceneUpdate);
+                false, priority, OnLoadSceneUpdate);
             Log.Info("Load scene '{0}' OK.", sceneName);
 
             if (m_BackgroundMusicId > 0) GameEntry.Sound.PlayMusic(m_BackgroundMusicId);

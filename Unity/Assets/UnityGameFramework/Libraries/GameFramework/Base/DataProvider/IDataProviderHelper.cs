@@ -1,4 +1,6 @@
-﻿namespace GameFramework
+﻿using UnityEngine;
+
+namespace GameFramework
 {
     /// <summary>
     /// 数据提供者辅助器接口。
@@ -12,7 +14,7 @@
         /// <param name="dataAssetName">内容资源名称。</param>
         /// <param name="dataAsset">内容资源。</param>
         /// <returns>是否读取数据成功。</returns>
-        bool ReadData(T dataProviderOwner, string dataAssetName, object dataAsset);
+        bool ReadData(T dataProviderOwner, string dataAssetName, TextAsset dataAsset);
 
         /// <summary>
         /// 读取数据。
@@ -48,6 +50,6 @@
         /// </summary>
         /// <param name="dataProviderOwner">数据提供者的持有者。</param>
         /// <param name="dataAsset">要释放的内容资源。</param>
-        void ReleaseDataAsset(T dataProviderOwner, object dataAsset);
+        void ReleaseDataAsset(T dataProviderOwner, TextAsset dataAsset);
     }
 }

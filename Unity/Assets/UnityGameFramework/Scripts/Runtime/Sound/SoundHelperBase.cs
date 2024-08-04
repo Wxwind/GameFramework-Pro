@@ -12,6 +12,6 @@ namespace UnityGameFramework.Runtime
         /// 释放声音资源。
         /// </summary>
         /// <param name="soundAsset">要释放的声音资源。</param>
-        public abstract void ReleaseSoundAsset(object soundAsset);
+        public abstract void ReleaseSoundAsset(Object soundAsset);
     }
 }

@@ -15,14 +15,15 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Resource")]
     public sealed class ResourceComponent : GameFrameworkComponent
     {
-        [SerializeField] private float            m_MinUnloadUnusedAssetsInterval = 60f;
-        [SerializeField] private float            m_MaxUnloadUnusedAssetsInterval = 300f;
-        private                  AsyncOperation   m_AsyncOperation;
-        private                  bool             m_ForceUnloadUnusedAssets;
-        private                  float            m_LastUnloadUnusedAssetsOperationElapseSeconds;
-        private                  bool             m_PerformGCCollect;
-        private                  bool             m_PreorderUnloadUnusedAssets;
-        private                  IResourceManager m_ResourceManager;
+        [SerializeField] private float m_MinUnloadUnusedAssetsInterval = 60f;
+        [SerializeField] private float m_MaxUnloadUnusedAssetsInterval = 300f;
+        private AsyncOperation m_AsyncOperation;
+        private EventComponent m_EventComponent;
+        private bool m_ForceUnloadUnusedAssets;
+        private float m_LastUnloadUnusedAssetsOperationElapseSeconds;
+        private bool m_PerformGCCollect;
+        private bool m_PreorderUnloadUnusedAssets;
+        private IResourceManager m_ResourceManager;
 
 
         /// <summary>
@@ -107,7 +108,7 @@ namespace UnityGameFramework.Runtime
         }
 
 
-        public void UnloadAsset(object asset)
+        public void UnloadAsset(Object asset)
         {
             m_ResourceManager.UnloadAsset(asset);
         }

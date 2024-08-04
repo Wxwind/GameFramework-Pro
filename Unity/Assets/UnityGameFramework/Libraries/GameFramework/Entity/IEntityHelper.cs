@@ -1,4 +1,6 @@
-﻿namespace GameFramework.Entity
+﻿using UnityEngine;
+
+namespace GameFramework.Entity
 {
     /// <summary>
     /// 实体辅助器接口。
@@ -25,6 +27,6 @@
         /// </summary>
         /// <param name="entityAsset">要释放的实体资源。</param>
         /// <param name="entityInstance">要释放的实体实例。</param>
-        void ReleaseEntity(object entityAsset, object entityInstance);
+        void ReleaseEntity(Object entityAsset, Object entityInstance);
     }
 }

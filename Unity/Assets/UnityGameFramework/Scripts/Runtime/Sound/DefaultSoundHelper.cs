@@ -1,4 +1,6 @@
-﻿namespace UnityGameFramework.Runtime
+﻿using UnityEngine;
+
+namespace UnityGameFramework.Runtime
 {
     /// <summary>
     /// 默认声音辅助器。
@@ -11,7 +13,7 @@
         /// 释放声音资源。
         /// </summary>
         /// <param name="soundAsset">要释放的声音资源。</param>
-        public override void ReleaseSoundAsset(object soundAsset)
+        public override void ReleaseSoundAsset(Object soundAsset)
         {
             m_ResourceComponent.UnloadAsset(soundAsset);
         }

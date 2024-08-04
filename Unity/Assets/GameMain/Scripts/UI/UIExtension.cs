@@ -117,7 +117,7 @@ namespace GameMain
                 if (uiComponent.HasUIForm(assetName)) return null;
             }
 
-            return await uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName, Constant.AssetPriority.UIFormAsset,
+            return await uiComponent.OpenUIForm(assetName, drUIForm.UIGroupName,
                 drUIForm.PauseCoveredUIForm, userData);
         }
 

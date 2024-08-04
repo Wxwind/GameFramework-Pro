@@ -18,7 +18,6 @@ namespace GameFramework.Sound
         private          ISoundHelper                   m_SoundHelper;
         private          int                            m_Serial;
 
-
         /// <summary>
         /// 初始化声音管理器的新实例。
         /// </summary>
@@ -128,7 +127,7 @@ namespace GameFramework.Sound
         /// <returns>所有声音组。</returns>
         public ISoundGroup[] GetAllSoundGroups()
         {
-            int index = 0;
+            var index = 0;
             var results = new ISoundGroup[m_SoundGroups.Count];
             foreach (var soundGroup in m_SoundGroups)
             {
@@ -299,7 +298,7 @@ namespace GameFramework.Sound
                 playSoundParams = PlaySoundParams.Create();
             }
 
-            int serialId = ++m_Serial;
+            var serialId = ++m_Serial;
             PlaySoundErrorCode? errorCode = null;
             string errorMessage = null;
             var soundGroup = (SoundGroup)GetSoundGroup(soundGroupName);
@@ -336,7 +335,6 @@ namespace GameFramework.Sound
             catch (Exception e)
             {
                 LoadAssetFailureCallback(soundAssetName, e.Message, playSoundInfo);
-                throw;
             }
         }
 
@@ -401,7 +399,7 @@ namespace GameFramework.Sound
         /// </summary>
         public void StopAllLoadingSounds()
         {
-            foreach (int serialId in m_SoundsBeingLoaded)
+            foreach (var serialId in m_SoundsBeingLoaded)
             {
                 m_SoundsToReleaseOnLoad.Add(serialId);
             }
@@ -461,7 +459,7 @@ namespace GameFramework.Sound
             throw new GameFrameworkException(Utility.Text.Format("Can not find sound '{0}'.", serialId));
         }
 
-        private void LoadAssetSuccessCallback(string soundAssetName, object soundAsset,
+        private void LoadAssetSuccessCallback(string soundAssetName, Object soundAsset,
             PlaySoundInfo playSoundInfo)
         {
             if (m_SoundsToReleaseOnLoad.Contains(playSoundInfo.SerialId))
@@ -506,7 +504,7 @@ namespace GameFramework.Sound
 
             m_SoundsToReleaseOnLoad.Remove(playSoundInfo.SerialId);
             m_SoundHelper.ReleaseSoundAsset(soundAsset);
-            string errorMessage = Utility.Text.Format("Sound group '{0}' play sound '{1}' failure.",
+            var errorMessage = Utility.Text.Format("Sound group '{0}' play sound '{1}' failure.",
                 playSoundInfo.SoundGroup.Name, soundAssetName);
             if (playSoundInfo.PlaySoundParams.Referenced)
             {
@@ -537,7 +535,7 @@ namespace GameFramework.Sound
             }
 
             m_SoundsBeingLoaded.Remove(playSoundInfo.SerialId);
-            string appendErrorMessage =
+            var appendErrorMessage =
                 Utility.Text.Format("Load sound failure, asset name '{0}', error message '{1}'.",
                     soundAssetName, errorMessage);
 

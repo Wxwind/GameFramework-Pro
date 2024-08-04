@@ -66,7 +66,7 @@ namespace GameMain
             }
             catch (Exception e)
             {
-                Log.Error("Can not load config  '{0}' with error message '{2}'.", configName,
+                Log.Error("Can not load config  '{0}' with error message '{1}'.", configName,
                     e.Message);
                 throw;
             }
@@ -75,7 +75,7 @@ namespace GameMain
 
         private async UniTaskVoid LoadL10N()
         {
-            string dictionaryAssetName = GameEntry.Localization.Language.ToString();
+            var dictionaryAssetName = GameEntry.Localization.Language.ToString();
             try
             {
                 m_LoadedFlag.Add(dictionaryAssetName, false);
@@ -85,7 +85,7 @@ namespace GameMain
             }
             catch (Exception e)
             {
-                Log.Error("Can not load dictionary '{0}' with error message '{2}'.", dictionaryAssetName,
+                Log.Error("Can not load dictionary '{0}' with error message '{1}'.", dictionaryAssetName,
                     e.Message);
             }
         }
@@ -103,10 +103,8 @@ namespace GameMain
             }
             catch (Exception e)
             {
-                string errorMsg = Utility.Text.Format("Can not load asset '{0}' because :'{1}'.", fontName,
+                Log.Error("Can not load font '{0}' with error message '{1}'.", fontName,
                     e.Message);
-                Log.Error("Can not load font '{0}' with error message '{2}'.", fontName,
-                    errorMsg);
             }
         }
     }

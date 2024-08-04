@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityEngine.SceneManagement;
+using GameFramework.ObjectPool;
 using YooAsset;
 using Object = UnityEngine.Object;
 
@@ -13,7 +13,11 @@ namespace GameFramework.Resource
     internal sealed partial class ResourceManager : GameFrameworkModule, IResourceManager
     {
         private readonly Dictionary<string, ResourcePackage> m_PackagesDict = new();
-        private readonly Dictionary<string, SceneHandle>     m_SceneDict    = new();
+
+        /// <summary>
+        /// 正在加载的资源列表。
+        /// </summary>
+        private readonly HashSet<string> m_assetLoadingList = new();
 
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
@@ -35,6 +39,16 @@ namespace GameFramework.Resource
             return YooAssets.CheckLocationValid(assetName);
         }
 
+        private string GetCacheKey(string location, string packageName = "")
+        {
+            if (string.IsNullOrEmpty(packageName))
+            {
+                return location;
+            }
+
+            return $"{packageName}/{location}";
+        }
+
         private AssetHandle GetAssetHandle<T>(string location, string packageName) where T : Object
         {
             if (string.IsNullOrEmpty(packageName)) return YooAssets.LoadAssetAsync<T>(location);
@@ -46,67 +60,45 @@ namespace GameFramework.Resource
         public async UniTask<T> LoadAssetAsync<T>(string location, string packageName = "",
             Action<float> progress = null) where T : Object
         {
+            if (string.IsNullOrEmpty(location))
+            {
+                throw new GameFrameworkException("Asset name is invalid.");
+            }
+
+            var assetObjectKey = GetCacheKey(location, packageName);
+
+            // 防止重复获取同个资源的handle，类似ET的协程锁
+            await TryWaitingLoading(assetObjectKey);
+
+            var assetObject = m_AssetPool.Spawn(assetObjectKey);
+            if (assetObject != null)
+            {
+                return assetObject.Target as T;
+            }
+
+            m_assetLoadingList.Add(assetObjectKey);
             var handle = GetAssetHandle<T>(location, packageName);
-
             await handle.ToUniTask(progress != null ? new Progress<float>(progress) : null);
-            return handle.AssetObject as T;
+            m_assetLoadingList.Remove(assetObjectKey);
+
+            var ret = handle.AssetObject as T;
+
+            assetObject = AssetObject.Create(assetObjectKey, handle.AssetObject, handle);
+            m_AssetPool.Register(assetObject, true);
+
+            return ret;
         }
 
 
-        private SceneHandle GetSceneHandle(string location, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100)
+        private async UniTask TryWaitingLoading(string assetObjectKey)
         {
-            if (string.IsNullOrEmpty(packageName))
-                return YooAssets.LoadSceneAsync(location, sceneMode, suspendLoad, priority);
-
-            var package = YooAssets.GetPackage(packageName);
-            return package.LoadSceneAsync(location, sceneMode, suspendLoad, priority);
-        }
-
-        public async UniTask<SceneHandle> LoadSceneAsync(string sceneName, string packageName = "",
-            LoadSceneMode sceneMode = LoadSceneMode.Single, bool suspendLoad = false, uint priority = 100,
-            Action<float> progress = null
-        )
-        {
-            if (m_SceneDict.ContainsKey(sceneName))
+            if (m_assetLoadingList.Contains(assetObjectKey))
             {
-                throw new GameFrameworkException($"scene asset {sceneName} has already been loaded");
-            }
-
-            var handle = GetSceneHandle(sceneName, packageName, sceneMode, suspendLoad, priority);
-            await handle.ToUniTask(progress != null ? new Progress<float>(progress) : null);
-            m_SceneDict.Add(sceneName, handle);
-            return handle;
-        }
-
-        public async UniTask<bool> UnloadScene(string sceneName, string packageName = "", Action<float> progress = null)
-        {
-            if (m_SceneDict.TryGetValue(sceneName, out var handle))
-            {
-                var operation = handle.UnloadAsync();
-                await operation.ToUniTask(progress != null ? new Progress<float>(progress) : null);
-
-                if (operation.Status == EOperationStatus.Failed)
-                {
-                    return false;
-                }
-                else
-                {
-                    m_SceneDict.Remove(sceneName);
-                    return true;
-                }
-            }
-            else
-            {
-                GameFrameworkLog.Error($"UnloadScene error: scene {sceneName} not loaded");
-                return false;
+                await UniTask.WaitUntil(
+                    () => !m_assetLoadingList.Contains(assetObjectKey));
             }
         }
 
-        public void UnloadAsset(object asset, string packageName = "DefaultPackage")
-        {
-            // TODO 使用对象池管理 asset handle
-        }
 
         public void UnloadUnusedAssets()
         {
@@ -125,6 +117,9 @@ namespace GameFramework.Resource
             {
                 YooAssets.Initialize();
             }
+
+            var objectPoolManager = GameFrameworkEntry.GetModule<IObjectPoolManager>();
+            SetObjectPoolManager(objectPoolManager);
         }
 
 
@@ -162,8 +157,8 @@ namespace GameFramework.Resource
             // 联机运行模式
             else if (mode == ResourceMode.HostPlayMode)
             {
-                string defaultHostServer = GetHostServerURL();
-                string fallbackHostServer = GetHostServerURL();
+                var defaultHostServer = GetHostServerURL();
+                var fallbackHostServer = GetHostServerURL();
                 var createParameters = new HostPlayModeParameters();
                 createParameters.DecryptionServices = new FileStreamDecryption();
                 createParameters.BuildinQueryServices = new GameQueryServices();
@@ -174,8 +169,8 @@ namespace GameFramework.Resource
             // WebGL运行模式
             else if (mode == ResourceMode.WebPlayMode)
             {
-                string defaultHostServer = GetHostServerURL();
-                string fallbackHostServer = GetHostServerURL();
+                var defaultHostServer = GetHostServerURL();
+                var fallbackHostServer = GetHostServerURL();
                 var createParameters = new WebPlayModeParameters();
                 createParameters.DecryptionServices = new FileStreamDecryption();
                 createParameters.BuildinQueryServices = new GameQueryServices();
@@ -199,6 +194,9 @@ namespace GameFramework.Resource
         internal override void Shutdown()
         {
             m_PackagesDict.Clear();
+            m_assetLoadingList.Clear();
+            // FIXME: 场景管理模块在资源管理之后卸载，结果发现m_SceneDict里没有数据了所以卸载失败，场景加载逻辑最好也放在scenemanager里
+            // m_SceneDict.Clear();
 #if !UNITY_WEBGL
             YooAssets.Destroy();
 #endif

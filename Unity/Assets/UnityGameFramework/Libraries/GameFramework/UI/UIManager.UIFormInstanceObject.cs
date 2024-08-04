@@ -1,4 +1,5 @@
 ﻿using GameFramework.ObjectPool;
+using UnityEngine;
 
 namespace GameFramework.UI
 {
@@ -9,7 +10,7 @@ namespace GameFramework.UI
         /// </summary>
         private sealed class UIFormInstanceObject : ObjectBase
         {
-            private object m_UIFormAsset;
+            private Object        m_UIFormAsset;
             private IUIFormHelper m_UIFormHelper;
 
             public UIFormInstanceObject()
@@ -18,7 +19,7 @@ namespace GameFramework.UI
                 m_UIFormHelper = null;
             }
 
-            public static UIFormInstanceObject Create(string name, object uiFormAsset, object uiFormInstance, IUIFormHelper uiFormHelper)
+            public static UIFormInstanceObject Create(string name, Object uiFormAsset, object uiFormInstance, IUIFormHelper uiFormHelper)
             {
                 if (uiFormAsset == null)
                 {
@@ -30,7 +31,7 @@ namespace GameFramework.UI
                     throw new GameFrameworkException("UI form helper is invalid.");
                 }
 
-                UIFormInstanceObject uiFormInstanceObject = ReferencePool.Acquire<UIFormInstanceObject>();
+                var uiFormInstanceObject = ReferencePool.Acquire<UIFormInstanceObject>();
                 uiFormInstanceObject.Initialize(name, uiFormInstance);
                 uiFormInstanceObject.m_UIFormAsset = uiFormAsset;
                 uiFormInstanceObject.m_UIFormHelper = uiFormHelper;
@@ -46,7 +47,7 @@ namespace GameFramework.UI
 
             protected internal override void Release(bool isShutdown)
             {
-                m_UIFormHelper.ReleaseUIForm(m_UIFormAsset, Target);
+                m_UIFormHelper.ReleaseUIForm(m_UIFormAsset, Target as GameObject);
             }
         }
     }
