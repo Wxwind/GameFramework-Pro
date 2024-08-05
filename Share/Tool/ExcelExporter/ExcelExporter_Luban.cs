@@ -70,7 +70,6 @@ namespace Tool
                     var genConfig = JsonSerializer.Deserialize<GenConfig>(
                         File.ReadAllText(genConfigFile, Encoding.UTF8).Replace("\r\n", " ").Replace("\n", " ").Replace("\u0009", " "),
                         new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-                    if (!genConfig.active) continue;
 
                     int lastIndex = dir.LastIndexOf(Path.DirectorySeparatorChar) + 1;
                     string dirName = dir.Substring(lastIndex, dir.Length - lastIndex);
@@ -266,7 +265,6 @@ namespace Tool
 
             public class GenConfig
             {
-                public bool active { get; set; }
                 public string customTemplate { get; set; }
                 public List<string> cmds { get; set; }
             }

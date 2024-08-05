@@ -8,7 +8,7 @@ namespace Tool
     {
         private static int Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) => { Console.Error.WriteLine(e.ExceptionObject.ToString()); };
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) => { Log.Error(e.ExceptionObject.ToString()); };
 
             try
             {
@@ -21,7 +21,7 @@ namespace Tool
                 Console.WriteLine($"server start........................ ");
                 switch (Options.Instance.AppType)
                 {
-                    case AppType.ExcelExporter:
+                    case AppType.ExportAllExcel:
                     {
                         //Options: Customs
                         //GB2312: 使用GB2312编码解决中文乱码
@@ -31,16 +31,22 @@ namespace Tool
                         ExcelExporter.ExportAll();
                         return 0;
                     }
-                    case AppType.LocalizationExporter:
+                    case AppType.ExportLocalization:
                     {
                         ExcelExporter.ExportLocalization();
                         return 0;
                     }
+                    case AppType.ExportLubanConfig:
+                        ExcelExporter.ExportLubanConfig();
+                        return 0;
+                    default:
+                        Log.Error($"Unknown AppType: {Options.Instance.AppType}");
+                        break;
                 }
             }
             catch (Exception e)
             {
-                Console.Error.WriteLine(e.ToString());
+                Log.Error(e.ToString());
             }
 
             return 1;

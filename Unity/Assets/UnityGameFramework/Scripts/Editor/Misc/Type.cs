@@ -1,6 +1,6 @@
-﻿using GameFramework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using GameFramework;
 
 namespace UnityGameFramework.Editor
 {
@@ -12,15 +12,15 @@ namespace UnityGameFramework.Editor
         private static readonly string[] RuntimeAssemblyNames =
         {
             "UnityGameFramework.Runtime",
-            "Assembly-CSharp",
+            "Game"
         };
 
         private static readonly string[] RuntimeOrEditorAssemblyNames =
         {
             "UnityGameFramework.Runtime",
-            "Assembly-CSharp",
+            "Game",
             "UnityGameFramework.Editor",
-            "Assembly-CSharp-Editor",
+            "Game-Editor"
         };
 
         /// <summary>
@@ -30,15 +30,15 @@ namespace UnityGameFramework.Editor
         /// <returns>配置路径。</returns>
         internal static string GetConfigurationPath<T>() where T : ConfigPathAttribute
         {
-            foreach (System.Type type in Utility.Assembly.GetTypes())
+            foreach (var type in Utility.Assembly.GetTypes())
             {
                 if (!type.IsAbstract || !type.IsSealed)
                 {
                     continue;
                 }
 
-                foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Static | BindingFlags.Public |
-                                                               BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+                foreach (var fieldInfo in type.GetFields(BindingFlags.Static | BindingFlags.Public |
+                                                         BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
                 {
                     if (fieldInfo.FieldType == typeof(string) && fieldInfo.IsDefined(typeof(T), false))
                     {
@@ -46,9 +46,9 @@ namespace UnityGameFramework.Editor
                     }
                 }
 
-                foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Static | BindingFlags.Public |
-                                                                         BindingFlags.NonPublic |
-                                                                         BindingFlags.DeclaredOnly))
+                foreach (var propertyInfo in type.GetProperties(BindingFlags.Static | BindingFlags.Public |
+                                                                BindingFlags.NonPublic |
+                                                                BindingFlags.DeclaredOnly))
                 {
                     if (propertyInfo.PropertyType == typeof(string) && propertyInfo.IsDefined(typeof(T), false))
                     {
@@ -82,8 +82,8 @@ namespace UnityGameFramework.Editor
 
         private static string[] GetTypeNames(System.Type typeBase, string[] assemblyNames)
         {
-            List<string> typeNames = new List<string>();
-            foreach (string assemblyName in assemblyNames)
+            var typeNames = new List<string>();
+            foreach (var assemblyName in assemblyNames)
             {
                 Assembly assembly = null;
                 try
@@ -100,8 +100,8 @@ namespace UnityGameFramework.Editor
                     continue;
                 }
 
-                System.Type[] types = assembly.GetTypes();
-                foreach (System.Type type in types)
+                var types = assembly.GetTypes();
+                foreach (var type in types)
                 {
                     if (type.IsClass && !type.IsAbstract && typeBase.IsAssignableFrom(type))
                     {

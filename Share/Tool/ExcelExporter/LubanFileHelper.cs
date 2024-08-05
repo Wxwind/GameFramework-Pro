@@ -14,7 +14,7 @@ namespace Tool
             string[] subDirs = Directory.GetDirectories(directory);
             if (subDirs.Length < 1)
                 return;
-            foreach (string? subDir in subDirs)
+            foreach (string subDir in subDirs)
             {
                 if (Directory.GetDirectories(subDir).Length > 0)
                     continue;
@@ -35,7 +35,7 @@ namespace Tool
             sourDir = sourDir.Replace('\\', '/');
             desDir = desDir.Replace('\\', '/');
             ClearOrCreateDirectory(desDir);
-            foreach (string? file in GetDirectoryFiles(sourDir))
+            foreach (string file in GetDirectoryFiles(sourDir))
             {
                 string filePath = file.Replace('\\', '/');
                 string subName = filePath.Substring(sourDir.Length + 1, filePath.Length - sourDir.Length - 1);
@@ -51,7 +51,7 @@ namespace Tool
             if (string.IsNullOrEmpty(directory))
                 return;
             if (Directory.Exists(directory))
-                foreach (string? file in GetDirectoryFiles(directory))
+                foreach (string file in GetDirectoryFiles(directory))
                     File.Delete(file);
             else
                 Directory.CreateDirectory(directory);
@@ -62,10 +62,10 @@ namespace Tool
             var files = new List<string>();
             if (Directory.Exists(directory))
             {
-                foreach (string? file in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
+                foreach (string file in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
                 {
                     if (file.Substring(directory.Length).Split('\\', '/').Any(fileName =>
-                            fileName.StartsWith(".") || fileName.StartsWith("_") || fileName.StartsWith("~")))
+                            fileName.StartsWith('.') || fileName.StartsWith("_") || fileName.StartsWith("~")))
                         continue;
                     if (file.EndsWith(".meta", StringComparison.Ordinal)) continue;
                     files.Add(file.Replace('\\', '/'));

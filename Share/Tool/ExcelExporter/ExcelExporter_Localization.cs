@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using ExcelDataReader;
 using GameFramework.Localization;
@@ -15,14 +12,12 @@ namespace Tool
     {
         public static class ExcelExporter_Localization
         {
-            private static readonly string s_LocalizationOutPutDir = Path.GetFullPath("../Unity/Assets/Res/Localization");
-            private static readonly string s_AssetUtilityCodeFile  = Path.GetFullPath("../Unity/Assets/Scripts/Game/Generate/Localization/AssetUtility.Localization.cs");
+            private static readonly string s_LocalizationOutPutDir = Path.GetFullPath("../Unity/Assets/AssetRes/Localization");
+            private static readonly string s_AssetUtilityCodeFile  = Path.GetFullPath("../Unity/Assets/Scripts/Generate/Localization/AssetUtility.Localization.cs");
 
             private static readonly string s_LocalizationReadyLanguageCodeFile =
-                Path.GetFullPath("../Unity/Assets/Scripts/Game/Editor/Generate/Localization/LocalizationReadyLanguage.cs");
+                Path.GetFullPath("../Unity/Assets/Scripts/Editor/Generate/Localization/LocalizationReadyLanguage.cs");
 
-            private static readonly string s_UXToolEditorLocalizationToolCodeFile =
-                Path.GetFullPath("../Unity/Assets/Scripts/Library/UXTool/Editor/Common/EditorLocalization/EditorLocalizationTool.Generate.cs");
 
             private struct LanguageTableInfo
             {
@@ -38,7 +33,7 @@ namespace Tool
 
             public static void DoExport()
             {
-                bool isCheck = Options.Instance.Customs.Contains("Check", StringComparison.OrdinalIgnoreCase);
+                var isCheck = Options.Instance.Customs.Contains("Check", StringComparison.OrdinalIgnoreCase);
                 if (isCheck)
                     return;
                 Log.Info("Start Export Localization Excel ...");
@@ -52,8 +47,8 @@ namespace Tool
                         foreach (DataTable table in dataSet.Tables)
                         {
                             if (!table.Rows[0][0].ToString().StartsWith("##")) continue;
-                            int startRowIndex = 0;
-                            for (int rowIndex = 1; rowIndex < table.Rows.Count; rowIndex++)
+                            var startRowIndex = 0;
+                            for (var rowIndex = 1; rowIndex < table.Rows.Count; rowIndex++)
                             {
                                 if (table.Rows[rowIndex][0].ToString().StartsWith("##")) continue;
                                 startRowIndex = rowIndex;
@@ -65,13 +60,13 @@ namespace Tool
                             var keyTableInfos = new List<KeyTableInfo>();
                             var languageTableInfos = new List<LanguageTableInfo>();
                             var firstDataRow = table.Rows[0];
-                            for (int columnIndex = 1; columnIndex < table.Columns.Count; columnIndex++)
+                            for (var columnIndex = 1; columnIndex < table.Columns.Count; columnIndex++)
                             {
-                                string cellValue = firstDataRow[columnIndex].ToString();
+                                var cellValue = firstDataRow[columnIndex].ToString();
                                 if (cellValue.StartsWith("##")) continue;
                                 if (cellValue == "key")
                                 {
-                                    for (int keyRowIndex = startRowIndex; keyRowIndex < table.Rows.Count; keyRowIndex++)
+                                    for (var keyRowIndex = startRowIndex; keyRowIndex < table.Rows.Count; keyRowIndex++)
                                         keyTableInfos.Add(new KeyTableInfo()
                                         {
                                             key = table.Rows[keyRowIndex][columnIndex].ToString(),
@@ -117,16 +112,16 @@ namespace Tool
                     }
                 }
 
-                bool useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
+                var useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
                 //多语言写入配置文件
                 foreach (var pair in resultDict)
                 {
                     var language = pair.Key;
                     var dict = pair.Value;
-                    string resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
+                    var resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
                     if (!Directory.Exists(resFullPath)) Directory.CreateDirectory(resFullPath);
-                    string jsonFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.json");
-                    string bytesFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.bytes");
+                    var jsonFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.json");
+                    var bytesFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.bytes");
                     if (useJson)
                     {
                         var memoryStream = new MemoryStream();
@@ -134,7 +129,7 @@ namespace Tool
                         {
                             Indented = true,
                             SkipValidation = false,
-                            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                         });
                         jsonWriter.WriteStartObject();
                         foreach (var kv in dict)
@@ -145,7 +140,7 @@ namespace Tool
 
                         jsonWriter.WriteEndObject();
                         jsonWriter.Flush();
-                        byte[] bytes = new byte[memoryStream.Length];
+                        var bytes = new byte[memoryStream.Length];
                         memoryStream.Seek(0, SeekOrigin.Begin);
                         _ = memoryStream.Read(bytes, 0, bytes.Length);
                         File.WriteAllBytes(jsonFileFullPath, bytes);
@@ -168,12 +163,10 @@ namespace Tool
                     Log.Info($"Gen {language} Success!");
                 }
 
-                string extensionName = useJson ? "json" : "bytes";
+                var extensionName = useJson ? "json" : "bytes";
                 GenerateAssetUtilityCode(extensionName);
                 var readyLanguages = resultDict.Keys.ToArray();
                 GenerateReadyLanguageCode(readyLanguages);
-                //生成一份给UXTool使用
-                GenerateUXToolCode(readyLanguages, extensionName);
                 Log.Info("Export Localization Excel Success!");
             }
 
@@ -196,9 +189,15 @@ namespace Tool
                 stringBuilder.AppendLine("        }");
                 stringBuilder.AppendLine("    }");
                 stringBuilder.AppendLine("}");
-                string codeContent = stringBuilder.ToString();
+                var codeContent = stringBuilder.ToString();
                 if (!File.Exists(s_AssetUtilityCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_AssetUtilityCodeFile)))
                 {
+                    var directory = Path.GetDirectoryName(s_AssetUtilityCodeFile);
+                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
                     File.WriteAllText(s_AssetUtilityCodeFile, codeContent);
                     Log.Info($"Generate code : {s_AssetUtilityCodeFile}!");
                 }
@@ -221,54 +220,31 @@ namespace Tool
                 stringBuilder.AppendLine("        };");
                 stringBuilder.AppendLine("    }");
                 stringBuilder.AppendLine("}");
-                string codeContent = stringBuilder.ToString();
+                var codeContent = stringBuilder.ToString();
                 if (!File.Exists(s_LocalizationReadyLanguageCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_LocalizationReadyLanguageCodeFile)))
                 {
+                    var directory = Path.GetDirectoryName(s_LocalizationReadyLanguageCodeFile);
+                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory))
+                    {
+                        Directory.CreateDirectory(directory);
+                    }
+
                     File.WriteAllText(s_LocalizationReadyLanguageCodeFile, codeContent);
                     Log.Info($"Generate code : {s_LocalizationReadyLanguageCodeFile}!");
                 }
             }
 
-            private static void GenerateUXToolCode(Language[] readyLanguages, string extensionName)
-            {
-                StringBuilder stringBuilder = new();
-                stringBuilder.AppendLine("// This is an automatically generated class by Share.Tool. Please do not modify it.");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("namespace ThunderFireUITool");
-                stringBuilder.AppendLine("{");
-                stringBuilder.AppendLine("    public static partial class EditorLocalizationTool");
-                stringBuilder.AppendLine("    {");
-                stringBuilder.AppendLine($"        public const string ExporterExtensionName = \"{extensionName}\";");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("        public static LocalizationHelper.LanguageType[] ReadyLanguageTypes => new LocalizationHelper.LanguageType[]");
-                stringBuilder.AppendLine("        {");
-                foreach (var language in readyLanguages) stringBuilder.AppendLine($"            LocalizationHelper.LanguageType.{language},");
-                stringBuilder.AppendLine("        };");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("        public static string GetLocalizationAsset(LocalizationHelper.LanguageType languageType)");
-                stringBuilder.AppendLine("        {");
-                stringBuilder.AppendLine("            return $\"Assets/Res/Localization/{languageType}/Localization.extensionName\";".Replace("extensionName", extensionName));
-                stringBuilder.AppendLine("        }");
-                stringBuilder.AppendLine("    }");
-                stringBuilder.AppendLine("}");
-                string codeContent = stringBuilder.ToString();
-                if (!File.Exists(s_UXToolEditorLocalizationToolCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_UXToolEditorLocalizationToolCodeFile)))
-                {
-                    File.WriteAllText(s_UXToolEditorLocalizationToolCodeFile, codeContent);
-                    Log.Info($"Generate code : {s_UXToolEditorLocalizationToolCodeFile}!");
-                }
-            }
 
             private static string GetErrorString(DataTable table, int columnIndex, int rowIndex, string errorMsg)
             {
                 string ToAlphaString(int column)
                 {
-                    int h = column / 26;
-                    int n = column % 26;
+                    var h = column / 26;
+                    var n = column % 26;
                     return $"{(h > 0 ? ((char)('A' + h - 1)).ToString() : "")}{(char)('A' + n)}";
                 }
 
-                string error = $@"
+                var error = $@"
 =======================================================================
     解析失败!
 

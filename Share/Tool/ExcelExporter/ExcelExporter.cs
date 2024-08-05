@@ -4,7 +4,7 @@ namespace Tool
 {
     public static partial class ExcelExporter
     {
-        private static readonly string s_LocalizationExcelFile = Path.GetFullPath($"{Define.WorkDir}/../Design/Excel/Localization.xlsx");
+        private static readonly string s_LocalizationExcelFile = Path.GetFullPath($"{Define.WorkDir}/../Config/Excel/Localization.xlsx");
 
         public static void ExportAll()
         {
@@ -13,6 +13,11 @@ namespace Tool
         }
 
         public static void ExportLocalization()
+        {
+            ExcelExporter_Localization.DoExport(); 
+        }
+
+        public static void ExportLubanConfig()
         {
             ExcelExporter_Luban.DoExport();
         }

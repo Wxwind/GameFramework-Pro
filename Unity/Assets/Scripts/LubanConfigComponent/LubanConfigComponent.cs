@@ -33,7 +33,7 @@ namespace UnityGameFramework.Runtime
         private JSONNode LoadByJson(string fileName)
         {
             // TODO: 使用yooasset加载
-            var text = File.ReadAllText(Application.dataPath + "/GameMain/LubanConfig/" + fileName + ".json");
+            var text = File.ReadAllText(Application.dataPath + "/AssetRes/LubanConfig/" + fileName + ".json");
             return JSON.Parse(text);
         }
     }

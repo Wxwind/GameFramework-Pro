@@ -3,11 +3,11 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Editor;
 
-namespace GameMain.Editor
+namespace Game.Editor
 {
     public static class GameFrameworkConfigs
     {
         [BuildSettingsConfigPath] public static string BuildSettingsConfig =
-            Utility.Path.GetRegularPath(Path.Combine(Application.dataPath, "GameMain/Configs/BuildSettings.xml"));
+            Utility.Path.GetRegularPath(Path.Combine(Application.dataPath, "AssetRes/Configs/BuildSettings.xml"));
     }
 }

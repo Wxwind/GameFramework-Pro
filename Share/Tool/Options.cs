@@ -7,8 +7,10 @@ namespace Tool
     public enum AppType
     {
         GameTool,
-        ExcelExporter,
-        LocalizationExporter
+        ExportLubanConfig,
+        ExportLocalization,
+        ExportAllExcel,
+        
     }
 
     public class Options
