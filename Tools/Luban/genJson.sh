@@ -8,7 +8,8 @@ cd ${CURRENT_DIR}
 
 WORKSPACE=../..
 LUBAN_DLL=$WORKSPACE/Tools/Luban/Source/Luban.dll
-CONF_ROOT=$WORKSPACE/Excel
+CONF_ROOT=$WORKSPACE/Config/Excel/Game
+L10N_FILE=$WORKSPACE/Config/Excel/Localization.xlsx
 UNITY_FOLDER=$WORKSPACE/Unity
 DATA_OUTPATH=$UNITY_FOLDER/Assets/GameMain/LubanConfig
 CODE_OUTPATH=$UNITY_FOLDER/Assets/GameMain/Scripts/LubanConfig
@@ -21,5 +22,5 @@ dotnet $LUBAN_DLL \
     -x outputDataDir=$DATA_OUTPATH \
     -x outputCodeDir=$CODE_OUTPATH \
     -x l10n.provider=default \
-    -x "l10n.textFile.path=$CONF_ROOT/Datas/l10n/texts.xlsx" \
+    -x l10n.textFile.path=$L10N_FILE \
     -x l10n.textFile.keyFieldName=key

@@ -2,12 +2,11 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using UnityEditor;
-using UnityGameFramework.Editor;
 using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Scripts.Editor.LubanConfig
+namespace UnityGameFramework.Editor
 {
-    public class LubanConfigGeneratorMenu
+    public static class LubanConfigExporter
     {
         private static readonly string ProjectRootPath = Path.Combine(Environment.CurrentDirectory, "../");
 
