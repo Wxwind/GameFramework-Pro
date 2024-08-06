@@ -114,15 +114,6 @@ namespace UnityGameFramework.Runtime
             await m_ConfigManager.ReadData(configAssetName);
         }
 
-        /// <summary>
-        /// 读取全局配置。
-        /// </summary>
-        /// <param name="configAssetName">全局配置资源名称。</param>
-        /// <param name="priority">加载全局配置资源的优先级。</param>
-        public async UniTask ReadData(string configAssetName, int priority)
-        {
-            await m_ConfigManager.ReadData(configAssetName, priority);
-        }
 
         /// <summary>
         /// 解析全局配置。

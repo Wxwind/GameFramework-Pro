@@ -144,16 +144,6 @@ namespace GameFramework.Localization
             await m_DataProvider.ReadData(dictionaryAssetName);
         }
 
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        public async UniTask ReadData(string dictionaryAssetName, int priority)
-        {
-            await m_DataProvider.ReadData(dictionaryAssetName, priority);
-        }
-
 
         /// <summary>
         /// 解析字典。
@@ -197,7 +187,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString(string key)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -215,7 +205,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString<T>(string key, T arg)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -242,7 +232,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString<T1, T2>(string key, T1 arg1, T2 arg2)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -271,7 +261,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString<T1, T2, T3>(string key, T1 arg1, T2 arg2, T3 arg3)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -302,7 +292,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString<T1, T2, T3, T4>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -336,7 +326,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString<T1, T2, T3, T4, T5>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -373,7 +363,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5,
             T6 arg6)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -412,7 +402,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5,
             T6 arg6, T7 arg7)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -453,7 +443,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7, T8>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5,
             T6 arg6, T7 arg7, T8 arg8)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -496,7 +486,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7, T8, T9>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4,
             T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -541,7 +531,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(string key, T1 arg1, T2 arg2, T3 arg3, T4 arg4,
             T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -588,7 +578,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(string key, T1 arg1, T2 arg2, T3 arg3,
             T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -637,7 +627,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(string key, T1 arg1, T2 arg2,
             T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -689,7 +679,7 @@ namespace GameFramework.Localization
         public string GetString<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(string key, T1 arg1, T2 arg2,
             T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12, T13 arg13)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -745,7 +735,7 @@ namespace GameFramework.Localization
             T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12,
             T13 arg13, T14 arg14)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -758,7 +748,7 @@ namespace GameFramework.Localization
             }
             catch (Exception exception)
             {
-                string args = Utility.Text.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}", arg1,
+                var args = Utility.Text.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13}", arg1,
                     arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14);
                 return Utility.Text.Format("<Error>{0},{1},{2},{3}", key, value, args, exception);
             }
@@ -803,7 +793,7 @@ namespace GameFramework.Localization
             T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11, T12 arg12,
             T13 arg13, T14 arg14, T15 arg15)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -816,7 +806,7 @@ namespace GameFramework.Localization
             }
             catch (Exception exception)
             {
-                string args = Utility.Text.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}",
+                var args = Utility.Text.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14}",
                     arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15);
                 return Utility.Text.Format("<Error>{0},{1},{2},{3}", key, value, args, exception);
             }
@@ -863,7 +853,7 @@ namespace GameFramework.Localization
             T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9, T10 arg10, T11 arg11,
             T12 arg12, T13 arg13, T14 arg14, T15 arg15, T16 arg16)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -876,7 +866,7 @@ namespace GameFramework.Localization
             }
             catch (Exception exception)
             {
-                string args =
+                var args =
                     Utility.Text.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15}", arg1,
                         arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11, arg12, arg13, arg14, arg15,
                         arg16);

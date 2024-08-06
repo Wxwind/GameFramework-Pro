@@ -82,7 +82,7 @@ namespace UnityGameFramework.Runtime
 
             m_LocalizationManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
-            LocalizationHelperBase localizationHelper =
+            var localizationHelper =
                 Helper.CreateHelper(m_LocalizationHelperTypeName, m_CustomLocalizationHelper);
             if (localizationHelper == null)
             {
@@ -91,7 +91,7 @@ namespace UnityGameFramework.Runtime
             }
 
             localizationHelper.name = "Localization Helper";
-            Transform transform = localizationHelper.transform;
+            var transform = localizationHelper.transform;
             transform.SetParent(this.transform);
             transform.localScale = Vector3.one;
 
@@ -133,16 +133,6 @@ namespace UnityGameFramework.Runtime
         public async UniTask ReadData(string dictionaryAssetName)
         {
             await m_LocalizationManager.ReadData(dictionaryAssetName);
-        }
-
-        /// <summary>
-        /// 读取字典。
-        /// </summary>
-        /// <param name="dictionaryAssetName">字典资源名称。</param>
-        /// <param name="priority">加载字典资源的优先级。</param>
-        public async UniTask ReadData(string dictionaryAssetName, int priority)
-        {
-            await m_LocalizationManager.ReadData(dictionaryAssetName, priority);
         }
 
         /// <summary>

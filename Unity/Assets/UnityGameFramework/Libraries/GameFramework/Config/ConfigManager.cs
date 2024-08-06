@@ -27,18 +27,12 @@ namespace GameFramework.Config
         /// <summary>
         /// 获取全局配置项数量。
         /// </summary>
-        public int Count
-        {
-            get { return m_ConfigDatas.Count; }
-        }
+        public int Count => m_ConfigDatas.Count;
 
         /// <summary>
         /// 获取缓冲二进制流的大小。
         /// </summary>
-        public int CachedBytesSize
-        {
-            get { return DataProvider<IConfigManager>.CachedBytesSize; }
-        }
+        public int CachedBytesSize => DataProvider<IConfigManager>.CachedBytesSize;
 
 
         /// <summary>
@@ -113,16 +107,6 @@ namespace GameFramework.Config
         public async UniTask ReadData(string configAssetName)
         {
             await m_DataProvider.ReadData(configAssetName);
-        }
-
-        /// <summary>
-        /// 读取全局配置。
-        /// </summary>
-        /// <param name="configAssetName">全局配置资源名称。</param>
-        /// <param name="priority">加载全局配置资源的优先级。</param>
-        public async UniTask ReadData(string configAssetName, int priority)
-        {
-            await m_DataProvider.ReadData(configAssetName, priority);
         }
 
 
@@ -291,13 +275,13 @@ namespace GameFramework.Config
         /// <returns>是否增加全局配置项成功。</returns>
         public bool AddConfig(string configName, string configValue)
         {
-            bool boolValue = false;
+            var boolValue = false;
             bool.TryParse(configValue, out boolValue);
 
-            int intValue = 0;
+            var intValue = 0;
             int.TryParse(configValue, out intValue);
 
-            float floatValue = 0f;
+            var floatValue = 0f;
             float.TryParse(configValue, out floatValue);
 
             return AddConfig(configName, boolValue, intValue, floatValue, configValue);

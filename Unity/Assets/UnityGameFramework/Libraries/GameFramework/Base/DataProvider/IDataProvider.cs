@@ -15,14 +15,6 @@ namespace GameFramework
         UniTask ReadData(string dataAssetName);
 
         /// <summary>
-        /// 读取数据。
-        /// </summary>
-        /// <param name="dataAssetName">内容资源名称。</param>
-        /// <param name="priority">加载数据资源的优先级。</param>
-        UniTask ReadData(string dataAssetName, int priority);
-
-
-        /// <summary>
         /// 解析内容。
         /// </summary>
         /// <param name="dataString">要解析的内容字符串。</param>

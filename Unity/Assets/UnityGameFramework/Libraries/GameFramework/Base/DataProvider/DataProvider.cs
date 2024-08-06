@@ -47,7 +47,7 @@ namespace GameFramework
             if (s_CachedBytes == null || s_CachedBytes.Length < ensureSize)
             {
                 FreeCachedBytes();
-                int size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
+                var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
                 s_CachedBytes = new byte[size];
             }
         }
@@ -67,16 +67,6 @@ namespace GameFramework
         /// <param name="dataAssetName">内容资源名称。</param>
         public async UniTask ReadData(string dataAssetName)
         {
-            await ReadData(dataAssetName, 0);
-        }
-
-        /// <summary>
-        /// 读取数据。
-        /// </summary>
-        /// <param name="dataAssetName">内容资源名称。</param>
-        /// <param name="priority">加载数据资源的优先级。</param>
-        public async UniTask ReadData(string dataAssetName, int priority)
-        {
             if (m_ResourceManager == null) throw new GameFrameworkException("You must set resource manager first.");
 
             if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data provider helper first.");
@@ -89,7 +79,11 @@ namespace GameFramework
             }
             catch (Exception e)
             {
-                LoadAssetFailureCallback(dataAssetName, e.ToString());
+                var appendErrorMessage =
+                    Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
+                        dataAssetName, e.ToString());
+
+                throw new GameFrameworkException(appendErrorMessage);
             }
         }
 
@@ -123,7 +117,6 @@ namespace GameFramework
         /// 解析内容。
         /// </summary>
         /// <param name="dataBytes">要解析的内容二进制流。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析内容成功。</returns>
         public bool ParseData(byte[] dataBytes)
         {
@@ -195,15 +188,6 @@ namespace GameFramework
             {
                 m_DataProviderHelper.ReleaseDataAsset(m_Owner, dataAsset);
             }
-        }
-
-        private void LoadAssetFailureCallback(string dataAssetName, string errorMessage)
-        {
-            string appendErrorMessage =
-                Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
-                    dataAssetName, errorMessage);
-
-            throw new GameFrameworkException(appendErrorMessage);
         }
     }
 }

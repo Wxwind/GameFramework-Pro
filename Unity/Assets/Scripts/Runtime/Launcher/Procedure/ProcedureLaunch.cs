@@ -25,7 +25,7 @@ namespace GameMain
 
             // 默认字典：加载默认字典文件 Assets/AssetRes/Configs/DefaultDictionary.xml
             // 此字典文件记录了资源更新前使用的各种语言的字符串，会随 App 一起发布，故不可更新
-            GameEntry.BuiltinData.InitDefaultDictionary();
+            GameEntry.BuiltinData.InitDefaultDictionary(GameEntry.Localization.Language);
 
             procedureOwner.SetData<VarString>("PackageName", "DefaultPackage");
         }
@@ -45,11 +45,11 @@ namespace GameMain
                 // 编辑器资源模式直接使用 Inspector 上设置的语言
                 return;
 
-            Language language = GameEntry.Localization.Language;
+            var language = GameEntry.Localization.Language;
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
                 try
                 {
-                    string languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
+                    var languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
                     language = (Language)Enum.Parse(typeof(Language), languageString);
                 }
                 catch

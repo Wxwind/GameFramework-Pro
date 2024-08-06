@@ -1,4 +1,5 @@
 ﻿using GameFramework;
+using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -28,7 +29,7 @@ namespace GameMain
             if (BuildInfo == null) Log.Warning("Parse build info failure.");
         }
 
-        public void InitDefaultDictionary()
+        public void InitDefaultDictionary(Language language)
         {
             if (m_DefaultDictionaryTextAsset == null || string.IsNullOrEmpty(m_DefaultDictionaryTextAsset.text))
             {
