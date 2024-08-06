@@ -42,15 +42,12 @@ namespace GameFramework
         /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
         public static void EnsureCachedBytesSize(int ensureSize)
         {
-            if (ensureSize < 0)
-            {
-                throw new GameFrameworkException("Ensure size is invalid.");
-            }
+            if (ensureSize < 0) throw new GameFrameworkException("Ensure size is invalid.");
 
             if (s_CachedBytes == null || s_CachedBytes.Length < ensureSize)
             {
                 FreeCachedBytes();
-                var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
+                int size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
                 s_CachedBytes = new byte[size];
             }
         }
@@ -80,15 +77,9 @@ namespace GameFramework
         /// <param name="priority">加载数据资源的优先级。</param>
         public async UniTask ReadData(string dataAssetName, int priority)
         {
-            if (m_ResourceManager == null)
-            {
-                throw new GameFrameworkException("You must set resource manager first.");
-            }
+            if (m_ResourceManager == null) throw new GameFrameworkException("You must set resource manager first.");
 
-            if (m_DataProviderHelper == null)
-            {
-                throw new GameFrameworkException("You must set data provider helper first.");
-            }
+            if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data provider helper first.");
 
 
             try
@@ -107,19 +98,12 @@ namespace GameFramework
         /// 解析内容。
         /// </summary>
         /// <param name="dataString">要解析的内容字符串。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>是否解析内容成功。</returns>
         public bool ParseData(string dataString)
         {
-            if (m_DataProviderHelper == null)
-            {
-                throw new GameFrameworkException("You must set data helper first.");
-            }
+            if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data helper first.");
 
-            if (dataString == null)
-            {
-                throw new GameFrameworkException("Data string is invalid.");
-            }
+            if (dataString == null) throw new GameFrameworkException("Data string is invalid.");
 
             try
             {
@@ -127,10 +111,7 @@ namespace GameFramework
             }
             catch (Exception exception)
             {
-                if (exception is GameFrameworkException)
-                {
-                    throw;
-                }
+                if (exception is GameFrameworkException) throw;
 
                 throw new GameFrameworkException(
                     Utility.Text.Format("Can not parse data string with exception '{0}'.", exception), exception);
@@ -146,10 +127,7 @@ namespace GameFramework
         /// <returns>是否解析内容成功。</returns>
         public bool ParseData(byte[] dataBytes)
         {
-            if (dataBytes == null)
-            {
-                throw new GameFrameworkException("Data bytes is invalid.");
-            }
+            if (dataBytes == null) throw new GameFrameworkException("Data bytes is invalid.");
 
             return ParseData(dataBytes, 0, dataBytes.Length);
         }
@@ -164,20 +142,11 @@ namespace GameFramework
         /// <returns>是否解析内容成功。</returns>
         public bool ParseData(byte[] dataBytes, int startIndex, int length)
         {
-            if (m_DataProviderHelper == null)
-            {
-                throw new GameFrameworkException("You must set data helper first.");
-            }
+            if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data helper first.");
 
-            if (dataBytes == null)
-            {
-                throw new GameFrameworkException("Data bytes is invalid.");
-            }
+            if (dataBytes == null) throw new GameFrameworkException("Data bytes is invalid.");
 
-            if (startIndex < 0 || length < 0 || startIndex + length > dataBytes.Length)
-            {
-                throw new GameFrameworkException("Start index or length is invalid.");
-            }
+            if (startIndex < 0 || length < 0 || startIndex + length > dataBytes.Length) throw new GameFrameworkException("Start index or length is invalid.");
 
             try
             {
@@ -185,10 +154,7 @@ namespace GameFramework
             }
             catch (Exception exception)
             {
-                if (exception is GameFrameworkException)
-                {
-                    throw;
-                }
+                if (exception is GameFrameworkException) throw;
 
                 throw new GameFrameworkException(
                     Utility.Text.Format("Can not parse data bytes with exception '{0}'.", exception), exception);
@@ -201,10 +167,7 @@ namespace GameFramework
         /// <param name="resourceManager">资源管理器。</param>
         internal void SetResourceManager(IResourceManager resourceManager)
         {
-            if (resourceManager == null)
-            {
-                throw new GameFrameworkException("Resource manager is invalid.");
-            }
+            if (resourceManager == null) throw new GameFrameworkException("Resource manager is invalid.");
 
             m_ResourceManager = resourceManager;
         }
@@ -215,10 +178,7 @@ namespace GameFramework
         /// <param name="dataProviderHelper">数据提供者辅助器。</param>
         internal void SetDataProviderHelper(IDataProviderHelper<T> dataProviderHelper)
         {
-            if (dataProviderHelper == null)
-            {
-                throw new GameFrameworkException("Data provider helper is invalid.");
-            }
+            if (dataProviderHelper == null) throw new GameFrameworkException("Data provider helper is invalid.");
 
             m_DataProviderHelper = dataProviderHelper;
         }
@@ -228,10 +188,8 @@ namespace GameFramework
             try
             {
                 if (!m_DataProviderHelper.ReadData(m_Owner, dataAssetName, dataAsset))
-                {
                     throw new GameFrameworkException(Utility.Text.Format(
                         "Load data failure in data provider helper, data asset name '{0}'.", dataAssetName));
-                }
             }
             finally
             {
@@ -241,7 +199,7 @@ namespace GameFramework
 
         private void LoadAssetFailureCallback(string dataAssetName, string errorMessage)
         {
-            var appendErrorMessage =
+            string appendErrorMessage =
                 Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
                     dataAssetName, errorMessage);
 

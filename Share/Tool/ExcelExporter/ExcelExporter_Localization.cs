@@ -13,7 +13,6 @@ namespace Tool
         public static class ExcelExporter_Localization
         {
             private static readonly string s_LocalizationOutPutDir = Path.GetFullPath("../Unity/Assets/AssetRes/Localization");
-            private static readonly string s_AssetUtilityCodeFile  = Path.GetFullPath("../Unity/Assets/Scripts/Runtime/Generate/Localization/AssetUtility.Localization.cs");
 
             private static readonly string s_LocalizationReadyLanguageCodeFile =
                 Path.GetFullPath("../Unity/Assets/Scripts/Editor/Generate/Localization/LocalizationReadyLanguage.cs");
@@ -113,15 +112,16 @@ namespace Tool
                 }
 
                 bool useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
+                if (Directory.Exists(s_LocalizationOutPutDir)) LubanFileHelper.ClearDirectory(s_LocalizationOutPutDir);
                 //多语言写入配置文件
                 foreach (var pair in resultDict)
                 {
                     var language = pair.Key;
                     var dict = pair.Value;
                     string resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
-                    if (!Directory.Exists(resFullPath)) Directory.CreateDirectory(resFullPath);
-                    string jsonFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.json");
-                    string bytesFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.bytes");
+
+                    string jsonFileFullPath = Path.GetFullPath($"{resFullPath}.json");
+                    string bytesFileFullPath = Path.GetFullPath($"{resFullPath}.bytes");
                     if (useJson)
                     {
                         var memoryStream = new MemoryStream();
@@ -144,7 +144,6 @@ namespace Tool
                         memoryStream.Seek(0, SeekOrigin.Begin);
                         _ = memoryStream.Read(bytes, 0, bytes.Length);
                         File.WriteAllBytes(jsonFileFullPath, bytes);
-                        if (File.Exists(bytesFileFullPath)) File.Delete(bytesFileFullPath);
                     }
                     else
                     {
@@ -156,48 +155,14 @@ namespace Tool
                         }
 
                         File.WriteAllBytes(bytesFileFullPath, byteBuf.CopyData());
-
-                        if (File.Exists(jsonFileFullPath)) File.Delete(jsonFileFullPath);
                     }
 
                     Log.Info($"Gen {language} Success!");
                 }
 
-                string extensionName = useJson ? "json" : "bytes";
-                GenerateAssetUtilityCode(extensionName);
                 var readyLanguages = resultDict.Keys.ToArray();
                 GenerateReadyLanguageCode(readyLanguages);
                 Log.Info("Export Localization Excel Success!");
-            }
-
-            private static void GenerateAssetUtilityCode(string extensionName)
-            {
-                StringBuilder stringBuilder = new();
-                stringBuilder.AppendLine("// This is an automatically generated class by Share.Tool. Please do not modify it.");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("using GameFramework;");
-                stringBuilder.AppendLine("using GameFramework.Localization;");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("namespace Game");
-                stringBuilder.AppendLine("{");
-                stringBuilder.AppendLine("    public static partial class AssetUtility");
-                stringBuilder.AppendLine("    {");
-                stringBuilder.AppendLine("        public static string GetLocalizationAsset(Language language)");
-                stringBuilder.AppendLine("        {");
-                stringBuilder.AppendLine(
-                    "            return Utility.Text.Format(\"Assets/Res/Localization/{0}/Localization.extensionName\", language);".Replace("extensionName", extensionName));
-                stringBuilder.AppendLine("        }");
-                stringBuilder.AppendLine("    }");
-                stringBuilder.AppendLine("}");
-                string codeContent = stringBuilder.ToString();
-                if (!File.Exists(s_AssetUtilityCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_AssetUtilityCodeFile)))
-                {
-                    string directory = Path.GetDirectoryName(s_AssetUtilityCodeFile);
-                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory)) Directory.CreateDirectory(directory);
-
-                    File.WriteAllText(s_AssetUtilityCodeFile, codeContent);
-                    Log.Info($"Generate code : {s_AssetUtilityCodeFile}!");
-                }
             }
 
             private static void GenerateReadyLanguageCode(Language[] readyLanguages)

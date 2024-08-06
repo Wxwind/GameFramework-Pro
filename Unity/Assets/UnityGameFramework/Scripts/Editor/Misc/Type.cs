@@ -12,15 +12,15 @@ namespace UnityGameFramework.Editor
         private static readonly string[] RuntimeAssemblyNames =
         {
             "UnityGameFramework.Runtime",
-            "Game"
+            "Game.Runtime"
         };
 
         private static readonly string[] RuntimeOrEditorAssemblyNames =
         {
             "UnityGameFramework.Runtime",
-            "Game",
+            "Game.Runtime",
             "UnityGameFramework.Editor",
-            "Game-Editor"
+            "Game.Editor"
         };
 
         /// <summary>
@@ -32,29 +32,18 @@ namespace UnityGameFramework.Editor
         {
             foreach (var type in Utility.Assembly.GetTypes())
             {
-                if (!type.IsAbstract || !type.IsSealed)
-                {
-                    continue;
-                }
+                if (!type.IsAbstract || !type.IsSealed) continue;
 
                 foreach (var fieldInfo in type.GetFields(BindingFlags.Static | BindingFlags.Public |
                                                          BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
-                {
                     if (fieldInfo.FieldType == typeof(string) && fieldInfo.IsDefined(typeof(T), false))
-                    {
                         return (string)fieldInfo.GetValue(null);
-                    }
-                }
 
                 foreach (var propertyInfo in type.GetProperties(BindingFlags.Static | BindingFlags.Public |
                                                                 BindingFlags.NonPublic |
                                                                 BindingFlags.DeclaredOnly))
-                {
                     if (propertyInfo.PropertyType == typeof(string) && propertyInfo.IsDefined(typeof(T), false))
-                    {
                         return (string)propertyInfo.GetValue(null, null);
-                    }
-                }
             }
 
             return null;
@@ -83,7 +72,7 @@ namespace UnityGameFramework.Editor
         private static string[] GetTypeNames(System.Type typeBase, string[] assemblyNames)
         {
             var typeNames = new List<string>();
-            foreach (var assemblyName in assemblyNames)
+            foreach (string assemblyName in assemblyNames)
             {
                 Assembly assembly = null;
                 try
@@ -95,19 +84,12 @@ namespace UnityGameFramework.Editor
                     continue;
                 }
 
-                if (assembly == null)
-                {
-                    continue;
-                }
+                if (assembly == null) continue;
 
                 var types = assembly.GetTypes();
                 foreach (var type in types)
-                {
                     if (type.IsClass && !type.IsAbstract && typeBase.IsAssignableFrom(type))
-                    {
                         typeNames.Add(type.FullName);
-                    }
-                }
             }
 
             typeNames.Sort();

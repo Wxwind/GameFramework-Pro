@@ -12,42 +12,25 @@ _ReSharper.CSharp/
 ~$*.xlsx
 ~$*.xlsx.meta
 
-#Unity相关目录
-Unity/.gradle
-Unity/Bundles
-Unity/Library
-Unity/Logs
-Unity/UserSettings
-Unity/*.csproj
-Unity/*.vsconfig
-Unity/ProjectSettings/RiderScriptEditorPersistedState.asset
-Unity/HybridCLRData
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 
-#Unity/Assets
-Unity/Assets/Bundles/Code/*
-Unity/Assets/Bundles/AotDlls/*
-Unity/Assets/StreamingAssets/
-Unity/Assets/StreamingAssets.meta
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
 
-#Unity中的IgnoreAssembly定义文件
-Unity/Assets/Scripts/**/Ignore.asmdef
-Unity/Assets/Scripts/**/Ignore.asmdef.meta
-
-#WebGL
-WebGL
-
-#其他
-.objs/
-.DS_Store
-/*.user
-bin/
-Bin/
-/Log
-/Logs
-obj/
-/Release
-/Temp
-/Tools/MongoDB
-Publish/
-*/Temp/
-*/TestResults/

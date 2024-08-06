@@ -393,6 +393,10 @@ PrefabInstance:
       propertyPath: m_SettingHelperTypeName
       value: UnityGameFramework.Runtime.DefaultSettingHelper
       objectReference: {fileID: 0}
+    - target: {fileID: 11461470, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
+      propertyPath: m_LocalizationHelperTypeName
+      value: UnityGameFramework.Runtime.DefaultLocalizationHelper
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
 --- !u!4 &343730743 stripped
