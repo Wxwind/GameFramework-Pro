@@ -13,7 +13,7 @@ namespace Tool
         public static class ExcelExporter_Localization
         {
             private static readonly string s_LocalizationOutPutDir = Path.GetFullPath("../Unity/Assets/AssetRes/Localization");
-            private static readonly string s_AssetUtilityCodeFile  = Path.GetFullPath("../Unity/Assets/Scripts/Generate/Localization/AssetUtility.Localization.cs");
+            private static readonly string s_AssetUtilityCodeFile  = Path.GetFullPath("../Unity/Assets/Scripts/Runtime/Generate/Localization/AssetUtility.Localization.cs");
 
             private static readonly string s_LocalizationReadyLanguageCodeFile =
                 Path.GetFullPath("../Unity/Assets/Scripts/Editor/Generate/Localization/LocalizationReadyLanguage.cs");
@@ -33,7 +33,7 @@ namespace Tool
 
             public static void DoExport()
             {
-                var isCheck = Options.Instance.Customs.Contains("Check", StringComparison.OrdinalIgnoreCase);
+                bool isCheck = Options.Instance.Customs.Contains("Check", StringComparison.OrdinalIgnoreCase);
                 if (isCheck)
                     return;
                 Log.Info("Start Export Localization Excel ...");
@@ -47,8 +47,8 @@ namespace Tool
                         foreach (DataTable table in dataSet.Tables)
                         {
                             if (!table.Rows[0][0].ToString().StartsWith("##")) continue;
-                            var startRowIndex = 0;
-                            for (var rowIndex = 1; rowIndex < table.Rows.Count; rowIndex++)
+                            int startRowIndex = 0;
+                            for (int rowIndex = 1; rowIndex < table.Rows.Count; rowIndex++)
                             {
                                 if (table.Rows[rowIndex][0].ToString().StartsWith("##")) continue;
                                 startRowIndex = rowIndex;
@@ -60,13 +60,13 @@ namespace Tool
                             var keyTableInfos = new List<KeyTableInfo>();
                             var languageTableInfos = new List<LanguageTableInfo>();
                             var firstDataRow = table.Rows[0];
-                            for (var columnIndex = 1; columnIndex < table.Columns.Count; columnIndex++)
+                            for (int columnIndex = 1; columnIndex < table.Columns.Count; columnIndex++)
                             {
-                                var cellValue = firstDataRow[columnIndex].ToString();
+                                string cellValue = firstDataRow[columnIndex].ToString();
                                 if (cellValue.StartsWith("##")) continue;
                                 if (cellValue == "key")
                                 {
-                                    for (var keyRowIndex = startRowIndex; keyRowIndex < table.Rows.Count; keyRowIndex++)
+                                    for (int keyRowIndex = startRowIndex; keyRowIndex < table.Rows.Count; keyRowIndex++)
                                         keyTableInfos.Add(new KeyTableInfo()
                                         {
                                             key = table.Rows[keyRowIndex][columnIndex].ToString(),
@@ -112,16 +112,16 @@ namespace Tool
                     }
                 }
 
-                var useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
+                bool useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
                 //多语言写入配置文件
                 foreach (var pair in resultDict)
                 {
                     var language = pair.Key;
                     var dict = pair.Value;
-                    var resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
+                    string resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
                     if (!Directory.Exists(resFullPath)) Directory.CreateDirectory(resFullPath);
-                    var jsonFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.json");
-                    var bytesFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.bytes");
+                    string jsonFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.json");
+                    string bytesFileFullPath = Path.GetFullPath($"{resFullPath}/Localization.bytes");
                     if (useJson)
                     {
                         var memoryStream = new MemoryStream();
@@ -140,7 +140,7 @@ namespace Tool
 
                         jsonWriter.WriteEndObject();
                         jsonWriter.Flush();
-                        var bytes = new byte[memoryStream.Length];
+                        byte[] bytes = new byte[memoryStream.Length];
                         memoryStream.Seek(0, SeekOrigin.Begin);
                         _ = memoryStream.Read(bytes, 0, bytes.Length);
                         File.WriteAllBytes(jsonFileFullPath, bytes);
@@ -163,7 +163,7 @@ namespace Tool
                     Log.Info($"Gen {language} Success!");
                 }
 
-                var extensionName = useJson ? "json" : "bytes";
+                string extensionName = useJson ? "json" : "bytes";
                 GenerateAssetUtilityCode(extensionName);
                 var readyLanguages = resultDict.Keys.ToArray();
                 GenerateReadyLanguageCode(readyLanguages);
@@ -189,14 +189,11 @@ namespace Tool
                 stringBuilder.AppendLine("        }");
                 stringBuilder.AppendLine("    }");
                 stringBuilder.AppendLine("}");
-                var codeContent = stringBuilder.ToString();
+                string codeContent = stringBuilder.ToString();
                 if (!File.Exists(s_AssetUtilityCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_AssetUtilityCodeFile)))
                 {
-                    var directory = Path.GetDirectoryName(s_AssetUtilityCodeFile);
-                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory))
-                    {
-                        Directory.CreateDirectory(directory);
-                    }
+                    string directory = Path.GetDirectoryName(s_AssetUtilityCodeFile);
+                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory)) Directory.CreateDirectory(directory);
 
                     File.WriteAllText(s_AssetUtilityCodeFile, codeContent);
                     Log.Info($"Generate code : {s_AssetUtilityCodeFile}!");
@@ -220,14 +217,11 @@ namespace Tool
                 stringBuilder.AppendLine("        };");
                 stringBuilder.AppendLine("    }");
                 stringBuilder.AppendLine("}");
-                var codeContent = stringBuilder.ToString();
+                string codeContent = stringBuilder.ToString();
                 if (!File.Exists(s_LocalizationReadyLanguageCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_LocalizationReadyLanguageCodeFile)))
                 {
-                    var directory = Path.GetDirectoryName(s_LocalizationReadyLanguageCodeFile);
-                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory))
-                    {
-                        Directory.CreateDirectory(directory);
-                    }
+                    string directory = Path.GetDirectoryName(s_LocalizationReadyLanguageCodeFile);
+                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory)) Directory.CreateDirectory(directory);
 
                     File.WriteAllText(s_LocalizationReadyLanguageCodeFile, codeContent);
                     Log.Info($"Generate code : {s_LocalizationReadyLanguageCodeFile}!");
@@ -239,12 +233,12 @@ namespace Tool
             {
                 string ToAlphaString(int column)
                 {
-                    var h = column / 26;
-                    var n = column % 26;
+                    int h = column / 26;
+                    int n = column % 26;
                     return $"{(h > 0 ? ((char)('A' + h - 1)).ToString() : "")}{(char)('A' + n)}";
                 }
 
-                var error = $@"
+                string error = $@"
 =======================================================================
     解析失败!
 
