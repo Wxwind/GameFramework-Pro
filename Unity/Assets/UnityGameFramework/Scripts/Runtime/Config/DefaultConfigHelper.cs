@@ -24,7 +24,6 @@ namespace UnityGameFramework.Runtime
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
-        /// <returns>是否读取全局配置成功。</returns>
         public override void ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset)
         {
             if (configAsset != null)
@@ -38,8 +37,7 @@ namespace UnityGameFramework.Runtime
                     configManager.ParseData(configAsset.text);
                 }
             }
-
-            throw new GameFrameworkException($"Config asset '{configAssetName}' is invalid.");
+            else throw new GameFrameworkException($"Config asset '{configAssetName}' is invalid.");
         }
 
         /// <summary>
@@ -50,7 +48,6 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        /// <returns>是否读取全局配置成功。</returns>
         public override void ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
             int startIndex, int length)
         {

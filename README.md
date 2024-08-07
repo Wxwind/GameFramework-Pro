@@ -1,4 +1,5 @@
 # GameFramework-Pro
+
 GameFramework with luban, yooasset, unitask
 
 ## Environment
@@ -13,13 +14,21 @@ Unity2020.2 or later
   - [x] 大部分模块回调+抛事件的通知方式改为异步
 - 接入YooAsset
   - [ ] 资源热更流程跑通
+    - [ ] 在热更新流程使用的本地化和ui界面
+    - [ ] IOS、Android、PC跑通
   - [x] 异步支持
   - [x] 资源自动释放 (引用[GameFramework-Next](https://github.com/ALEXTANGXIAO/GameFramework-Next))
 - 接入Luban (引用[GameDevelopmentKit
   ](https://github.com/XuToWei/GameDevelopmentKit))
-  - [x] 配置生成
-  - [ ] 异步支持
+  - [x] 支持Excel生成json或bytes
+  - [x] 异步加载
 - 本地化 / L10N (引用[GameDevelopmentKit
   ](https://github.com/XuToWei/GameDevelopmentKit))
-  - [ ] Excel解析
-  - [ ] 动态切换语言
+  - [x] 支持Excel生成json或bytes
+  - [x] 异步加载
+  - [ ] 动态切换语言，无需重启游戏
+- 接入ET (最好是将GF的模块以组件形式并入ET)
+  - [ ] 接入服务端
+
+##  Known Issue
+- 编辑器下，切换语言重启游戏后，点击开始游戏后退出会报AsseObjectPool找不到Target

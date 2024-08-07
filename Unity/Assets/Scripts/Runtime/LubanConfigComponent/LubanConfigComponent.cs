@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Game.Config;
+using GameFramework;
 using Luban;
 using SimpleJSON;
 using UnityEngine;
@@ -24,7 +25,9 @@ namespace UnityGameFramework.Runtime
 
         public async UniTask LoadAsync()
         {
-            var tablesType = GetType();
+            var tables = new Tables();
+
+            var tablesType = typeof(Tables);
             var loadMethodInfo = tablesType.GetMethod("LoadAsync");
             var loaderReturnType = loadMethodInfo.GetParameters()[0].ParameterType.GetGenericArguments()[1];
             // 根据cfg.Tables的构造函数的Loader的返回值类型决定使用json还是ByteBuf Loader
@@ -39,9 +42,9 @@ namespace UnityGameFramework.Runtime
                 }
 
                 Func<string, UniTask<ByteBuf>> func = LoadByteBuf;
-                await (UniTask)loadMethodInfo.Invoke(this, new object[] { func });
+                await (UniTask)loadMethodInfo.Invoke(tables, new object[] { func });
             }
-            else
+            else if (loaderReturnType == typeof(UniTask<JSONNode>))
             {
                 LoadType = TablesLoadType.Json;
 
@@ -52,10 +55,14 @@ namespace UnityGameFramework.Runtime
                 }
 
                 Func<string, UniTask<JSONNode>> func = LoadJson;
-                await (UniTask)loadMethodInfo.Invoke(this, new object[] { func });
+                await (UniTask)loadMethodInfo.Invoke(tables, new object[] { func });
+            }
+            else
+            {
+                throw new GameFrameworkException($"{loaderReturnType.FullName} is not supported.");
             }
 
-            var tables = new Tables();
+
             Tables = tables;
         }
     }

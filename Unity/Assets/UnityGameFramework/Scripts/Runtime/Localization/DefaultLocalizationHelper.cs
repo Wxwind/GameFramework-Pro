@@ -97,7 +97,7 @@ namespace UnityGameFramework.Runtime
                 }
             }
 
-            throw new GameFrameworkException($"Dictionary asset '{dictionaryAssetName}' is invalid.");
+            else throw new GameFrameworkException($"Dictionary asset '{dictionaryAssetName}' is invalid.");
         }
 
         /// <summary>

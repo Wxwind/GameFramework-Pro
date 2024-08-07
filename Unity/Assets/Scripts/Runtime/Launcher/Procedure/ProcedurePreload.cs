@@ -41,7 +41,6 @@ namespace Game
 
         private void PreloadResources()
         {
-            // TODO 全部使用 yooasset 加载
             // Preload configs
             LoadConfig("DefaultConfig").Forget();
 
@@ -66,22 +65,29 @@ namespace Game
             }
             catch (Exception e)
             {
-                Log.Error("Can not load config  '{0}' with error message '{1}'.", configName,
-                    e.Message);
+                Log.Error("Can not load config  '{0}' with error message '{1}'.", configName, e);
                 throw;
             }
         }
 
         private async UniTaskVoid LoadLubanFonfig()
         {
-            m_LoadedFlag.Add("LubanConfig", false);
-            await GameEntry.LubanConfig.LoadAsync();
-            m_LoadedFlag["LubanConfig"] = true;
+            try
+            {
+                m_LoadedFlag.Add("LubanConfig", false);
+                await GameEntry.LubanConfig.LoadAsync();
+                m_LoadedFlag["LubanConfig"] = true;
+            }
+            catch (Exception e)
+            {
+                Log.Error("Can not load config LubanConfig with error message '{0}'.", e);
+                throw;
+            }
         }
 
         private async UniTaskVoid LoadL10N()
         {
-            string dictionaryAssetName = GameEntry.Localization.Language.ToString();
+            var dictionaryAssetName = GameEntry.Localization.Language.ToString();
             try
             {
                 m_LoadedFlag.Add(dictionaryAssetName, false);
@@ -92,7 +98,8 @@ namespace Game
             catch (Exception e)
             {
                 Log.Error("Can not load dictionary '{0}' with error message '{1}'.", dictionaryAssetName,
-                    e.Message);
+                    e);
+                throw;
             }
         }
 
@@ -110,7 +117,8 @@ namespace Game
             catch (Exception e)
             {
                 Log.Error("Can not load font '{0}' with error message '{1}'.", fontName,
-                    e.Message);
+                    e);
+                throw;
             }
         }
     }

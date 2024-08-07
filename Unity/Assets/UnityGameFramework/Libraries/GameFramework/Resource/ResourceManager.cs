@@ -17,7 +17,7 @@ namespace GameFramework.Resource
         /// <summary>
         /// 正在加载的资源列表。
         /// </summary>
-        private readonly HashSet<string> m_assetLoadingList = new();
+        private readonly HashSet<string> m_AssetLoadingList = new();
 
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
@@ -76,10 +76,10 @@ namespace GameFramework.Resource
                 return assetObject.Target as T;
             }
 
-            m_assetLoadingList.Add(assetObjectKey);
+            m_AssetLoadingList.Add(assetObjectKey);
             var handle = GetAssetHandle<T>(location, packageName);
             await handle.ToUniTask(progress != null ? new Progress<float>(progress) : null);
-            m_assetLoadingList.Remove(assetObjectKey);
+            m_AssetLoadingList.Remove(assetObjectKey);
 
             var ret = handle.AssetObject as T;
 
@@ -92,10 +92,10 @@ namespace GameFramework.Resource
 
         private async UniTask TryWaitingLoading(string assetObjectKey)
         {
-            if (m_assetLoadingList.Contains(assetObjectKey))
+            if (m_AssetLoadingList.Contains(assetObjectKey))
             {
                 await UniTask.WaitUntil(
-                    () => !m_assetLoadingList.Contains(assetObjectKey));
+                    () => !m_AssetLoadingList.Contains(assetObjectKey));
             }
         }
 
@@ -194,9 +194,7 @@ namespace GameFramework.Resource
         internal override void Shutdown()
         {
             m_PackagesDict.Clear();
-            m_assetLoadingList.Clear();
-            // FIXME: 场景管理模块在资源管理之后卸载，结果发现m_SceneDict里没有数据了所以卸载失败，场景加载逻辑最好也放在scenemanager里
-            // m_SceneDict.Clear();
+            m_AssetLoadingList.Clear();
 #if !UNITY_WEBGL
             YooAssets.Destroy();
 #endif

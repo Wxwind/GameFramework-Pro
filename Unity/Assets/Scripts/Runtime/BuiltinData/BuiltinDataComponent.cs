@@ -10,8 +10,6 @@ namespace Game
     {
         [SerializeField] private TextAsset m_BuildInfoTextAsset;
 
-        [SerializeField] private TextAsset m_DefaultDictionaryTextAsset;
-
         [SerializeField] private UpdateResourceForm m_UpdateResourceFormTemplate;
 
         public BuildInfo BuildInfo { get; private set; }
@@ -34,13 +32,7 @@ namespace Game
         {
             try
             {
-                if (m_DefaultDictionaryTextAsset == null || string.IsNullOrEmpty(m_DefaultDictionaryTextAsset.text))
-                {
-                    Log.Info("Default dictionary can not be found or empty.");
-                    return;
-                }
-
-                GameEntry.Localization.ParseData(m_DefaultDictionaryTextAsset.text);
+                //  GameEntry.Localization.ParseData(m_DefaultDictionaryTextAsset.text);
             }
             catch (Exception e)
             {

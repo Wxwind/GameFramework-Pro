@@ -1,7 +1,7 @@
+using System;
 using Cysharp.Threading.Tasks;
 using GameFramework.Resource;
 using UnityGameFramework.Runtime;
-using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
 namespace Game
@@ -20,21 +20,15 @@ namespace Game
 
         private async UniTaskVoid InitPackage(ProcedureOwner procedureOwner)
         {
-            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-            var resourceMode = GameEntry.Base.ResourceMode;
-            var initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
-
-            // 如果初始化失败弹出提示界面
-            if (initializationOperation.Status != EOperationStatus.Succeed)
+            try
             {
-                Log.Warning($"{initializationOperation.Error}");
+                var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                var resourceMode = GameEntry.Base.ResourceMode;
+                var initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
 
-                UILaunchMgr.ShowMessageBox("Failed to initialize package!",
-                    () => { ChangeState<ProcedureInitPackage>(procedureOwner); });
-            }
-            else
-            {
-                string version = initializationOperation.PackageVersion;
+                // 如果初始化失败弹出提示界面
+
+                var version = initializationOperation.PackageVersion;
                 Log.Info($"Init resource package version : {version}");
                 GameEntry.Resource.ApplicableGameVersion = initializationOperation.PackageVersion;
 
@@ -65,6 +59,12 @@ namespace Game
                 {
                     Log.Error("UnKnow resource mode detected Please check???");
                 }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                UILaunchMgr.ShowMessageBox("Failed to initialize package!",
+                    () => { ChangeState<ProcedureInitPackage>(procedureOwner); });
             }
         }
     }

@@ -71,20 +71,8 @@ namespace GameFramework
 
             if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data provider helper first.");
 
-
-            try
-            {
-                var textAsset = await m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName);
-                LoadAssetSuccessCallback(dataAssetName, textAsset);
-            }
-            catch (Exception e)
-            {
-                var appendErrorMessage =
-                    Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
-                        dataAssetName, e.ToString());
-
-                throw new GameFrameworkException(appendErrorMessage, e);
-            }
+            var textAsset = await m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName);
+            LoadAssetSuccessCallback(dataAssetName, textAsset);
         }
 
 
@@ -99,17 +87,7 @@ namespace GameFramework
 
             if (dataString == null) throw new GameFrameworkException("Data string is invalid.");
 
-            try
-            {
-                m_DataProviderHelper.ParseData(m_Owner, dataString);
-            }
-            catch (Exception exception)
-            {
-                if (exception is GameFrameworkException) throw;
-
-                throw new GameFrameworkException(
-                    Utility.Text.Format("Can not parse data string with exception '{0}'.", exception), exception);
-            }
+            m_DataProviderHelper.ParseData(m_Owner, dataString);
         }
 
 
