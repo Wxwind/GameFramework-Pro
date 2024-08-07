@@ -22,7 +22,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="dictionaryAssetName">字典资源名称。</param>
         /// <param name="dictionaryAsset">字典资源。</param>
         /// <returns>是否读取字典成功。</returns>
-        public abstract bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+        public abstract void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
             TextAsset dictionaryAsset);
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否读取字典成功。</returns>
-        public abstract bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+        public abstract void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
             byte[] dictionaryBytes, int startIndex, int length);
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="localizationManager">本地化管理器。</param>
         /// <param name="dictionaryString">要解析的字典字符串。</param>
         /// <returns>是否解析字典成功。</returns>
-        public abstract bool ParseData(ILocalizationManager localizationManager, string dictionaryString);
+        public abstract void ParseData(ILocalizationManager localizationManager, string dictionaryString);
 
         /// <summary>
         /// 解析字典。
@@ -53,7 +53,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否解析字典成功。</returns>
-        public abstract bool ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
+        public abstract void ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
             int length);
 
         /// <summary>

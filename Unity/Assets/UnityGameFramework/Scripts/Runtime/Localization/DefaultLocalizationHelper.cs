@@ -82,23 +82,22 @@ namespace UnityGameFramework.Runtime
         /// <param name="dictionaryAssetName">字典资源名称。</param>
         /// <param name="dictionaryAsset">字典资源。</param>
         /// <returns>是否读取字典成功。</returns>
-        public override bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+        public override void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
             TextAsset dictionaryAsset)
         {
             if (dictionaryAsset != null)
             {
                 if (dictionaryAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
                 {
-                    return localizationManager.ParseData(dictionaryAsset.bytes);
+                    localizationManager.ParseData(dictionaryAsset.bytes);
                 }
                 else
                 {
-                    return localizationManager.ParseData(dictionaryAsset.text);
+                    localizationManager.ParseData(dictionaryAsset.text);
                 }
             }
 
-            Log.Warning("Dictionary asset '{0}' is invalid.", dictionaryAssetName);
-            return false;
+            throw new GameFrameworkException($"Dictionary asset '{dictionaryAssetName}' is invalid.");
         }
 
         /// <summary>
@@ -110,16 +109,16 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否读取字典成功。</returns>
-        public override bool ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+        public override void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
             byte[] dictionaryBytes, int startIndex, int length)
         {
             if (dictionaryAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
             {
-                return localizationManager.ParseData(dictionaryBytes, startIndex, length);
+                localizationManager.ParseData(dictionaryBytes, startIndex, length);
             }
             else
             {
-                return localizationManager.ParseData(Utility.Converter.GetString(dictionaryBytes, startIndex, length));
+                localizationManager.ParseData(Utility.Converter.GetString(dictionaryBytes, startIndex, length));
             }
         }
 
@@ -129,7 +128,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="localizationManager">本地化管理器。</param>
         /// <param name="dictionaryString">要解析的字典字符串。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, string dictionaryString)
+        public override void ParseData(ILocalizationManager localizationManager, string dictionaryString)
         {
             try
             {
@@ -145,28 +144,20 @@ namespace UnityGameFramework.Runtime
                     var splitedLine = dictionaryLineString.Split(ColumnSplitSeparator, StringSplitOptions.None);
                     if (splitedLine.Length != ColumnCount)
                     {
-                        Log.Warning("Can not parse dictionary line string '{0}' which column count is invalid.",
-                            dictionaryLineString);
-                        return false;
+                        throw new GameFrameworkException($"Can not parse dictionary line string '{dictionaryLineString}' which column count is invalid.");
                     }
 
                     var dictionaryKey = splitedLine[1];
                     var dictionaryValue = splitedLine[3];
                     if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                     {
-                        Log.Warning(
-                            "Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.",
-                            dictionaryKey);
-                        return false;
+                        throw new GameFrameworkException($"Can not add raw string with dictionary key '{dictionaryKey}' which may be invalid or duplicate.");
                     }
                 }
-
-                return true;
             }
             catch (Exception exception)
             {
-                Log.Warning("Can not parse dictionary string with exception '{0}'.", exception);
-                return false;
+                throw new GameFrameworkException("Can not parse dictionary string with exception.", exception);
             }
         }
 
@@ -178,7 +169,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
+        public override void ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
             int length)
         {
             try
@@ -193,21 +184,15 @@ namespace UnityGameFramework.Runtime
                             var dictionaryValue = binaryReader.ReadString();
                             if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                             {
-                                Log.Warning(
-                                    "Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.",
-                                    dictionaryKey);
-                                return false;
+                                throw new GameFrameworkException($"Can not add raw string with dictionary key '{dictionaryKey}' which may be invalid or duplicate.");
                             }
                         }
                     }
                 }
-
-                return true;
             }
             catch (Exception exception)
             {
-                Log.Warning("Can not parse dictionary bytes with exception '{0}'.", exception);
-                return false;
+                throw new GameFrameworkException("Can not parse dictionary bytes.", exception);
             }
         }
 

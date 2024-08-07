@@ -25,22 +25,21 @@ namespace UnityGameFramework.Runtime
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public override bool ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset)
+        public override void ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset)
         {
             if (configAsset != null)
             {
                 if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
                 {
-                    return configManager.ParseData(configAsset.bytes);
+                    configManager.ParseData(configAsset.bytes);
                 }
                 else
                 {
-                    return configManager.ParseData(configAsset.text);
+                    configManager.ParseData(configAsset.text);
                 }
             }
 
-            Log.Warning("Config asset '{0}' is invalid.", configAssetName);
-            return false;
+            throw new GameFrameworkException($"Config asset '{configAssetName}' is invalid.");
         }
 
         /// <summary>
@@ -52,16 +51,16 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public override bool ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
+        public override void ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
             int startIndex, int length)
         {
             if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
             {
-                return configManager.ParseData(configBytes, startIndex, length);
+                configManager.ParseData(configBytes, startIndex, length);
             }
             else
             {
-                return configManager.ParseData(Utility.Converter.GetString(configBytes, startIndex, length));
+                configManager.ParseData(Utility.Converter.GetString(configBytes, startIndex, length));
             }
         }
 
@@ -70,8 +69,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configString">要解析的全局配置字符串。</param>
-        /// <returns>是否解析全局配置成功。</returns>
-        public override bool ParseData(IConfigManager configManager, string configString)
+        public override void ParseData(IConfigManager configManager, string configString)
         {
             try
             {
@@ -87,27 +85,20 @@ namespace UnityGameFramework.Runtime
                     var splitedLine = configLineString.Split(ColumnSplitSeparator, StringSplitOptions.None);
                     if (splitedLine.Length != ColumnCount)
                     {
-                        Log.Warning("Can not parse config line string '{0}' which column count is invalid.",
-                            configLineString);
-                        return false;
+                        throw new GameFrameworkException($"Can not parse config line string '{configLineString}' which column count is invalid.");
                     }
 
                     var configName = splitedLine[1];
                     var configValue = splitedLine[3];
                     if (!configManager.AddConfig(configName, configValue))
                     {
-                        Log.Warning("Can not add config with config name '{0}' which may be invalid or duplicate.",
-                            configName);
-                        return false;
+                        throw new GameFrameworkException($"Can not add config with config name '{configName}' which may be invalid or duplicate.");
                     }
                 }
-
-                return true;
             }
             catch (Exception exception)
             {
-                Log.Warning("Can not parse config string with exception '{0}'.", exception);
-                return false;
+                throw new GameFrameworkException("Can not parse config string with exception '{0}'.", exception);
             }
         }
 
@@ -118,8 +109,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">要解析的全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        /// <returns>是否解析全局配置成功。</returns>
-        public override bool ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length)
+        public override void ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length)
         {
             try
             {
@@ -133,21 +123,16 @@ namespace UnityGameFramework.Runtime
                             var configValue = binaryReader.ReadString();
                             if (!configManager.AddConfig(configName, configValue))
                             {
-                                Log.Warning(
-                                    "Can not add config with config name '{0}' which may be invalid or duplicate.",
-                                    configName);
-                                return false;
+                                throw new GameFrameworkException(
+                                    $"Can not add config with config name '{configName}' which may be invalid or duplicate.");
                             }
                         }
                     }
                 }
-
-                return true;
             }
             catch (Exception exception)
             {
-                Log.Warning("Can not parse config bytes with exception '{0}'.", exception);
-                return false;
+                throw new GameFrameworkException("Can not parse config bytes.", exception);
             }
         }
 

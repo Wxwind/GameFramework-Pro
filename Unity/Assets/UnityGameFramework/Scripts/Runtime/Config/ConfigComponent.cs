@@ -119,10 +119,9 @@ namespace UnityGameFramework.Runtime
         /// 解析全局配置。
         /// </summary>
         /// <param name="configString">要解析的全局配置字符串。</param>
-        /// <returns>是否解析全局配置成功。</returns>
-        public bool ParseData(string configString)
+        public void ParseData(string configString)
         {
-            return m_ConfigManager.ParseData(configString);
+            m_ConfigManager.ParseData(configString);
         }
 
 
@@ -130,10 +129,9 @@ namespace UnityGameFramework.Runtime
         /// 解析全局配置。
         /// </summary>
         /// <param name="configBytes">要解析的全局配置二进制流。</param>
-        /// <returns>是否解析全局配置成功。</returns>
-        public bool ParseData(byte[] configBytes)
+        public void ParseData(byte[] configBytes)
         {
-            return m_ConfigManager.ParseData(configBytes);
+            m_ConfigManager.ParseData(configBytes);
         }
 
 
@@ -143,10 +141,9 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">要解析的全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        /// <returns>是否解析全局配置成功。</returns>
-        public bool ParseData(byte[] configBytes, int startIndex, int length)
+        public void ParseData(byte[] configBytes, int startIndex, int length)
         {
-            return m_ConfigManager.ParseData(configBytes, startIndex, length);
+            m_ConfigManager.ParseData(configBytes, startIndex, length);
         }
 
 

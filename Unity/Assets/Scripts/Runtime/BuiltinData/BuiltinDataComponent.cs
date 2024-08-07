@@ -1,4 +1,5 @@
-﻿using GameFramework;
+﻿using System;
+using GameFramework;
 using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -31,14 +32,20 @@ namespace GameMain
 
         public void InitDefaultDictionary(Language language)
         {
-            if (m_DefaultDictionaryTextAsset == null || string.IsNullOrEmpty(m_DefaultDictionaryTextAsset.text))
+            try
             {
-                Log.Info("Default dictionary can not be found or empty.");
-                return;
-            }
+                if (m_DefaultDictionaryTextAsset == null || string.IsNullOrEmpty(m_DefaultDictionaryTextAsset.text))
+                {
+                    Log.Info("Default dictionary can not be found or empty.");
+                    return;
+                }
 
-            if (!GameEntry.Localization.ParseData(m_DefaultDictionaryTextAsset.text))
-                Log.Warning("Parse default dictionary failure.");
+                GameEntry.Localization.ParseData(m_DefaultDictionaryTextAsset.text);
+            }
+            catch (Exception e)
+            {
+                throw new GameFrameworkException("Parse default dictionary failure.", e);
+            }
         }
     }
 }

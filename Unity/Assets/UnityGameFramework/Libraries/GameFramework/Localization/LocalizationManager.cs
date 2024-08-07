@@ -149,10 +149,9 @@ namespace GameFramework.Localization
         /// 解析字典。
         /// </summary>
         /// <param name="dictionaryString">要解析的字典字符串。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(string dictionaryString)
+        public void ParseData(string dictionaryString)
         {
-            return m_DataProvider.ParseData(dictionaryString);
+            m_DataProvider.ParseData(dictionaryString);
         }
 
 
@@ -160,10 +159,9 @@ namespace GameFramework.Localization
         /// 解析字典。
         /// </summary>
         /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes)
+        public void ParseData(byte[] dictionaryBytes)
         {
-            return m_DataProvider.ParseData(dictionaryBytes);
+            m_DataProvider.ParseData(dictionaryBytes);
         }
 
 
@@ -173,10 +171,9 @@ namespace GameFramework.Localization
         /// <param name="dictionaryBytes">要解析的字典二进制流。</param>
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
-        /// <returns>是否解析字典成功。</returns>
-        public bool ParseData(byte[] dictionaryBytes, int startIndex, int length)
+        public void ParseData(byte[] dictionaryBytes, int startIndex, int length)
         {
-            return m_DataProvider.ParseData(dictionaryBytes, startIndex, length);
+            m_DataProvider.ParseData(dictionaryBytes, startIndex, length);
         }
 
 

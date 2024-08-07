@@ -19,14 +19,14 @@ namespace GameFramework
         /// </summary>
         /// <param name="dataString">要解析的内容字符串。</param>
         /// <returns>是否解析内容成功。</returns>
-        bool ParseData(string dataString);
+        void ParseData(string dataString);
 
         /// <summary>
         /// 解析内容。
         /// </summary>
         /// <param name="dataBytes">要解析的内容二进制流。</param>
         /// <returns>是否解析内容成功。</returns>
-        bool ParseData(byte[] dataBytes);
+        void ParseData(byte[] dataBytes);
 
         /// <summary>
         /// 解析内容。
@@ -35,6 +35,6 @@ namespace GameFramework
         /// <param name="startIndex">内容二进制流的起始位置。</param>
         /// <param name="length">内容二进制流的长度。</param>
         /// <returns>是否解析内容成功。</returns>
-        bool ParseData(byte[] dataBytes, int startIndex, int length);
+        void ParseData(byte[] dataBytes, int startIndex, int length);
     }
 }

@@ -16,7 +16,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public abstract bool ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset);
+        public abstract void ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset);
 
         /// <summary>
         /// 读取全局配置。
@@ -27,7 +27,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
         /// <returns>是否读取全局配置成功。</returns>
-        public abstract bool ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
+        public abstract void ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
             int startIndex, int length);
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configString">要解析的全局配置字符串。</param>
         /// <returns>是否解析全局配置成功。</returns>
-        public abstract bool ParseData(IConfigManager configManager, string configString);
+        public abstract void ParseData(IConfigManager configManager, string configString);
 
         /// <summary>
         /// 解析全局配置。
@@ -46,7 +46,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
         /// <returns>是否解析全局配置成功。</returns>
-        public abstract bool ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length);
+        public abstract void ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length);
 
         /// <summary>
         /// 释放全局配置资源。

@@ -83,7 +83,7 @@ namespace GameFramework
                     Utility.Text.Format("Load data failure, data asset name '{0}', error message '{1}'.",
                         dataAssetName, e.ToString());
 
-                throw new GameFrameworkException(appendErrorMessage);
+                throw new GameFrameworkException(appendErrorMessage, e);
             }
         }
 
@@ -93,7 +93,7 @@ namespace GameFramework
         /// </summary>
         /// <param name="dataString">要解析的内容字符串。</param>
         /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(string dataString)
+        public void ParseData(string dataString)
         {
             if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data helper first.");
 
@@ -101,7 +101,7 @@ namespace GameFramework
 
             try
             {
-                return m_DataProviderHelper.ParseData(m_Owner, dataString);
+                m_DataProviderHelper.ParseData(m_Owner, dataString);
             }
             catch (Exception exception)
             {
@@ -118,11 +118,11 @@ namespace GameFramework
         /// </summary>
         /// <param name="dataBytes">要解析的内容二进制流。</param>
         /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(byte[] dataBytes)
+        public void ParseData(byte[] dataBytes)
         {
             if (dataBytes == null) throw new GameFrameworkException("Data bytes is invalid.");
 
-            return ParseData(dataBytes, 0, dataBytes.Length);
+            ParseData(dataBytes, 0, dataBytes.Length);
         }
 
 
@@ -133,7 +133,7 @@ namespace GameFramework
         /// <param name="startIndex">内容二进制流的起始位置。</param>
         /// <param name="length">内容二进制流的长度。</param>
         /// <returns>是否解析内容成功。</returns>
-        public bool ParseData(byte[] dataBytes, int startIndex, int length)
+        public void ParseData(byte[] dataBytes, int startIndex, int length)
         {
             if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data helper first.");
 
@@ -143,7 +143,7 @@ namespace GameFramework
 
             try
             {
-                return m_DataProviderHelper.ParseData(m_Owner, dataBytes, startIndex, length);
+                m_DataProviderHelper.ParseData(m_Owner, dataBytes, startIndex, length);
             }
             catch (Exception exception)
             {
@@ -180,9 +180,12 @@ namespace GameFramework
         {
             try
             {
-                if (!m_DataProviderHelper.ReadData(m_Owner, dataAssetName, dataAsset))
-                    throw new GameFrameworkException(Utility.Text.Format(
-                        "Load data failure in data provider helper, data asset name '{0}'.", dataAssetName));
+                m_DataProviderHelper.ReadData(m_Owner, dataAssetName, dataAsset);
+            }
+            catch (Exception exception)
+            {
+                throw new GameFrameworkException(Utility.Text.Format(
+                    "Load data failure in data provider helper, data asset name '{0}'.", dataAssetName), exception);
             }
             finally
             {

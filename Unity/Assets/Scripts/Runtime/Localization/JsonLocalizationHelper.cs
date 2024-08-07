@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using GameFramework;
 using GameFramework.Localization;
 using SimpleJSON;
 using UnityGameFramework.Runtime;
@@ -18,7 +19,7 @@ namespace GameMain
         /// <param name="localizationManager"></param>
         /// <param name="dictionaryString">要解析的字典字符串。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, string dictionaryString)
+        public override void ParseData(ILocalizationManager localizationManager, string dictionaryString)
         {
             try
             {
@@ -29,17 +30,13 @@ namespace GameMain
                     string dictionaryValue = pair.Value;
                     if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                     {
-                        Log.Warning("Can not add raw string with key '{0}' which may be invalid or duplicate.", dictionaryKey);
-                        return false;
+                        throw new GameFrameworkException($"Can not add raw string with key '{dictionaryKey}' which may be invalid or duplicate.");
                     }
                 }
-
-                return true;
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Log.Warning("Can not parse dictionary data with exception '{0}'.", exception.ToString());
-                return false;
+                throw new GameFrameworkException("Can not parse dictionary data", e);
             }
         }
 
@@ -51,7 +48,7 @@ namespace GameMain
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override bool ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex, int length)
+        public override void ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex, int length)
         {
             try
             {
@@ -65,19 +62,15 @@ namespace GameMain
                             var dictionaryValue = binaryReader.ReadString();
                             if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                             {
-                                Log.Warning("Can not add raw string with dictionary key '{0}' which may be invalid or duplicate.", dictionaryKey);
-                                return false;
+                                throw new GameFrameworkException($"Can not add raw string with key '{dictionaryKey}' which may be invalid or duplicate.");
                             }
                         }
                     }
                 }
-
-                return true;
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Log.Warning("Can not parse dictionary bytes with exception '{0}'.", exception);
-                return false;
+                throw new GameFrameworkException("Can not parse dictionary data", e);
             }
         }
     }
