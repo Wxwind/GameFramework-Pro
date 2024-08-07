@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameMain
+namespace Game
 {
     public class PatchWindow : MonoBehaviour
     {
@@ -11,8 +11,8 @@ namespace GameMain
 
         // UGUI相关
         private GameObject _messageBoxObj;
-        private Slider _slider;
-        private Text _tips;
+        private Slider     _slider;
+        private Text       _tips;
 
 
         private void Awake()
@@ -32,7 +32,7 @@ namespace GameMain
         {
             // 尝试获取一个可用的对话框
             MessageBox msgBox = null;
-            for (var i = 0; i < _msgBoxList.Count; i++)
+            for (int i = 0; i < _msgBoxList.Count; i++)
             {
                 var item = _msgBoxList[i];
                 if (item.ActiveSelf == false)
@@ -71,10 +71,10 @@ namespace GameMain
         /// </summary>
         private class MessageBox
         {
-            private Button _btnOK;
-            private Action _clickOK;
+            private Button     _btnOK;
+            private Action     _clickOK;
             private GameObject _cloneObject;
-            private Text _content;
+            private Text       _content;
 
             public bool ActiveSelf => _cloneObject.activeSelf;
 

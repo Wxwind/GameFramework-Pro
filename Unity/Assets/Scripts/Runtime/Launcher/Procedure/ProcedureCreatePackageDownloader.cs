@@ -4,7 +4,7 @@ using UnityGameFramework.Runtime;
 using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureCreatePackageDownloader : ProcedureBase
     {
@@ -22,10 +22,10 @@ namespace GameMain
         {
             await new WaitForSecondsRealtime(0.5f);
 
-            var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
             var package = YooAssets.GetPackage(packageName);
-            var downloadingMaxNum = 10;
-            var failedTryAgain = 3;
+            int downloadingMaxNum = 10;
+            int failedTryAgain = 3;
             var downloader = package.CreateResourceDownloader(downloadingMaxNum, failedTryAgain);
             procedureOwner.SetData("Downloader", VarObject.FromObject(downloader));
 
@@ -38,13 +38,13 @@ namespace GameMain
             {
                 // 发现新更新文件后，挂起流程系统
                 // TODO: 注意：开发者需要在下载前检测磁盘空间不足
-                var totalDownloadCount = downloader.TotalDownloadCount;
-                var totalDownloadBytes = downloader.TotalDownloadBytes;
+                int totalDownloadCount = downloader.TotalDownloadCount;
+                long totalDownloadBytes = downloader.TotalDownloadBytes;
 
 
-                var sizeMB = totalDownloadBytes / 1048576f;
+                float sizeMB = totalDownloadBytes / 1048576f;
                 sizeMB = Mathf.Clamp(sizeMB, 0.1f, float.MaxValue);
-                var totalSizeMB = sizeMB.ToString("f1");
+                string totalSizeMB = sizeMB.ToString("f1");
                 UILaunchMgr.ShowMessageBox(
                     $"Found update patch files, Total count {totalDownloadCount} Total size {totalSizeMB}MB",
                     () => { ChangeState<ProcedureDownloadPackageFiles>(procedureOwner); });

@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tool
 {
@@ -19,7 +13,7 @@ namespace Tool
             private const string GEN_CLIENT          = "../Tools/Luban/Source/Luban.dll";
             private const string CUSTOM_TEMPLATE_DIR = "../Tools/Luban/CustomTemplates";
             private const string EXCEL_DIR           = "../Config/Excel";
-            private const string GEN_CONFIG_NAME     = "luban.conf";
+            private const string GEN_SHELL_TEMPLATE  = "shell-template.json";
 
             /// <summary>
             ///     luban命令模板，不能带换行符
@@ -64,7 +58,7 @@ namespace Tool
                 for (int i = 0; i < dirs.Length; i++)
                 {
                     string dir = Path.GetFullPath(dirs[i]);
-                    string genConfigFile = Path.Combine(dir, GEN_CONFIG_NAME);
+                    string genConfigFile = Path.Combine(dir, GEN_SHELL_TEMPLATE);
                     if (!File.Exists(genConfigFile)) continue;
 
                     var genConfig = JsonSerializer.Deserialize<GenConfig>(
@@ -102,15 +96,16 @@ namespace Tool
 
                         if (isCheck)
                         {
-                            cmd = Regex.Replace(cmd, @"-x\s.*outputCodeDir\s*=\S*\s", "");
-                            cmd = Regex.Replace(cmd, @"-x\s.*outputDataDir\s*=\S*\s", "");
-                            cmd = Regex.Replace(cmd, @"-c\s\S+\s", "");
-                            cmd = Regex.Replace(cmd, @"-d\s\S+\s", "");
-                            cmd += " -f";
+                            // cmd = Regex.Replace(cmd, @"-x\s.*outputCodeDir\s*=\S*\s", "");
+                            // cmd = Regex.Replace(cmd, @"-x\s.*outputDataDir\s*=\S*\s", "");
+                            // cmd = Regex.Replace(cmd, @"-c\s\S+\s", "");
+                            // cmd = Regex.Replace(cmd, @"-d\s\S+\s", "");
+                            // cmd += " -f";
+                            cmd += " -x outputSaver=null";
                         }
 
                         if (!cmd.Contains("l10n.provider")) cmd += " -x l10n.provider=default";
-                        if (!cmd.Contains("l10n.textFile.path")) cmd += $" -x l10n.textFile.path={s_LocalizationExcelFile.Replace('\\', '/')}";
+                        if (!cmd.Contains("l10n.textFile.path")) cmd += $" -x l10n.textFile.path={s_LocalizationExcelFile}";
                         if (!cmd.Contains("l10n.textFile.keyFieldName")) cmd += " -x l10n.textFile.keyFieldName=key";
 
                         cmd = Regex.Replace(cmd, @"\s+(?=-)", " ");
@@ -154,16 +149,16 @@ namespace Tool
                 Parallel.ForEachAsync(cmdInfos,
                     async (cmdInfo, _) =>
                     {
-                        if (showCmd) Log.Info($"{cmdInfo.dirName} : {cmdInfo.cmd}");
+                        if (showCmd) Log.Info($"{cmdInfo.dirName}: {cmdInfo.cmd}");
 
                         if (await RunCommand(cmdInfo.cmd, Define.WorkDir, cmdInfo.dirName, showInfo))
                         {
-                            Log.Info($"Luban {actionStr} process : {Interlocked.Add(ref processCount, 1)}/{cmdInfos.Count}");
+                            Log.Info($"{cmdInfo.dirName}: Luban {actionStr} process {Interlocked.Add(ref processCount, 1)}/{cmdInfos.Count}");
                         }
                         else
                         {
                             isSuccess = false;
-                            Log.Warning($"Luban {actionStr} process : {Interlocked.Add(ref processCount, 1)}/{cmdInfos.Count}");
+                            Log.Warning($"{cmdInfo.dirName}: Luban {actionStr} process {Interlocked.Add(ref processCount, 1)}/{cmdInfos.Count}");
                         }
                     }).Wait();
 

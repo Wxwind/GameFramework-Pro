@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     public static partial class Constant
     {
@@ -13,10 +13,10 @@ namespace GameMain
 
             public const string UILayerName = "UI";
 
-            public const string TargetableObjectLayerName = "Targetable Object";
-            public static readonly int DefaultLayerId = LayerMask.NameToLayer(DefaultLayerName);
-            public static readonly int UILayerId = LayerMask.NameToLayer(UILayerName);
-            public static readonly int TargetableObjectLayerId = LayerMask.NameToLayer(TargetableObjectLayerName);
+            public const           string TargetableObjectLayerName = "Targetable Object";
+            public static readonly int    DefaultLayerId            = LayerMask.NameToLayer(DefaultLayerName);
+            public static readonly int    UILayerId                 = LayerMask.NameToLayer(UILayerName);
+            public static readonly int    TargetableObjectLayerId   = LayerMask.NameToLayer(TargetableObjectLayerName);
         }
     }
 }

@@ -4,7 +4,7 @@ using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public class BuiltinDataComponent : GameFrameworkComponent
     {

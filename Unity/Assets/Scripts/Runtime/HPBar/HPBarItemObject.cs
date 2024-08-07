@@ -2,7 +2,7 @@
 using GameFramework.ObjectPool;
 using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     public class HPBarItemObject : ObjectBase
     {

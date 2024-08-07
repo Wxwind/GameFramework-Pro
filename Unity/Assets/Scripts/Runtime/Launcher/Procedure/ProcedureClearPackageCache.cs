@@ -2,7 +2,7 @@
 using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureClearPackageCache : ProcedureBase
     {
@@ -18,7 +18,7 @@ namespace GameMain
 
         private async UniTaskVoid ClearPackageCache(ProcedureOwner procedureOwner)
         {
-            var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
             var package = YooAssets.GetPackage(packageName);
             var operation = package.ClearUnusedCacheFilesAsync();
             await operation.ToUniTask();

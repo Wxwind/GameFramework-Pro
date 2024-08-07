@@ -1,40 +1,62 @@
-﻿using System.IO;
-using cfg;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using Game.Config;
+using Luban;
 using SimpleJSON;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
 {
+    public enum TablesLoadType : byte
+    {
+        Undefined = 0,
+        Bytes,
+        Json
+    }
+
     [DisallowMultipleComponent]
     [AddComponentMenu("Game Framework Pro/Luban Config")]
     public class LubanConfigComponent : GameFrameworkComponent
     {
-        private Tables _tables;
+        public TablesLoadType LoadType { get; private set; } = TablesLoadType.Undefined;
 
-        public Tables Tables
+        public Tables Tables { get; private set; }
+
+        public async UniTask LoadAsync()
         {
-            get
+            var tablesType = GetType();
+            var loadMethodInfo = tablesType.GetMethod("LoadAsync");
+            var loaderReturnType = loadMethodInfo.GetParameters()[0].ParameterType.GetGenericArguments()[1];
+            // 根据cfg.Tables的构造函数的Loader的返回值类型决定使用json还是ByteBuf Loader
+            if (loaderReturnType == typeof(UniTask<ByteBuf>))
             {
-                if (_tables == null)
+                LoadType = TablesLoadType.Bytes;
+
+                async UniTask<ByteBuf> LoadByteBuf(string file)
                 {
-                    _tables = Load();
+                    var textAsset = await GameEntry.GetComponent<ResourceComponent>().LoadAssetAsync<TextAsset>(file);
+                    return new ByteBuf(textAsset.bytes);
                 }
 
-                return _tables;
+                Func<string, UniTask<ByteBuf>> func = LoadByteBuf;
+                await (UniTask)loadMethodInfo.Invoke(this, new object[] { func });
             }
-        }
+            else
+            {
+                LoadType = TablesLoadType.Json;
 
-        private Tables Load()
-        {
-            var tables = new Tables(LoadByJson);
-            return tables;
-        }
+                async UniTask<JSONNode> LoadJson(string file)
+                {
+                    var textAsset = await Game.GameEntry.Resource.LoadAssetAsync<TextAsset>(file);
+                    return JSON.Parse(textAsset.text);
+                }
 
-        private JSONNode LoadByJson(string fileName)
-        {
-            // TODO: 使用yooasset加载
-            var text = File.ReadAllText(Application.dataPath + "/AssetRes/LubanConfig/" + fileName + ".json");
-            return JSON.Parse(text);
+                Func<string, UniTask<JSONNode>> func = LoadJson;
+                await (UniTask)loadMethodInfo.Invoke(this, new object[] { func });
+            }
+
+            var tables = new Tables();
+            Tables = tables;
         }
     }
 }

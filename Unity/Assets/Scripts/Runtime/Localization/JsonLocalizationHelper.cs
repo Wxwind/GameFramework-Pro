@@ -6,7 +6,7 @@ using GameFramework.Localization;
 using SimpleJSON;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     XML 格式的本地化辅助器。
@@ -26,7 +26,7 @@ namespace GameMain
                 var jsonObject = (JSONObject)JSONNode.Parse(dictionaryString);
                 foreach (var pair in jsonObject)
                 {
-                    var dictionaryKey = pair.Key;
+                    string dictionaryKey = pair.Key;
                     string dictionaryValue = pair.Value;
                     if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                     {
@@ -58,8 +58,8 @@ namespace GameMain
                     {
                         while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
                         {
-                            var dictionaryKey = binaryReader.ReadString();
-                            var dictionaryValue = binaryReader.ReadString();
+                            string dictionaryKey = binaryReader.ReadString();
+                            string dictionaryValue = binaryReader.ReadString();
                             if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                             {
                                 throw new GameFrameworkException($"Can not add raw string with key '{dictionaryKey}' which may be invalid or duplicate.");

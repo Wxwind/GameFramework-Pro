@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     可作为目标的实体类。
@@ -28,9 +28,9 @@ namespace GameMain
 
         public void ApplyDamage(Entity attacker, int damageHP)
         {
-            var fromHPRatio = m_TargetableObjectData.HPRatio;
+            float fromHPRatio = m_TargetableObjectData.HPRatio;
             m_TargetableObjectData.HP -= damageHP;
-            var toHPRatio = m_TargetableObjectData.HPRatio;
+            float toHPRatio = m_TargetableObjectData.HPRatio;
             if (fromHPRatio > toHPRatio) GameEntry.HPBar.ShowHPBar(this, fromHPRatio, toHPRatio);
 
             if (m_TargetableObjectData.HP <= 0) OnDead(attacker);

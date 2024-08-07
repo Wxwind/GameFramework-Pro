@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public static class UIExtension
     {
         public static IEnumerator FadeToAlpha(this CanvasGroup canvasGroup, float alpha, float duration)
         {
-            var time = 0f;
-            var originalAlpha = canvasGroup.alpha;
+            float time = 0f;
+            float originalAlpha = canvasGroup.alpha;
             while (time < duration)
             {
                 time += Time.deltaTime;
@@ -25,8 +25,8 @@ namespace GameMain
 
         public static IEnumerator SmoothValue(this Slider slider, float value, float duration)
         {
-            var time = 0f;
-            var originalValue = slider.value;
+            float time = 0f;
+            float originalValue = slider.value;
             while (time < duration)
             {
                 time += Time.deltaTime;
@@ -48,7 +48,7 @@ namespace GameMain
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null) return false;
 
-            var assetName = drUIForm.AssetName;
+            string assetName = drUIForm.AssetName;
             if (string.IsNullOrEmpty(uiGroupName)) return uiComponent.HasUIForm(assetName);
 
             var uiGroup = uiComponent.GetUIGroup(uiGroupName);
@@ -70,7 +70,7 @@ namespace GameMain
 
             if (drUIForm == null) return null;
 
-            var assetName = drUIForm.AssetName;
+            string assetName = drUIForm.AssetName;
             UIForm uiForm = null;
             if (string.IsNullOrEmpty(uiGroupName))
             {
@@ -109,7 +109,7 @@ namespace GameMain
                 return null;
             }
 
-            var assetName = drUIForm.AssetName;
+            string assetName = drUIForm.AssetName;
             if (!drUIForm.AllowMultiInstance)
             {
                 if (uiComponent.IsLoadingUIForm(assetName)) return null;

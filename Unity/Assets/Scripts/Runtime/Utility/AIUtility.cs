@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     AI 工具类。
@@ -83,7 +83,7 @@ namespace GameMain
             // TODO: GC Alloc
             var camps = new List<CampType>();
             var campTypes = Enum.GetValues(typeof(CampType));
-            for (var i = 0; i < campTypes.Length; i++)
+            for (int i = 0; i < campTypes.Length; i++)
             {
                 var campType = (CampType)campTypes.GetValue(i);
                 if (GetRelation(camp, campType) == relation) camps.Add(campType);
@@ -118,10 +118,10 @@ namespace GameMain
                 var targetImpactData = target.GetImpactData();
                 if (GetRelation(entityImpactData.Camp, targetImpactData.Camp) == RelationType.Friendly) return;
 
-                var entityDamageHP = CalcDamageHP(targetImpactData.Attack, entityImpactData.Defense);
-                var targetDamageHP = CalcDamageHP(entityImpactData.Attack, targetImpactData.Defense);
+                int entityDamageHP = CalcDamageHP(targetImpactData.Attack, entityImpactData.Defense);
+                int targetDamageHP = CalcDamageHP(entityImpactData.Attack, targetImpactData.Defense);
 
-                var delta = Mathf.Min(entityImpactData.HP - entityDamageHP, targetImpactData.HP - targetDamageHP);
+                int delta = Mathf.Min(entityImpactData.HP - entityDamageHP, targetImpactData.HP - targetDamageHP);
                 if (delta > 0)
                 {
                     entityDamageHP += delta;
@@ -140,7 +140,7 @@ namespace GameMain
                 var bulletImpactData = bullet.GetImpactData();
                 if (GetRelation(entityImpactData.Camp, bulletImpactData.Camp) == RelationType.Friendly) return;
 
-                var entityDamageHP = CalcDamageHP(bulletImpactData.Attack, entityImpactData.Defense);
+                int entityDamageHP = CalcDamageHP(bulletImpactData.Attack, entityImpactData.Defense);
 
                 entity.ApplyDamage(bullet, entityDamageHP);
                 GameEntry.Entity.HideEntity(bullet);

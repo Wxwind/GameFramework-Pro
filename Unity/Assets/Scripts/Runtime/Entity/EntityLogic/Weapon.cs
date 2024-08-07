@@ -3,7 +3,7 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     武器类。

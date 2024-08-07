@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     游戏入口。

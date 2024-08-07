@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public class SettingForm : UGuiForm
     {

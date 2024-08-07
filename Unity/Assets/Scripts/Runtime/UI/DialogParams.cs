@@ -1,6 +1,6 @@
 ﻿using GameFramework;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     对话框显示数据。

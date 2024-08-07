@@ -2,7 +2,7 @@
 using GameFramework;
 using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     public class SurvivalGame : GameBase
     {
@@ -19,12 +19,12 @@ namespace GameMain
             {
                 m_ElapseSeconds = 0f;
                 var tbAsteroid = GameEntry.LubanConfig.Tables.TbAsteroid;
-                var randomPositionX = SceneBackground.EnemySpawnBoundary.bounds.min.x +
-                                      SceneBackground.EnemySpawnBoundary.bounds.size.x *
-                                      (float)Utility.Random.GetRandomDouble();
-                var randomPositionZ = SceneBackground.EnemySpawnBoundary.bounds.min.z +
-                                      SceneBackground.EnemySpawnBoundary.bounds.size.z *
-                                      (float)Utility.Random.GetRandomDouble();
+                float randomPositionX = SceneBackground.EnemySpawnBoundary.bounds.min.x +
+                                        SceneBackground.EnemySpawnBoundary.bounds.size.x *
+                                        (float)Utility.Random.GetRandomDouble();
+                float randomPositionZ = SceneBackground.EnemySpawnBoundary.bounds.min.z +
+                                        SceneBackground.EnemySpawnBoundary.bounds.size.z *
+                                        (float)Utility.Random.GetRandomDouble();
                 GameEntry.Entity.ShowAsteroid(new AsteroidData(GameEntry.Entity.GenerateSerialId(),
                     60000 + Utility.Random.GetRandom(tbAsteroid.DataList.Count))
                 {

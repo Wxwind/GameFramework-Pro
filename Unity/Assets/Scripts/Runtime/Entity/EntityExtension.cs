@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public static class EntityExtension
     {

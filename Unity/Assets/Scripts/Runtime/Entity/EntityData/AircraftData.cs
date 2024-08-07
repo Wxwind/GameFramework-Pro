@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     [Serializable]
     public abstract class AircraftData : TargetableObjectData
@@ -126,7 +126,7 @@ namespace GameMain
         {
             m_MaxHP = 0;
             m_Defense = 0;
-            for (var i = 0; i < m_ArmorDatas.Count; i++)
+            for (int i = 0; i < m_ArmorDatas.Count; i++)
             {
                 m_MaxHP += m_ArmorDatas[i].MaxHP;
                 m_Defense += m_ArmorDatas[i].Defense;

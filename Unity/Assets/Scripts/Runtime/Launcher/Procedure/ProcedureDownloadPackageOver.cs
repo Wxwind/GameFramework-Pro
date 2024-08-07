@@ -1,6 +1,6 @@
 ﻿using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureDownloadPackageOver : ProcedureBase
     {

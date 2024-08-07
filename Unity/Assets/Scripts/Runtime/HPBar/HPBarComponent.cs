@@ -3,7 +3,7 @@ using GameFramework.ObjectPool;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public class HPBarComponent : GameFrameworkComponent
     {
@@ -14,7 +14,7 @@ namespace GameMain
         [SerializeField] private int m_InstancePoolCapacity = 16;
 
         private List<HPBarItem> m_ActiveHPBarItems;
-        private Canvas m_CachedCanvas;
+        private Canvas          m_CachedCanvas;
 
         private IObjectPool<HPBarItemObject> m_HPBarItemObjectPool;
 
@@ -34,7 +34,7 @@ namespace GameMain
 
         private void Update()
         {
-            for (var i = m_ActiveHPBarItems.Count - 1; i >= 0; i--)
+            for (int i = m_ActiveHPBarItems.Count - 1; i >= 0; i--)
             {
                 var hpBarItem = m_ActiveHPBarItems[i];
                 if (hpBarItem.Refresh()) continue;
@@ -76,7 +76,7 @@ namespace GameMain
         {
             if (entity == null) return null;
 
-            for (var i = 0; i < m_ActiveHPBarItems.Count; i++)
+            for (int i = 0; i < m_ActiveHPBarItems.Count; i++)
                 if (m_ActiveHPBarItems[i].Owner == entity)
                     return m_ActiveHPBarItems[i];
 

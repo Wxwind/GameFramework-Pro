@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace GameMain
+namespace Game
 {
     [StructLayout(LayoutKind.Auto)]
     public struct ImpactData

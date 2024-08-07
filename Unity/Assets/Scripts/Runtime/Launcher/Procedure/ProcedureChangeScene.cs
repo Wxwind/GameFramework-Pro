@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureChangeScene : ProcedureBase
     {
@@ -31,8 +31,8 @@ namespace GameMain
             GameEntry.Entity.HideAllLoadedEntities();
 
             // 卸载所有场景
-            var loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
-            for (var i = 0; i < loadedSceneAssetNames.Length; i++)
+            string[] loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
+            for (int i = 0; i < loadedSceneAssetNames.Length; i++)
                 GameEntry.Scene.UnloadScene(loadedSceneAssetNames[i]).Forget();
 
             // 还原游戏速度

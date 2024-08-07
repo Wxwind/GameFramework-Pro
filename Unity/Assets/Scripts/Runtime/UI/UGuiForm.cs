@@ -4,17 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public abstract class UGuiForm : UIFormLogic
     {
-        public const int DepthFactor = 100;
-        private const float FadeTime = 0.3f;
+        public const  int   DepthFactor = 100;
+        private const float FadeTime    = 0.3f;
 
-        private static Font s_MainFont;
+        private static   Font         s_MainFont;
         private readonly List<Canvas> m_CachedCanvasContainer = new();
-        private Canvas m_CachedCanvas;
-        private CanvasGroup m_CanvasGroup;
+        private          Canvas       m_CachedCanvas;
+        private          CanvasGroup  m_CanvasGroup;
 
         public int OriginalDepth { get; private set; }
 
@@ -71,7 +71,7 @@ namespace GameMain
             gameObject.GetOrAddComponent<GraphicRaycaster>();
 
             var texts = GetComponentsInChildren<Text>(true);
-            for (var i = 0; i < texts.Length; i++)
+            for (int i = 0; i < texts.Length; i++)
             {
                 texts[i].font = s_MainFont;
                 if (!string.IsNullOrEmpty(texts[i].text))
@@ -102,12 +102,12 @@ namespace GameMain
 
         protected override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)
         {
-            var oldDepth = Depth;
+            int oldDepth = Depth;
             base.OnDepthChanged(uiGroupDepth, depthInUIGroup);
-            var deltaDepth = UGuiGroupHelper.DepthFactor * uiGroupDepth + DepthFactor * depthInUIGroup - oldDepth +
+            int deltaDepth = UGuiGroupHelper.DepthFactor * uiGroupDepth + DepthFactor * depthInUIGroup - oldDepth +
                              OriginalDepth;
             GetComponentsInChildren(true, m_CachedCanvasContainer);
-            for (var i = 0; i < m_CachedCanvasContainer.Count; i++)
+            for (int i = 0; i < m_CachedCanvasContainer.Count; i++)
                 m_CachedCanvasContainer[i].sortingOrder += deltaDepth;
 
             m_CachedCanvasContainer.Clear();

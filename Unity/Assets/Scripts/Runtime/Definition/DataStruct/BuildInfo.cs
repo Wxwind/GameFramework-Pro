@@ -1,4 +1,4 @@
-﻿namespace GameMain
+﻿namespace Game
 {
     public class BuildInfo
     {

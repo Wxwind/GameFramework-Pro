@@ -4,7 +4,7 @@ using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     战机类。
@@ -36,10 +36,10 @@ namespace GameMain
             GameEntry.Entity.ShowThruster(m_AircraftData.GetThrusterData()).Forget();
 
             var weaponDatas = m_AircraftData.GetAllWeaponDatas();
-            for (var i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]).Forget();
+            for (int i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]).Forget();
 
             var armorDatas = m_AircraftData.GetAllArmorDatas();
-            for (var i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]).Forget();
+            for (int i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]).Forget();
         }
 
 

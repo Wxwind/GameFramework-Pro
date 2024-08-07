@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedurePreload : ProcedureBase
     {
@@ -46,7 +46,7 @@ namespace GameMain
             LoadConfig("DefaultConfig").Forget();
 
             // Preload data tables
-            // TODO 在这里使用异步加载 LubanConfig
+            LoadLubanFonfig().Forget();
 
             // Preload dictionaries
             LoadL10N().Forget();
@@ -72,10 +72,16 @@ namespace GameMain
             }
         }
 
+        private async UniTaskVoid LoadLubanFonfig()
+        {
+            m_LoadedFlag.Add("LubanConfig", false);
+            await GameEntry.LubanConfig.LoadAsync();
+            m_LoadedFlag["LubanConfig"] = true;
+        }
 
         private async UniTaskVoid LoadL10N()
         {
-            var dictionaryAssetName = GameEntry.Localization.Language.ToString();
+            string dictionaryAssetName = GameEntry.Localization.Language.ToString();
             try
             {
                 m_LoadedFlag.Add(dictionaryAssetName, false);

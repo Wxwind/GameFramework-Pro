@@ -3,7 +3,7 @@ using UnityEngine;
 using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureUpdateManifest : ProcedureBase
     {
@@ -22,10 +22,10 @@ namespace GameMain
         {
             await new WaitForSecondsRealtime(0.5f);
 
-            var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-            var packageVersion = (string)procedureOwner.GetData("PackageVersion").GetValue();
+            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+            string packageVersion = (string)procedureOwner.GetData("PackageVersion").GetValue();
             var package = YooAssets.GetPackage(packageName);
-            var savePackageVersion = true;
+            bool savePackageVersion = true;
             var operation = package.UpdatePackageManifestAsync(packageVersion, savePackageVersion);
             await operation.ToUniTask();
 

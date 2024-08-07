@@ -2,15 +2,15 @@
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     /// <summary>
     ///     uGUI 界面组辅助器。
     /// </summary>
     public class UGuiGroupHelper : UIGroupHelperBase
     {
-        public const int DepthFactor = 10000;
-        private Canvas m_CachedCanvas;
+        public const int    DepthFactor = 10000;
+        private      Canvas m_CachedCanvas;
 
         private int m_Depth;
 

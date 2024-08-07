@@ -4,7 +4,7 @@ using UnityGameFramework.Runtime;
 using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureInitPackage : ProcedureBase
     {
@@ -21,8 +21,8 @@ namespace GameMain
         private async UniTaskVoid InitPackage(ProcedureOwner procedureOwner)
         {
             string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-            ResourceMode resourceMode = GameEntry.Base.ResourceMode;
-            InitializationOperation initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
+            var resourceMode = GameEntry.Base.ResourceMode;
+            var initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
 
             // 如果初始化失败弹出提示界面
             if (initializationOperation.Status != EOperationStatus.Succeed)

@@ -17,8 +17,6 @@ public partial class {{__name}}
 
     public async Cysharp.Threading.Tasks.UniTask LoadAsync(System.Func<string, Cysharp.Threading.Tasks.UniTask<ByteBuf>> loader)
     {
-        TablesMemory.BeginRecord();
-
         _tables = new System.Collections.Generic.Dictionary<string, IDataTable>();
         var loadTasks = new System.Collections.Generic.List<Cysharp.Threading.Tasks.UniTask>();
 
@@ -31,8 +29,6 @@ public partial class {{__name}}
         await Cysharp.Threading.Tasks.UniTask.WhenAll(loadTasks);
 
         Refresh();
-
-        TablesMemory.EndRecord();
     }
 
     private void ResolveRef()

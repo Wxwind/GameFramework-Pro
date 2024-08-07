@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityGameFramework.Runtime;
 using Object = UnityEngine.Object;
 
-namespace GameMain
+namespace Game
 {
     public static class UILaunchMgr
     {

@@ -8,11 +8,11 @@ cd ${CURRENT_DIR}
 
 WORKSPACE=../..
 LUBAN_DLL=$WORKSPACE/Tools/Luban/Source/Luban.dll
-CONF_ROOT=$WORKSPACE/Config/Excel/Game
+CONF_ROOT=$WORKSPACE/Config/Excel/GameHot
 L10N_FILE=$WORKSPACE/Config/Excel/Localization.xlsx
 UNITY_FOLDER=$WORKSPACE/Unity
-DATA_OUTPATH=$UNITY_FOLDER/Assets/GameMain/LubanConfig
-CODE_OUTPATH=$UNITY_FOLDER/Assets/GameMain/Scripts/LubanConfig
+DATA_OUTPATH=$UNITY_FOLDER/Assets/AssetRes/Generate/LubanConfig
+CODE_OUTPATH=$UNITY_FOLDER/Assets/Scripts/Runtime/Generate/LubanConfig
 
 dotnet $LUBAN_DLL \
     -t all \

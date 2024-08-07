@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     [Serializable]
     public class WeaponData : AccessoryObjectData
@@ -20,7 +20,7 @@ namespace GameMain
             : base(entityId, typeId, ownerId, ownerCamp)
         {
             var tbWeapon = GameEntry.LubanConfig.Tables.TbWeapon;
-            cfg.StarForce.Weapon drWeapon = null;
+            Config.StarForce.Weapon drWeapon = null;
             if (TypeId != 0) drWeapon = tbWeapon.GetOrDefault(TypeId);
             if (drWeapon == null) return;
 

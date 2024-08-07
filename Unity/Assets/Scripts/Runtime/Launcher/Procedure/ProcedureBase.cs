@@ -1,4 +1,4 @@
-﻿namespace GameMain
+﻿namespace Game
 {
     public abstract class ProcedureBase : GameFramework.Procedure.ProcedureBase
     {

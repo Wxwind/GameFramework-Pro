@@ -3,19 +3,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public class HPBarItem : MonoBehaviour
     {
         private const float AnimationSeconds = 0.3f;
-        private const float KeepSeconds = 0.4f;
-        private const float FadeOutSeconds = 0.3f;
+        private const float KeepSeconds      = 0.4f;
+        private const float FadeOutSeconds   = 0.3f;
 
         [SerializeField] private Slider m_HPBar;
 
-        private CanvasGroup m_CachedCanvasGroup;
+        private CanvasGroup   m_CachedCanvasGroup;
         private RectTransform m_CachedTransform;
-        private int m_OwnerId;
+        private int           m_OwnerId;
 
         private Canvas m_ParentCanvas;
 

@@ -4,7 +4,7 @@ using GameFramework.Resource;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
-namespace GameMain
+namespace Game
 {
     public class ProcedureLaunch : ProcedureBase
     {
@@ -49,7 +49,7 @@ namespace GameMain
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
                 try
                 {
-                    var languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
+                    string languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
                     language = (Language)Enum.Parse(typeof(Language), languageString);
                 }
                 catch

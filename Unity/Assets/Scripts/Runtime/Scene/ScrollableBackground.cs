@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     public class ScrollableBackground : MonoBehaviour
     {
@@ -15,7 +15,7 @@ namespace GameMain
         [SerializeField] private BoxCollider m_EnemySpawnBoundary;
 
         private Transform m_CachedTransform;
-        private Vector3 m_StartPosition = Vector3.zero;
+        private Vector3   m_StartPosition = Vector3.zero;
 
         public BoxCollider VisibleBoundary => m_VisibleBoundary;
 
@@ -31,7 +31,7 @@ namespace GameMain
 
         private void Update()
         {
-            var newPosition = Mathf.Repeat(Time.time * m_ScrollSpeed, m_TileSize);
+            float newPosition = Mathf.Repeat(Time.time * m_ScrollSpeed, m_TileSize);
             m_CachedTransform.position = m_StartPosition + Vector3.forward * newPosition;
         }
     }

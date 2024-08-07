@@ -3,11 +3,11 @@ using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public class ChangeLanguageDebuggerWindow : IDebuggerWindow
     {
-        private bool m_NeedRestart;
+        private bool    m_NeedRestart;
         private Vector2 m_ScrollPosition = Vector2.zero;
 
         public void Initialize(params object[] args)

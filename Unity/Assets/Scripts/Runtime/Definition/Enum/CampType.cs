@@ -1,4 +1,4 @@
-﻿namespace GameMain
+﻿namespace Game
 {
     /// <summary>
     ///     阵营类型。

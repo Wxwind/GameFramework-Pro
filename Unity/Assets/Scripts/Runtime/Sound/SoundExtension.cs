@@ -2,7 +2,7 @@
 using GameFramework.Sound;
 using UnityGameFramework.Runtime;
 
-namespace GameMain
+namespace Game
 {
     public static class SoundExtension
     {

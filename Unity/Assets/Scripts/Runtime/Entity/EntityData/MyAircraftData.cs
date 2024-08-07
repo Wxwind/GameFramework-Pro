@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace GameMain
+namespace Game
 {
     [Serializable]
     public class MyAircraftData : AircraftData
