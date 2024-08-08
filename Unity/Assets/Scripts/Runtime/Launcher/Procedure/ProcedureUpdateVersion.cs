@@ -9,8 +9,6 @@ namespace Game
 {
     public class ProcedureUpdateVersion : ProcedureBase
     {
-        public override bool UseNativeDialog => true;
-
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);

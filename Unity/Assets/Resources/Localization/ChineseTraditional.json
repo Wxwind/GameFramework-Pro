@@ -1,8 +1,18 @@
 {
-  "CheckVersion.Tips": "正在檢查遊戲是否需要更新，請稍候……",
+  "ClearPackageCache.Tips": "",
+  "CreatePackageDownloader.Message": "",
+  "CreatePackageDownloader.Tips": "懒得写",
+  "DownloadPackageFiles.Error.Network": "",
+  "DownloadPackageFiles.Tips": "",
   "ForceUpdate.Message": "當前遊戲版本過舊，是否前往更新？",
   "ForceUpdate.QuitButton": "退出",
   "ForceUpdate.Title": "強制更新",
   "ForceUpdate.UpdateButton": "更新",
-  "UpdateResource.Tips": "{0}/{1}, {2}/{3}, {4:P0}, {5}/s"
+  "InitPackage.Failed": "懒得写",
+  "InitPackage.Tips": "懒得写",
+  "UpdateManiFest.Error.Network": "懒得写",
+  "UpdateManiFest.Tips": "懒得写",
+  "UpdateVersion.Error.Network": "懒得写",
+  "UpdateVersion.Error.Network2": "懒得写",
+  "UpdateVersion.Tips": "正在檢查遊戲是否需要更新，請稍候……"
 }

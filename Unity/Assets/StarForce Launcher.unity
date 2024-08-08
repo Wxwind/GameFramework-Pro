@@ -523,8 +523,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BuildInfoTextAsset: {fileID: 4900000, guid: 0f949a7f73d128547b1314a7e471f19f,
     type: 3}
-  m_UpdateResourceFormTemplate: {fileID: 11487720, guid: a6c731de80e9d824d8f657301a357269,
-    type: 3}
 --- !u!1 &1305231584
 GameObject:
   m_ObjectHideFlags: 0

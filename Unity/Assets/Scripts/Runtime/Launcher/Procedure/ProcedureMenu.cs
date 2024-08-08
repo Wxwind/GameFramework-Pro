@@ -9,7 +9,6 @@ namespace Game
         private MenuForm m_MenuForm;
         private bool     m_StartGame;
 
-        public override bool UseNativeDialog => false;
 
         public void StartGame()
         {

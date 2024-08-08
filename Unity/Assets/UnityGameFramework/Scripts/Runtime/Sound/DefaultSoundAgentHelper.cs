@@ -13,12 +13,11 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public class DefaultSoundAgentHelper : SoundAgentHelperBase
     {
-        private Transform                              m_CachedTransform             = null;
-        private AudioSource                            m_AudioSource                 = null;
-        private EntityLogic                            m_BindingEntityLogic          = null;
-        private float                                  m_VolumeWhenPause             = 0f;
-        private bool                                   m_ApplicationPauseFlag        = false;
-        private EventHandler<ResetSoundAgentEventArgs> m_ResetSoundAgentEventHandler = null;
+        private Transform   m_CachedTransform      = null;
+        private AudioSource m_AudioSource          = null;
+        private EntityLogic m_BindingEntityLogic   = null;
+        private float       m_VolumeWhenPause      = 0f;
+        private bool        m_ApplicationPauseFlag = false;
 
         /// <summary>
         /// 获取当前是否正在播放。
@@ -133,11 +132,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 重置声音代理事件。
         /// </summary>
-        public override event EventHandler<ResetSoundAgentEventArgs> ResetSoundAgent
-        {
-            add => m_ResetSoundAgentEventHandler += value;
-            remove => m_ResetSoundAgentEventHandler -= value;
-        }
+        public override event Action ResetSoundAgent;
 
         /// <summary>
         /// 播放声音。
@@ -253,10 +248,10 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (m_ResetSoundAgentEventHandler != null)
+            if (ResetSoundAgent != null)
             {
                 var resetSoundAgentEventArgs = ResetSoundAgentEventArgs.Create();
-                m_ResetSoundAgentEventHandler(this, resetSoundAgentEventArgs);
+                if (ResetSoundAgent != null) ResetSoundAgent();
                 ReferencePool.Release(resetSoundAgentEventArgs);
             }
         }
@@ -280,11 +275,9 @@ namespace UnityGameFramework.Runtime
 
         private void Update()
         {
-            if (!m_ApplicationPauseFlag && !IsPlaying && m_AudioSource.clip != null && m_ResetSoundAgentEventHandler != null)
+            if (!m_ApplicationPauseFlag && !IsPlaying && m_AudioSource.clip != null && ResetSoundAgent != null)
             {
-                var resetSoundAgentEventArgs = ResetSoundAgentEventArgs.Create();
-                m_ResetSoundAgentEventHandler(this, resetSoundAgentEventArgs);
-                ReferencePool.Release(resetSoundAgentEventArgs);
+                ResetSoundAgent.Invoke();
                 return;
             }
 
@@ -307,12 +300,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            if (m_ResetSoundAgentEventHandler != null)
-            {
-                var resetSoundAgentEventArgs = ResetSoundAgentEventArgs.Create();
-                m_ResetSoundAgentEventHandler(this, resetSoundAgentEventArgs);
-                ReferencePool.Release(resetSoundAgentEventArgs);
-            }
+
+            ResetSoundAgent?.Invoke();
         }
 
         private IEnumerator StopCo(float fadeOutSeconds)

@@ -4,7 +4,7 @@ namespace Game
 {
     public class ProcedureUpdaterDone : ProcedureBase
     {
-        public override bool UseNativeDialog => true;
+        
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {

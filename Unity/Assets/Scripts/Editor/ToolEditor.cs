@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Cysharp.Threading.Tasks;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
@@ -19,7 +20,7 @@ namespace Game.Editor
 #endif
                 var stopwatch = Stopwatch.StartNew();
 #if UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
-                await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel", "../Bin/");
+                await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel", "../Bin/", environmentVars: new List<string> { "/usr/local/share/dotnet" });
 #else
                 await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=GB2312", "../Bin/");
 #endif
@@ -50,7 +51,7 @@ namespace Game.Editor
 #endif
                 var stopwatch = Stopwatch.StartNew();
 #if UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
-                await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=Json", "../Bin/");
+                await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=Json", "../Bin/", environmentVars: new List<string> { "/usr/local/share/dotnet" });
 #else
                 await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=Json,GB2312", "../Bin/");
 #endif
@@ -81,7 +82,7 @@ namespace Game.Editor
 #endif
                 var stopwatch = Stopwatch.StartNew();
 #if UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
-                await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=Json", "../Bin/");
+                await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=Json", "../Bin/", environmentVars: new List<string> { "/usr/local/share/dotnet" });
 #else
                 await ShellTool.RunAsync($"{tools} --AppType=ExportAllExcel --Customs=Json,GB2312", "../Bin/");
 #endif

@@ -1,8 +1,18 @@
 {
-  "CheckVersion.Tips": "Checking if the game needs update. Please wait...",
+  "ClearPackageCache.Tips": "Clearing package cache…",
+  "CreatePackageDownloader.Message": "Found update patch files, Total count {0}, Total size {1} MB",
+  "CreatePackageDownloader.Tips": "Creating resources downloader…",
+  "DownloadPackageFiles.Error.Network": "Failed to update patch manifest, please check the network status.",
+  "DownloadPackageFiles.Tips": "Begin to download path files…",
   "ForceUpdate.Message": "The current game version is out-of-date. Would you like to go for update now?",
   "ForceUpdate.QuitButton": "QUIT",
   "ForceUpdate.Title": "OUT OF DATE",
   "ForceUpdate.UpdateButton": "UPDATE",
-  "UpdateResource.Tips": "{0}/{1}, {2}/{3}, {4:P0}, {5}/s"
+  "InitPackage.Failed": "Failed to initialize package!",
+  "InitPackage.Tips": "Try to initialize the resource package…",
+  "UpdateManiFest.Error.Network": "Failed to update patch manifest, please check the network status.",
+  "UpdateManiFest.Tips": "Updating manifest…",
+  "UpdateVersion.Error.Network": "Current network is inaccessible, please check and retry.",
+  "UpdateVersion.Error.Network2": "Failed to update static version, please check the network status.",
+  "UpdateVersion.Tips": "Checking if the game needs update. Please wait..."
 }

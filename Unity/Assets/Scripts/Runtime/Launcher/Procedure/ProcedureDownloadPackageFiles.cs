@@ -9,7 +9,7 @@ namespace Game
     public class ProcedureDownloadPackageFiles : ProcedureBase
     {
         private ProcedureOwner ProcedureOwner;
-        public override bool UseNativeDialog => true;
+
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {

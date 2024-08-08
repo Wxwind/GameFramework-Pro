@@ -12,7 +12,6 @@ namespace Game
     {
         private readonly Dictionary<string, bool> m_LoadedFlag = new();
 
-        public override bool UseNativeDialog => true;
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {

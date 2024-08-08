@@ -13,7 +13,6 @@ namespace Game
         private          bool                           m_GotoMenu;
         private          float                          m_GotoMenuDelaySeconds;
 
-        public override bool UseNativeDialog => false;
 
         public void GotoMenu()
         {

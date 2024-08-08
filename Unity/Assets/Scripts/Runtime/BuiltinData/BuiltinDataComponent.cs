@@ -10,11 +10,7 @@ namespace Game
     {
         [SerializeField] private TextAsset m_BuildInfoTextAsset;
 
-        [SerializeField] private UpdateResourceForm m_UpdateResourceFormTemplate;
-
         public BuildInfo BuildInfo { get; private set; }
-
-        public UpdateResourceForm UpdateResourceFormTemplate => m_UpdateResourceFormTemplate;
 
         public void InitBuildInfo()
         {
@@ -32,7 +28,7 @@ namespace Game
         {
             try
             {
-                string path = $"Localization/{language}.json";
+                string path = $"Localization/{language}";
                 var asset = Resources.Load<TextAsset>(path);
                 if (asset == null)
                 {

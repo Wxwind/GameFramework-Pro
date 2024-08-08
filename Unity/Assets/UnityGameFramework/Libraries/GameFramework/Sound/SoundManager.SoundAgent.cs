@@ -304,7 +304,7 @@ namespace GameFramework.Sound
                 m_SoundAgentHelper.Volume = m_SoundGroup.Volume * m_VolumeInSoundGroup;
             }
 
-            private void OnResetSoundAgent(object sender, ResetSoundAgentEventArgs e)
+            private void OnResetSoundAgent()
             {
                 Reset();
             }

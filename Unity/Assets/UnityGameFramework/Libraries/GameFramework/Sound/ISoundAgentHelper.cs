@@ -72,7 +72,7 @@ namespace GameFramework.Sound
         /// <summary>
         /// 重置声音代理事件。
         /// </summary>
-        event EventHandler<ResetSoundAgentEventArgs> ResetSoundAgent;
+        event Action ResetSoundAgent;
 
         /// <summary>
         /// 播放声音。

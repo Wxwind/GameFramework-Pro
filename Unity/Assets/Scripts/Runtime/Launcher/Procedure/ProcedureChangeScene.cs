@@ -13,7 +13,6 @@ namespace Game
         private bool m_ChangeToMenu;
         private bool m_IsChangeSceneComplete;
 
-        public override bool UseNativeDialog => false;
 
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {

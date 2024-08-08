@@ -1,8 +1,18 @@
 {
-  "CheckVersion.Tips": "게임 최신 버전 검색중...",
+  "ClearPackageCache.Tips": "",
+  "CreatePackageDownloader.Message": "",
+  "CreatePackageDownloader.Tips": "懒得写",
+  "DownloadPackageFiles.Error.Network": "",
+  "DownloadPackageFiles.Tips": "",
   "ForceUpdate.Message": "새로운 게임 버전이 있는데 업데이트를 원하십니까?",
   "ForceUpdate.QuitButton": "아웃",
   "ForceUpdate.Title": "필수 업데이트",
   "ForceUpdate.UpdateButton": "업데이트",
-  "UpdateResource.Tips": "{0}/{1}, {2}/{3}, {4:P0}, {5}/s"
+  "InitPackage.Failed": "懒得写",
+  "InitPackage.Tips": "懒得写",
+  "UpdateManiFest.Error.Network": "懒得写",
+  "UpdateManiFest.Tips": "懒得写",
+  "UpdateVersion.Error.Network": "懒得写",
+  "UpdateVersion.Error.Network2": "懒得写",
+  "UpdateVersion.Tips": "게임 최신 버전 검색중..."
 }

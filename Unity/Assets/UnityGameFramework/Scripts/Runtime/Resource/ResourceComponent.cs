@@ -65,8 +65,7 @@ namespace UnityGameFramework.Runtime
             if (m_AsyncOperation == null && (m_ForceUnloadUnusedAssets ||
                                              m_LastUnloadUnusedAssetsOperationElapseSeconds >=
                                              m_MaxUnloadUnusedAssetsInterval || (m_PreorderUnloadUnusedAssets &&
-                                                                                 m_LastUnloadUnusedAssetsOperationElapseSeconds >=
-                                                                                 m_MinUnloadUnusedAssetsInterval)))
+                                                                                 m_LastUnloadUnusedAssetsOperationElapseSeconds >= m_MinUnloadUnusedAssetsInterval)))
             {
                 Log.Info("Unload unused assets...");
                 m_ForceUnloadUnusedAssets = false;

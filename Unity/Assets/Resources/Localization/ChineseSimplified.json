@@ -1,8 +1,18 @@
 {
-  "CheckVersion.Tips": "正在检查游戏是否需要更新，请稍候……",
+  "ClearPackageCache.Tips": "清理未使用的缓存文件…",
+  "CreatePackageDownloader.Message": "发现新文件，数量：{0}，共计大小 {1} MB",
+  "CreatePackageDownloader.Tips": "创建补丁下载器…",
+  "DownloadPackageFiles.Error.Network": "下载文件失败，请检查网络后重试",
+  "DownloadPackageFiles.Tips": "开始下载补丁文件…",
   "ForceUpdate.Message": "当前游戏版本过旧，是否前往更新？",
   "ForceUpdate.QuitButton": "推出",
   "ForceUpdate.Title": "强制更新",
   "ForceUpdate.UpdateButton": "更新",
-  "UpdateResource.Tips": "{0}/{1}, {2}/{3}, {4:P0}, {5}/s"
+  "InitPackage.Failed": "资源包初始化失败！",
+  "InitPackage.Tips": "初始化资源包中...",
+  "UpdateManiFest.Error.Network": "更新补丁清单失败，请检查网络后重试",
+  "UpdateManiFest.Tips": "更新资源清单…",
+  "UpdateVersion.Error.Network": "当前网络不可用，请检查网络后重试",
+  "UpdateVersion.Error.Network2": "获取版本号失败，请检查网络后重试",
+  "UpdateVersion.Tips": "正在检查游戏是否需要更新，请稍候……"
 }

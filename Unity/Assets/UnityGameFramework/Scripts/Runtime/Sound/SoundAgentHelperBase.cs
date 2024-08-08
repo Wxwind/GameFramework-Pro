@@ -79,7 +79,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 重置声音代理事件。
         /// </summary>
-        public abstract event EventHandler<ResetSoundAgentEventArgs> ResetSoundAgent;
+        public abstract event Action ResetSoundAgent;
 
         /// <summary>
         /// 播放声音。
