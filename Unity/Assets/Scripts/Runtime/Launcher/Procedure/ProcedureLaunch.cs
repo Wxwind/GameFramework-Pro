@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Game.Editor;
 using GameFramework.Localization;
 using GameFramework.Resource;
 using UnityGameFramework.Runtime;
@@ -14,7 +16,7 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-            // 构建信息：发布版本时，把一些数据以 Json 的格式写入 Assets/AssetRes/Configs/BuildInfo.txt，供游戏逻辑读取
+            // 构建信息：发布版本时，把一些数据以 Json 的格式写入 Assets/AssetRes/Configs/BuildInfo.json，供游戏逻辑读取
             GameEntry.BuiltinData.InitBuildInfo();
 
             // 语言配置：设置当前使用的语言，如果不设置，则默认使用操作系统语言
@@ -23,9 +25,8 @@ namespace Game
             // 声音配置：根据用户配置数据，设置即将使用的声音选项
             InitSoundSettings();
 
-            // 默认字典：加载默认字典文件 Assets/AssetRes/Configs/DefaultDictionary.xml
-            // 此字典文件记录了资源更新前使用的各种语言的字符串，会随 App 一起发布，故不可更新
-            GameEntry.BuiltinData.InitDefaultDictionary(GameEntry.Localization.Language);
+            // 加载资源更新前使用的各种语言的字符串，会随 App 一起发布，故不可更新
+            GameEntry.BuiltinData.InitBuiltinLocalization(GameEntry.Localization.Language);
 
             procedureOwner.SetData<VarString>("PackageName", "DefaultPackage");
         }
@@ -56,11 +57,7 @@ namespace Game
                 {
                 }
 
-            if (language != Language.English
-                && language != Language.ChineseSimplified
-                && language != Language.ChineseTraditional
-                && language != Language.Korean
-               )
+            if (!LocalizationSupportedLanguage.Languages.Contains(language))
             {
                 // 若是暂不支持的语言，则使用英语
                 language = Language.English;

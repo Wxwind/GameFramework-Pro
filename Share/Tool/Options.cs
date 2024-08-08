@@ -4,17 +4,17 @@ namespace Tool
 {
     public enum AppType
     {
-        GameTool,
         ExportLubanDataTable,
         ExportLocalization,
-        ExportAllExcel
+        ExportAllExcel,
+        ExportLocalizationBuiltin
     }
 
     public class Options
     {
         public static Options Instance;
 
-        [Option("AppType", Required = false, Default = AppType.GameTool, HelpText = "AppType enum")]
+        [Option("AppType", Required = false, Default = AppType.ExportAllExcel, HelpText = "AppType enum")]
         public AppType AppType { get; set; }
 
 

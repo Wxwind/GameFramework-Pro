@@ -14,7 +14,7 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-            UILaunchMgr.ShowTip("创建补丁下载器!");
+            UILaunchMgr.ShowTip(GameEntry.Localization.GetString("CreatePackageDownloader.Tips"));
             CreateDownloader(procedureOwner).Forget();
         }
 
@@ -31,7 +31,7 @@ namespace Game
 
             if (downloader.TotalDownloadCount == 0)
             {
-                Debug.Log("Not found any download files !");
+                Log.Info("Not found any download files !");
                 ChangeState<ProcedureUpdaterDone>(procedureOwner);
             }
             else
@@ -41,12 +41,10 @@ namespace Game
                 int totalDownloadCount = downloader.TotalDownloadCount;
                 long totalDownloadBytes = downloader.TotalDownloadBytes;
 
-
                 float sizeMB = totalDownloadBytes / 1048576f;
                 sizeMB = Mathf.Clamp(sizeMB, 0.1f, float.MaxValue);
                 string totalSizeMB = sizeMB.ToString("f1");
-                UILaunchMgr.ShowMessageBox(
-                    $"Found update patch files, Total count {totalDownloadCount} Total size {totalSizeMB}MB",
+                UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("CreatePackageDownloader.Message", totalDownloadCount, totalSizeMB),
                     () => { ChangeState<ProcedureDownloadPackageFiles>(procedureOwner); });
             }
         }

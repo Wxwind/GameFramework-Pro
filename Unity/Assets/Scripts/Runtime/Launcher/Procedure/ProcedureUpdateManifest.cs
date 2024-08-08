@@ -1,5 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityGameFramework.Runtime;
 using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -13,7 +15,7 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-            UILaunchMgr.ShowTip("更新资源清单!");
+            UILaunchMgr.ShowTip(GameEntry.Localization.GetString("UpdateManiFest.Tips"));
             UpdateManifest(procedureOwner).Forget();
         }
 
@@ -22,23 +24,24 @@ namespace Game
         {
             await new WaitForSecondsRealtime(0.5f);
 
-            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-            string packageVersion = (string)procedureOwner.GetData("PackageVersion").GetValue();
-            var package = YooAssets.GetPackage(packageName);
-            bool savePackageVersion = true;
-            var operation = package.UpdatePackageManifestAsync(packageVersion, savePackageVersion);
-            await operation.ToUniTask();
-
-            if (operation.Status != EOperationStatus.Succeed)
+            try
             {
-                Debug.LogError(operation.Error);
-                UILaunchMgr.ShowMessageBox("Failed to update patch manifest, please check the network status.",
-                    () => { ChangeState<ProcedureUpdateManifest>(procedureOwner); });
-                return;
-            }
+                string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                string packageVersion = (string)procedureOwner.GetData("PackageVersion").GetValue();
+                var package = YooAssets.GetPackage(packageName);
+                bool savePackageVersion = true;
+                var operation = package.UpdatePackageManifestAsync(packageVersion, savePackageVersion);
+                await operation.ToUniTask();
 
-            operation.SavePackageVersion();
-            ChangeState<ProcedureCreatePackageDownloader>(procedureOwner);
+                operation.SavePackageVersion();
+                ChangeState<ProcedureCreatePackageDownloader>(procedureOwner);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e);
+                UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("UpdateManiFest.Error.Network"),
+                    () => { ChangeState<ProcedureUpdateManifest>(procedureOwner); });
+            }
         }
     }
 }

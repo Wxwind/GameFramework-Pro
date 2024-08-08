@@ -389,6 +389,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11402440, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
+      propertyPath: m_ShowFullWindow
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 11405216, guid: adb3eb1c35fcff14f89fba7b05c9d71c, type: 3}
       propertyPath: m_EntranceProcedureTypeName
       value: Game.ProcedureLaunch
@@ -519,8 +523,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BuildInfoTextAsset: {fileID: 4900000, guid: 0f949a7f73d128547b1314a7e471f19f,
     type: 3}
-  m_DefaultDictionaryTextAsset: {fileID: 4900000, guid: 00759be143ffa5445b151c2540612e8f,
-    type: 3}
   m_UpdateResourceFormTemplate: {fileID: 11487720, guid: a6c731de80e9d824d8f657301a357269,
     type: 3}
 --- !u!1 &1305231584
@@ -564,7 +566,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1305231584}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29c299d879974142aba8ea6af44fb3fe, type: 3}
+  m_Script: {fileID: 11500000, guid: e1ae537086d974c1a9f66398eedf8917, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1454214586

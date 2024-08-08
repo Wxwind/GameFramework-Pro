@@ -35,7 +35,10 @@ namespace Tool
                         return 0;
                     }
                     case AppType.ExportLubanDataTable:
-                        ExcelExporter.ExportLubanConfig();
+                        ExcelExporter.ExportLubanDataTable();
+                        return 0;
+                    case AppType.ExportLocalizationBuiltin:
+                        ExcelExporter.ExportLocalizationBuiltin();
                         return 0;
                     default:
                         Log.Error($"Unknown AppType: {Options.Instance.AppType}");

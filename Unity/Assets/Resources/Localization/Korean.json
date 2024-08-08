@@ -1,0 +1,8 @@
+{
+  "CheckVersion.Tips": "게임 최신 버전 검색중...",
+  "ForceUpdate.Message": "새로운 게임 버전이 있는데 업데이트를 원하십니까?",
+  "ForceUpdate.QuitButton": "아웃",
+  "ForceUpdate.Title": "필수 업데이트",
+  "ForceUpdate.UpdateButton": "업데이트",
+  "UpdateResource.Tips": "{0}/{1}, {2}/{3}, {4:P0}, {5}/s"
+}

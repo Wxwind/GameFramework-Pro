@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using GameFramework;
 using GameFramework.Resource;
 using UnityGameFramework.Runtime;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
@@ -14,7 +15,7 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-            UILaunchMgr.ShowTip("初始化资源包！");
+            UILaunchMgr.ShowTip(GameEntry.Localization.GetString("InitPackage.Tips"));
             InitPackage(procedureOwner).Forget();
         }
 
@@ -22,13 +23,11 @@ namespace Game
         {
             try
             {
-                var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
                 var resourceMode = GameEntry.Base.ResourceMode;
                 var initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
 
-                // 如果初始化失败弹出提示界面
-
-                var version = initializationOperation.PackageVersion;
+                string version = initializationOperation.PackageVersion;
                 Log.Info($"Init resource package version : {version}");
                 GameEntry.Resource.ApplicableGameVersion = initializationOperation.PackageVersion;
 
@@ -62,9 +61,10 @@ namespace Game
             }
             catch (Exception e)
             {
-                Log.Error(e);
-                UILaunchMgr.ShowMessageBox("Failed to initialize package!",
+                // 如果初始化失败弹出提示界面
+                UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("InitPackage.Failed"),
                     () => { ChangeState<ProcedureInitPackage>(procedureOwner); });
+                throw new GameFrameworkException("Failed to initialize package.", e);
             }
         }
     }

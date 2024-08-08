@@ -10,13 +10,10 @@ namespace Tool
 {
     public static partial class ExcelExporter
     {
-        public static class ExcelExporter_Localization
+        public static class ExcelExporter_LocalizationBuiltin
         {
-            private static readonly string s_LocalizationOutPutDir = Path.GetFullPath("../Unity/Assets/AssetRes/Localization");
-
-            private static readonly string s_LocalizationSupportedLanguageCodeFile =
-                Path.GetFullPath("../Unity/Assets/Scripts/Runtime/Generate/Localization/LocalizationSupportedLanguage.cs");
-
+            private static readonly string s_LocalizationBuiltinExcelFile = Path.GetFullPath($"{Define.WorkDir}/../Config/Excel/Localization_Builtin.xlsx");
+            private static readonly string s_LocalizationOutPutDir        = Path.GetFullPath("../Unity/Assets/Resources/Localization");
 
             private struct LanguageTableInfo
             {
@@ -38,7 +35,7 @@ namespace Tool
                 Log.Info("Start Export Localization Excel ...");
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 var resultDict = new SortedDictionary<Language, SortedDictionary<string, string>>();
-                using (var stream = new FileStream(s_LocalizationExcelFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var stream = new FileStream(s_LocalizationBuiltinExcelFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     using (var reader = ExcelReaderFactory.CreateReader(stream))
                     {
@@ -161,38 +158,6 @@ namespace Tool
 
                     Log.Info($"Gen {language} Success!");
                 }
-
-                var readyLanguages = resultDict.Keys.ToArray();
-                GenerateReadyLanguageCode(readyLanguages);
-                Log.Info("Export Localization Excel Success!");
-            }
-
-            private static void GenerateReadyLanguageCode(Language[] readyLanguages)
-            {
-                StringBuilder stringBuilder = new();
-                stringBuilder.AppendLine("// This is an automatically generated class by Share.Tool. Please do not modify it.");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("using GameFramework.Localization;");
-                stringBuilder.AppendLine("");
-                stringBuilder.AppendLine("namespace Game.Editor");
-                stringBuilder.AppendLine("{");
-                stringBuilder.AppendLine("    public static class LocalizationSupportedLanguage");
-                stringBuilder.AppendLine("    {");
-                stringBuilder.AppendLine("        public static Language[] Languages => new Language[]");
-                stringBuilder.AppendLine("        {");
-                foreach (var language in readyLanguages) stringBuilder.AppendLine($"            Language.{language},");
-                stringBuilder.AppendLine("        };");
-                stringBuilder.AppendLine("    }");
-                stringBuilder.AppendLine("}");
-                string codeContent = stringBuilder.ToString();
-                if (!File.Exists(s_LocalizationSupportedLanguageCodeFile) || !string.Equals(codeContent, File.ReadAllText(s_LocalizationSupportedLanguageCodeFile)))
-                {
-                    string directory = Path.GetDirectoryName(s_LocalizationSupportedLanguageCodeFile);
-                    if (!string.IsNullOrEmpty(directory) && !Path.Exists(directory)) Directory.CreateDirectory(directory);
-
-                    File.WriteAllText(s_LocalizationSupportedLanguageCodeFile, codeContent);
-                    Log.Info($"Generate code : {s_LocalizationSupportedLanguageCodeFile}!");
-                }
             }
 
 
@@ -209,7 +174,7 @@ namespace Tool
 =======================================================================
     解析失败!
 
-        文件:        {s_LocalizationExcelFile}
+        文件:        {s_LocalizationBuiltinExcelFile}
         错误位置:    sheet:{table.TableName} [{ToAlphaString(columnIndex)}:{rowIndex + 1}] {table.Rows[rowIndex][columnIndex]}
         Err:         {errorMsg}
         字段:        {table.Rows[0][columnIndex]}

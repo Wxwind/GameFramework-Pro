@@ -1,0 +1,8 @@
+{
+  "CheckVersion.Tips": "Checking if the game needs update. Please wait...",
+  "ForceUpdate.Message": "The current game version is out-of-date. Would you like to go for update now?",
+  "ForceUpdate.QuitButton": "QUIT",
+  "ForceUpdate.Title": "OUT OF DATE",
+  "ForceUpdate.UpdateButton": "UPDATE",
+  "UpdateResource.Tips": "{0}/{1}, {2}/{3}, {4:P0}, {5}/s"
+}

@@ -47,7 +47,7 @@ namespace GameFramework
             if (s_CachedBytes == null || s_CachedBytes.Length < ensureSize)
             {
                 FreeCachedBytes();
-                var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
+                int size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
                 s_CachedBytes = new byte[size];
             }
         }
@@ -72,7 +72,19 @@ namespace GameFramework
             if (m_DataProviderHelper == null) throw new GameFrameworkException("You must set data provider helper first.");
 
             var textAsset = await m_ResourceManager.LoadAssetAsync<TextAsset>(dataAssetName);
-            LoadAssetSuccessCallback(dataAssetName, textAsset);
+            try
+            {
+                m_DataProviderHelper.ReadData(m_Owner, dataAssetName, textAsset);
+            }
+            catch (Exception exception)
+            {
+                throw new GameFrameworkException(Utility.Text.Format(
+                    "Load data failure in data provider helper, data asset name '{0}'.", dataAssetName), exception);
+            }
+            finally
+            {
+                m_DataProviderHelper.ReleaseDataAsset(m_Owner, textAsset);
+            }
         }
 
 
@@ -152,23 +164,6 @@ namespace GameFramework
             if (dataProviderHelper == null) throw new GameFrameworkException("Data provider helper is invalid.");
 
             m_DataProviderHelper = dataProviderHelper;
-        }
-
-        private void LoadAssetSuccessCallback(string dataAssetName, TextAsset dataAsset)
-        {
-            try
-            {
-                m_DataProviderHelper.ReadData(m_Owner, dataAssetName, dataAsset);
-            }
-            catch (Exception exception)
-            {
-                throw new GameFrameworkException(Utility.Text.Format(
-                    "Load data failure in data provider helper, data asset name '{0}'.", dataAssetName), exception);
-            }
-            finally
-            {
-                m_DataProviderHelper.ReleaseDataAsset(m_Owner, dataAsset);
-            }
         }
     }
 }

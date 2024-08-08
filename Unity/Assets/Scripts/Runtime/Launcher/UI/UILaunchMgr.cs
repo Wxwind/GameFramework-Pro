@@ -17,7 +17,6 @@ namespace Game
             if (_uiRoot == null) Log.Error("fail to find UIRoot");
         }
 
-
         public static void ShowMessageBox(string content, Action onOk = null, Action onCancel = null)
         {
             _uiRoot.ShowMessageBox(content, onOk);
@@ -37,6 +36,7 @@ namespace Game
         {
             if (_uiRoot == null) return;
             Object.Destroy(_uiRoot.gameObject);
+            _uiRoot = null;
         }
     }
 }

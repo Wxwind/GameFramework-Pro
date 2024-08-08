@@ -12,7 +12,7 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-            UILaunchMgr.ShowTip("清理未使用的缓存文件！");
+            UILaunchMgr.ShowTip(GameEntry.Localization.GetString("ClearPackageCache.Tips"));
             ClearPackageCache(procedureOwner).Forget();
         }
 

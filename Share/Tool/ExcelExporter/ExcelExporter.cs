@@ -1,5 +1,3 @@
-using System.IO;
-
 namespace Tool
 {
     public static partial class ExcelExporter
@@ -14,12 +12,17 @@ namespace Tool
 
         public static void ExportLocalization()
         {
-            ExcelExporter_Localization.DoExport(); 
+            ExcelExporter_Localization.DoExport();
         }
 
-        public static void ExportLubanConfig()
+        public static void ExportLubanDataTable()
         {
             ExcelExporter_Luban.DoExport();
+        }
+
+        public static void ExportLocalizationBuiltin()
+        {
+            ExcelExporter_LocalizationBuiltin.DoExport();
         }
     }
 }

@@ -18,9 +18,7 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-
             m_LoadedFlag.Clear();
-
             PreloadResources();
         }
 
@@ -34,7 +32,7 @@ namespace Game
                     return;
 
             procedureOwner.SetData<VarInt32>("NextSceneId", GameEntry.Config.GetInt("Scene.Menu"));
-            Log.Info("热更流程完毕，准备进入场景切换流程");
+            Log.Info($"Change to ProcedureChangeScene, SceneId: {GameEntry.Config.GetInt("Scene.Menu")}");
             UILaunchMgr.DestroySelf();
             ChangeState<ProcedureChangeScene>(procedureOwner);
         }
@@ -87,7 +85,7 @@ namespace Game
 
         private async UniTaskVoid LoadL10N()
         {
-            var dictionaryAssetName = GameEntry.Localization.Language.ToString();
+            string dictionaryAssetName = GameEntry.Localization.Language.ToString();
             try
             {
                 m_LoadedFlag.Add(dictionaryAssetName, false);

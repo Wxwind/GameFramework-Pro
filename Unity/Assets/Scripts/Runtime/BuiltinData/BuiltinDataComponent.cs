@@ -28,11 +28,18 @@ namespace Game
             if (BuildInfo == null) Log.Warning("Parse build info failure.");
         }
 
-        public void InitDefaultDictionary(Language language)
+        public void InitBuiltinLocalization(Language language)
         {
             try
             {
-                //  GameEntry.Localization.ParseData(m_DefaultDictionaryTextAsset.text);
+                string path = $"Localization/{language}.json";
+                var asset = Resources.Load<TextAsset>(path);
+                if (asset == null)
+                {
+                    throw new GameFrameworkException($"{path} is invalid");
+                }
+
+                GameEntry.Localization.ParseData(asset.text);
             }
             catch (Exception e)
             {

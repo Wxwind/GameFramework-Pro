@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using UnityGameFramework.Runtime;
 using YooAsset;
 using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
 
@@ -14,28 +16,25 @@ namespace Game
             base.OnEnter(procedureOwner);
             ProcedureOwner = procedureOwner;
 
-            UILaunchMgr.ShowTip("开始下载补丁文件！");
+            UILaunchMgr.ShowTip(GameEntry.Localization.GetString("DownloadPackageFiles.Tips"));
             BeginDownload(procedureOwner).Forget();
         }
 
         private async UniTaskVoid BeginDownload(ProcedureOwner procedureOwner)
         {
-            var downloader = (ResourceDownloaderOperation)procedureOwner.GetData("Downloader").GetValue();
-            downloader.OnDownloadErrorCallback = OnDownloadErrorCallback;
-            downloader.OnDownloadProgressCallback = OnDownloadProgressCallback;
-            await downloader.ToUniTask();
-
-            // 检测下载结果
-            if (downloader.Status != EOperationStatus.Succeed)
-                return;
-
-            ChangeState<ProcedureDownloadPackageOver>(procedureOwner);
-        }
-
-        private void OnDownloadErrorCallback(string fileName, string error)
-        {
-            UILaunchMgr.ShowMessageBox($"Failed to download file : {fileName}",
-                () => { ChangeState<ProcedureDownloadPackageFiles>(ProcedureOwner); });
+            try
+            {
+                var downloader = (ResourceDownloaderOperation)procedureOwner.GetData("Downloader").GetValue();
+                downloader.OnDownloadProgressCallback = OnDownloadProgressCallback;
+                await downloader.ToUniTask();
+                ChangeState<ProcedureDownloadPackageOver>(procedureOwner);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Failed to download file, error: {e}");
+                UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("DownloadPackageFiles.Error.Network"),
+                    () => { ChangeState<ProcedureDownloadPackageFiles>(ProcedureOwner); });
+            }
         }
 
         private void OnDownloadProgressCallback(int totalDownloadCount, int currentDownloadCount,

@@ -92,7 +92,7 @@ namespace UnityGameFramework.Runtime
         {
             if (m_ResourceManager == null)
             {
-                Log.Fatal("Resource component is invalid.");
+                Log.Fatal("Resource manager is invalid.");
                 return null;
             }
 

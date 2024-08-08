@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using YooAsset;
@@ -14,12 +15,11 @@ namespace Game
         {
             base.OnEnter(procedureOwner);
 
-            UILaunchMgr.ShowTip("获取最新的资源版本中...");
+            UILaunchMgr.ShowTip(GameEntry.Localization.GetString("UpdateVersion.Tips"));
             if (Application.internetReachability == NetworkReachability.NotReachable)
             {
                 Log.Warning("Not connected to the network");
-                UILaunchMgr.ShowTip("Check the network please");
-                UILaunchMgr.ShowMessageBox("Current network is inaccessible, please check and retry again.",
+                UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("UpdateVersion.Error.Network"),
                     () => { ChangeState<ProcedureUpdateVersion>(procedureOwner); });
                 return;
             }
@@ -31,23 +31,22 @@ namespace Game
         {
             await new WaitForSecondsRealtime(0.5f);
 
-            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-            var package = YooAssets.GetPackage(packageName);
-            var operation = package.UpdatePackageVersionAsync();
-            await operation.ToUniTask();
-
-            if (operation.Status != EOperationStatus.Succeed)
+            try
             {
-                Log.Warning(operation.Error);
-                UILaunchMgr.ShowMessageBox("Failed to update static version, please check the network status.",
-                    () => { ChangeState<ProcedureUpdateVersion>(procedureOwner); });
-            }
-            else
-            {
+                string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                var package = YooAssets.GetPackage(packageName);
+                var operation = package.UpdatePackageVersionAsync();
+                await operation.ToUniTask();
                 Log.Info($"update resource package version: {operation.PackageVersion}");
                 GameEntry.Resource.ApplicableGameVersion = operation.PackageVersion;
                 procedureOwner.SetData<VarString>("PackageVersion", operation.PackageVersion);
                 ChangeState<ProcedureUpdateManifest>(procedureOwner);
+            }
+            catch (Exception e)
+            {
+                Log.Error(e.ToString());
+                UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("UpdateVersion.Error.Network2"),
+                    () => { ChangeState<ProcedureUpdateVersion>(procedureOwner); });
             }
         }
     }
