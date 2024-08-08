@@ -74,13 +74,13 @@ namespace Game
         {
             try
             {
-                m_LoadedFlag.Add("LubanConfig", false);
-                await GameEntry.LubanConfig.LoadAsync();
-                m_LoadedFlag["LubanConfig"] = true;
+                m_LoadedFlag.Add("LubanDataTable", false);
+                await GameEntry.LubanDataTable.LoadAsync();
+                m_LoadedFlag["LubanDataTable"] = true;
             }
             catch (Exception e)
             {
-                Log.Error("Can not load config LubanConfig with error message '{0}'.", e);
+                Log.Error("Can not load config LubanDataTable with error message '{0}'.", e);
                 throw;
             }
         }

@@ -13,7 +13,7 @@ namespace Game
         public ArmorData(int entityId, int typeId, int ownerId, CampType ownerCamp)
             : base(entityId, typeId, ownerId, ownerCamp)
         {
-            var tbArmor = GameEntry.LubanConfig.Tables.TbArmor;
+            var tbArmor = GameEntry.LubanDataTable.Tables.TbArmor;
             var drArmor = tbArmor.GetOrDefault(TypeId);
             if (drArmor == null) return;
 

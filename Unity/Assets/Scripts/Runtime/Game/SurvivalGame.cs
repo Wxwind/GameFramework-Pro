@@ -18,7 +18,7 @@ namespace Game
             if (m_ElapseSeconds >= 1f)
             {
                 m_ElapseSeconds = 0f;
-                var tbAsteroid = GameEntry.LubanConfig.Tables.TbAsteroid;
+                var tbAsteroid = GameEntry.LubanDataTable.Tables.TbAsteroid;
                 float randomPositionX = SceneBackground.EnemySpawnBoundary.bounds.min.x +
                                         SceneBackground.EnemySpawnBoundary.bounds.size.x *
                                         (float)Utility.Random.GetRandomDouble();

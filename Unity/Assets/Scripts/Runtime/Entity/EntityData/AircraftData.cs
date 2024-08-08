@@ -24,7 +24,7 @@ namespace Game
         public AircraftData(int entityId, int typeId, CampType camp)
             : base(entityId, typeId, camp)
         {
-            var tbAircraft = GameEntry.LubanConfig.Tables.TbAircraft;
+            var tbAircraft = GameEntry.LubanDataTable.Tables.TbAircraft;
             var drAircraft = tbAircraft.GetOrDefault(TypeId);
             if (drAircraft == null) return;
 

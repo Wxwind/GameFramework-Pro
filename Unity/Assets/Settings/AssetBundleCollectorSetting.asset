@@ -123,7 +123,7 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/AssetRes/LubanConfig
+      - CollectPath: Assets/AssetRes/Luban
         CollectorGUID: 42b5d7b4e7ab419d8164969003266612
         CollectorType: 0
         AddressRuleName: AddressByFileName

@@ -91,7 +91,7 @@ namespace Game
                 return null;
             }
 
-            var tbEntity = GameEntry.LubanConfig.Tables.TbEntity;
+            var tbEntity = GameEntry.LubanDataTable.Tables.TbEntity;
             var drEntity = tbEntity.GetOrDefault(data.TypeId);
 
             if (drEntity == null)

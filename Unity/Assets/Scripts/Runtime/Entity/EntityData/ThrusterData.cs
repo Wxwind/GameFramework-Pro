@@ -11,7 +11,7 @@ namespace Game
         public ThrusterData(int entityId, int typeId, int ownerId, CampType ownerCamp)
             : base(entityId, typeId, ownerId, ownerCamp)
         {
-            var tbThruster = GameEntry.LubanConfig.Tables.TbThruster;
+            var tbThruster = GameEntry.LubanDataTable.Tables.TbThruster;
             var drThruster = tbThruster.GetOrDefault(TypeId);
             if (drThruster == null) return;
 

@@ -40,7 +40,7 @@ namespace Game
 
             int sceneId = procedureOwner.GetData<VarInt32>("NextSceneId");
             m_ChangeToMenu = sceneId == MenuSceneId;
-            var tbScene = GameEntry.LubanConfig.Tables.TbScene;
+            var tbScene = GameEntry.LubanDataTable.Tables.TbScene;
             var drScene = tbScene.GetOrDefault(sceneId);
             if (drScene == null)
             {

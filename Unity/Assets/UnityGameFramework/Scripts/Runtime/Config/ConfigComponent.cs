@@ -13,8 +13,7 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Config")]
     public sealed class ConfigComponent : GameFrameworkComponent
     {
-        private IConfigManager m_ConfigManager  = null;
-        private EventComponent m_EventComponent = null;
+        private IConfigManager m_ConfigManager = null;
 
         [SerializeField] private string m_ConfigHelperTypeName = "UnityGameFramework.Runtime.DefaultConfigHelper";
 
@@ -55,14 +54,6 @@ namespace UnityGameFramework.Runtime
                 Log.Fatal("Base component is invalid.");
                 return;
             }
-
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
-                return;
-            }
-
 
             m_ConfigManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 

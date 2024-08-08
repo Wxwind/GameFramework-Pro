@@ -21,7 +21,7 @@ namespace Game
         public AsteroidData(int entityId, int typeId)
             : base(entityId, typeId, CampType.Neutral)
         {
-            var tbAsteroid = GameEntry.LubanConfig.Tables.TbAsteroid;
+            var tbAsteroid = GameEntry.LubanDataTable.Tables.TbAsteroid;
             var drAsteroid = tbAsteroid.GetOrDefault(TypeId);
             if (drAsteroid == null) return;
 

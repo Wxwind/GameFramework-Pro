@@ -19,7 +19,7 @@ namespace Game
         public WeaponData(int entityId, int typeId, int ownerId, CampType ownerCamp)
             : base(entityId, typeId, ownerId, ownerCamp)
         {
-            var tbWeapon = GameEntry.LubanConfig.Tables.TbWeapon;
+            var tbWeapon = GameEntry.LubanDataTable.Tables.TbWeapon;
             Config.StarForce.Weapon drWeapon = null;
             if (TypeId != 0) drWeapon = tbWeapon.GetOrDefault(TypeId);
             if (drWeapon == null) return;

@@ -1,7 +1,7 @@
-﻿using GameFramework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
+using GameFramework;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,13 +12,13 @@ namespace UnityGameFramework.Editor
     /// </summary>
     internal static class BuildSettings
     {
-        private static readonly string s_ConfigurationPath = null;
-        private static readonly List<string> s_DefaultSceneNames = new List<string>();
-        private static readonly List<string> s_SearchScenePaths = new List<string>();
+        private static readonly string       s_ConfigurationPath = null;
+        private static readonly List<string> s_DefaultSceneNames = new();
+        private static readonly List<string> s_SearchScenePaths  = new();
 
         static BuildSettings()
         {
-            s_ConfigurationPath = Type.GetConfigurationPath<BuildSettingsConfigPathAttribute>() ?? Utility.Path.GetRegularPath(Path.Combine(Application.dataPath, "GameFramework/Configs/BuildSettings.xml"));
+            s_ConfigurationPath = Utility.Path.GetRegularPath(Path.Combine(Application.dataPath, "AssetRes/Editor/Configs/BuildSettings.xml"));
             s_DefaultSceneNames.Clear();
             s_SearchScenePaths.Clear();
 
@@ -29,12 +29,12 @@ namespace UnityGameFramework.Editor
 
             try
             {
-                XmlDocument xmlDocument = new XmlDocument();
+                var xmlDocument = new XmlDocument();
                 xmlDocument.Load(s_ConfigurationPath);
-                XmlNode xmlRoot = xmlDocument.SelectSingleNode("UnityGameFramework");
-                XmlNode xmlBuildSettings = xmlRoot.SelectSingleNode("BuildSettings");
-                XmlNode xmlDefaultScenes = xmlBuildSettings.SelectSingleNode("DefaultScenes");
-                XmlNode xmlSearchScenePaths = xmlBuildSettings.SelectSingleNode("SearchScenePaths");
+                var xmlRoot = xmlDocument.SelectSingleNode("UnityGameFramework");
+                var xmlBuildSettings = xmlRoot.SelectSingleNode("BuildSettings");
+                var xmlDefaultScenes = xmlBuildSettings.SelectSingleNode("DefaultScenes");
+                var xmlSearchScenePaths = xmlBuildSettings.SelectSingleNode("SearchScenePaths");
 
                 XmlNodeList xmlNodeList = null;
                 XmlNode xmlNode = null;
@@ -76,13 +76,13 @@ namespace UnityGameFramework.Editor
         [MenuItem("Game Framework/Scenes in Build Settings/Default Scenes", false, 20)]
         public static void DefaultScenes()
         {
-            HashSet<string> sceneNames = new HashSet<string>();
+            var sceneNames = new HashSet<string>();
             foreach (string sceneName in s_DefaultSceneNames)
             {
                 sceneNames.Add(sceneName);
             }
 
-            List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>();
+            var scenes = new List<EditorBuildSettingsScene>();
             foreach (string sceneName in sceneNames)
             {
                 scenes.Add(new EditorBuildSettingsScene(sceneName, true));
@@ -99,7 +99,7 @@ namespace UnityGameFramework.Editor
         [MenuItem("Game Framework/Scenes in Build Settings/All Scenes", false, 21)]
         public static void AllScenes()
         {
-            HashSet<string> sceneNames = new HashSet<string>();
+            var sceneNames = new HashSet<string>();
             foreach (string sceneName in s_DefaultSceneNames)
             {
                 sceneNames.Add(sceneName);
@@ -112,7 +112,7 @@ namespace UnityGameFramework.Editor
                 sceneNames.Add(sceneName);
             }
 
-            List<EditorBuildSettingsScene> scenes = new List<EditorBuildSettingsScene>();
+            var scenes = new List<EditorBuildSettingsScene>();
             foreach (string sceneName in sceneNames)
             {
                 scenes.Add(new EditorBuildSettingsScene(sceneName, true));

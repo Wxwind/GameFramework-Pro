@@ -1,5 +1,5 @@
 {
   "cmds": [
-    "-t client -c cs-bin -d bin -x outputCodeDir=%UNITY_ASSETS%/Scripts/Runtime/Generate/LubanConfig -x outputDataDir=%UNITY_ASSETS%/AssetRes/LubanConfig"
+    "-t client -c cs-bin -d bin -x outputCodeDir=%UNITY_ASSETS%/Scripts/Runtime/Generate/Luban -x outputDataDir=%UNITY_ASSETS%/AssetRes/Luban"
   ]
 }

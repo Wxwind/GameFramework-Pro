@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using CommandLine;
+﻿using CommandLine;
 
 namespace Tool
 {
@@ -36,7 +34,7 @@ namespace Tool
                         ExcelExporter.ExportLocalization();
                         return 0;
                     }
-                    case AppType.ExportLubanConfig:
+                    case AppType.ExportLubanDataTable:
                         ExcelExporter.ExportLubanConfig();
                         return 0;
                     default:

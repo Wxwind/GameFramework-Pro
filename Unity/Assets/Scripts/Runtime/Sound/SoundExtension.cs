@@ -12,7 +12,7 @@ namespace Game
         public static int? PlayMusic(this SoundComponent soundComponent, int musicId)
         {
             soundComponent.StopMusic();
-            var tbMusic = GameEntry.LubanConfig.Tables.TbMusic;
+            var tbMusic = GameEntry.LubanDataTable.Tables.TbMusic;
             var drMusic = tbMusic.GetOrDefault(musicId);
             if (drMusic == null)
             {
@@ -40,7 +40,7 @@ namespace Game
 
         public static int? PlaySound(this SoundComponent soundComponent, int soundId, Entity bindingEntity = null)
         {
-            var tbSound = GameEntry.LubanConfig.Tables.TbSound;
+            var tbSound = GameEntry.LubanDataTable.Tables.TbSound;
             var drSound = tbSound.GetOrDefault(soundId);
             if (drSound == null)
             {
@@ -60,7 +60,7 @@ namespace Game
 
         public static int? PlayUISound(this SoundComponent soundComponent, int uiSoundId)
         {
-            var tbUISound = GameEntry.LubanConfig.Tables.TbUISound;
+            var tbUISound = GameEntry.LubanDataTable.Tables.TbUISound;
             var drUISound = tbUISound.GetOrDefault(uiSoundId);
             if (drUISound == null)
             {

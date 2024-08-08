@@ -16,8 +16,8 @@ namespace UnityGameFramework.Runtime
     }
 
     [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework Pro/Luban Config")]
-    public class LubanConfigComponent : GameFrameworkComponent
+    [AddComponentMenu("Game Framework Pro/Luban DataTable")]
+    public class LubanDataTableComponent : GameFrameworkComponent
     {
         public TablesLoadType LoadType { get; private set; } = TablesLoadType.Undefined;
 

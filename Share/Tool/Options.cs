@@ -1,16 +1,13 @@
 using CommandLine;
-using System;
-using System.Collections.Generic;
 
 namespace Tool
 {
     public enum AppType
     {
         GameTool,
-        ExportLubanConfig,
+        ExportLubanDataTable,
         ExportLocalization,
-        ExportAllExcel,
-        
+        ExportAllExcel
     }
 
     public class Options

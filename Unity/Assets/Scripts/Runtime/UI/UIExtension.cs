@@ -44,7 +44,7 @@ namespace Game
 
         public static bool HasUIForm(this UIComponent uiComponent, int uiFormId, string uiGroupName = null)
         {
-            var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
+            var tbUIForm = GameEntry.LubanDataTable.Tables.TbUIForm;
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null) return false;
 
@@ -64,7 +64,7 @@ namespace Game
 
         public static UGuiForm GetUIForm(this UIComponent uiComponent, int uiFormId, string uiGroupName = null)
         {
-            var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
+            var tbUIForm = GameEntry.LubanDataTable.Tables.TbUIForm;
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
 
 
@@ -101,7 +101,7 @@ namespace Game
 
         public static async UniTask<IUIForm> OpenUIForm(this UIComponent uiComponent, int uiFormId, object userData = null)
         {
-            var tbUIForm = GameEntry.LubanConfig.Tables.TbUIForm;
+            var tbUIForm = GameEntry.LubanDataTable.Tables.TbUIForm;
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null)
             {
