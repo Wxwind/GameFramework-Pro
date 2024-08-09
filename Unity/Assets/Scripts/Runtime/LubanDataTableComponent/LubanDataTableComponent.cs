@@ -37,7 +37,10 @@ namespace UnityGameFramework.Runtime
 
                 async UniTask<ByteBuf> LoadByteBuf(string file)
                 {
-                    var textAsset = await GameEntry.GetComponent<ResourceComponent>().LoadAssetAsync<TextAsset>(file);
+                    var resourceComponent = GameEntry.GetComponent<ResourceComponent>();
+                    var textAsset = await resourceComponent.LoadAssetAsync<TextAsset>(file);
+                    resourceComponent.UnloadAsset(textAsset);
+
                     return new ByteBuf(textAsset.bytes);
                 }
 
@@ -50,7 +53,10 @@ namespace UnityGameFramework.Runtime
 
                 async UniTask<JSONNode> LoadJson(string file)
                 {
-                    var textAsset = await Game.GameEntry.Resource.LoadAssetAsync<TextAsset>(file);
+                    var resourceComponent = GameEntry.GetComponent<ResourceComponent>();
+                    var textAsset = await resourceComponent.LoadAssetAsync<TextAsset>(file);
+                    resourceComponent.UnloadAsset(textAsset);
+
                     return JSON.Parse(textAsset.text);
                 }
 

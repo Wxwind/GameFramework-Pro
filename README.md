@@ -29,6 +29,3 @@ Unity2020.2 or later
   - [ ] 动态切换语言，无需重启游戏
 - 接入ET (最好是将GF的模块以组件形式并入ET)
   - [ ] 接入服务端
-
-##  Known Issue
-- 编辑器下，切换语言重启游戏后，点击开始游戏后退出会报AsseObjectPool找不到Target

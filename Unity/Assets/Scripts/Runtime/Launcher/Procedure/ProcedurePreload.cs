@@ -42,7 +42,7 @@ namespace Game
             LoadConfig("DefaultConfig").Forget();
 
             // Preload data tables
-            LoadLubanFonfig().Forget();
+            LoadLubanDataTable().Forget();
 
             // Preload dictionaries
             LoadL10N().Forget();
@@ -67,7 +67,7 @@ namespace Game
             }
         }
 
-        private async UniTaskVoid LoadLubanFonfig()
+        private async UniTaskVoid LoadLubanDataTable()
         {
             try
             {

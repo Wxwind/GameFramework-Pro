@@ -49,6 +49,7 @@ namespace GameFramework.Entity
             {
                 // 如果是关闭对象池，那么资源的销毁交给ResourceComponent.AssetObjectPool，这里不做处理
                 // EntityInstanceObject负责维护PrefabAsset和实例化出来的GameObject(对象池的Target)，而AssetObject负责管理AssetHandle和Asset(对象池的Target)
+                // Shutdown的时候BaseComponent带着EntityComponent带着Target一起销毁所以不用处理
                 // TODO：让EntityInstanceObject晚于ResourceComponent.AssetObjectPool释放？
                 if (!isShutdown)
                 {

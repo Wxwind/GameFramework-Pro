@@ -12,16 +12,16 @@ namespace GameFramework.Entity
     /// </summary>
     internal sealed partial class EntityManager : GameFrameworkModule, IEntityManager
     {
-        private readonly Dictionary<int, EntityInfo> m_EntityInfos;
+        private readonly Dictionary<int, EntityInfo>     m_EntityInfos;
         private readonly Dictionary<string, EntityGroup> m_EntityGroups;
-        private readonly Dictionary<int, int> m_EntitiesBeingLoaded;
-        private readonly HashSet<int> m_EntitiesToReleaseOnLoad;
-        private readonly Queue<EntityInfo> m_RecycleQueue;
-        private IObjectPoolManager m_ObjectPoolManager;
-        private IResourceManager m_ResourceManager;
-        private IEntityHelper m_EntityHelper;
-        private int m_Serial;
-        private bool m_IsShutdown;
+        private readonly Dictionary<int, int>            m_EntitiesBeingLoaded;
+        private readonly HashSet<int>                    m_EntitiesToReleaseOnLoad;
+        private readonly Queue<EntityInfo>               m_RecycleQueue;
+        private          IObjectPoolManager              m_ObjectPoolManager;
+        private          IResourceManager                m_ResourceManager;
+        private          IEntityHelper                   m_EntityHelper;
+        private          int                             m_Serial;
+        private          bool                            m_IsShutdown;
 
         /// <summary>
         /// 初始化实体管理器的新实例。
@@ -463,13 +463,6 @@ namespace GameFramework.Entity
             return HasEntity(entity.Id);
         }
 
-
-        /// <summary>
-        /// 显示实体。
-        /// </summary>
-        /// <param name="entityId">实体编号。</param>
-        /// <param name="entityAssetName">实体资源名称。</param>
-        /// <param name="entityGroupName">实体组名称。</param>
         public async UniTask<IEntity> ShowEntity(int entityId, string entityAssetName, string entityGroupName, object userData)
         {
             if (m_ResourceManager == null)
