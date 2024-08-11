@@ -10,8 +10,8 @@ namespace GameFramework
         /// </summary>
         public static class Assembly
         {
-            private static readonly System.Reflection.Assembly[] s_Assemblies = null;
-            private static readonly Dictionary<string, Type> s_CachedTypes = new Dictionary<string, Type>(StringComparer.Ordinal);
+            private static readonly System.Reflection.Assembly[] s_Assemblies;
+            private static readonly Dictionary<string, Type>     s_CachedTypes = new(StringComparer.Ordinal);
 
             static Assembly()
             {
@@ -33,8 +33,8 @@ namespace GameFramework
             /// <returns>已加载的程序集中的所有类型。</returns>
             public static Type[] GetTypes()
             {
-                List<Type> results = new List<Type>();
-                foreach (System.Reflection.Assembly assembly in s_Assemblies)
+                var results = new List<Type>();
+                foreach (var assembly in s_Assemblies)
                 {
                     results.AddRange(assembly.GetTypes());
                 }
@@ -54,7 +54,7 @@ namespace GameFramework
                 }
 
                 results.Clear();
-                foreach (System.Reflection.Assembly assembly in s_Assemblies)
+                foreach (var assembly in s_Assemblies)
                 {
                     results.AddRange(assembly.GetTypes());
                 }
@@ -85,7 +85,7 @@ namespace GameFramework
                     return type;
                 }
 
-                foreach (System.Reflection.Assembly assembly in s_Assemblies)
+                foreach (var assembly in s_Assemblies)
                 {
                     type = Type.GetType(Text.Format("{0}, {1}", typeName, assembly.FullName));
                     if (type != null)

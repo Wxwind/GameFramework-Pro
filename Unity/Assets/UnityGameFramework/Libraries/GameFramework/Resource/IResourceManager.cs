@@ -20,6 +20,8 @@ namespace GameFramework.Resource
         /// </summary>
         string ReadWritePath { get; }
 
+        string GameVersion { get; set; }
+
         /// <summary>
         ///     设置资源只读区路径。
         /// </summary>

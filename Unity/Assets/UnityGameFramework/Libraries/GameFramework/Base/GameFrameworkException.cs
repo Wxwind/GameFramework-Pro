@@ -13,7 +13,6 @@ namespace GameFramework
         /// 初始化游戏框架异常类的新实例。
         /// </summary>
         public GameFrameworkException()
-            : base()
         {
         }
 

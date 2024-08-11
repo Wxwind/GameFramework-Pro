@@ -1,8 +1,9 @@
-﻿using GameFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework;
 using UnityEngine;
 using UnityEngine.Profiling;
+using Object = UnityEngine.Object;
 
 namespace UnityGameFramework.Runtime
 {
@@ -10,11 +11,11 @@ namespace UnityGameFramework.Runtime
     {
         private sealed partial class RuntimeMemorySummaryWindow : ScrollableDebuggerWindowBase
         {
-            private readonly List<Record> m_Records = new List<Record>();
+            private readonly List<Record>       m_Records        = new();
             private readonly Comparison<Record> m_RecordComparer = RecordComparer;
-            private DateTime m_SampleTime = DateTime.MinValue;
-            private int m_SampleCount = 0;
-            private long m_SampleSize = 0L;
+            private          DateTime           m_SampleTime     = DateTime.MinValue;
+            private          int                m_SampleCount;
+            private          long               m_SampleSize;
 
             protected override void OnDrawScrollableWindow()
             {
@@ -44,7 +45,7 @@ namespace UnityGameFramework.Runtime
                         }
                         GUILayout.EndHorizontal();
 
-                        for (int i = 0; i < m_Records.Count; i++)
+                        for (var i = 0; i < m_Records.Count; i++)
                         {
                             GUILayout.BeginHorizontal();
                             {
@@ -66,17 +67,17 @@ namespace UnityGameFramework.Runtime
                 m_SampleCount = 0;
                 m_SampleSize = 0L;
 
-                UnityEngine.Object[] samples = Resources.FindObjectsOfTypeAll<UnityEngine.Object>();
-                for (int i = 0; i < samples.Length; i++)
+                var samples = Resources.FindObjectsOfTypeAll<Object>();
+                for (var i = 0; i < samples.Length; i++)
                 {
-                    long sampleSize = 0L;
+                    var sampleSize = 0L;
                     sampleSize = Profiler.GetRuntimeMemorySizeLong(samples[i]);
-                    string name = samples[i].GetType().Name;
+                    var name = samples[i].GetType().Name;
                     m_SampleCount++;
                     m_SampleSize += sampleSize;
 
                     Record record = null;
-                    foreach (Record r in m_Records)
+                    foreach (var r in m_Records)
                     {
                         if (r.Name == name)
                         {
@@ -100,7 +101,7 @@ namespace UnityGameFramework.Runtime
 
             private static int RecordComparer(Record a, Record b)
             {
-                int result = b.Size.CompareTo(a.Size);
+                var result = b.Size.CompareTo(a.Size);
                 if (result != 0)
                 {
                     return result;

@@ -566,7 +566,6 @@ namespace GameFramework.ObjectPool
                         {
                             m_CachedToReleaseObjects.Add(candidateObjects[i]);
                             candidateObjects.RemoveAt(i);
-                            continue;
                         }
                     }
 

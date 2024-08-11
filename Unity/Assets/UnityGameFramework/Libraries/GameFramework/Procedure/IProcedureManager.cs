@@ -1,5 +1,5 @@
-﻿using GameFramework.Fsm;
-using System;
+﻿using System;
+using GameFramework.Fsm;
 
 namespace GameFramework.Procedure
 {
@@ -11,18 +11,12 @@ namespace GameFramework.Procedure
         /// <summary>
         /// 获取当前流程。
         /// </summary>
-        ProcedureBase CurrentProcedure
-        {
-            get;
-        }
+        ProcedureBase CurrentProcedure { get; }
 
         /// <summary>
         /// 获取当前流程持续时间。
         /// </summary>
-        float CurrentProcedureTime
-        {
-            get;
-        }
+        float CurrentProcedureTime { get; }
 
         /// <summary>
         /// 初始化流程管理器。

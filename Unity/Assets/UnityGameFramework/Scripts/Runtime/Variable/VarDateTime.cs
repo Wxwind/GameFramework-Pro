@@ -1,5 +1,5 @@
-﻿using GameFramework;
-using System;
+﻿using System;
+using GameFramework;
 
 namespace UnityGameFramework.Runtime
 {
@@ -21,7 +21,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="value">值。</param>
         public static implicit operator VarDateTime(DateTime value)
         {
-            VarDateTime varValue = ReferencePool.Acquire<VarDateTime>();
+            var varValue = ReferencePool.Acquire<VarDateTime>();
             varValue.Value = value;
             return varValue;
         }

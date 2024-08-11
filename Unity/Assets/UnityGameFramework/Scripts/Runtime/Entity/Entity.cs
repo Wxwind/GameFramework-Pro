@@ -1,6 +1,6 @@
-﻿using GameFramework;
+﻿using System;
+using GameFramework;
 using GameFramework.Entity;
-using System;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -10,65 +10,35 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public sealed class Entity : MonoBehaviour, IEntity
     {
-        private int m_Id;
-        private string m_EntityAssetName;
+        private int          m_Id;
+        private string       m_EntityAssetName;
         private IEntityGroup m_EntityGroup;
-        private EntityLogic m_EntityLogic;
+        private EntityLogic  m_EntityLogic;
 
         /// <summary>
         /// 获取实体编号。
         /// </summary>
-        public int Id
-        {
-            get
-            {
-                return m_Id;
-            }
-        }
+        public int Id => m_Id;
 
         /// <summary>
         /// 获取实体资源名称。
         /// </summary>
-        public string EntityAssetName
-        {
-            get
-            {
-                return m_EntityAssetName;
-            }
-        }
+        public string EntityAssetName => m_EntityAssetName;
 
         /// <summary>
         /// 获取实体实例。
         /// </summary>
-        public object Handle
-        {
-            get
-            {
-                return gameObject;
-            }
-        }
+        public object Handle => gameObject;
 
         /// <summary>
         /// 获取实体所属的实体组。
         /// </summary>
-        public IEntityGroup EntityGroup
-        {
-            get
-            {
-                return m_EntityGroup;
-            }
-        }
+        public IEntityGroup EntityGroup => m_EntityGroup;
 
         /// <summary>
         /// 获取实体逻辑。
         /// </summary>
-        public EntityLogic Logic
-        {
-            get
-            {
-                return m_EntityLogic;
-            }
-        }
+        public EntityLogic Logic => m_EntityLogic;
 
         /// <summary>
         /// 实体初始化。
@@ -92,8 +62,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            ShowEntityInfo showEntityInfo = (ShowEntityInfo)userData;
-            Type entityLogicType = showEntityInfo.EntityLogicType;
+            var showEntityInfo = (ShowEntityInfo)userData;
+            var entityLogicType = showEntityInfo.EntityLogicType;
             if (entityLogicType == null)
             {
                 Log.Error("Entity logic type is invalid.");
@@ -153,7 +123,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="userData">用户自定义数据。</param>
         public void OnShow(object userData)
         {
-            ShowEntityInfo showEntityInfo = (ShowEntityInfo)userData;
+            var showEntityInfo = (ShowEntityInfo)userData;
             try
             {
                 m_EntityLogic.OnShow(showEntityInfo.UserData);
@@ -188,7 +158,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="userData">用户自定义数据。</param>
         public void OnAttached(IEntity childEntity, object userData)
         {
-            AttachEntityInfo attachEntityInfo = (AttachEntityInfo)userData;
+            var attachEntityInfo = (AttachEntityInfo)userData;
             try
             {
                 m_EntityLogic.OnAttached(((Entity)childEntity).Logic, attachEntityInfo.ParentTransform, attachEntityInfo.UserData);
@@ -223,7 +193,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="userData">用户自定义数据。</param>
         public void OnAttachTo(IEntity parentEntity, object userData)
         {
-            AttachEntityInfo attachEntityInfo = (AttachEntityInfo)userData;
+            var attachEntityInfo = (AttachEntityInfo)userData;
             try
             {
                 m_EntityLogic.OnAttachTo(((Entity)parentEntity).Logic, attachEntityInfo.ParentTransform, attachEntityInfo.UserData);

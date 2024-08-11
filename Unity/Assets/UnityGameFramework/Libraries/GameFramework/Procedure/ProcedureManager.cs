@@ -1,5 +1,5 @@
-﻿using GameFramework.Fsm;
-using System;
+﻿using System;
+using GameFramework.Fsm;
 
 namespace GameFramework.Procedure
 {
@@ -8,7 +8,7 @@ namespace GameFramework.Procedure
     /// </summary>
     internal sealed class ProcedureManager : GameFrameworkModule, IProcedureManager
     {
-        private IFsmManager m_FsmManager;
+        private IFsmManager             m_FsmManager;
         private IFsm<IProcedureManager> m_ProcedureFsm;
 
         /// <summary>
@@ -24,13 +24,7 @@ namespace GameFramework.Procedure
         /// 获取游戏框架模块优先级。
         /// </summary>
         /// <remarks>优先级较高的模块会优先轮询，并且关闭操作会后进行。</remarks>
-        internal override int Priority
-        {
-            get
-            {
-                return -2;
-            }
-        }
+        internal override int Priority => -2;
 
         /// <summary>
         /// 获取当前流程。

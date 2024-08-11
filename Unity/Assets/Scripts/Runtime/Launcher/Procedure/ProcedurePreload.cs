@@ -105,10 +105,10 @@ namespace Game
             try
             {
                 m_LoadedFlag.Add(Utility.Text.Format("Font.{0}", fontName), false);
-                var asset = await GameEntry.Resource.LoadAssetAsync<Font>(fontName, "", null
+                var asset = await GameEntry.Resource.LoadAssetAsync<Font>(fontName
                 );
                 m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
-                UGuiForm.SetMainFont((Font)asset);
+                UGuiForm.SetMainFont(asset);
                 Log.Info("Load font '{0}' OK.", fontName);
             }
             catch (Exception e)

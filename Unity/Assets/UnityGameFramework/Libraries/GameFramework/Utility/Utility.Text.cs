@@ -7,7 +7,7 @@
         /// </summary>
         public static partial class Text
         {
-            private static ITextHelper s_TextHelper = null;
+            private static ITextHelper s_TextHelper;
 
             /// <summary>
             /// 设置字符辅助器。

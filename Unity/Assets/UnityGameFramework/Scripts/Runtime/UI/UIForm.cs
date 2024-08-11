@@ -1,5 +1,5 @@
-﻿using GameFramework.UI;
-using System;
+﻿using System;
+using GameFramework.UI;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -9,68 +9,47 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public sealed class UIForm : MonoBehaviour, IUIForm
     {
-        private int m_SerialId;
-        private string m_UIFormAssetName;
-        private IUIGroup m_UIGroup;
-        private int m_DepthInUIGroup;
-        private bool m_PauseCoveredUIForm;
+        private int         m_SerialId;
+        private string      m_UIFormAssetName;
+        private IUIGroup    m_UIGroup;
+        private int         m_DepthInUIGroup;
+        private bool        m_PauseCoveredUIForm;
         private UIFormLogic m_UIFormLogic;
 
         /// <summary>
         /// 获取界面序列编号。
         /// </summary>
-        public int SerialId
-        {
-            get { return m_SerialId; }
-        }
+        public int SerialId => m_SerialId;
 
         /// <summary>
         /// 获取界面资源名称。
         /// </summary>
-        public string UIFormAssetName
-        {
-            get { return m_UIFormAssetName; }
-        }
+        public string UIFormAssetName => m_UIFormAssetName;
 
         /// <summary>
         /// 获取界面实例。
         /// </summary>
-        public object Handle
-        {
-            get { return gameObject; }
-        }
+        public object Handle => gameObject;
 
         /// <summary>
         /// 获取界面所属的界面组。
         /// </summary>
-        public IUIGroup UIGroup
-        {
-            get { return m_UIGroup; }
-        }
+        public IUIGroup UIGroup => m_UIGroup;
 
         /// <summary>
         /// 获取界面深度。
         /// </summary>
-        public int DepthInUIGroup
-        {
-            get { return m_DepthInUIGroup; }
-        }
+        public int DepthInUIGroup => m_DepthInUIGroup;
 
         /// <summary>
         /// 获取是否暂停被覆盖的界面。
         /// </summary>
-        public bool PauseCoveredUIForm
-        {
-            get { return m_PauseCoveredUIForm; }
-        }
+        public bool PauseCoveredUIForm => m_PauseCoveredUIForm;
 
         /// <summary>
         /// 获取界面逻辑。
         /// </summary>
-        public UIFormLogic Logic
-        {
-            get { return m_UIFormLogic; }
-        }
+        public UIFormLogic Logic => m_UIFormLogic;
 
         /// <summary>
         /// 初始化界面。

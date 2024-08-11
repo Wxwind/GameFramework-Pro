@@ -18,10 +18,10 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private ISceneManager m_SceneManager = null;
+        private ISceneManager m_SceneManager;
 
-        private Camera m_MainCamera         = null;
-        private Scene  m_GameFrameworkScene = default;
+        private Camera m_MainCamera;
+        private Scene  m_GameFrameworkScene;
 
 
         /// <summary>
@@ -47,7 +47,6 @@ namespace UnityGameFramework.Runtime
             if (!m_GameFrameworkScene.IsValid())
             {
                 Log.Fatal("Game Framework scene is invalid.");
-                return;
             }
         }
 

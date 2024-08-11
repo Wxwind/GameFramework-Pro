@@ -9,20 +9,14 @@ namespace GameFramework
         /// </summary>
         public static class Marshal
         {
-            private const int BlockSize = 1024 * 4;
+            private const  int    BlockSize          = 1024 * 4;
             private static IntPtr s_CachedHGlobalPtr = IntPtr.Zero;
-            private static int s_CachedHGlobalSize = 0;
+            private static int    s_CachedHGlobalSize;
 
             /// <summary>
             /// 获取缓存的从进程的非托管内存中分配的内存的大小。
             /// </summary>
-            public static int CachedHGlobalSize
-            {
-                get
-                {
-                    return s_CachedHGlobalSize;
-                }
-            }
+            public static int CachedHGlobalSize => s_CachedHGlobalSize;
 
             /// <summary>
             /// 确保从进程的非托管内存中分配足够大小的内存并缓存。
@@ -38,7 +32,7 @@ namespace GameFramework
                 if (s_CachedHGlobalPtr == IntPtr.Zero || s_CachedHGlobalSize < ensureSize)
                 {
                     FreeCachedHGlobal();
-                    int size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
+                    var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
                     s_CachedHGlobalPtr = System.Runtime.InteropServices.Marshal.AllocHGlobal(size);
                     s_CachedHGlobalSize = size;
                 }
@@ -84,7 +78,7 @@ namespace GameFramework
 
                 EnsureCachedHGlobalSize(structureSize);
                 System.Runtime.InteropServices.Marshal.StructureToPtr(structure, s_CachedHGlobalPtr, true);
-                byte[] result = new byte[structureSize];
+                var result = new byte[structureSize];
                 System.Runtime.InteropServices.Marshal.Copy(s_CachedHGlobalPtr, result, 0, structureSize);
                 return result;
             }

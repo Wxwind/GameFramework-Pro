@@ -8,7 +8,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public class DefaultEntityHelper : IEntityHelper
     {
-        private ResourceComponent m_ResourceComponent = null;
+        private ResourceComponent m_ResourceComponent;
 
         /// <summary>
         /// 实例化实体。

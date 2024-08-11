@@ -1,6 +1,5 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Game;
 using GameFramework;
 using GameFramework.Localization;
 using GameFramework.Resource;
@@ -15,9 +14,9 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Localization")]
     public sealed class LocalizationComponent : GameFrameworkComponent
     {
-        private ILocalizationManager m_LocalizationManager = null;
+        private ILocalizationManager m_LocalizationManager;
 
-        [SerializeField] private int m_CachedBytesSize = 0;
+        [SerializeField] private int m_CachedBytesSize;
 
         public Action OnLanguageChanged;
 
@@ -52,7 +51,6 @@ namespace UnityGameFramework.Runtime
             if (m_LocalizationManager == null)
             {
                 Log.Fatal("Localization manager is invalid.");
-                return;
             }
         }
 

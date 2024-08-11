@@ -10,13 +10,13 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 默认全局配置辅助器。
     /// </summary>
-    public class DefaultConfigHelper : ConfigHelperBase
+    public class DefaultConfigHelper : IConfigHelper
     {
-        private static readonly string[] ColumnSplitSeparator = new string[] { "\t" };
+        private static readonly string[] ColumnSplitSeparator = { "\t" };
         private static readonly string   BytesAssetExtension  = ".bytes";
         private const           int      ColumnCount          = 4;
 
-        private ResourceComponent m_ResourceComponent = null;
+        private ResourceComponent m_ResourceComponent;
 
         public DefaultConfigHelper()
         {
@@ -24,7 +24,6 @@ namespace UnityGameFramework.Runtime
             if (m_ResourceComponent == null)
             {
                 Log.Fatal("Resource component is invalid.");
-                return;
             }
         }
 
@@ -34,7 +33,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configAssetName">全局配置资源名称。</param>
         /// <param name="configAsset">全局配置资源。</param>
-        public override void ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset)
+        public void ReadData(IConfigManager configManager, string configAssetName, TextAsset configAsset)
         {
             if (configAsset != null)
             {
@@ -58,7 +57,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        public override void ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
+        public void ReadData(IConfigManager configManager, string configAssetName, byte[] configBytes,
             int startIndex, int length)
         {
             if (configAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
@@ -76,7 +75,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configString">要解析的全局配置字符串。</param>
-        public override void ParseData(IConfigManager configManager, string configString)
+        public void ParseData(IConfigManager configManager, string configString)
         {
             try
             {
@@ -116,7 +115,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="configBytes">要解析的全局配置二进制流。</param>
         /// <param name="startIndex">全局配置二进制流的起始位置。</param>
         /// <param name="length">全局配置二进制流的长度。</param>
-        public override void ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length)
+        public void ParseData(IConfigManager configManager, byte[] configBytes, int startIndex, int length)
         {
             try
             {
@@ -148,7 +147,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="configManager">全局配置管理器。</param>
         /// <param name="configAsset">要释放的全局配置资源。</param>
-        public override void ReleaseDataAsset(IConfigManager configManager, TextAsset configAsset)
+        public void ReleaseDataAsset(IConfigManager configManager, TextAsset configAsset)
         {
             m_ResourceComponent.UnloadAsset(configAsset);
         }

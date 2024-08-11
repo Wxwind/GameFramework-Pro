@@ -9,7 +9,7 @@ namespace GameFramework
         /// </summary>
         public static partial class Json
         {
-            private static IJsonHelper s_JsonHelper = null;
+            private static IJsonHelper s_JsonHelper;
 
             /// <summary>
             /// 设置 JSON 辅助器。

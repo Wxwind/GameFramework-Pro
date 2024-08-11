@@ -1,6 +1,6 @@
-﻿using GameFramework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using GameFramework;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,8 +14,8 @@ namespace UnityGameFramework.Editor
 
         private SerializedProperty m_HelperTypeName;
         private SerializedProperty m_CustomHelper;
-        private string[] m_HelperTypeNames;
-        private int m_HelperTypeNameIndex;
+        private string[]           m_HelperTypeNames;
+        private int                m_HelperTypeNameIndex;
 
         public HelperInfo(string name)
         {
@@ -35,8 +35,8 @@ namespace UnityGameFramework.Editor
 
         public void Draw()
         {
-            string displayName = FieldNameForDisplay(m_Name);
-            int selectedIndex = EditorGUILayout.Popup(Utility.Text.Format("{0} Helper", displayName), m_HelperTypeNameIndex, m_HelperTypeNames);
+            var displayName = FieldNameForDisplay(m_Name);
+            var selectedIndex = EditorGUILayout.Popup(Utility.Text.Format("{0} Helper", displayName), m_HelperTypeNameIndex, m_HelperTypeNames);
             if (selectedIndex != m_HelperTypeNameIndex)
             {
                 m_HelperTypeNameIndex = selectedIndex;
@@ -55,7 +55,7 @@ namespace UnityGameFramework.Editor
 
         public void Refresh()
         {
-            List<string> helperTypeNameList = new List<string>
+            var helperTypeNameList = new List<string>
             {
                 CustomOptionName
             };
@@ -82,7 +82,7 @@ namespace UnityGameFramework.Editor
                 return string.Empty;
             }
 
-            string str = Regex.Replace(fieldName, @"^m_", string.Empty);
+            var str = Regex.Replace(fieldName, @"^m_", string.Empty);
             str = Regex.Replace(str, @"((?<=[a-z])[A-Z]|[A-Z](?=[a-z]))", @" $1").TrimStart();
             return str;
         }

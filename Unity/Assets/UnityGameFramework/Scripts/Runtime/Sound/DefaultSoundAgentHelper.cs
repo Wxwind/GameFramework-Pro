@@ -13,11 +13,11 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public class DefaultSoundAgentHelper : MonoBehaviour, ISoundAgentHelper
     {
-        private Transform   m_CachedTransform      = null;
-        private AudioSource m_AudioSource          = null;
-        private EntityLogic m_BindingEntityLogic   = null;
-        private float       m_VolumeWhenPause      = 0f;
-        private bool        m_ApplicationPauseFlag = false;
+        private Transform   m_CachedTransform;
+        private AudioSource m_AudioSource;
+        private EntityLogic m_BindingEntityLogic;
+        private float       m_VolumeWhenPause;
+        private bool        m_ApplicationPauseFlag;
 
         /// <summary>
         /// 获取当前是否正在播放。

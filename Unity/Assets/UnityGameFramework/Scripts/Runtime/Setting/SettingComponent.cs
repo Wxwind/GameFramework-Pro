@@ -13,7 +13,7 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Setting")]
     public sealed class SettingComponent : GameFrameworkComponent
     {
-        private ISettingManager m_SettingManager = null;
+        private ISettingManager m_SettingManager;
 
         /// <summary>
         /// 获取游戏配置项数量。

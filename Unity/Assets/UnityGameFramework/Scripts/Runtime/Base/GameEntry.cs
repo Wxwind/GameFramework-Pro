@@ -1,6 +1,6 @@
-﻿using GameFramework;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using GameFramework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +11,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public static class GameEntry
     {
-        private static readonly GameFrameworkLinkedList<GameFrameworkComponent> s_GameFrameworkComponents = new GameFrameworkLinkedList<GameFrameworkComponent>();
+        private static readonly GameFrameworkLinkedList<GameFrameworkComponent> s_GameFrameworkComponents = new();
 
         /// <summary>
         /// 游戏框架所在的场景编号。
@@ -35,7 +35,7 @@ namespace UnityGameFramework.Runtime
         /// <returns>要获取的游戏框架组件。</returns>
         public static GameFrameworkComponent GetComponent(Type type)
         {
-            LinkedListNode<GameFrameworkComponent> current = s_GameFrameworkComponents.First;
+            var current = s_GameFrameworkComponents.First;
             while (current != null)
             {
                 if (current.Value.GetType() == type)
@@ -56,10 +56,10 @@ namespace UnityGameFramework.Runtime
         /// <returns>要获取的游戏框架组件。</returns>
         public static GameFrameworkComponent GetComponent(string typeName)
         {
-            LinkedListNode<GameFrameworkComponent> current = s_GameFrameworkComponents.First;
+            var current = s_GameFrameworkComponents.First;
             while (current != null)
             {
-                Type type = current.Value.GetType();
+                var type = current.Value.GetType();
                 if (type.FullName == typeName || type.Name == typeName)
                 {
                     return current.Value;
@@ -78,7 +78,7 @@ namespace UnityGameFramework.Runtime
         public static void Shutdown(ShutdownType shutdownType)
         {
             Log.Info("Shutdown Game Framework ({0})...", shutdownType);
-            BaseComponent baseComponent = GetComponent<BaseComponent>();
+            var baseComponent = GetComponent<BaseComponent>();
             if (baseComponent != null)
             {
                 baseComponent.Shutdown();
@@ -102,9 +102,8 @@ namespace UnityGameFramework.Runtime
             {
                 Application.Quit();
 #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
+                EditorApplication.isPlaying = false;
 #endif
-                return;
             }
         }
 
@@ -120,9 +119,9 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            Type type = gameFrameworkComponent.GetType();
+            var type = gameFrameworkComponent.GetType();
 
-            LinkedListNode<GameFrameworkComponent> current = s_GameFrameworkComponents.First;
+            var current = s_GameFrameworkComponents.First;
             while (current != null)
             {
                 if (current.Value.GetType() == type)

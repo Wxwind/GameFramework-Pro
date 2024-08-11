@@ -8,7 +8,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public class DefaultUIFormHelper : IUIFormHelper
     {
-        private ResourceComponent m_ResourceComponent = null;
+        private ResourceComponent m_ResourceComponent;
 
         /// <summary>
         /// 实例化界面。
@@ -59,7 +59,6 @@ namespace UnityGameFramework.Runtime
             if (m_ResourceComponent == null)
             {
                 Log.Fatal("Resource component is invalid.");
-                return;
             }
         }
     }

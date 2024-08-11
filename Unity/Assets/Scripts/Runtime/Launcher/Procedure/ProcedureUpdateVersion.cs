@@ -31,12 +31,12 @@ namespace Game
 
             try
             {
-                string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
                 var package = YooAssets.GetPackage(packageName);
                 var operation = package.UpdatePackageVersionAsync();
                 await operation.ToUniTask();
                 Log.Info($"update resource package version: {operation.PackageVersion}");
-                GameEntry.Resource.ApplicableGameVersion = operation.PackageVersion;
+                GameEntry.Resource.GameVersion = operation.PackageVersion;
                 procedureOwner.SetData<VarString>("PackageVersion", operation.PackageVersion);
                 ChangeState<ProcedureUpdateManifest>(procedureOwner);
             }

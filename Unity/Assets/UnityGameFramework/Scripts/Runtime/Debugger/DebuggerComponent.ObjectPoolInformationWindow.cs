@@ -8,7 +8,7 @@ namespace UnityGameFramework.Runtime
     {
         private sealed class ObjectPoolInformationWindow : ScrollableDebuggerWindowBase
         {
-            private ObjectPoolComponent m_ObjectPoolComponent = null;
+            private ObjectPoolComponent m_ObjectPoolComponent;
 
             public override void Initialize(params object[] args)
             {
@@ -16,7 +16,6 @@ namespace UnityGameFramework.Runtime
                 if (m_ObjectPoolComponent == null)
                 {
                     Log.Fatal("Object pool component is invalid.");
-                    return;
                 }
             }
 
@@ -28,8 +27,8 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Object Pool Count", m_ObjectPoolComponent.Count.ToString());
                 }
                 GUILayout.EndVertical();
-                ObjectPoolBase[] objectPools = m_ObjectPoolComponent.GetAllObjectPools(true);
-                for (int i = 0; i < objectPools.Length; i++)
+                var objectPools = m_ObjectPoolComponent.GetAllObjectPools(true);
+                for (var i = 0; i < objectPools.Length; i++)
                 {
                     DrawObjectPool(objectPools[i]);
                 }
@@ -48,7 +47,7 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Can Release Count", objectPool.CanReleaseCount.ToString());
                     DrawItem("Expire Time", objectPool.ExpireTime.ToString());
                     DrawItem("Priority", objectPool.Priority.ToString());
-                    ObjectInfo[] objectInfos = objectPool.GetAllObjectInfos();
+                    var objectInfos = objectPool.GetAllObjectInfos();
                     GUILayout.BeginHorizontal();
                     {
                         GUILayout.Label("<b>Name</b>");
@@ -62,7 +61,7 @@ namespace UnityGameFramework.Runtime
 
                     if (objectInfos.Length > 0)
                     {
-                        for (int i = 0; i < objectInfos.Length; i++)
+                        for (var i = 0; i < objectInfos.Length; i++)
                         {
                             GUILayout.BeginHorizontal();
                             {

@@ -1,9 +1,9 @@
-﻿using GameFramework;
-using GameFramework.ObjectPool;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using GameFramework;
+using GameFramework.ObjectPool;
 using UnityEditor;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -13,7 +13,7 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(ObjectPoolComponent))]
     internal sealed class ObjectPoolComponentInspector : GameFrameworkInspector
     {
-        private readonly HashSet<string> m_OpenedItems = new HashSet<string>();
+        private readonly HashSet<string> m_OpenedItems = new();
 
         public override void OnInspectorGUI()
         {
@@ -25,14 +25,14 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            ObjectPoolComponent t = (ObjectPoolComponent)target;
+            var t = (ObjectPoolComponent)target;
 
             if (IsPrefabInHierarchy(t.gameObject))
             {
                 EditorGUILayout.LabelField("Object Pool Count", t.Count.ToString());
 
-                ObjectPoolBase[] objectPools = t.GetAllObjectPools(true);
-                foreach (ObjectPoolBase objectPool in objectPools)
+                var objectPools = t.GetAllObjectPools(true);
+                foreach (var objectPool in objectPools)
                 {
                     DrawObjectPool(objectPool);
                 }
@@ -47,8 +47,8 @@ namespace UnityGameFramework.Editor
 
         private void DrawObjectPool(ObjectPoolBase objectPool)
         {
-            bool lastState = m_OpenedItems.Contains(objectPool.FullName);
-            bool currentState = EditorGUILayout.Foldout(lastState, objectPool.FullName);
+            var lastState = m_OpenedItems.Contains(objectPool.FullName);
+            var currentState = EditorGUILayout.Foldout(lastState, objectPool.FullName);
             if (currentState != lastState)
             {
                 if (currentState)
@@ -73,13 +73,19 @@ namespace UnityGameFramework.Editor
                     EditorGUILayout.LabelField("Can Release Count", objectPool.CanReleaseCount.ToString());
                     EditorGUILayout.LabelField("Expire Time", objectPool.ExpireTime.ToString());
                     EditorGUILayout.LabelField("Priority", objectPool.Priority.ToString());
-                    ObjectInfo[] objectInfos = objectPool.GetAllObjectInfos();
+                    var objectInfos = objectPool.GetAllObjectInfos();
                     if (objectInfos.Length > 0)
                     {
-                        EditorGUILayout.LabelField("Name", objectPool.AllowMultiSpawn ? "Locked\tCount\tFlag\tPriority\tLast Use Time" : "Locked\tIn Use\tFlag\tPriority\tLast Use Time");
-                        foreach (ObjectInfo objectInfo in objectInfos)
+                        EditorGUILayout.LabelField("Name",
+                            objectPool.AllowMultiSpawn ? "Locked\tCount\tFlag\tPriority\tLast Use Time" : "Locked\tIn Use\tFlag\tPriority\tLast Use Time");
+                        foreach (var objectInfo in objectInfos)
                         {
-                            EditorGUILayout.LabelField(string.IsNullOrEmpty(objectInfo.Name) ? "<None>" : objectInfo.Name, objectPool.AllowMultiSpawn ? Utility.Text.Format("{0}\t{1}\t{2}\t{3}\t{4:yyyy-MM-dd HH:mm:ss}", objectInfo.Locked, objectInfo.SpawnCount, objectInfo.CustomCanReleaseFlag, objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime()) : Utility.Text.Format("{0}\t{1}\t{2}\t{3}\t{4:yyyy-MM-dd HH:mm:ss}", objectInfo.Locked, objectInfo.IsInUse, objectInfo.CustomCanReleaseFlag, objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime()));
+                            EditorGUILayout.LabelField(string.IsNullOrEmpty(objectInfo.Name) ? "<None>" : objectInfo.Name,
+                                objectPool.AllowMultiSpawn
+                                    ? Utility.Text.Format("{0}\t{1}\t{2}\t{3}\t{4:yyyy-MM-dd HH:mm:ss}", objectInfo.Locked, objectInfo.SpawnCount, objectInfo.CustomCanReleaseFlag,
+                                        objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime())
+                                    : Utility.Text.Format("{0}\t{1}\t{2}\t{3}\t{4:yyyy-MM-dd HH:mm:ss}", objectInfo.Locked, objectInfo.IsInUse, objectInfo.CustomCanReleaseFlag,
+                                        objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime()));
                         }
 
                         if (GUILayout.Button("Release"))
@@ -94,17 +100,23 @@ namespace UnityGameFramework.Editor
 
                         if (GUILayout.Button("Export CSV Data"))
                         {
-                            string exportFileName = EditorUtility.SaveFilePanel("Export CSV Data", string.Empty, Utility.Text.Format("Object Pool Data - {0}.csv", objectPool.Name), string.Empty);
+                            var exportFileName = EditorUtility.SaveFilePanel("Export CSV Data", string.Empty, Utility.Text.Format("Object Pool Data - {0}.csv", objectPool.Name),
+                                string.Empty);
                             if (!string.IsNullOrEmpty(exportFileName))
                             {
                                 try
                                 {
-                                    int index = 0;
-                                    string[] data = new string[objectInfos.Length + 1];
-                                    data[index++] = Utility.Text.Format("Name,Locked,{0},Custom Can Release Flag,Priority,Last Use Time", objectPool.AllowMultiSpawn ? "Count" : "In Use");
-                                    foreach (ObjectInfo objectInfo in objectInfos)
+                                    var index = 0;
+                                    var data = new string[objectInfos.Length + 1];
+                                    data[index++] = Utility.Text.Format("Name,Locked,{0},Custom Can Release Flag,Priority,Last Use Time",
+                                        objectPool.AllowMultiSpawn ? "Count" : "In Use");
+                                    foreach (var objectInfo in objectInfos)
                                     {
-                                        data[index++] = objectPool.AllowMultiSpawn ? Utility.Text.Format("{0},{1},{2},{3},{4},{5:yyyy-MM-dd HH:mm:ss}", objectInfo.Name, objectInfo.Locked, objectInfo.SpawnCount, objectInfo.CustomCanReleaseFlag, objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime()) : Utility.Text.Format("{0},{1},{2},{3},{4},{5:yyyy-MM-dd HH:mm:ss}", objectInfo.Name, objectInfo.Locked, objectInfo.IsInUse, objectInfo.CustomCanReleaseFlag, objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime());
+                                        data[index++] = objectPool.AllowMultiSpawn
+                                            ? Utility.Text.Format("{0},{1},{2},{3},{4},{5:yyyy-MM-dd HH:mm:ss}", objectInfo.Name, objectInfo.Locked, objectInfo.SpawnCount,
+                                                objectInfo.CustomCanReleaseFlag, objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime())
+                                            : Utility.Text.Format("{0},{1},{2},{3},{4},{5:yyyy-MM-dd HH:mm:ss}", objectInfo.Name, objectInfo.Locked, objectInfo.IsInUse,
+                                                objectInfo.CustomCanReleaseFlag, objectInfo.Priority, objectInfo.LastUseTime.ToLocalTime());
                                     }
 
                                     File.WriteAllLines(exportFileName, data, Encoding.UTF8);

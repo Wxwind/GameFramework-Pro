@@ -8,7 +8,7 @@ namespace UnityGameFramework.Editor
     /// </summary>
     public static class ScriptingDefineSymbols
     {
-        private static readonly BuildTargetGroup[] BuildTargetGroups = new BuildTargetGroup[]
+        private static readonly BuildTargetGroup[] BuildTargetGroups =
         {
             BuildTargetGroup.Standalone,
             BuildTargetGroup.iOS,
@@ -30,8 +30,8 @@ namespace UnityGameFramework.Editor
                 return false;
             }
 
-            string[] scriptingDefineSymbols = GetScriptingDefineSymbols(buildTargetGroup);
-            foreach (string i in scriptingDefineSymbols)
+            var scriptingDefineSymbols = GetScriptingDefineSymbols(buildTargetGroup);
+            foreach (var i in scriptingDefineSymbols)
             {
                 if (i == scriptingDefineSymbol)
                 {
@@ -59,7 +59,7 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            List<string> scriptingDefineSymbols = new List<string>(GetScriptingDefineSymbols(buildTargetGroup))
+            var scriptingDefineSymbols = new List<string>(GetScriptingDefineSymbols(buildTargetGroup))
             {
                 scriptingDefineSymbol
             };
@@ -84,7 +84,7 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            List<string> scriptingDefineSymbols = new List<string>(GetScriptingDefineSymbols(buildTargetGroup));
+            var scriptingDefineSymbols = new List<string>(GetScriptingDefineSymbols(buildTargetGroup));
             while (scriptingDefineSymbols.Contains(scriptingDefineSymbol))
             {
                 scriptingDefineSymbols.Remove(scriptingDefineSymbol);
@@ -104,7 +104,7 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            foreach (BuildTargetGroup buildTargetGroup in BuildTargetGroups)
+            foreach (var buildTargetGroup in BuildTargetGroups)
             {
                 AddScriptingDefineSymbol(buildTargetGroup, scriptingDefineSymbol);
             }
@@ -121,7 +121,7 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            foreach (BuildTargetGroup buildTargetGroup in BuildTargetGroups)
+            foreach (var buildTargetGroup in BuildTargetGroups)
             {
                 RemoveScriptingDefineSymbol(buildTargetGroup, scriptingDefineSymbol);
             }

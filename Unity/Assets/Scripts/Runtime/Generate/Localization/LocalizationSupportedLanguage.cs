@@ -6,12 +6,12 @@ namespace Game.Editor
 {
     public static class LocalizationSupportedLanguage
     {
-        public static Language[] Languages => new Language[]
+        public static Language[] Languages => new[]
         {
             Language.ChineseSimplified,
             Language.ChineseTraditional,
             Language.English,
-            Language.Korean,
+            Language.Korean
         };
     }
 }

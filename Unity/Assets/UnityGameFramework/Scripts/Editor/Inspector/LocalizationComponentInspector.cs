@@ -6,7 +6,7 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(LocalizationComponent))]
     internal sealed class LocalizationComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_CachedBytesSize = null;
+        private SerializedProperty m_CachedBytesSize;
 
 
         public override void OnInspectorGUI()

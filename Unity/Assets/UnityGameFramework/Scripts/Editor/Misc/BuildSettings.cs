@@ -12,7 +12,7 @@ namespace UnityGameFramework.Editor
     /// </summary>
     internal static class BuildSettings
     {
-        private static readonly string       s_ConfigurationPath = null;
+        private static readonly string       s_ConfigurationPath;
         private static readonly List<string> s_DefaultSceneNames = new();
         private static readonly List<string> s_SearchScenePaths  = new();
 
@@ -40,7 +40,7 @@ namespace UnityGameFramework.Editor
                 XmlNode xmlNode = null;
 
                 xmlNodeList = xmlDefaultScenes.ChildNodes;
-                for (int i = 0; i < xmlNodeList.Count; i++)
+                for (var i = 0; i < xmlNodeList.Count; i++)
                 {
                     xmlNode = xmlNodeList.Item(i);
                     if (xmlNode.Name != "DefaultScene")
@@ -48,12 +48,12 @@ namespace UnityGameFramework.Editor
                         continue;
                     }
 
-                    string defaultSceneName = xmlNode.Attributes.GetNamedItem("Name").Value;
+                    var defaultSceneName = xmlNode.Attributes.GetNamedItem("Name").Value;
                     s_DefaultSceneNames.Add(defaultSceneName);
                 }
 
                 xmlNodeList = xmlSearchScenePaths.ChildNodes;
-                for (int i = 0; i < xmlNodeList.Count; i++)
+                for (var i = 0; i < xmlNodeList.Count; i++)
                 {
                     xmlNode = xmlNodeList.Item(i);
                     if (xmlNode.Name != "SearchScenePath")
@@ -61,7 +61,7 @@ namespace UnityGameFramework.Editor
                         continue;
                     }
 
-                    string searchScenePath = xmlNode.Attributes.GetNamedItem("Path").Value;
+                    var searchScenePath = xmlNode.Attributes.GetNamedItem("Path").Value;
                     s_SearchScenePaths.Add(searchScenePath);
                 }
             }
@@ -77,13 +77,13 @@ namespace UnityGameFramework.Editor
         public static void DefaultScenes()
         {
             var sceneNames = new HashSet<string>();
-            foreach (string sceneName in s_DefaultSceneNames)
+            foreach (var sceneName in s_DefaultSceneNames)
             {
                 sceneNames.Add(sceneName);
             }
 
             var scenes = new List<EditorBuildSettingsScene>();
-            foreach (string sceneName in sceneNames)
+            foreach (var sceneName in sceneNames)
             {
                 scenes.Add(new EditorBuildSettingsScene(sceneName, true));
             }
@@ -100,20 +100,20 @@ namespace UnityGameFramework.Editor
         public static void AllScenes()
         {
             var sceneNames = new HashSet<string>();
-            foreach (string sceneName in s_DefaultSceneNames)
+            foreach (var sceneName in s_DefaultSceneNames)
             {
                 sceneNames.Add(sceneName);
             }
 
-            string[] sceneGuids = AssetDatabase.FindAssets("t:Scene", s_SearchScenePaths.ToArray());
-            foreach (string sceneGuid in sceneGuids)
+            var sceneGuids = AssetDatabase.FindAssets("t:Scene", s_SearchScenePaths.ToArray());
+            foreach (var sceneGuid in sceneGuids)
             {
-                string sceneName = AssetDatabase.GUIDToAssetPath(sceneGuid);
+                var sceneName = AssetDatabase.GUIDToAssetPath(sceneGuid);
                 sceneNames.Add(sceneName);
             }
 
             var scenes = new List<EditorBuildSettingsScene>();
-            foreach (string sceneName in sceneNames)
+            foreach (var sceneName in sceneNames)
             {
                 scenes.Add(new EditorBuildSettingsScene(sceneName, true));
             }

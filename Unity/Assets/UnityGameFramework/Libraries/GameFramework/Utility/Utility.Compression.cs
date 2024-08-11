@@ -10,7 +10,7 @@ namespace GameFramework
         /// </summary>
         public static partial class Compression
         {
-            private static ICompressionHelper s_CompressionHelper = null;
+            private static ICompressionHelper s_CompressionHelper;
 
             /// <summary>
             /// 设置压缩解压缩辅助器。
@@ -61,16 +61,14 @@ namespace GameFramework
             /// <returns>压缩后的数据的二进制流。</returns>
             public static byte[] Compress(byte[] bytes, int offset, int length)
             {
-                using (MemoryStream compressedStream = new MemoryStream())
+                using (var compressedStream = new MemoryStream())
                 {
                     if (Compress(bytes, offset, length, compressedStream))
                     {
                         return compressedStream.ToArray();
                     }
-                    else
-                    {
-                        return null;
-                    }
+
+                    return null;
                 }
             }
 
@@ -126,16 +124,14 @@ namespace GameFramework
             /// <returns>压缩后的数据的二进制流。</returns>
             public static byte[] Compress(Stream stream)
             {
-                using (MemoryStream compressedStream = new MemoryStream())
+                using (var compressedStream = new MemoryStream())
                 {
                     if (Compress(stream, compressedStream))
                     {
                         return compressedStream.ToArray();
                     }
-                    else
-                    {
-                        return null;
-                    }
+
+                    return null;
                 }
             }
 
@@ -217,16 +213,14 @@ namespace GameFramework
             /// <returns>解压缩后的数据的二进制流。</returns>
             public static byte[] Decompress(byte[] bytes, int offset, int length)
             {
-                using (MemoryStream decompressedStream = new MemoryStream())
+                using (var decompressedStream = new MemoryStream())
                 {
                     if (Decompress(bytes, offset, length, decompressedStream))
                     {
                         return decompressedStream.ToArray();
                     }
-                    else
-                    {
-                        return null;
-                    }
+
+                    return null;
                 }
             }
 
@@ -282,16 +276,14 @@ namespace GameFramework
             /// <returns>是否解压缩数据成功。</returns>
             public static byte[] Decompress(Stream stream)
             {
-                using (MemoryStream decompressedStream = new MemoryStream())
+                using (var decompressedStream = new MemoryStream())
                 {
                     if (Decompress(stream, decompressedStream))
                     {
                         return decompressedStream.ToArray();
                     }
-                    else
-                    {
-                        return null;
-                    }
+
+                    return null;
                 }
             }
 

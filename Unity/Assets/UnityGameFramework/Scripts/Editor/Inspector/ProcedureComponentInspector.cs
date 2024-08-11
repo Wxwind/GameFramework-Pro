@@ -1,6 +1,6 @@
-﻿using GameFramework.Procedure;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using GameFramework.Procedure;
 using UnityEditor;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -10,12 +10,12 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(ProcedureComponent))]
     internal sealed class ProcedureComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_AvailableProcedureTypeNames = null;
-        private SerializedProperty m_EntranceProcedureTypeName = null;
+        private SerializedProperty m_AvailableProcedureTypeNames;
+        private SerializedProperty m_EntranceProcedureTypeName;
 
-        private string[] m_ProcedureTypeNames = null;
-        private List<string> m_CurrentAvailableProcedureTypeNames = null;
-        private int m_EntranceProcedureIndex = -1;
+        private string[]     m_ProcedureTypeNames;
+        private List<string> m_CurrentAvailableProcedureTypeNames;
+        private int          m_EntranceProcedureIndex = -1;
 
         public override void OnInspectorGUI()
         {
@@ -23,7 +23,7 @@ namespace UnityGameFramework.Editor
 
             serializedObject.Update();
 
-            ProcedureComponent t = (ProcedureComponent)target;
+            var t = (ProcedureComponent)target;
 
             if (string.IsNullOrEmpty(m_EntranceProcedureTypeName.stringValue))
             {
@@ -41,9 +41,9 @@ namespace UnityGameFramework.Editor
                 {
                     EditorGUILayout.BeginVertical("box");
                     {
-                        foreach (string procedureTypeName in m_ProcedureTypeNames)
+                        foreach (var procedureTypeName in m_ProcedureTypeNames)
                         {
-                            bool selected = m_CurrentAvailableProcedureTypeNames.Contains(procedureTypeName);
+                            var selected = m_CurrentAvailableProcedureTypeNames.Contains(procedureTypeName);
                             if (selected != EditorGUILayout.ToggleLeft(procedureTypeName, selected))
                             {
                                 if (!selected)
@@ -70,7 +70,7 @@ namespace UnityGameFramework.Editor
                 {
                     EditorGUILayout.Separator();
 
-                    int selectedIndex = EditorGUILayout.Popup("Entrance Procedure", m_EntranceProcedureIndex, m_CurrentAvailableProcedureTypeNames.ToArray());
+                    var selectedIndex = EditorGUILayout.Popup("Entrance Procedure", m_EntranceProcedureIndex, m_CurrentAvailableProcedureTypeNames.ToArray());
                     if (selectedIndex != m_EntranceProcedureIndex)
                     {
                         m_EntranceProcedureIndex = selectedIndex;
@@ -108,7 +108,7 @@ namespace UnityGameFramework.Editor
         {
             m_ProcedureTypeNames = Type.GetRuntimeTypeNames(typeof(ProcedureBase));
             ReadAvailableProcedureTypeNames();
-            int oldCount = m_CurrentAvailableProcedureTypeNames.Count;
+            var oldCount = m_CurrentAvailableProcedureTypeNames.Count;
             m_CurrentAvailableProcedureTypeNames = m_CurrentAvailableProcedureTypeNames.Where(x => m_ProcedureTypeNames.Contains(x)).ToList();
             if (m_CurrentAvailableProcedureTypeNames.Count != oldCount)
             {
@@ -129,8 +129,8 @@ namespace UnityGameFramework.Editor
         private void ReadAvailableProcedureTypeNames()
         {
             m_CurrentAvailableProcedureTypeNames = new List<string>();
-            int count = m_AvailableProcedureTypeNames.arraySize;
-            for (int i = 0; i < count; i++)
+            var count = m_AvailableProcedureTypeNames.arraySize;
+            for (var i = 0; i < count; i++)
             {
                 m_CurrentAvailableProcedureTypeNames.Add(m_AvailableProcedureTypeNames.GetArrayElementAtIndex(i).stringValue);
             }
@@ -145,8 +145,8 @@ namespace UnityGameFramework.Editor
             }
 
             m_CurrentAvailableProcedureTypeNames.Sort();
-            int count = m_CurrentAvailableProcedureTypeNames.Count;
-            for (int i = 0; i < count; i++)
+            var count = m_CurrentAvailableProcedureTypeNames.Count;
+            for (var i = 0; i < count; i++)
             {
                 m_AvailableProcedureTypeNames.InsertArrayElementAtIndex(i);
                 m_AvailableProcedureTypeNames.GetArrayElementAtIndex(i).stringValue = m_CurrentAvailableProcedureTypeNames[i];

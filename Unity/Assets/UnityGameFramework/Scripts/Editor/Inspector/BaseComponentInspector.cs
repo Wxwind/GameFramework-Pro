@@ -10,33 +10,32 @@ namespace UnityGameFramework.Editor
     internal sealed class BaseComponentInspector : GameFrameworkInspector
     {
         private const           string  NoneOptionName = "<None>";
-        private static readonly float[] GameSpeed      = new float[] { 0f, 0.01f, 0.1f, 0.25f, 0.5f, 1f, 1.5f, 2f, 4f, 8f };
+        private static readonly float[] GameSpeed      = { 0f, 0.01f, 0.1f, 0.25f, 0.5f, 1f, 1.5f, 2f, 4f, 8f };
 
-        private static readonly string[] GameSpeedForDisplay = new string[]
-            { "0x", "0.01x", "0.1x", "0.25x", "0.5x", "1x", "1.5x", "2x", "4x", "8x" };
+        private static readonly string[] GameSpeedForDisplay = { "0x", "0.01x", "0.1x", "0.25x", "0.5x", "1x", "1.5x", "2x", "4x", "8x" };
 
-        private SerializedProperty m_ResourceMode              = null;
-        private SerializedProperty m_EditorLanguage            = null;
-        private SerializedProperty m_TextHelperTypeName        = null;
-        private SerializedProperty m_VersionHelperTypeName     = null;
-        private SerializedProperty m_LogHelperTypeName         = null;
-        private SerializedProperty m_CompressionHelperTypeName = null;
-        private SerializedProperty m_JsonHelperTypeName        = null;
-        private SerializedProperty m_FrameRate                 = null;
-        private SerializedProperty m_GameSpeed                 = null;
-        private SerializedProperty m_RunInBackground           = null;
-        private SerializedProperty m_NeverSleep                = null;
+        private SerializedProperty m_ResourceMode;
+        private SerializedProperty m_EditorLanguage;
+        private SerializedProperty m_TextHelperTypeName;
+        private SerializedProperty m_VersionHelperTypeName;
+        private SerializedProperty m_LogHelperTypeName;
+        private SerializedProperty m_CompressionHelperTypeName;
+        private SerializedProperty m_JsonHelperTypeName;
+        private SerializedProperty m_FrameRate;
+        private SerializedProperty m_GameSpeed;
+        private SerializedProperty m_RunInBackground;
+        private SerializedProperty m_NeverSleep;
 
-        private string[] m_TextHelperTypeNames            = null;
-        private int      m_TextHelperTypeNameIndex        = 0;
-        private string[] m_VersionHelperTypeNames         = null;
-        private int      m_VersionHelperTypeNameIndex     = 0;
-        private string[] m_LogHelperTypeNames             = null;
-        private int      m_LogHelperTypeNameIndex         = 0;
-        private string[] m_CompressionHelperTypeNames     = null;
-        private int      m_CompressionHelperTypeNameIndex = 0;
-        private string[] m_JsonHelperTypeNames            = null;
-        private int      m_JsonHelperTypeNameIndex        = 0;
+        private string[] m_TextHelperTypeNames;
+        private int      m_TextHelperTypeNameIndex;
+        private string[] m_VersionHelperTypeNames;
+        private int      m_VersionHelperTypeNameIndex;
+        private string[] m_LogHelperTypeNames;
+        private int      m_LogHelperTypeNameIndex;
+        private string[] m_CompressionHelperTypeNames;
+        private int      m_CompressionHelperTypeNameIndex;
+        private string[] m_JsonHelperTypeNames;
+        private int      m_JsonHelperTypeNameIndex;
 
         public override void OnInspectorGUI()
         {
@@ -288,7 +287,7 @@ namespace UnityGameFramework.Editor
         private int GetSelectedGameSpeed(float gameSpeed)
         {
             for (var i = 0; i < GameSpeed.Length; i++)
-                if (gameSpeed == GameSpeed[i])
+                if (Mathf.Approximately(gameSpeed, GameSpeed[i]))
                     return i;
 
             return -1;

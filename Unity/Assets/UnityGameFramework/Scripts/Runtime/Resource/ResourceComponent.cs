@@ -49,7 +49,11 @@ namespace UnityGameFramework.Runtime
             set => m_MaxUnloadUnusedAssetsInterval = value;
         }
 
-        public string ApplicableGameVersion { get; set; }
+        public string GameVersion
+        {
+            get => m_ResourceManager.GameVersion;
+            set => m_ResourceManager.GameVersion = value;
+        }
 
         private void Start()
         {

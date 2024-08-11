@@ -8,27 +8,13 @@ namespace UnityGameFramework.Runtime
         [Serializable]
         private sealed class UIGroup
         {
-            [SerializeField]
-            private string m_Name = null;
+            [SerializeField] private string m_Name;
 
-            [SerializeField]
-            private int m_Depth = 0;
+            [SerializeField] private int m_Depth;
 
-            public string Name
-            {
-                get
-                {
-                    return m_Name;
-                }
-            }
+            public string Name => m_Name;
 
-            public int Depth
-            {
-                get
-                {
-                    return m_Depth;
-                }
-            }
+            public int Depth => m_Depth;
         }
     }
 }

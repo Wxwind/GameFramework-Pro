@@ -1,6 +1,6 @@
-﻿using GameFramework;
-using System;
+﻿using System;
 using System.IO;
+using GameFramework;
 
 /// <summary>
 /// 对 BinaryReader 和 BinaryWriter 的扩展方法。
@@ -16,8 +16,8 @@ public static class BinaryExtension
     /// <returns>读取的 32 位有符号整数。</returns>
     public static int Read7BitEncodedInt32(this BinaryReader binaryReader)
     {
-        int value = 0;
-        int shift = 0;
+        var value = 0;
+        var shift = 0;
         byte b;
         do
         {
@@ -41,7 +41,7 @@ public static class BinaryExtension
     /// <param name="value">要写入的 32 位有符号整数。</param>
     public static void Write7BitEncodedInt32(this BinaryWriter binaryWriter, int value)
     {
-        uint num = (uint)value;
+        var num = (uint)value;
         while (num >= 0x80)
         {
             binaryWriter.Write((byte)(num | 0x80));
@@ -78,8 +78,8 @@ public static class BinaryExtension
     /// <returns>读取的 64 位有符号整数。</returns>
     public static long Read7BitEncodedInt64(this BinaryReader binaryReader)
     {
-        long value = 0L;
-        int shift = 0;
+        var value = 0L;
+        var shift = 0;
         byte b;
         do
         {
@@ -103,7 +103,7 @@ public static class BinaryExtension
     /// <param name="value">要写入的 64 位有符号整数。</param>
     public static void Write7BitEncodedInt64(this BinaryWriter binaryWriter, long value)
     {
-        ulong num = (ulong)value;
+        var num = (ulong)value;
         while (num >= 0x80)
         {
             binaryWriter.Write((byte)(num | 0x80));
@@ -141,7 +141,7 @@ public static class BinaryExtension
     /// <returns>读取的字符串。</returns>
     public static string ReadEncryptedString(this BinaryReader binaryReader, byte[] encryptBytes)
     {
-        byte length = binaryReader.ReadByte();
+        var length = binaryReader.ReadByte();
         if (length <= 0)
         {
             return null;
@@ -158,7 +158,7 @@ public static class BinaryExtension
         }
 
         Utility.Encryption.GetSelfXorBytes(s_CachedBytes, 0, length, encryptBytes);
-        string value = Utility.Converter.GetString(s_CachedBytes, 0, length);
+        var value = Utility.Converter.GetString(s_CachedBytes, 0, length);
         Array.Clear(s_CachedBytes, 0, length);
         return value;
     }
@@ -177,7 +177,7 @@ public static class BinaryExtension
             return;
         }
 
-        int length = Utility.Converter.GetBytes(value, s_CachedBytes);
+        var length = Utility.Converter.GetBytes(value, s_CachedBytes);
         if (length > byte.MaxValue)
         {
             throw new GameFrameworkException(Utility.Text.Format("String '{0}' is too long.", value));

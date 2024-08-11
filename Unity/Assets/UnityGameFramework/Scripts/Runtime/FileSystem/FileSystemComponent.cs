@@ -12,7 +12,7 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/File System")]
     public sealed class FileSystemComponent : GameFrameworkComponent
     {
-        private IFileSystemManager m_FileSystemManager = null;
+        private IFileSystemManager m_FileSystemManager;
 
         /// <summary>
         /// 获取文件系统数量。

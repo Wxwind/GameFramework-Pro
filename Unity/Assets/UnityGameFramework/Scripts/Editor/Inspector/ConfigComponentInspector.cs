@@ -6,7 +6,7 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(ConfigComponent))]
     internal sealed class ConfigComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_CachedBytesSize = null;
+        private SerializedProperty m_CachedBytesSize;
 
         public override void OnInspectorGUI()
         {

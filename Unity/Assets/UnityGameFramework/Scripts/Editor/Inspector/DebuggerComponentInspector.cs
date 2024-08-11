@@ -7,10 +7,10 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(DebuggerComponent))]
     internal sealed class DebuggerComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_Skin = null;
-        private SerializedProperty m_ActiveWindow = null;
-        private SerializedProperty m_ShowFullWindow = null;
-        private SerializedProperty m_ConsoleWindow = null;
+        private SerializedProperty m_Skin;
+        private SerializedProperty m_ActiveWindow;
+        private SerializedProperty m_ShowFullWindow;
+        private SerializedProperty m_ConsoleWindow;
 
         public override void OnInspectorGUI()
         {
@@ -18,13 +18,13 @@ namespace UnityGameFramework.Editor
 
             serializedObject.Update();
 
-            DebuggerComponent t = (DebuggerComponent)target;
+            var t = (DebuggerComponent)target;
 
             EditorGUILayout.PropertyField(m_Skin);
 
             if (EditorApplication.isPlaying && IsPrefabInHierarchy(t.gameObject))
             {
-                bool activeWindow = EditorGUILayout.Toggle("Active Window", t.ActiveWindow);
+                var activeWindow = EditorGUILayout.Toggle("Active Window", t.ActiveWindow);
                 if (activeWindow != t.ActiveWindow)
                 {
                     t.ActiveWindow = activeWindow;

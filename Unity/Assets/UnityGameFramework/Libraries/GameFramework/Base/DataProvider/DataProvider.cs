@@ -11,8 +11,8 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     internal sealed class DataProvider<T> : IDataProvider
     {
-        private const  int    BlockSize     = 1024 * 4;
-        private static byte[] s_CachedBytes = null;
+        private const  int    BlockSize = 1024 * 4;
+        private static byte[] s_CachedBytes;
 
         private readonly T                      m_Owner;
         private          IResourceManager       m_ResourceManager;

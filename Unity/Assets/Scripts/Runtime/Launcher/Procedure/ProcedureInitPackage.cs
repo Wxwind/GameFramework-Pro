@@ -21,13 +21,13 @@ namespace Game
         {
             try
             {
-                string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
                 var resourceMode = GameEntry.Base.ResourceMode;
                 var initializationOperation = await GameEntry.Resource.InitPackage(resourceMode, packageName);
 
-                string version = initializationOperation.PackageVersion;
+                var version = initializationOperation.PackageVersion;
                 Log.Info($"Init resource package version : {version}");
-                GameEntry.Resource.ApplicableGameVersion = initializationOperation.PackageVersion;
+                GameEntry.Resource.GameVersion = initializationOperation.PackageVersion;
 
                 // 编辑器模式和单机模式直接跳过资源加载步骤
 

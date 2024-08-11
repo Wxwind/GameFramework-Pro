@@ -9,7 +9,7 @@ namespace GameFramework.Localization
     /// <summary>
     /// 本地化管理器。
     /// </summary>
-    internal sealed partial class LocalizationManager : GameFrameworkModule, ILocalizationManager
+    internal sealed class LocalizationManager : GameFrameworkModule, ILocalizationManager
     {
         private readonly Dictionary<string, string>         m_Dictionary;
         private readonly DataProvider<ILocalizationManager> m_DataProvider;
@@ -185,7 +185,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString(string key)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -196,7 +196,7 @@ namespace GameFramework.Localization
 
         public string GetString(string key, params object[] args)
         {
-            string value = GetRawString(key);
+            var value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);

@@ -7,19 +7,19 @@ namespace UnityGameFramework.Editor
     /// </summary>
     public static class LogScriptingDefineSymbols
     {
-        private const string EnableLogScriptingDefineSymbol = "ENABLE_LOG";
-        private const string EnableDebugAndAboveLogScriptingDefineSymbol = "ENABLE_DEBUG_AND_ABOVE_LOG";
-        private const string EnableInfoAndAboveLogScriptingDefineSymbol = "ENABLE_INFO_AND_ABOVE_LOG";
+        private const string EnableLogScriptingDefineSymbol                = "ENABLE_LOG";
+        private const string EnableDebugAndAboveLogScriptingDefineSymbol   = "ENABLE_DEBUG_AND_ABOVE_LOG";
+        private const string EnableInfoAndAboveLogScriptingDefineSymbol    = "ENABLE_INFO_AND_ABOVE_LOG";
         private const string EnableWarningAndAboveLogScriptingDefineSymbol = "ENABLE_WARNING_AND_ABOVE_LOG";
-        private const string EnableErrorAndAboveLogScriptingDefineSymbol = "ENABLE_ERROR_AND_ABOVE_LOG";
-        private const string EnableFatalAndAboveLogScriptingDefineSymbol = "ENABLE_FATAL_AND_ABOVE_LOG";
-        private const string EnableDebugLogScriptingDefineSymbol = "ENABLE_DEBUG_LOG";
-        private const string EnableInfoLogScriptingDefineSymbol = "ENABLE_INFO_LOG";
-        private const string EnableWarningLogScriptingDefineSymbol = "ENABLE_WARNING_LOG";
-        private const string EnableErrorLogScriptingDefineSymbol = "ENABLE_ERROR_LOG";
-        private const string EnableFatalLogScriptingDefineSymbol = "ENABLE_FATAL_LOG";
+        private const string EnableErrorAndAboveLogScriptingDefineSymbol   = "ENABLE_ERROR_AND_ABOVE_LOG";
+        private const string EnableFatalAndAboveLogScriptingDefineSymbol   = "ENABLE_FATAL_AND_ABOVE_LOG";
+        private const string EnableDebugLogScriptingDefineSymbol           = "ENABLE_DEBUG_LOG";
+        private const string EnableInfoLogScriptingDefineSymbol            = "ENABLE_INFO_LOG";
+        private const string EnableWarningLogScriptingDefineSymbol         = "ENABLE_WARNING_LOG";
+        private const string EnableErrorLogScriptingDefineSymbol           = "ENABLE_ERROR_LOG";
+        private const string EnableFatalLogScriptingDefineSymbol           = "ENABLE_FATAL_LOG";
 
-        private static readonly string[] AboveLogScriptingDefineSymbols = new string[]
+        private static readonly string[] AboveLogScriptingDefineSymbols =
         {
             EnableDebugAndAboveLogScriptingDefineSymbol,
             EnableInfoAndAboveLogScriptingDefineSymbol,
@@ -28,7 +28,7 @@ namespace UnityGameFramework.Editor
             EnableFatalAndAboveLogScriptingDefineSymbol
         };
 
-        private static readonly string[] SpecifyLogScriptingDefineSymbols = new string[]
+        private static readonly string[] SpecifyLogScriptingDefineSymbols =
         {
             EnableDebugLogScriptingDefineSymbol,
             EnableInfoLogScriptingDefineSymbol,
@@ -45,12 +45,12 @@ namespace UnityGameFramework.Editor
         {
             ScriptingDefineSymbols.RemoveScriptingDefineSymbol(EnableLogScriptingDefineSymbol);
 
-            foreach (string specifyLogScriptingDefineSymbol in SpecifyLogScriptingDefineSymbols)
+            foreach (var specifyLogScriptingDefineSymbol in SpecifyLogScriptingDefineSymbols)
             {
                 ScriptingDefineSymbols.RemoveScriptingDefineSymbol(specifyLogScriptingDefineSymbol);
             }
 
-            foreach (string aboveLogScriptingDefineSymbol in AboveLogScriptingDefineSymbols)
+            foreach (var aboveLogScriptingDefineSymbol in AboveLogScriptingDefineSymbols)
             {
                 ScriptingDefineSymbols.RemoveScriptingDefineSymbol(aboveLogScriptingDefineSymbol);
             }
@@ -122,7 +122,7 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            foreach (string i in AboveLogScriptingDefineSymbols)
+            foreach (var i in AboveLogScriptingDefineSymbols)
             {
                 if (i == aboveLogScriptingDefineSymbol)
                 {
@@ -144,15 +144,15 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            bool removed = false;
-            foreach (string specifyLogScriptingDefineSymbol in specifyLogScriptingDefineSymbols)
+            var removed = false;
+            foreach (var specifyLogScriptingDefineSymbol in specifyLogScriptingDefineSymbols)
             {
                 if (string.IsNullOrEmpty(specifyLogScriptingDefineSymbol))
                 {
                     continue;
                 }
 
-                foreach (string i in SpecifyLogScriptingDefineSymbols)
+                foreach (var i in SpecifyLogScriptingDefineSymbols)
                 {
                     if (i == specifyLogScriptingDefineSymbol)
                     {

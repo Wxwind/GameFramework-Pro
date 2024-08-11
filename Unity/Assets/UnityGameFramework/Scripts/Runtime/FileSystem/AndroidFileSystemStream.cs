@@ -1,7 +1,7 @@
-﻿using GameFramework;
-using GameFramework.FileSystem;
-using System;
+﻿using System;
 using System.IO;
+using GameFramework;
+using GameFramework.FileSystem;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -11,30 +11,30 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public sealed class AndroidFileSystemStream : FileSystemStream
     {
-        private static readonly string SplitFlag = "!/assets/";
-        private static readonly int SplitFlagLength = SplitFlag.Length;
-        private static readonly AndroidJavaObject s_AssetManager = null;
-        private static readonly IntPtr s_InternalReadMethodId = IntPtr.Zero;
-        private static readonly jvalue[] s_InternalReadArgs = null;
+        private static readonly string            SplitFlag       = "!/assets/";
+        private static readonly int               SplitFlagLength = SplitFlag.Length;
+        private static readonly AndroidJavaObject s_AssetManager;
+        private static readonly IntPtr            s_InternalReadMethodId = IntPtr.Zero;
+        private static readonly jvalue[]          s_InternalReadArgs;
 
         private readonly AndroidJavaObject m_FileStream;
-        private readonly IntPtr m_FileStreamRawObject;
+        private readonly IntPtr            m_FileStreamRawObject;
 
         static AndroidFileSystemStream()
         {
-            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             if (unityPlayer == null)
             {
                 throw new GameFrameworkException("Unity player is invalid.");
             }
 
-            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            var currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             if (currentActivity == null)
             {
                 throw new GameFrameworkException("Current activity is invalid.");
             }
 
-            AndroidJavaObject assetManager = currentActivity.Call<AndroidJavaObject>("getAssets");
+            var assetManager = currentActivity.Call<AndroidJavaObject>("getAssets");
             if (assetManager == null)
             {
                 throw new GameFrameworkException("Asset manager is invalid.");
@@ -42,7 +42,7 @@ namespace UnityGameFramework.Runtime
 
             s_AssetManager = assetManager;
 
-            IntPtr inputStreamClassPtr = AndroidJNI.FindClass("java/io/InputStream");
+            var inputStreamClassPtr = AndroidJNI.FindClass("java/io/InputStream");
             s_InternalReadMethodId = AndroidJNIHelper.GetMethodID(inputStreamClassPtr, "read", "([BII)I");
             s_InternalReadArgs = new jvalue[3];
 
@@ -75,13 +75,13 @@ namespace UnityGameFramework.Runtime
                 throw new GameFrameworkException("Create new is not supported in AndroidFileSystemStream.");
             }
 
-            int position = fullPath.LastIndexOf(SplitFlag, StringComparison.Ordinal);
+            var position = fullPath.LastIndexOf(SplitFlag, StringComparison.Ordinal);
             if (position < 0)
             {
                 throw new GameFrameworkException("Can not find split flag in full path.");
             }
 
-            string fileName = fullPath.Substring(position + SplitFlagLength);
+            var fileName = fullPath.Substring(position + SplitFlagLength);
             m_FileStream = InternalOpen(fileName);
             if (m_FileStream == null)
             {
@@ -97,17 +97,14 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         protected override long Position
         {
-            get { throw new GameFrameworkException("Get position is not supported in AndroidFileSystemStream."); }
-            set { Seek(value, SeekOrigin.Begin); }
+            get => throw new GameFrameworkException("Get position is not supported in AndroidFileSystemStream.");
+            set => Seek(value, SeekOrigin.Begin);
         }
 
         /// <summary>
         /// 获取文件系统流长度。
         /// </summary>
-        protected override long Length
-        {
-            get { return InternalAvailable(); }
-        }
+        protected override long Length => InternalAvailable();
 
         /// <summary>
         /// 设置文件系统流长度。
@@ -138,7 +135,7 @@ namespace UnityGameFramework.Runtime
 
             while (offset > 0)
             {
-                long skip = InternalSkip(offset);
+                var skip = InternalSkip(offset);
                 if (skip < 0)
                 {
                     return;
@@ -167,7 +164,7 @@ namespace UnityGameFramework.Runtime
         protected override int Read(byte[] buffer, int startIndex, int length)
         {
             byte[] result = null;
-            int bytesRead = InternalRead(length, out result);
+            var bytesRead = InternalRead(length, out result);
             Array.Copy(result, 0, buffer, startIndex, bytesRead);
             return bytesRead;
         }
@@ -232,16 +229,16 @@ namespace UnityGameFramework.Runtime
         private int InternalRead(int length, out byte[] result)
         {
 #pragma warning disable CS0618
-            IntPtr resultPtr = AndroidJNI.NewByteArray(length);
+            var resultPtr = AndroidJNI.NewByteArray(length);
 #pragma warning restore CS0618
-            int offset = 0;
-            int bytesLeft = length;
+            var offset = 0;
+            var bytesLeft = length;
             while (bytesLeft > 0)
             {
-                s_InternalReadArgs[0] = new jvalue() { l = resultPtr };
-                s_InternalReadArgs[1] = new jvalue() { i = offset };
-                s_InternalReadArgs[2] = new jvalue() { i = bytesLeft };
-                int bytesRead =
+                s_InternalReadArgs[0] = new jvalue { l = resultPtr };
+                s_InternalReadArgs[1] = new jvalue { i = offset };
+                s_InternalReadArgs[2] = new jvalue { i = bytesLeft };
+                var bytesRead =
                     AndroidJNI.CallIntMethod(m_FileStreamRawObject, s_InternalReadMethodId, s_InternalReadArgs);
                 if (bytesRead <= 0)
                 {

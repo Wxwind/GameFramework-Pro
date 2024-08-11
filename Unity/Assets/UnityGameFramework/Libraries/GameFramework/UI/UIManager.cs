@@ -557,12 +557,10 @@ namespace GameFramework.UI
                     return null;
                 }
             }
-            else
-            {
-                return InternalOpenUIForm(serialId, uiFormAssetName, uiGroup, uiFormInstanceObject.Target as GameObject,
-                    pauseCoveredUIForm,
-                    false, userData);
-            }
+
+            return InternalOpenUIForm(serialId, uiFormAssetName, uiGroup, uiFormInstanceObject.Target as GameObject,
+                pauseCoveredUIForm,
+                false, userData);
         }
 
 

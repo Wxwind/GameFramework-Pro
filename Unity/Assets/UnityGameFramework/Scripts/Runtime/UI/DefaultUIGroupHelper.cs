@@ -18,8 +18,8 @@ namespace UnityGameFramework.Runtime
     {
         public const int DepthFactor = 10000;
 
-        private int    m_Depth        = 0;
-        private Canvas m_CachedCanvas = null;
+        private int    m_Depth;
+        private Canvas m_CachedCanvas;
 
         /// <summary>
         /// 设置界面组深度。

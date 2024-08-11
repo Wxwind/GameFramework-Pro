@@ -11,7 +11,7 @@ namespace UnityGameFramework.Runtime
     {
         private const int StringBuilderCapacity = 2048;
 
-        [ThreadStatic] private static StringBuilder s_CachedStringBuilder = null;
+        [ThreadStatic] private static StringBuilder s_CachedStringBuilder;
 
         /// <summary>
         /// 获取格式化字符串。

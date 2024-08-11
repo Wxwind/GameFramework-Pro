@@ -1,8 +1,8 @@
-﻿using GameFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using GameFramework;
 
 namespace UnityGameFramework.Runtime
 {
@@ -11,7 +11,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public sealed class DefaultSetting
     {
-        private readonly SortedDictionary<string, string> m_Settings = new SortedDictionary<string, string>(StringComparer.Ordinal);
+        private readonly SortedDictionary<string, string> m_Settings = new(StringComparer.Ordinal);
 
         /// <summary>
         /// 初始化本地版本资源列表的新实例。
@@ -23,13 +23,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取游戏配置项数量。
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return m_Settings.Count;
-            }
-        }
+        public int Count => m_Settings.Count;
 
         /// <summary>
         /// 获取所有游戏配置项的名称。
@@ -37,9 +31,9 @@ namespace UnityGameFramework.Runtime
         /// <returns>所有游戏配置项的名称。</returns>
         public string[] GetAllSettingNames()
         {
-            int index = 0;
-            string[] allSettingNames = new string[m_Settings.Count];
-            foreach (KeyValuePair<string, string> setting in m_Settings)
+            var index = 0;
+            var allSettingNames = new string[m_Settings.Count];
+            foreach (var setting in m_Settings)
             {
                 allSettingNames[index++] = setting.Key;
             }
@@ -59,7 +53,7 @@ namespace UnityGameFramework.Runtime
             }
 
             results.Clear();
-            foreach (KeyValuePair<string, string> setting in m_Settings)
+            foreach (var setting in m_Settings)
             {
                 results.Add(setting.Key);
             }
@@ -275,10 +269,10 @@ namespace UnityGameFramework.Runtime
         /// <param name="stream">目标流。</param>
         public void Serialize(Stream stream)
         {
-            using (BinaryWriter binaryWriter = new BinaryWriter(stream, Encoding.UTF8))
+            using (var binaryWriter = new BinaryWriter(stream, Encoding.UTF8))
             {
                 binaryWriter.Write7BitEncodedInt32(m_Settings.Count);
-                foreach (KeyValuePair<string, string> setting in m_Settings)
+                foreach (var setting in m_Settings)
                 {
                     binaryWriter.Write(setting.Key);
                     binaryWriter.Write(setting.Value);
@@ -293,10 +287,10 @@ namespace UnityGameFramework.Runtime
         public void Deserialize(Stream stream)
         {
             m_Settings.Clear();
-            using (BinaryReader binaryReader = new BinaryReader(stream, Encoding.UTF8))
+            using (var binaryReader = new BinaryReader(stream, Encoding.UTF8))
             {
-                int settingCount = binaryReader.Read7BitEncodedInt32();
-                for (int i = 0; i < settingCount; i++)
+                var settingCount = binaryReader.Read7BitEncodedInt32();
+                for (var i = 0; i < settingCount; i++)
                 {
                     m_Settings.Add(binaryReader.ReadString(), binaryReader.ReadString());
                 }

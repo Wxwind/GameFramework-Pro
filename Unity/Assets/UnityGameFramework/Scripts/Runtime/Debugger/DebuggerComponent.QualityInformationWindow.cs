@@ -7,20 +7,20 @@ namespace UnityGameFramework.Runtime
     {
         private sealed class QualityInformationWindow : ScrollableDebuggerWindowBase
         {
-            private bool m_ApplyExpensiveChanges = false;
+            private bool m_ApplyExpensiveChanges;
 
             protected override void OnDrawScrollableWindow()
             {
                 GUILayout.Label("<b>Quality Level</b>");
                 GUILayout.BeginVertical("box");
                 {
-                    int currentQualityLevel = QualitySettings.GetQualityLevel();
+                    var currentQualityLevel = QualitySettings.GetQualityLevel();
 
                     DrawItem("Current Quality Level", QualitySettings.names[currentQualityLevel]);
                     m_ApplyExpensiveChanges = GUILayout.Toggle(m_ApplyExpensiveChanges,
                         "Apply expensive changes on quality level change.");
 
-                    int newQualityLevel =
+                    var newQualityLevel =
                         GUILayout.SelectionGrid(currentQualityLevel, QualitySettings.names, 3, "toggle");
                     if (newQualityLevel != currentQualityLevel)
                     {

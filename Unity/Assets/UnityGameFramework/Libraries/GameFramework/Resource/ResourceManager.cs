@@ -19,6 +19,10 @@ namespace GameFramework.Resource
         /// </summary>
         private readonly HashSet<string> m_AssetLoadingList = new();
 
+        public string HostServerIp { get; set; }
+
+        public string GameVersion { get; set; }
+
         public string ReadOnlyPath { get; set; }
         public string ReadWritePath { get; set; }
 

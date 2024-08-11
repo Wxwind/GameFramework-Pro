@@ -23,10 +23,8 @@ namespace UnityGameFramework.Runtime
             {
                 return new AndroidFileSystemStream(fullPath, access, createNew);
             }
-            else
-            {
-                return new CommonFileSystemStream(fullPath, access, createNew);
-            }
+
+            return new CommonFileSystemStream(fullPath, access, createNew);
         }
     }
 }

@@ -1,28 +1,29 @@
-﻿using GameFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework;
 using UnityEngine;
 using UnityEngine.Profiling;
+using Object = UnityEngine.Object;
 
 namespace UnityGameFramework.Runtime
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
         private sealed partial class RuntimeMemoryInformationWindow<T> : ScrollableDebuggerWindowBase
-            where T : UnityEngine.Object
+            where T : Object
         {
             private const int ShowSampleCount = 300;
 
-            private readonly List<Sample> m_Samples = new List<Sample>();
+            private readonly List<Sample>       m_Samples        = new();
             private readonly Comparison<Sample> m_SampleComparer = SampleComparer;
-            private DateTime m_SampleTime = DateTime.MinValue;
-            private long m_SampleSize = 0L;
-            private long m_DuplicateSampleSize = 0L;
-            private int m_DuplicateSimpleCount = 0;
+            private          DateTime           m_SampleTime     = DateTime.MinValue;
+            private          long               m_SampleSize;
+            private          long               m_DuplicateSampleSize;
+            private          int                m_DuplicateSimpleCount;
 
             protected override void OnDrawScrollableWindow()
             {
-                string typeName = typeof(T).Name;
+                var typeName = typeof(T).Name;
                 GUILayout.Label(Utility.Text.Format("<b>{0} Runtime Memory Information</b>", typeName));
                 GUILayout.BeginVertical("box");
                 {
@@ -63,8 +64,8 @@ namespace UnityGameFramework.Runtime
                             GUILayout.EndHorizontal();
                         }
 
-                        int count = 0;
-                        for (int i = 0; i < m_Samples.Count; i++)
+                        var count = 0;
+                        for (var i = 0; i < m_Samples.Count; i++)
                         {
                             GUILayout.BeginHorizontal();
                             {
@@ -102,10 +103,10 @@ namespace UnityGameFramework.Runtime
                 m_DuplicateSimpleCount = 0;
                 m_Samples.Clear();
 
-                T[] samples = Resources.FindObjectsOfTypeAll<T>();
-                for (int i = 0; i < samples.Length; i++)
+                var samples = Resources.FindObjectsOfTypeAll<T>();
+                for (var i = 0; i < samples.Length; i++)
                 {
-                    long sampleSize = 0L;
+                    var sampleSize = 0L;
 
                     sampleSize = Profiler.GetRuntimeMemorySizeLong(samples[i]);
 
@@ -115,7 +116,7 @@ namespace UnityGameFramework.Runtime
 
                 m_Samples.Sort(m_SampleComparer);
 
-                for (int i = 1; i < m_Samples.Count; i++)
+                for (var i = 1; i < m_Samples.Count; i++)
                 {
                     if (m_Samples[i].Name == m_Samples[i - 1].Name && m_Samples[i].Type == m_Samples[i - 1].Type &&
                         m_Samples[i].Size == m_Samples[i - 1].Size)
@@ -129,7 +130,7 @@ namespace UnityGameFramework.Runtime
 
             private static int SampleComparer(Sample a, Sample b)
             {
-                int result = b.Size.CompareTo(a.Size);
+                var result = b.Size.CompareTo(a.Size);
                 if (result != 0)
                 {
                     return result;

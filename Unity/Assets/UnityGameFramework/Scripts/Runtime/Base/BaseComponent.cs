@@ -1,8 +1,9 @@
-﻿using GameFramework;
+﻿using System;
+using GameFramework;
 using GameFramework.Localization;
 using GameFramework.Resource;
-using System;
 using UnityEngine;
+using Version = GameFramework.Version;
 
 namespace UnityGameFramework.Runtime
 {
@@ -26,8 +27,7 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private string m_LogHelperTypeName = "UnityGameFramework.Runtime.DefaultLogHelper";
 
-        [SerializeField]
-        private string m_CompressionHelperTypeName = "UnityGameFramework.Runtime.DefaultCompressionHelper";
+        [SerializeField] private string m_CompressionHelperTypeName = "UnityGameFramework.Runtime.DefaultCompressionHelper";
 
         [SerializeField] private string m_JsonHelperTypeName = "UnityGameFramework.Runtime.DefaultJsonHelper";
 
@@ -114,9 +114,9 @@ namespace UnityGameFramework.Runtime
             InitTextHelper();
             InitVersionHelper();
             InitLogHelper();
-            Log.Info("Game Framework Version: {0}", GameFramework.Version.GameFrameworkVersion);
-            Log.Info("Game Version: {0} ({1})", GameFramework.Version.GameVersion,
-                GameFramework.Version.InternalGameVersion);
+            Log.Info("Game Framework Version: {0}", Version.GameFrameworkVersion);
+            Log.Info("Game Version: {0} ({1})", Version.GameVersion,
+                Version.InternalGameVersion);
             Log.Info("Unity Version: {0}", Application.unityVersion);
 
             InitCompressionHelper();
@@ -219,12 +219,12 @@ namespace UnityGameFramework.Runtime
                 throw new GameFrameworkException(Utility.Text.Format("Can not find version helper type '{0}'.",
                     m_VersionHelperTypeName));
 
-            var versionHelper = (GameFramework.Version.IVersionHelper)Activator.CreateInstance(versionHelperType);
+            var versionHelper = (Version.IVersionHelper)Activator.CreateInstance(versionHelperType);
             if (versionHelper == null)
                 throw new GameFrameworkException(Utility.Text.Format("Can not create version helper instance '{0}'.",
                     m_VersionHelperTypeName));
 
-            GameFramework.Version.SetVersionHelper(versionHelper);
+            Version.SetVersionHelper(versionHelper);
         }
 
         private void InitLogHelper()

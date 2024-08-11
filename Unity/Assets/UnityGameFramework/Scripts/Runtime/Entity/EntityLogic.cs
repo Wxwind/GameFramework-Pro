@@ -7,59 +7,38 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public abstract class EntityLogic : MonoBehaviour
     {
-        private bool m_Available = false;
-        private bool m_Visible = false;
-        private Entity m_Entity = null;
-        private Transform m_CachedTransform = null;
-        private int m_OriginalLayer = 0;
-        private Transform m_OriginalTransform = null;
+        private bool      m_Available;
+        private bool      m_Visible;
+        private Entity    m_Entity;
+        private Transform m_CachedTransform;
+        private int       m_OriginalLayer;
+        private Transform m_OriginalTransform;
 
         /// <summary>
         /// 获取实体。
         /// </summary>
-        public Entity Entity
-        {
-            get
-            {
-                return m_Entity;
-            }
-        }
+        public Entity Entity => m_Entity;
 
         /// <summary>
         /// 获取或设置实体名称。
         /// </summary>
         public string Name
         {
-            get
-            {
-                return gameObject.name;
-            }
-            set
-            {
-                gameObject.name = value;
-            }
+            get => gameObject.name;
+            set => gameObject.name = value;
         }
 
         /// <summary>
         /// 获取实体是否可用。
         /// </summary>
-        public bool Available
-        {
-            get
-            {
-                return m_Available;
-            }
-        }
+        public bool Available => m_Available;
 
         /// <summary>
         /// 获取或设置实体是否可见。
         /// </summary>
         public bool Visible
         {
-            get
-            {
-                return m_Available && m_Visible;
-            }
+            get => m_Available && m_Visible;
             set
             {
                 if (!m_Available)
@@ -81,13 +60,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取已缓存的 Transform。
         /// </summary>
-        public Transform CachedTransform
-        {
-            get
-            {
-                return m_CachedTransform;
-            }
-        }
+        public Transform CachedTransform => m_CachedTransform;
 
         /// <summary>
         /// 实体初始化。

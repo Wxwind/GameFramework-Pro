@@ -27,18 +27,18 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         internal static readonly float DefaultWindowScale = 1f;
 
-        private static readonly TextEditor       s_TextEditor      = new();
-        private                 IDebuggerManager m_DebuggerManager = null;
-        private                 Rect             m_DragRect        = new(0f, 0f, float.MaxValue, 25f);
-        private                 Rect             m_IconRect        = DefaultIconRect;
-        private                 Rect             m_WindowRect      = DefaultWindowRect;
-        private                 float            m_WindowScale     = DefaultWindowScale;
+        private static readonly TextEditor       s_TextEditor = new();
+        private                 IDebuggerManager m_DebuggerManager;
+        private                 Rect             m_DragRect    = new(0f, 0f, float.MaxValue, 25f);
+        private                 Rect             m_IconRect    = DefaultIconRect;
+        private                 Rect             m_WindowRect  = DefaultWindowRect;
+        private                 float            m_WindowScale = DefaultWindowScale;
 
-        [SerializeField] private GUISkin m_Skin = null;
+        [SerializeField] private GUISkin m_Skin;
 
         [SerializeField] private DebuggerActiveWindowType m_ActiveWindow = DebuggerActiveWindowType.AlwaysOpen;
 
-        [SerializeField] private bool m_ShowFullWindow = false;
+        [SerializeField] private bool m_ShowFullWindow;
 
         [SerializeField] private ConsoleWindow m_ConsoleWindow = new();
 
@@ -74,7 +74,7 @@ namespace UnityGameFramework.Runtime
         private SettingsWindow                                   m_SettingsWindow                                 = new();
         private OperationsWindow                                 m_OperationsWindow                               = new();
 
-        private FpsCounter m_FpsCounter = null;
+        private FpsCounter m_FpsCounter;
 
         /// <summary>
         /// 获取或设置调试器窗口是否激活。
@@ -312,8 +312,8 @@ namespace UnityGameFramework.Runtime
             }
 
             var names = new List<string>();
-            string[] debuggerWindowNames = debuggerWindowGroup.GetDebuggerWindowNames();
-            for (int i = 0; i < debuggerWindowNames.Length; i++)
+            var debuggerWindowNames = debuggerWindowGroup.GetDebuggerWindowNames();
+            for (var i = 0; i < debuggerWindowNames.Length; i++)
             {
                 names.Add(Utility.Text.Format("<b>{0}</b>", debuggerWindowNames[i]));
             }
@@ -323,7 +323,7 @@ namespace UnityGameFramework.Runtime
                 names.Add("<b>Close</b>");
             }
 
-            int toolbarIndex = GUILayout.Toolbar(debuggerWindowGroup.SelectedIndex, names.ToArray(), GUILayout.Height(30f), GUILayout.MaxWidth(Screen.width));
+            var toolbarIndex = GUILayout.Toolbar(debuggerWindowGroup.SelectedIndex, names.ToArray(), GUILayout.Height(30f), GUILayout.MaxWidth(Screen.width));
             if (toolbarIndex >= debuggerWindowGroup.DebuggerWindowCount)
             {
                 m_ShowFullWindow = false;
@@ -374,7 +374,7 @@ namespace UnityGameFramework.Runtime
                 color = m_ConsoleWindow.GetLogStringColor(LogType.Log);
             }
 
-            string title = Utility.Text.Format("<color=#{0:x2}{1:x2}{2:x2}{3:x2}><b>FPS: {4:F2}</b></color>", color.r, color.g, color.b, color.a, m_FpsCounter.CurrentFps);
+            var title = Utility.Text.Format("<color=#{0:x2}{1:x2}{2:x2}{3:x2}><b>FPS: {4:F2}</b></color>", color.r, color.g, color.b, color.a, m_FpsCounter.CurrentFps);
             if (GUILayout.Button(title, GUILayout.Width(100f), GUILayout.Height(40f)))
             {
                 m_ShowFullWindow = true;

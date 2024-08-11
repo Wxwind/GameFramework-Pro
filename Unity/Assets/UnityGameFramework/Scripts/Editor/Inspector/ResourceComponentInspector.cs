@@ -14,8 +14,8 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(ResourceComponent))]
     internal sealed class ResourceComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_MinUnloadUnusedAssetsInterval = null;
-        private SerializedProperty m_MaxUnloadUnusedAssetsInterval = null;
+        private SerializedProperty m_MinUnloadUnusedAssetsInterval;
+        private SerializedProperty m_MaxUnloadUnusedAssetsInterval;
 
         public override void OnInspectorGUI()
         {
@@ -56,7 +56,7 @@ namespace UnityGameFramework.Editor
             {
                 EditorGUILayout.LabelField("Unload Unused Assets",
                     Utility.Text.Format("{0:F2} / {1:F2}", t.LastUnloadUnusedAssetsOperationElapseSeconds, t.MaxUnloadUnusedAssetsInterval));
-                EditorGUILayout.LabelField("Applicable Game Version", t.ApplicableGameVersion ?? "<Unknwon>");
+                EditorGUILayout.LabelField("Game Version", t.GameVersion ?? "<Unknwon>");
             }
 
             serializedObject.ApplyModifiedProperties();

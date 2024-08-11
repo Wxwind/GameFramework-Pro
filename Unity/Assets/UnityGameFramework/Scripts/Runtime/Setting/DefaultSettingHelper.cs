@@ -14,9 +14,9 @@ namespace UnityGameFramework.Runtime
     {
         private const string SettingFileName = "GameFrameworkSetting.dat";
 
-        private string                   m_FilePath   = null;
-        private DefaultSetting           m_Settings   = null;
-        private DefaultSettingSerializer m_Serializer = null;
+        private string                   m_FilePath;
+        private DefaultSetting           m_Settings;
+        private DefaultSettingSerializer m_Serializer;
 
         /// <summary>
         /// 获取游戏配置项数量。

@@ -16,7 +16,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public abstract class SoundGroupHelperBase : MonoBehaviour, ISoundGroupHelper
     {
-        [SerializeField] private AudioMixerGroup m_AudioMixerGroup = null;
+        [SerializeField] private AudioMixerGroup m_AudioMixerGroup;
 
         /// <summary>
         /// 获取或设置声音组辅助器所在的混音组。

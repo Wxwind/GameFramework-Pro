@@ -1,5 +1,6 @@
-﻿using GameFramework;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.IO;
+using GameFramework;
 using UnityEditor;
 using UnityEngine;
 
@@ -53,7 +54,7 @@ namespace UnityGameFramework.Editor
         [MenuItem("Game Framework/Open Folder/Console Log Path", false, 14)]
         public static void OpenFolderConsoleLogPath()
         {
-            Execute(System.IO.Path.GetDirectoryName(Application.consoleLogPath));
+            Execute(Path.GetDirectoryName(Application.consoleLogPath));
         }
 
         /// <summary>

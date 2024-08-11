@@ -1,16 +1,13 @@
 ﻿namespace GameFramework.Localization
 {
     /// <summary>
-    /// 本地化辅助器接口。
+    /// 本地化辅助器基类。
     /// </summary>
-    public interface ILocalizationHelper
+    public interface ILocalizationHelper : IDataProviderHelper<ILocalizationManager>
     {
         /// <summary>
         /// 获取系统语言。
         /// </summary>
-        Language SystemLanguage
-        {
-            get;
-        }
+        public Language SystemLanguage { get; }
     }
 }

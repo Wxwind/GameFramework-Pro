@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityEngine;
 
 namespace UnityGameFramework.Editor
 {
@@ -7,7 +8,7 @@ namespace UnityGameFramework.Editor
     /// </summary>
     public abstract class GameFrameworkInspector : UnityEditor.Editor
     {
-        private bool m_IsCompiling = false;
+        private bool m_IsCompiling;
 
         /// <summary>
         /// 绘制事件。
@@ -40,7 +41,7 @@ namespace UnityGameFramework.Editor
         {
         }
 
-        protected bool IsPrefabInHierarchy(UnityEngine.Object obj)
+        protected bool IsPrefabInHierarchy(Object obj)
         {
             if (obj == null)
             {

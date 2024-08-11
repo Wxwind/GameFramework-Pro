@@ -8,34 +8,22 @@ namespace GameFramework
     /// </summary>
     public static partial class ReferencePool
     {
-        private static readonly Dictionary<Type, ReferenceCollection> s_ReferenceCollections = new Dictionary<Type, ReferenceCollection>();
-        private static bool m_EnableStrictCheck = false;
+        private static readonly Dictionary<Type, ReferenceCollection> s_ReferenceCollections = new();
+        private static          bool                                  m_EnableStrictCheck;
 
         /// <summary>
         /// 获取或设置是否开启强制检查。
         /// </summary>
         public static bool EnableStrictCheck
         {
-            get
-            {
-                return m_EnableStrictCheck;
-            }
-            set
-            {
-                m_EnableStrictCheck = value;
-            }
+            get => m_EnableStrictCheck;
+            set => m_EnableStrictCheck = value;
         }
 
         /// <summary>
         /// 获取引用池的数量。
         /// </summary>
-        public static int Count
-        {
-            get
-            {
-                return s_ReferenceCollections.Count;
-            }
-        }
+        public static int Count => s_ReferenceCollections.Count;
 
         /// <summary>
         /// 获取所有引用池的信息。
@@ -43,15 +31,17 @@ namespace GameFramework
         /// <returns>所有引用池的信息。</returns>
         public static ReferencePoolInfo[] GetAllReferencePoolInfos()
         {
-            int index = 0;
+            var index = 0;
             ReferencePoolInfo[] results = null;
 
             lock (s_ReferenceCollections)
             {
                 results = new ReferencePoolInfo[s_ReferenceCollections.Count];
-                foreach (KeyValuePair<Type, ReferenceCollection> referenceCollection in s_ReferenceCollections)
+                foreach (var referenceCollection in s_ReferenceCollections)
                 {
-                    results[index++] = new ReferencePoolInfo(referenceCollection.Key, referenceCollection.Value.UnusedReferenceCount, referenceCollection.Value.UsingReferenceCount, referenceCollection.Value.AcquireReferenceCount, referenceCollection.Value.ReleaseReferenceCount, referenceCollection.Value.AddReferenceCount, referenceCollection.Value.RemoveReferenceCount);
+                    results[index++] = new ReferencePoolInfo(referenceCollection.Key, referenceCollection.Value.UnusedReferenceCount, referenceCollection.Value.UsingReferenceCount,
+                        referenceCollection.Value.AcquireReferenceCount, referenceCollection.Value.ReleaseReferenceCount, referenceCollection.Value.AddReferenceCount,
+                        referenceCollection.Value.RemoveReferenceCount);
                 }
             }
 
@@ -65,7 +55,7 @@ namespace GameFramework
         {
             lock (s_ReferenceCollections)
             {
-                foreach (KeyValuePair<Type, ReferenceCollection> referenceCollection in s_ReferenceCollections)
+                foreach (var referenceCollection in s_ReferenceCollections)
                 {
                     referenceCollection.Value.RemoveAll();
                 }
@@ -106,7 +96,7 @@ namespace GameFramework
                 throw new GameFrameworkException("Reference is invalid.");
             }
 
-            Type referenceType = reference.GetType();
+            var referenceType = reference.GetType();
             InternalCheckReferenceType(referenceType);
             GetReferenceCollection(referenceType).Release(reference);
         }

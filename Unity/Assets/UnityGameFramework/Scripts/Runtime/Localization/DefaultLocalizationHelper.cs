@@ -10,13 +10,13 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 默认本地化辅助器。
     /// </summary>
-    public class DefaultLocalizationHelper : LocalizationHelperBase
+    public class DefaultLocalizationHelper : ILocalizationHelper
     {
-        private static readonly string[] ColumnSplitSeparator = new string[] { "\t" };
+        private static readonly string[] ColumnSplitSeparator = { "\t" };
         private static readonly string   BytesAssetExtension  = ".bytes";
         private const           int      ColumnCount          = 4;
 
-        private ResourceComponent m_ResourceComponent = null;
+        private ResourceComponent m_ResourceComponent;
 
         public DefaultLocalizationHelper()
         {
@@ -24,14 +24,13 @@ namespace UnityGameFramework.Runtime
             if (m_ResourceComponent == null)
             {
                 Log.Fatal("Resource component is invalid.");
-                return;
             }
         }
 
         /// <summary>
         /// 获取系统语言。
         /// </summary>
-        public override Language SystemLanguage
+        public Language SystemLanguage
         {
             get
             {
@@ -92,7 +91,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="dictionaryAssetName">字典资源名称。</param>
         /// <param name="dictionaryAsset">字典资源。</param>
         /// <returns>是否读取字典成功。</returns>
-        public override void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+        public void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
             TextAsset dictionaryAsset)
         {
             if (dictionaryAsset != null)
@@ -119,7 +118,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否读取字典成功。</returns>
-        public override void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
+        public virtual void ReadData(ILocalizationManager localizationManager, string dictionaryAssetName,
             byte[] dictionaryBytes, int startIndex, int length)
         {
             if (dictionaryAssetName.EndsWith(BytesAssetExtension, StringComparison.Ordinal))
@@ -138,7 +137,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="localizationManager">本地化管理器。</param>
         /// <param name="dictionaryString">要解析的字典字符串。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override void ParseData(ILocalizationManager localizationManager, string dictionaryString)
+        public virtual void ParseData(ILocalizationManager localizationManager, string dictionaryString)
         {
             try
             {
@@ -179,7 +178,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="startIndex">字典二进制流的起始位置。</param>
         /// <param name="length">字典二进制流的长度。</param>
         /// <returns>是否解析字典成功。</returns>
-        public override void ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
+        public virtual void ParseData(ILocalizationManager localizationManager, byte[] dictionaryBytes, int startIndex,
             int length)
         {
             try
@@ -211,7 +210,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="localizationManager">本地化管理器。</param>
         /// <param name="dictionaryAsset">要释放的字典资源。</param>
-        public override void ReleaseDataAsset(ILocalizationManager localizationManager, TextAsset dictionaryAsset)
+        public void ReleaseDataAsset(ILocalizationManager localizationManager, TextAsset dictionaryAsset)
         {
             m_ResourceComponent.UnloadAsset(dictionaryAsset);
         }

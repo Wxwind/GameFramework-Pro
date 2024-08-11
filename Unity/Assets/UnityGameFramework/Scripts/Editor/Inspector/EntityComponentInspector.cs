@@ -7,8 +7,8 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(EntityComponent))]
     internal sealed class EntityComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_InstanceRoot = null;
-        private SerializedProperty m_EntityGroups = null;
+        private SerializedProperty m_InstanceRoot;
+        private SerializedProperty m_EntityGroups;
 
         public override void OnInspectorGUI()
         {

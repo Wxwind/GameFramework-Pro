@@ -18,13 +18,13 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private IEntityManager m_EntityManager = null;
+        private IEntityManager m_EntityManager;
 
         private readonly List<IEntity> m_InternalEntityResults = new();
 
-        [SerializeField] private Transform m_InstanceRoot = null;
+        [SerializeField] private Transform m_InstanceRoot;
 
-        [SerializeField] private EntityGroup[] m_EntityGroups = null;
+        [SerializeField] private EntityGroup[] m_EntityGroups;
 
         /// <summary>
         /// 获取实体数量。
@@ -47,7 +47,6 @@ namespace UnityGameFramework.Runtime
             if (m_EntityManager == null)
             {
                 Log.Fatal("Entity manager is invalid.");
-                return;
             }
         }
 
@@ -89,7 +88,6 @@ namespace UnityGameFramework.Runtime
                         m_EntityGroups[i].InstancePriority))
                 {
                     Log.Warning("Add entity group '{0}' failure.", m_EntityGroups[i].Name);
-                    continue;
                 }
             }
         }

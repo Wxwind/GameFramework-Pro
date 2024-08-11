@@ -6,9 +6,9 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(SoundComponent))]
     internal sealed class SoundComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_InstanceRoot = null;
-        private SerializedProperty m_AudioMixer   = null;
-        private SerializedProperty m_SoundGroups  = null;
+        private SerializedProperty m_InstanceRoot;
+        private SerializedProperty m_AudioMixer;
+        private SerializedProperty m_SoundGroups;
 
 
         public override void OnInspectorGUI()

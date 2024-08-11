@@ -4,9 +4,8 @@ using System.Text;
 using GameFramework;
 using GameFramework.Localization;
 using SimpleJSON;
-using UnityGameFramework.Runtime;
 
-namespace Game
+namespace UnityGameFramework.Runtime
 {
     /// <summary>
     ///     JSON 格式的本地化辅助器。

@@ -8,7 +8,7 @@ namespace UnityGameFramework.Runtime
     /// </summary>
     public class DefaultSoundHelper : ISoundHelper
     {
-        private ResourceComponent m_ResourceComponent = null;
+        private ResourceComponent m_ResourceComponent;
 
         public DefaultSoundHelper()
         {
@@ -16,7 +16,6 @@ namespace UnityGameFramework.Runtime
             if (m_ResourceComponent == null)
             {
                 Log.Fatal("Resource component is invalid.");
-                return;
             }
         }
 

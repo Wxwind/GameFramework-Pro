@@ -9,8 +9,8 @@ namespace UnityGameFramework.Runtime
     {
         private sealed class EnvironmentInformationWindow : ScrollableDebuggerWindowBase
         {
-            private BaseComponent m_BaseComponent = null;
-            private ResourceComponent m_ResourceComponent = null;
+            private BaseComponent     m_BaseComponent;
+            private ResourceComponent m_ResourceComponent;
 
             public override void Initialize(params object[] args)
             {
@@ -25,7 +25,6 @@ namespace UnityGameFramework.Runtime
                 if (m_ResourceComponent == null)
                 {
                     Log.Fatal("Resource component is invalid.");
-                    return;
                 }
             }
 
@@ -43,9 +42,9 @@ namespace UnityGameFramework.Runtime
                     DrawItem("Resource Version",
                         m_BaseComponent.ResourceMode == ResourceMode.EditorSimulateMode
                             ? "Unavailable in editor resource mode"
-                            : string.IsNullOrEmpty(m_ResourceComponent.ApplicableGameVersion)
+                            : string.IsNullOrEmpty(m_ResourceComponent.GameVersion)
                                 ? "Unknown"
-                                : Utility.Text.Format("{0} ({1})", m_ResourceComponent.ApplicableGameVersion,
+                                : Utility.Text.Format("{0} ({1})", m_ResourceComponent.GameVersion,
                                     "Not Exists InternalResourceVersion"));
                     DrawItem("Application Version", Application.version);
                     DrawItem("Unity Version", Application.unityVersion);

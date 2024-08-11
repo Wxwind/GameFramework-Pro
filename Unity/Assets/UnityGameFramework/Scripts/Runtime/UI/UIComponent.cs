@@ -17,7 +17,7 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private IUIManager m_UIManager = null;
+        private IUIManager m_UIManager;
 
         private readonly List<IUIForm> m_InternalUIFormResults = new();
 
@@ -28,11 +28,11 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private float m_InstanceExpireTime = 60f;
 
-        [SerializeField] private int m_InstancePriority = 0;
+        [SerializeField] private int m_InstancePriority;
 
-        [SerializeField] private Transform m_InstanceRoot = null;
+        [SerializeField] private Transform m_InstanceRoot;
 
-        [SerializeField] private UIGroup[] m_UIGroups = null;
+        [SerializeField] private UIGroup[] m_UIGroups;
 
         /// <summary>
         /// 获取界面组数量。
@@ -86,7 +86,6 @@ namespace UnityGameFramework.Runtime
             if (m_UIManager == null)
             {
                 Log.Fatal("UI manager is invalid.");
-                return;
             }
         }
 
@@ -127,7 +126,6 @@ namespace UnityGameFramework.Runtime
                 if (!AddUIGroup(m_UIGroups[i].Name, m_UIGroups[i].Depth))
                 {
                     Log.Warning("Add UI group '{0}' failure.", m_UIGroups[i].Name);
-                    continue;
                 }
             }
         }

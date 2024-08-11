@@ -13,9 +13,9 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Config")]
     public sealed class ConfigComponent : GameFrameworkComponent
     {
-        private IConfigManager m_ConfigManager = null;
+        private IConfigManager m_ConfigManager;
 
-        [SerializeField] private int m_CachedBytesSize = 0;
+        [SerializeField] private int m_CachedBytesSize;
 
         /// <summary>
         /// 获取全局配置项数量。
@@ -38,7 +38,6 @@ namespace UnityGameFramework.Runtime
             if (m_ConfigManager == null)
             {
                 Log.Fatal("Config manager is invalid.");
-                return;
             }
         }
 
@@ -54,7 +53,7 @@ namespace UnityGameFramework.Runtime
             m_ConfigManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
 
-            ConfigHelperBase configHelper = new DefaultConfigHelper();
+            IConfigHelper configHelper = new DefaultConfigHelper();
             transform.SetParent(transform);
             transform.localScale = Vector3.one;
 

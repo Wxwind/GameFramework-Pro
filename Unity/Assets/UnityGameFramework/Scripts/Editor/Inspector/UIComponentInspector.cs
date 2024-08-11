@@ -6,12 +6,12 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(UIComponent))]
     internal sealed class UIComponentInspector : GameFrameworkInspector
     {
-        private SerializedProperty m_InstanceAutoReleaseInterval = null;
-        private SerializedProperty m_InstanceCapacity            = null;
-        private SerializedProperty m_InstanceExpireTime          = null;
-        private SerializedProperty m_InstancePriority            = null;
-        private SerializedProperty m_InstanceRoot                = null;
-        private SerializedProperty m_UIGroups                    = null;
+        private SerializedProperty m_InstanceAutoReleaseInterval;
+        private SerializedProperty m_InstanceCapacity;
+        private SerializedProperty m_InstanceExpireTime;
+        private SerializedProperty m_InstancePriority;
+        private SerializedProperty m_InstanceRoot;
+        private SerializedProperty m_UIGroups;
 
 
         public override void OnInspectorGUI()
