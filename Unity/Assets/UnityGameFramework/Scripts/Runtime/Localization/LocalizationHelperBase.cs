@@ -7,7 +7,7 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 本地化辅助器基类。
     /// </summary>
-    public abstract class LocalizationHelperBase : MonoBehaviour, IDataProviderHelper<ILocalizationManager>,
+    public abstract class LocalizationHelperBase : IDataProviderHelper<ILocalizationManager>,
         ILocalizationHelper
     {
         /// <summary>

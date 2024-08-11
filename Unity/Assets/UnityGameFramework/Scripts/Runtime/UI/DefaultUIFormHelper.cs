@@ -6,7 +6,7 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 默认界面辅助器。
     /// </summary>
-    public class DefaultUIFormHelper : UIFormHelperBase
+    public class DefaultUIFormHelper : IUIFormHelper
     {
         private ResourceComponent m_ResourceComponent = null;
 
@@ -15,9 +15,9 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="uiFormAsset">要实例化的界面资源。</param>
         /// <returns>实例化后的界面。</returns>
-        public override object InstantiateUIForm(Object uiFormAsset)
+        public object InstantiateUIForm(Object uiFormAsset)
         {
-            return Instantiate(uiFormAsset);
+            return Object.Instantiate(uiFormAsset);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="uiFormInstance">界面实例。</param>
         /// <param name="uiGroup">界面所属的界面组。</param>
         /// <returns>界面。</returns>
-        public override IUIForm CreateUIForm(GameObject uiFormInstance, IUIGroup uiGroup)
+        public IUIForm CreateUIForm(GameObject uiFormInstance, IUIGroup uiGroup)
         {
             var gameObject = uiFormInstance;
             if (gameObject == null)
@@ -47,10 +47,10 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="uiFormAsset">要释放的界面资源。</param>
         /// <param name="uiFormInstance">要释放的界面实例。</param>
-        public override void ReleaseUIForm(Object uiFormAsset, GameObject uiFormInstance)
+        public void ReleaseUIForm(Object uiFormAsset, GameObject uiFormInstance)
         {
             m_ResourceComponent.UnloadAsset(uiFormAsset);
-            Destroy(uiFormInstance);
+            Object.Destroy(uiFormInstance);
         }
 
         private void Start()

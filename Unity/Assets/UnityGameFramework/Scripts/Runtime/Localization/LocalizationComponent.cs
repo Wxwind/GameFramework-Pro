@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Game;
 using GameFramework;
 using GameFramework.Localization;
 using GameFramework.Resource;
@@ -15,10 +16,6 @@ namespace UnityGameFramework.Runtime
     public sealed class LocalizationComponent : GameFrameworkComponent
     {
         private ILocalizationManager m_LocalizationManager = null;
-
-        [SerializeField] private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
-
-        [SerializeField] private LocalizationHelperBase m_CustomLocalizationHelper = null;
 
         [SerializeField] private int m_CachedBytesSize = 0;
 
@@ -70,19 +67,7 @@ namespace UnityGameFramework.Runtime
 
             m_LocalizationManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
-            var localizationHelper =
-                Helper.CreateHelper(m_LocalizationHelperTypeName, m_CustomLocalizationHelper);
-            if (localizationHelper == null)
-            {
-                Log.Error("Can not create localization helper.");
-                return;
-            }
-
-            localizationHelper.name = "Localization Helper";
-            var transform = localizationHelper.transform;
-            transform.SetParent(this.transform);
-            transform.localScale = Vector3.one;
-
+            var localizationHelper = new JsonLocalizationHelper();
             m_LocalizationManager.SetDataProviderHelper(localizationHelper);
             m_LocalizationManager.SetLocalizationHelper(localizationHelper);
             m_LocalizationManager.Language =

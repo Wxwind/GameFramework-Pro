@@ -22,16 +22,7 @@ namespace UnityGameFramework.Runtime
 
         private readonly List<IEntity> m_InternalEntityResults = new();
 
-
         [SerializeField] private Transform m_InstanceRoot = null;
-
-        [SerializeField] private string m_EntityHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityHelper";
-
-        [SerializeField] private EntityHelperBase m_CustomEntityHelper = null;
-
-        [SerializeField] private string m_EntityGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultEntityGroupHelper";
-
-        [SerializeField] private EntityGroupHelperBase m_CustomEntityGroupHelper = null;
 
         [SerializeField] private EntityGroup[] m_EntityGroups = null;
 
@@ -72,16 +63,14 @@ namespace UnityGameFramework.Runtime
             m_EntityManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
             m_EntityManager.SetObjectPoolManager(GameFrameworkEntry.GetModule<IObjectPoolManager>());
 
-            var entityHelper = Helper.CreateHelper(m_EntityHelperTypeName, m_CustomEntityHelper);
+            var entityHelper = new DefaultEntityHelper();
             if (entityHelper == null)
             {
                 Log.Error("Can not create entity helper.");
                 return;
             }
 
-            entityHelper.name = "Entity Helper";
-            var transform = entityHelper.transform;
-            transform.SetParent(this.transform);
+            transform.SetParent(transform);
             transform.localScale = Vector3.one;
 
             m_EntityManager.SetEntityHelper(entityHelper);
@@ -160,16 +149,8 @@ namespace UnityGameFramework.Runtime
                 return false;
             }
 
-            var entityGroupHelper = Helper.CreateHelper(m_EntityGroupHelperTypeName,
-                m_CustomEntityGroupHelper, EntityGroupCount);
-            if (entityGroupHelper == null)
-            {
-                Log.Error("Can not create entity group helper.");
-                return false;
-            }
+            var entityGroupHelper = gameObject.AddComponent<DefaultEntityGroupHelper>();
 
-            entityGroupHelper.name = Utility.Text.Format("Entity Group - {0}", entityGroupName);
-            var transform = entityGroupHelper.transform;
             transform.SetParent(m_InstanceRoot);
             transform.localScale = Vector3.one;
 

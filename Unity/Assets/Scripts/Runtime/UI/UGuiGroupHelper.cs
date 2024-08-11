@@ -1,18 +1,22 @@
-﻿using UnityEngine;
+﻿using GameFramework.UI;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
     /// <summary>
     ///     uGUI 界面组辅助器。
     /// </summary>
-    public class UGuiGroupHelper : UIGroupHelperBase
+    public class UGuiGroupHelper : MonoBehaviour, IUIGroupHelper
     {
         public const int    DepthFactor = 10000;
         private      Canvas m_CachedCanvas;
 
         private int m_Depth;
+
+        private UGuiGroupHelper(GameObject gameObject)
+        {
+        }
 
         private void Awake()
         {
@@ -36,7 +40,7 @@ namespace Game
         ///     设置界面组深度。
         /// </summary>
         /// <param name="depth">界面组深度。</param>
-        public override void SetDepth(int depth)
+        public void SetDepth(int depth)
         {
             m_Depth = depth;
             m_CachedCanvas.overrideSorting = true;

@@ -6,7 +6,7 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 默认实体辅助器。
     /// </summary>
-    public class DefaultEntityHelper : EntityHelperBase
+    public class DefaultEntityHelper : IEntityHelper
     {
         private ResourceComponent m_ResourceComponent = null;
 
@@ -15,9 +15,9 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="entityAsset">要实例化的实体资源。</param>
         /// <returns>实例化后的实体。</returns>
-        public override object InstantiateEntity(object entityAsset)
+        public object InstantiateEntity(object entityAsset)
         {
-            return Instantiate((Object)entityAsset);
+            return Object.Instantiate((Object)entityAsset);
         }
 
         /// <summary>
@@ -25,9 +25,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="entityInstance">实体实例。</param>
         /// <param name="entityGroup">实体所属的实体组。</param>
-        /// <param name="userData">用户自定义数据。</param>
         /// <returns>实体。</returns>
-        public override IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup)
+        public IEntity CreateEntity(object entityInstance, IEntityGroup entityGroup)
         {
             var gameObject = entityInstance as GameObject;
             if (gameObject == null)
@@ -47,10 +46,10 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="entityAsset">要释放的实体资源。</param>
         /// <param name="entityInstance">要释放的实体实例。</param>
-        public override void ReleaseEntity(Object entityAsset, Object entityInstance)
+        public void ReleaseEntity(Object entityAsset, Object entityInstance)
         {
             m_ResourceComponent.UnloadAsset(entityAsset);
-            Destroy(entityInstance);
+            Object.Destroy(entityInstance);
         }
 
         private void Start()

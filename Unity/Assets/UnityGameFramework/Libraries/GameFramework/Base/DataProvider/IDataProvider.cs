@@ -5,8 +5,7 @@ namespace GameFramework
     /// <summary>
     /// 数据提供者接口。
     /// </summary>
-    /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
-    public interface IDataProvider<T>
+    public interface IDataProvider
     {
         /// <summary>
         /// 读取数据。

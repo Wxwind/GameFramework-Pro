@@ -18,6 +18,16 @@ namespace UnityGameFramework.Runtime
 
         private ResourceComponent m_ResourceComponent = null;
 
+        public DefaultConfigHelper()
+        {
+            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
+            if (m_ResourceComponent == null)
+            {
+                Log.Fatal("Resource component is invalid.");
+                return;
+            }
+        }
+
         /// <summary>
         /// 读取全局配置。
         /// </summary>
@@ -141,16 +151,6 @@ namespace UnityGameFramework.Runtime
         public override void ReleaseDataAsset(IConfigManager configManager, TextAsset configAsset)
         {
             m_ResourceComponent.UnloadAsset(configAsset);
-        }
-
-        private void Start()
-        {
-            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
-            if (m_ResourceComponent == null)
-            {
-                Log.Fatal("Resource component is invalid.");
-                return;
-            }
         }
     }
 }

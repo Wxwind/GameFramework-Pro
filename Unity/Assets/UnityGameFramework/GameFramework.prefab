@@ -88,6 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7eff66e40586ec14d8a301d416f17f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DefaultPackage: DefaultPackage
   m_MinUnloadUnusedAssetsInterval: 60
   m_MaxUnloadUnusedAssetsInterval: 300
 --- !u!1 &109252
@@ -134,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 706e6317a59f61044b2805be79f6b284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocalizationHelperTypeName: GameMain.XmlLocalizationHelper
+  m_LocalizationHelperTypeName: 
   m_CustomLocalizationHelper: {fileID: 0}
   m_CachedBytesSize: 0
 --- !u!1 &110832
@@ -448,8 +449,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6e05d8d843cd94bb9aa026ed5dc517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SettingHelperTypeName: UnityGameFramework.Runtime.DefaultSettingHelper
-  m_CustomSettingHelper: {fileID: 0}
 --- !u!1 &137260
 GameObject:
   m_ObjectHideFlags: 0

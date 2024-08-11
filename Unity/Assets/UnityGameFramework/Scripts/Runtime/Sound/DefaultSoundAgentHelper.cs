@@ -11,7 +11,7 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 默认声音代理辅助器。
     /// </summary>
-    public class DefaultSoundAgentHelper : SoundAgentHelperBase
+    public class DefaultSoundAgentHelper : MonoBehaviour, ISoundAgentHelper
     {
         private Transform   m_CachedTransform      = null;
         private AudioSource m_AudioSource          = null;
@@ -22,17 +22,17 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取当前是否正在播放。
         /// </summary>
-        public override bool IsPlaying => m_AudioSource.isPlaying;
+        public bool IsPlaying => m_AudioSource.isPlaying;
 
         /// <summary>
         /// 获取声音长度。
         /// </summary>
-        public override float Length => m_AudioSource.clip != null ? m_AudioSource.clip.length : 0f;
+        public float Length => m_AudioSource.clip != null ? m_AudioSource.clip.length : 0f;
 
         /// <summary>
         /// 获取或设置播放位置。
         /// </summary>
-        public override float Time
+        public float Time
         {
             get => m_AudioSource.time;
             set => m_AudioSource.time = value;
@@ -41,7 +41,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置是否静音。
         /// </summary>
-        public override bool Mute
+        public bool Mute
         {
             get => m_AudioSource.mute;
             set => m_AudioSource.mute = value;
@@ -50,7 +50,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置是否循环播放。
         /// </summary>
-        public override bool Loop
+        public bool Loop
         {
             get => m_AudioSource.loop;
             set => m_AudioSource.loop = value;
@@ -59,7 +59,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音优先级。
         /// </summary>
-        public override int Priority
+        public int Priority
         {
             get => 128 - m_AudioSource.priority;
             set => m_AudioSource.priority = 128 - value;
@@ -68,7 +68,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置音量大小。
         /// </summary>
-        public override float Volume
+        public float Volume
         {
             get => m_AudioSource.volume;
             set => m_AudioSource.volume = value;
@@ -77,7 +77,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音音调。
         /// </summary>
-        public override float Pitch
+        public float Pitch
         {
             get => m_AudioSource.pitch;
             set => m_AudioSource.pitch = value;
@@ -86,7 +86,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音立体声声相。
         /// </summary>
-        public override float PanStereo
+        public float PanStereo
         {
             get => m_AudioSource.panStereo;
             set => m_AudioSource.panStereo = value;
@@ -95,7 +95,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音空间混合量。
         /// </summary>
-        public override float SpatialBlend
+        public float SpatialBlend
         {
             get => m_AudioSource.spatialBlend;
             set => m_AudioSource.spatialBlend = value;
@@ -104,7 +104,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音最大距离。
         /// </summary>
-        public override float MaxDistance
+        public float MaxDistance
         {
             get => m_AudioSource.maxDistance;
 
@@ -114,7 +114,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音多普勒等级。
         /// </summary>
-        public override float DopplerLevel
+        public float DopplerLevel
         {
             get => m_AudioSource.dopplerLevel;
             set => m_AudioSource.dopplerLevel = value;
@@ -123,7 +123,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置声音代理辅助器所在的混音组。
         /// </summary>
-        public override AudioMixerGroup AudioMixerGroup
+        public AudioMixerGroup AudioMixerGroup
         {
             get => m_AudioSource.outputAudioMixerGroup;
             set => m_AudioSource.outputAudioMixerGroup = value;
@@ -132,20 +132,21 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 重置声音代理事件。
         /// </summary>
-        public override event Action ResetSoundAgent;
+        public event Action ResetSoundAgent;
+
 
         /// <summary>
         /// 播放声音。
         /// </summary>
         /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
-        public override void Play(float fadeInSeconds)
+        public void Play(float fadeInSeconds)
         {
             StopAllCoroutines();
 
             m_AudioSource.Play();
             if (fadeInSeconds > 0f)
             {
-                float volume = m_AudioSource.volume;
+                var volume = m_AudioSource.volume;
                 m_AudioSource.volume = 0f;
                 StartCoroutine(FadeToVolume(m_AudioSource, volume, fadeInSeconds));
             }
@@ -155,7 +156,7 @@ namespace UnityGameFramework.Runtime
         /// 停止播放声音。
         /// </summary>
         /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
-        public override void Stop(float fadeOutSeconds)
+        public void Stop(float fadeOutSeconds)
         {
             StopAllCoroutines();
 
@@ -173,7 +174,7 @@ namespace UnityGameFramework.Runtime
         /// 暂停播放声音。
         /// </summary>
         /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
-        public override void Pause(float fadeOutSeconds)
+        public void Pause(float fadeOutSeconds)
         {
             StopAllCoroutines();
 
@@ -192,7 +193,7 @@ namespace UnityGameFramework.Runtime
         /// 恢复播放声音。
         /// </summary>
         /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
-        public override void Resume(float fadeInSeconds)
+        public void Resume(float fadeInSeconds)
         {
             StopAllCoroutines();
 
@@ -210,7 +211,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 重置声音代理辅助器。
         /// </summary>
-        public override void Reset()
+        public void Reset()
         {
             m_CachedTransform.localPosition = Vector3.zero;
             m_AudioSource.clip = null;
@@ -223,7 +224,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="soundAsset">声音资源。</param>
         /// <returns>是否设置声音资源成功。</returns>
-        public override bool SetSoundAsset(object soundAsset)
+        public bool SetSoundAsset(object soundAsset)
         {
             var audioClip = soundAsset as AudioClip;
             if (audioClip == null)
@@ -239,7 +240,7 @@ namespace UnityGameFramework.Runtime
         /// 设置声音绑定的实体。
         /// </summary>
         /// <param name="bindingEntity">声音绑定的实体。</param>
-        public override void SetBindingEntity(IEntity bindingEntity)
+        public void SetBindingEntity(IEntity bindingEntity)
         {
             m_BindingEntityLogic = (bindingEntity as Entity).Logic;
             if (m_BindingEntityLogic != null)
@@ -260,7 +261,7 @@ namespace UnityGameFramework.Runtime
         /// 设置声音所在的世界坐标。
         /// </summary>
         /// <param name="worldPosition">声音所在的世界坐标。</param>
-        public override void SetWorldPosition(Vector3 worldPosition)
+        public void SetWorldPosition(Vector3 worldPosition)
         {
             m_CachedTransform.position = worldPosition;
         }
@@ -300,7 +301,6 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-
             ResetSoundAgent?.Invoke();
         }
 
@@ -318,8 +318,8 @@ namespace UnityGameFramework.Runtime
 
         private IEnumerator FadeToVolume(AudioSource audioSource, float volume, float duration)
         {
-            float time = 0f;
-            float originalVolume = audioSource.volume;
+            var time = 0f;
+            var originalVolume = audioSource.volume;
             while (time < duration)
             {
                 time += UnityEngine.Time.deltaTime;

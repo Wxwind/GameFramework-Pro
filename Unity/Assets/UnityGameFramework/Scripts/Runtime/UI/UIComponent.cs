@@ -32,14 +32,6 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private Transform m_InstanceRoot = null;
 
-        [SerializeField] private string m_UIFormHelperTypeName = "UnityGameFramework.Runtime.DefaultUIFormHelper";
-
-        [SerializeField] private UIFormHelperBase m_CustomUIFormHelper = null;
-
-        [SerializeField] private string m_UIGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultUIGroupHelper";
-
-        [SerializeField] private UIGroupHelperBase m_CustomUIGroupHelper = null;
-
         [SerializeField] private UIGroup[] m_UIGroups = null;
 
         /// <summary>
@@ -115,16 +107,8 @@ namespace UnityGameFramework.Runtime
             m_UIManager.InstanceExpireTime = m_InstanceExpireTime;
             m_UIManager.InstancePriority = m_InstancePriority;
 
-            var uiFormHelper = Helper.CreateHelper(m_UIFormHelperTypeName, m_CustomUIFormHelper);
-            if (uiFormHelper == null)
-            {
-                Log.Error("Can not create UI form helper.");
-                return;
-            }
-
-            uiFormHelper.name = "UI Form Helper";
-            var transform = uiFormHelper.transform;
-            transform.SetParent(this.transform);
+            IUIFormHelper uiFormHelper = new DefaultUIFormHelper();
+            transform.SetParent(transform);
             transform.localScale = Vector3.one;
 
             m_UIManager.SetUIFormHelper(uiFormHelper);
@@ -209,19 +193,13 @@ namespace UnityGameFramework.Runtime
                 return false;
             }
 
-            var uiGroupHelper =
-                Helper.CreateHelper(m_UIGroupHelperTypeName, m_CustomUIGroupHelper, UIGroupCount);
-            if (uiGroupHelper == null)
-            {
-                Log.Error("Can not create UI group helper.");
-                return false;
-            }
-
-            uiGroupHelper.name = Utility.Text.Format("UI Group - {0}", uiGroupName);
-            uiGroupHelper.gameObject.layer = LayerMask.NameToLayer("UI");
-            var transform = uiGroupHelper.transform;
+            var go = new GameObject();
+            go.name = Utility.Text.Format("UI Group - {0}", uiGroupName);
+            go.layer = LayerMask.NameToLayer("UI");
+            var transform = go.transform;
             transform.SetParent(m_InstanceRoot);
             transform.localScale = Vector3.one;
+            IUIGroupHelper uiGroupHelper = go.AddComponent<DefaultUIGroupHelper>();
 
             return m_UIManager.AddUIGroup(uiGroupName, depth, uiGroupHelper);
         }

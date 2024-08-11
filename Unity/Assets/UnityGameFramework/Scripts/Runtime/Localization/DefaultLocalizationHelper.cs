@@ -18,6 +18,16 @@ namespace UnityGameFramework.Runtime
 
         private ResourceComponent m_ResourceComponent = null;
 
+        public DefaultLocalizationHelper()
+        {
+            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
+            if (m_ResourceComponent == null)
+            {
+                Log.Fatal("Resource component is invalid.");
+                return;
+            }
+        }
+
         /// <summary>
         /// 获取系统语言。
         /// </summary>
@@ -204,16 +214,6 @@ namespace UnityGameFramework.Runtime
         public override void ReleaseDataAsset(ILocalizationManager localizationManager, TextAsset dictionaryAsset)
         {
             m_ResourceComponent.UnloadAsset(dictionaryAsset);
-        }
-
-        private void Start()
-        {
-            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
-            if (m_ResourceComponent == null)
-            {
-                Log.Fatal("Resource component is invalid.");
-                return;
-            }
         }
     }
 }

@@ -10,9 +10,6 @@ namespace UnityGameFramework.Editor
         private SerializedProperty m_InstanceRoot = null;
         private SerializedProperty m_EntityGroups = null;
 
-        private HelperInfo<EntityHelperBase>      m_EntityHelperInfo      = new("Entity");
-        private HelperInfo<EntityGroupHelperBase> m_EntityGroupHelperInfo = new("EntityGroup");
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -24,8 +21,6 @@ namespace UnityGameFramework.Editor
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
                 EditorGUILayout.PropertyField(m_InstanceRoot);
-                m_EntityHelperInfo.Draw();
-                m_EntityGroupHelperInfo.Draw();
                 EditorGUILayout.PropertyField(m_EntityGroups, true);
             }
             EditorGUI.EndDisabledGroup();
@@ -58,16 +53,11 @@ namespace UnityGameFramework.Editor
             m_InstanceRoot = serializedObject.FindProperty("m_InstanceRoot");
             m_EntityGroups = serializedObject.FindProperty("m_EntityGroups");
 
-            m_EntityHelperInfo.Init(serializedObject);
-            m_EntityGroupHelperInfo.Init(serializedObject);
-
             RefreshTypeNames();
         }
 
         private void RefreshTypeNames()
         {
-            m_EntityHelperInfo.Refresh();
-            m_EntityGroupHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
         }
     }

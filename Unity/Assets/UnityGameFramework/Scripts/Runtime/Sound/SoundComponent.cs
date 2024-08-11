@@ -23,18 +23,6 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField] private AudioMixer m_AudioMixer;
 
-        [SerializeField] private string m_SoundHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundHelper";
-
-        [SerializeField] private SoundHelperBase m_CustomSoundHelper;
-
-        [SerializeField] private string m_SoundGroupHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundGroupHelper";
-
-        [SerializeField] private SoundGroupHelperBase m_CustomSoundGroupHelper;
-
-        [SerializeField] private string m_SoundAgentHelperTypeName = "UnityGameFramework.Runtime.DefaultSoundAgentHelper";
-
-        [SerializeField] private SoundAgentHelperBase m_CustomSoundAgentHelper;
-
         [SerializeField] private SoundGroup[] m_SoundGroups;
 
         /// <summary>
@@ -78,16 +66,8 @@ namespace UnityGameFramework.Runtime
 
             m_SoundManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
-            var soundHelper = Helper.CreateHelper(m_SoundHelperTypeName, m_CustomSoundHelper);
-            if (soundHelper == null)
-            {
-                Log.Error("Can not create sound helper.");
-                return;
-            }
-
-            soundHelper.name = "Sound Helper";
-            var transform = soundHelper.transform;
-            transform.SetParent(this.transform);
+            var soundHelper = new DefaultSoundHelper();
+            transform.SetParent(transform);
             transform.localScale = Vector3.one;
 
             m_SoundManager.SetSoundHelper(soundHelper);
@@ -181,16 +161,7 @@ namespace UnityGameFramework.Runtime
                 return false;
             }
 
-            var soundGroupHelper =
-                Helper.CreateHelper(m_SoundGroupHelperTypeName, m_CustomSoundGroupHelper, SoundGroupCount);
-            if (soundGroupHelper == null)
-            {
-                Log.Error("Can not create sound group helper.");
-                return false;
-            }
-
-            soundGroupHelper.name = Utility.Text.Format("Sound Group - {0}", soundGroupName);
-            var transform = soundGroupHelper.transform;
+            SoundGroupHelperBase soundGroupHelper = new GameObject(soundGroupName).AddComponent<DefaultSoundGroupHelper>();
             transform.SetParent(m_InstanceRoot);
             transform.localScale = Vector3.one;
 
@@ -427,18 +398,13 @@ namespace UnityGameFramework.Runtime
         /// <returns>是否增加声音代理辅助器成功。</returns>
         private bool AddSoundAgentHelper(string soundGroupName, SoundGroupHelperBase soundGroupHelper, int index)
         {
-            var soundAgentHelper =
-                Helper.CreateHelper(m_SoundAgentHelperTypeName, m_CustomSoundAgentHelper, index);
-            if (soundAgentHelper == null)
-            {
-                Log.Error("Can not create sound agent helper.");
-                return false;
-            }
-
-            soundAgentHelper.name = Utility.Text.Format("Sound Agent Helper - {0} - {1}", soundGroupName, index);
-            var transform = soundAgentHelper.transform;
+            var go = new GameObject();
+            go.name = Utility.Text.Format("Sound Agent Helper - {0} - {1}", soundGroupName, index);
+            var transform = go.transform;
             transform.SetParent(soundGroupHelper.transform);
             transform.localScale = Vector3.one;
+
+            var soundAgentHelper = go.AddComponent<DefaultSoundAgentHelper>();
 
             if (m_AudioMixer != null)
             {

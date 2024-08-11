@@ -1,7 +1,8 @@
-﻿using GameFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using GameFramework;
+using GameFramework.Setting;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -9,63 +10,49 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 默认游戏配置辅助器。
     /// </summary>
-    public class DefaultSettingHelper : SettingHelperBase
+    public class DefaultSettingHelper : ISettingHelper
     {
         private const string SettingFileName = "GameFrameworkSetting.dat";
 
-        private string m_FilePath = null;
-        private DefaultSetting m_Settings = null;
+        private string                   m_FilePath   = null;
+        private DefaultSetting           m_Settings   = null;
         private DefaultSettingSerializer m_Serializer = null;
 
         /// <summary>
         /// 获取游戏配置项数量。
         /// </summary>
-        public override int Count
-        {
-            get
-            {
-                return m_Settings != null ? m_Settings.Count : 0;
-            }
-        }
+        public int Count => m_Settings != null ? m_Settings.Count : 0;
 
         /// <summary>
         /// 获取游戏配置存储文件路径。
         /// </summary>
-        public string FilePath
-        {
-            get
-            {
-                return m_FilePath;
-            }
-        }
+        public string FilePath => m_FilePath;
 
         /// <summary>
         /// 获取游戏配置。
         /// </summary>
-        public DefaultSetting Setting
-        {
-            get
-            {
-                return m_Settings;
-            }
-        }
+        public DefaultSetting Setting => m_Settings;
 
         /// <summary>
         /// 获取游戏配置序列化器。
         /// </summary>
-        public DefaultSettingSerializer Serializer
+        public DefaultSettingSerializer Serializer => m_Serializer;
+
+
+        public DefaultSettingHelper()
         {
-            get
-            {
-                return m_Serializer;
-            }
+            m_FilePath = Utility.Path.GetRegularPath(Path.Combine(Application.persistentDataPath, SettingFileName));
+            m_Settings = new DefaultSetting();
+            m_Serializer = new DefaultSettingSerializer();
+            m_Serializer.RegisterSerializeCallback(0, SerializeDefaultSettingCallback);
+            m_Serializer.RegisterDeserializeCallback(0, DeserializeDefaultSettingCallback);
         }
 
         /// <summary>
         /// 加载游戏配置。
         /// </summary>
         /// <returns>是否加载游戏配置成功。</returns>
-        public override bool Load()
+        public bool Load()
         {
             try
             {
@@ -74,7 +61,7 @@ namespace UnityGameFramework.Runtime
                     return true;
                 }
 
-                using (FileStream fileStream = new FileStream(m_FilePath, FileMode.Open, FileAccess.Read))
+                using (var fileStream = new FileStream(m_FilePath, FileMode.Open, FileAccess.Read))
                 {
                     m_Serializer.Deserialize(fileStream);
                     return true;
@@ -91,11 +78,11 @@ namespace UnityGameFramework.Runtime
         /// 保存游戏配置。
         /// </summary>
         /// <returns>是否保存游戏配置成功。</returns>
-        public override bool Save()
+        public bool Save()
         {
             try
             {
-                using (FileStream fileStream = new FileStream(m_FilePath, FileMode.Create, FileAccess.Write))
+                using (var fileStream = new FileStream(m_FilePath, FileMode.Create, FileAccess.Write))
                 {
                     return m_Serializer.Serialize(fileStream, m_Settings);
                 }
@@ -111,7 +98,7 @@ namespace UnityGameFramework.Runtime
         /// 获取所有游戏配置项的名称。
         /// </summary>
         /// <returns>所有游戏配置项的名称。</returns>
-        public override string[] GetAllSettingNames()
+        public string[] GetAllSettingNames()
         {
             return m_Settings.GetAllSettingNames();
         }
@@ -120,7 +107,7 @@ namespace UnityGameFramework.Runtime
         /// 获取所有游戏配置项的名称。
         /// </summary>
         /// <param name="results">所有游戏配置项的名称。</param>
-        public override void GetAllSettingNames(List<string> results)
+        public void GetAllSettingNames(List<string> results)
         {
             m_Settings.GetAllSettingNames(results);
         }
@@ -130,7 +117,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要检查游戏配置项的名称。</param>
         /// <returns>指定的游戏配置项是否存在。</returns>
-        public override bool HasSetting(string settingName)
+        public bool HasSetting(string settingName)
         {
             return m_Settings.HasSetting(settingName);
         }
@@ -140,7 +127,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要移除游戏配置项的名称。</param>
         /// <returns>是否移除指定游戏配置项成功。</returns>
-        public override bool RemoveSetting(string settingName)
+        public bool RemoveSetting(string settingName)
         {
             return m_Settings.RemoveSetting(settingName);
         }
@@ -148,7 +135,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 清空所有游戏配置项。
         /// </summary>
-        public override void RemoveAllSettings()
+        public void RemoveAllSettings()
         {
             m_Settings.RemoveAllSettings();
         }
@@ -158,7 +145,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <returns>读取的布尔值。</returns>
-        public override bool GetBool(string settingName)
+        public bool GetBool(string settingName)
         {
             return m_Settings.GetBool(settingName);
         }
@@ -169,7 +156,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <param name="defaultValue">当指定的游戏配置项不存在时，返回此默认值。</param>
         /// <returns>读取的布尔值。</returns>
-        public override bool GetBool(string settingName, bool defaultValue)
+        public bool GetBool(string settingName, bool defaultValue)
         {
             return m_Settings.GetBool(settingName, defaultValue);
         }
@@ -179,7 +166,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要写入游戏配置项的名称。</param>
         /// <param name="value">要写入的布尔值。</param>
-        public override void SetBool(string settingName, bool value)
+        public void SetBool(string settingName, bool value)
         {
             m_Settings.SetBool(settingName, value);
         }
@@ -189,7 +176,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <returns>读取的整数值。</returns>
-        public override int GetInt(string settingName)
+        public int GetInt(string settingName)
         {
             return m_Settings.GetInt(settingName);
         }
@@ -200,7 +187,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <param name="defaultValue">当指定的游戏配置项不存在时，返回此默认值。</param>
         /// <returns>读取的整数值。</returns>
-        public override int GetInt(string settingName, int defaultValue)
+        public int GetInt(string settingName, int defaultValue)
         {
             return m_Settings.GetInt(settingName, defaultValue);
         }
@@ -210,7 +197,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要写入游戏配置项的名称。</param>
         /// <param name="value">要写入的整数值。</param>
-        public override void SetInt(string settingName, int value)
+        public void SetInt(string settingName, int value)
         {
             m_Settings.SetInt(settingName, value);
         }
@@ -220,7 +207,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <returns>读取的浮点数值。</returns>
-        public override float GetFloat(string settingName)
+        public float GetFloat(string settingName)
         {
             return m_Settings.GetFloat(settingName);
         }
@@ -231,7 +218,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <param name="defaultValue">当指定的游戏配置项不存在时，返回此默认值。</param>
         /// <returns>读取的浮点数值。</returns>
-        public override float GetFloat(string settingName, float defaultValue)
+        public float GetFloat(string settingName, float defaultValue)
         {
             return m_Settings.GetFloat(settingName, defaultValue);
         }
@@ -241,7 +228,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要写入游戏配置项的名称。</param>
         /// <param name="value">要写入的浮点数值。</param>
-        public override void SetFloat(string settingName, float value)
+        public void SetFloat(string settingName, float value)
         {
             m_Settings.SetFloat(settingName, value);
         }
@@ -251,7 +238,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <returns>读取的字符串值。</returns>
-        public override string GetString(string settingName)
+        public string GetString(string settingName)
         {
             return m_Settings.GetString(settingName);
         }
@@ -262,7 +249,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <param name="defaultValue">当指定的游戏配置项不存在时，返回此默认值。</param>
         /// <returns>读取的字符串值。</returns>
-        public override string GetString(string settingName, string defaultValue)
+        public string GetString(string settingName, string defaultValue)
         {
             return m_Settings.GetString(settingName, defaultValue);
         }
@@ -272,7 +259,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要写入游戏配置项的名称。</param>
         /// <param name="value">要写入的字符串值。</param>
-        public override void SetString(string settingName, string value)
+        public void SetString(string settingName, string value)
         {
             m_Settings.SetString(settingName, value);
         }
@@ -283,7 +270,7 @@ namespace UnityGameFramework.Runtime
         /// <typeparam name="T">要读取对象的类型。</typeparam>
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <returns>读取的对象。</returns>
-        public override T GetObject<T>(string settingName)
+        public T GetObject<T>(string settingName)
         {
             return Utility.Json.ToObject<T>(GetString(settingName));
         }
@@ -294,7 +281,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="objectType">要读取对象的类型。</param>
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <returns>读取的对象。</returns>
-        public override object GetObject(Type objectType, string settingName)
+        public object GetObject(Type objectType, string settingName)
         {
             return Utility.Json.ToObject(objectType, GetString(settingName));
         }
@@ -306,9 +293,9 @@ namespace UnityGameFramework.Runtime
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <param name="defaultObj">当指定的游戏配置项不存在时，返回此默认对象。</param>
         /// <returns>读取的对象。</returns>
-        public override T GetObject<T>(string settingName, T defaultObj)
+        public T GetObject<T>(string settingName, T defaultObj)
         {
-            string json = GetString(settingName, null);
+            var json = GetString(settingName, null);
             if (json == null)
             {
                 return defaultObj;
@@ -324,9 +311,9 @@ namespace UnityGameFramework.Runtime
         /// <param name="settingName">要获取游戏配置项的名称。</param>
         /// <param name="defaultObj">当指定的游戏配置项不存在时，返回此默认对象。</param>
         /// <returns>读取的对象。</returns>
-        public override object GetObject(Type objectType, string settingName, object defaultObj)
+        public object GetObject(Type objectType, string settingName, object defaultObj)
         {
-            string json = GetString(settingName, null);
+            var json = GetString(settingName, null);
             if (json == null)
             {
                 return defaultObj;
@@ -341,7 +328,7 @@ namespace UnityGameFramework.Runtime
         /// <typeparam name="T">要写入对象的类型。</typeparam>
         /// <param name="settingName">要写入游戏配置项的名称。</param>
         /// <param name="obj">要写入的对象。</param>
-        public override void SetObject<T>(string settingName, T obj)
+        public void SetObject<T>(string settingName, T obj)
         {
             SetString(settingName, Utility.Json.ToJson(obj));
         }
@@ -351,18 +338,9 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="settingName">要写入游戏配置项的名称。</param>
         /// <param name="obj">要写入的对象。</param>
-        public override void SetObject(string settingName, object obj)
+        public void SetObject(string settingName, object obj)
         {
             SetString(settingName, Utility.Json.ToJson(obj));
-        }
-
-        private void Awake()
-        {
-            m_FilePath = Utility.Path.GetRegularPath(Path.Combine(Application.persistentDataPath, SettingFileName));
-            m_Settings = new DefaultSetting();
-            m_Serializer = new DefaultSettingSerializer();
-            m_Serializer.RegisterSerializeCallback(0, SerializeDefaultSettingCallback);
-            m_Serializer.RegisterDeserializeCallback(0, DeserializeDefaultSettingCallback);
         }
 
         private bool SerializeDefaultSettingCallback(Stream stream, DefaultSetting defaultSetting)

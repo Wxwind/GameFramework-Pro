@@ -8,8 +8,6 @@ namespace UnityGameFramework.Editor
     {
         private SerializedProperty m_CachedBytesSize = null;
 
-        private HelperInfo<ConfigHelperBase> m_ConfigHelperInfo = new("Config");
-
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -20,7 +18,6 @@ namespace UnityGameFramework.Editor
 
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
-                m_ConfigHelperInfo.Draw();
                 EditorGUILayout.PropertyField(m_CachedBytesSize);
             }
             EditorGUI.EndDisabledGroup();
@@ -47,14 +44,12 @@ namespace UnityGameFramework.Editor
         {
             m_CachedBytesSize = serializedObject.FindProperty("m_CachedBytesSize");
 
-            m_ConfigHelperInfo.Init(serializedObject);
 
             RefreshTypeNames();
         }
 
         private void RefreshTypeNames()
         {
-            m_ConfigHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
         }
     }

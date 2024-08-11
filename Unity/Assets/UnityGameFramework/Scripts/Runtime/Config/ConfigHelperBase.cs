@@ -7,7 +7,7 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 全局配置辅助器基类。
     /// </summary>
-    public abstract class ConfigHelperBase : MonoBehaviour, IDataProviderHelper<IConfigManager>, IConfigHelper
+    public abstract class ConfigHelperBase : IDataProviderHelper<IConfigManager>, IConfigHelper
     {
         /// <summary>
         /// 读取全局配置。

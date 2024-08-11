@@ -5,7 +5,7 @@ namespace GameFramework.Localization
     /// <summary>
     /// 本地化管理器接口。
     /// </summary>
-    public interface ILocalizationManager : IDataProvider<ILocalizationManager>
+    public interface ILocalizationManager : IDataProvider
     {
         /// <summary>
         /// 获取或设置本地化语言。

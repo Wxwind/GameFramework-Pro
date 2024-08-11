@@ -1,6 +1,6 @@
-﻿using GameFramework;
+﻿using System.Collections.Generic;
+using GameFramework;
 using GameFramework.FileSystem;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -14,22 +14,10 @@ namespace UnityGameFramework.Runtime
     {
         private IFileSystemManager m_FileSystemManager = null;
 
-        [SerializeField]
-        private string m_FileSystemHelperTypeName = "UnityGameFramework.Runtime.DefaultFileSystemHelper";
-
-        [SerializeField]
-        private FileSystemHelperBase m_CustomFileSystemHelper = null;
-
         /// <summary>
         /// 获取文件系统数量。
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return m_FileSystemManager.Count;
-            }
-        }
+        public int Count => m_FileSystemManager.Count;
 
         /// <summary>
         /// 游戏框架组件初始化。
@@ -45,16 +33,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            FileSystemHelperBase fileSystemHelper = Helper.CreateHelper(m_FileSystemHelperTypeName, m_CustomFileSystemHelper);
-            if (fileSystemHelper == null)
-            {
-                Log.Error("Can not create fileSystem helper.");
-                return;
-            }
-
-            fileSystemHelper.name = "FileSystem Helper";
-            Transform transform = fileSystemHelper.transform;
-            transform.SetParent(this.transform);
+            IFileSystemHelper fileSystemHelper = new DefaultFileSystemHelper();
+            transform.SetParent(transform);
             transform.localScale = Vector3.one;
 
             m_FileSystemManager.SetFileSystemHelper(fileSystemHelper);

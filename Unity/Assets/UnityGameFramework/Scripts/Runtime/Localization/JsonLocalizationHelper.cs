@@ -9,7 +9,7 @@ using UnityGameFramework.Runtime;
 namespace Game
 {
     /// <summary>
-    ///     XML 格式的本地化辅助器。
+    ///     JSON 格式的本地化辅助器。
     /// </summary>
     public class JsonLocalizationHelper : DefaultLocalizationHelper
     {
@@ -26,7 +26,7 @@ namespace Game
                 var jsonObject = (JSONObject)JSONNode.Parse(dictionaryString);
                 foreach (var pair in jsonObject)
                 {
-                    string dictionaryKey = pair.Key;
+                    var dictionaryKey = pair.Key;
                     string dictionaryValue = pair.Value;
                     if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                     {
@@ -58,8 +58,8 @@ namespace Game
                     {
                         while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
                         {
-                            string dictionaryKey = binaryReader.ReadString();
-                            string dictionaryValue = binaryReader.ReadString();
+                            var dictionaryKey = binaryReader.ReadString();
+                            var dictionaryValue = binaryReader.ReadString();
                             if (!localizationManager.AddRawString(dictionaryKey, dictionaryValue))
                             {
                                 throw new GameFrameworkException($"Can not add raw string with key '{dictionaryKey}' which may be invalid or duplicate.");

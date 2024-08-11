@@ -8,8 +8,6 @@ namespace UnityGameFramework.Editor
     {
         private SerializedProperty m_CachedBytesSize = null;
 
-        private HelperInfo<LocalizationHelperBase> m_LocalizationHelperInfo =
-            new HelperInfo<LocalizationHelperBase>("Localization");
 
         public override void OnInspectorGUI()
         {
@@ -17,11 +15,10 @@ namespace UnityGameFramework.Editor
 
             serializedObject.Update();
 
-            LocalizationComponent t = (LocalizationComponent)target;
+            var t = (LocalizationComponent)target;
 
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
-                m_LocalizationHelperInfo.Draw();
                 EditorGUILayout.PropertyField(m_CachedBytesSize);
             }
             EditorGUI.EndDisabledGroup();
@@ -50,14 +47,11 @@ namespace UnityGameFramework.Editor
         {
             m_CachedBytesSize = serializedObject.FindProperty("m_CachedBytesSize");
 
-            m_LocalizationHelperInfo.Init(serializedObject);
-
             RefreshTypeNames();
         }
 
         private void RefreshTypeNames()
         {
-            m_LocalizationHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
         }
     }

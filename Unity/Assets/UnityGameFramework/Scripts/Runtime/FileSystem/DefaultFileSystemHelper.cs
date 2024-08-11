@@ -1,12 +1,12 @@
-﻿using GameFramework.FileSystem;
-using System;
+﻿using System;
+using GameFramework.FileSystem;
 
 namespace UnityGameFramework.Runtime
 {
     /// <summary>
     /// 默认文件系统辅助器。
     /// </summary>
-    public class DefaultFileSystemHelper : FileSystemHelperBase
+    public class DefaultFileSystemHelper : IFileSystemHelper
     {
         private const string AndroidFileSystemPrefixString = "jar:";
 
@@ -17,7 +17,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="access">要加载的文件系统的访问方式。</param>
         /// <param name="createNew">是否创建新的文件系统流。</param>
         /// <returns>创建的文件系统流。</returns>
-        public override FileSystemStream CreateFileSystemStream(string fullPath, FileSystemAccess access, bool createNew)
+        public FileSystemStream CreateFileSystemStream(string fullPath, FileSystemAccess access, bool createNew)
         {
             if (fullPath.StartsWith(AndroidFileSystemPrefixString, StringComparison.Ordinal))
             {

@@ -13,7 +13,6 @@ namespace GameFramework.Sound
         /// </summary>
         int SoundGroupCount { get; }
 
-
         /// <summary>
         /// 设置资源管理器。
         /// </summary>

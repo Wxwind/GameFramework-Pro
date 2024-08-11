@@ -7,16 +7,9 @@ namespace UnityGameFramework.Editor
     internal sealed class SoundComponentInspector : GameFrameworkInspector
     {
         private SerializedProperty m_InstanceRoot = null;
-        private SerializedProperty m_AudioMixer = null;
-        private SerializedProperty m_SoundGroups = null;
+        private SerializedProperty m_AudioMixer   = null;
+        private SerializedProperty m_SoundGroups  = null;
 
-        private HelperInfo<SoundHelperBase> m_SoundHelperInfo = new HelperInfo<SoundHelperBase>("Sound");
-
-        private HelperInfo<SoundGroupHelperBase> m_SoundGroupHelperInfo =
-            new HelperInfo<SoundGroupHelperBase>("SoundGroup");
-
-        private HelperInfo<SoundAgentHelperBase> m_SoundAgentHelperInfo =
-            new HelperInfo<SoundAgentHelperBase>("SoundAgent");
 
         public override void OnInspectorGUI()
         {
@@ -24,15 +17,12 @@ namespace UnityGameFramework.Editor
 
             serializedObject.Update();
 
-            SoundComponent t = (SoundComponent)target;
+            var t = (SoundComponent)target;
 
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
                 EditorGUILayout.PropertyField(m_InstanceRoot);
                 EditorGUILayout.PropertyField(m_AudioMixer);
-                m_SoundHelperInfo.Draw();
-                m_SoundGroupHelperInfo.Draw();
-                m_SoundAgentHelperInfo.Draw();
                 EditorGUILayout.PropertyField(m_SoundGroups, true);
             }
             EditorGUI.EndDisabledGroup();
@@ -60,18 +50,12 @@ namespace UnityGameFramework.Editor
             m_AudioMixer = serializedObject.FindProperty("m_AudioMixer");
             m_SoundGroups = serializedObject.FindProperty("m_SoundGroups");
 
-            m_SoundHelperInfo.Init(serializedObject);
-            m_SoundGroupHelperInfo.Init(serializedObject);
-            m_SoundAgentHelperInfo.Init(serializedObject);
 
             RefreshTypeNames();
         }
 
         private void RefreshTypeNames()
         {
-            m_SoundHelperInfo.Refresh();
-            m_SoundGroupHelperInfo.Refresh();
-            m_SoundAgentHelperInfo.Refresh();
             serializedObject.ApplyModifiedProperties();
         }
     }

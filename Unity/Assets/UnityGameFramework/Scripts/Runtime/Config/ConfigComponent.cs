@@ -15,10 +15,6 @@ namespace UnityGameFramework.Runtime
     {
         private IConfigManager m_ConfigManager = null;
 
-        [SerializeField] private string m_ConfigHelperTypeName = "UnityGameFramework.Runtime.DefaultConfigHelper";
-
-        [SerializeField] private ConfigHelperBase m_CustomConfigHelper = null;
-
         [SerializeField] private int m_CachedBytesSize = 0;
 
         /// <summary>
@@ -58,16 +54,8 @@ namespace UnityGameFramework.Runtime
             m_ConfigManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
 
-            var configHelper = Helper.CreateHelper(m_ConfigHelperTypeName, m_CustomConfigHelper);
-            if (configHelper == null)
-            {
-                Log.Error("Can not create config helper.");
-                return;
-            }
-
-            configHelper.name = "Config Helper";
-            var transform = configHelper.transform;
-            transform.SetParent(this.transform);
+            ConfigHelperBase configHelper = new DefaultConfigHelper();
+            transform.SetParent(transform);
             transform.localScale = Vector3.one;
 
             m_ConfigManager.SetDataProviderHelper(configHelper);

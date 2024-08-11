@@ -5,7 +5,7 @@ namespace GameFramework.Config
     /// <summary>
     /// 全局配置管理器接口。
     /// </summary>
-    public interface IConfigManager : IDataProvider<IConfigManager>
+    public interface IConfigManager : IDataProvider
     {
         /// <summary>
         /// 获取全局配置项数量。

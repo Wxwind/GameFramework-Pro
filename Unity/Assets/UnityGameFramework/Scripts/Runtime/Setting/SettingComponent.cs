@@ -1,7 +1,7 @@
-﻿using GameFramework;
-using GameFramework.Setting;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GameFramework;
+using GameFramework.Setting;
 using UnityEngine;
 
 namespace UnityGameFramework.Runtime
@@ -15,22 +15,10 @@ namespace UnityGameFramework.Runtime
     {
         private ISettingManager m_SettingManager = null;
 
-        [SerializeField]
-        private string m_SettingHelperTypeName = "UnityGameFramework.Runtime.DefaultSettingHelper";
-
-        [SerializeField]
-        private SettingHelperBase m_CustomSettingHelper = null;
-
         /// <summary>
         /// 获取游戏配置项数量。
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return m_SettingManager.Count;
-            }
-        }
+        public int Count => m_SettingManager.Count;
 
         /// <summary>
         /// 游戏框架组件初始化。
@@ -46,16 +34,8 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            SettingHelperBase settingHelper = Helper.CreateHelper(m_SettingHelperTypeName, m_CustomSettingHelper);
-            if (settingHelper == null)
-            {
-                Log.Error("Can not create setting helper.");
-                return;
-            }
-
-            settingHelper.name = "Setting Helper";
-            Transform transform = settingHelper.transform;
-            transform.SetParent(this.transform);
+            ISettingHelper settingHelper = new DefaultSettingHelper();
+            transform.SetParent(transform);
             transform.localScale = Vector3.one;
 
             m_SettingManager.SetSettingHelper(settingHelper);
