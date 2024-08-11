@@ -157,8 +157,9 @@ namespace GameFramework.Resource
             // 联机运行模式
             else if (mode == ResourceMode.HostPlayMode)
             {
-                var defaultHostServer = GetHostServerURL();
-                var fallbackHostServer = GetHostServerURL();
+                // TODO 从全局配置读入host server和版本号信息
+                var defaultHostServer = GetHostServerURL("127.0.0.1", "v1.0");
+                var fallbackHostServer = GetHostServerURL("127.0.0.1", "v1.0");
                 var createParameters = new HostPlayModeParameters();
                 createParameters.DecryptionServices = new FileStreamDecryption();
                 createParameters.BuildinQueryServices = new GameQueryServices();
@@ -169,8 +170,9 @@ namespace GameFramework.Resource
             // WebGL运行模式
             else if (mode == ResourceMode.WebPlayMode)
             {
-                var defaultHostServer = GetHostServerURL();
-                var fallbackHostServer = GetHostServerURL();
+                // TODO 从全局配置读入host server和版本号信息
+                var defaultHostServer = GetHostServerURL("127.0.0.1", "v1.0");
+                var fallbackHostServer = GetHostServerURL("127.0.0.1", "v1.0");
                 var createParameters = new WebPlayModeParameters();
                 createParameters.DecryptionServices = new FileStreamDecryption();
                 createParameters.BuildinQueryServices = new GameQueryServices();

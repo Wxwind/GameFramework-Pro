@@ -10,12 +10,8 @@ namespace GameFramework.Resource
         /// <summary>
         ///     获取资源服务器地址
         /// </summary>
-        private string GetHostServerURL()
+        private string GetHostServerURL(string hostServerIP, string appVersion)
         {
-            //string hostServerIP = "http://10.0.2.2"; //安卓模拟器地址
-            var hostServerIP = "http://127.0.0.1";
-            var appVersion = "v1.0";
-
 #if UNITY_EDITOR
             if (EditorUserBuildSettings.activeBuildTarget == BuildTarget.Android)
                 return $"{hostServerIP}/CDN/Android/{appVersion}";

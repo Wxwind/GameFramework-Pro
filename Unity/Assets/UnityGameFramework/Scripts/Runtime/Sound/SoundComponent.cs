@@ -162,8 +162,8 @@ namespace UnityGameFramework.Runtime
             }
 
             SoundGroupHelperBase soundGroupHelper = new GameObject(soundGroupName).AddComponent<DefaultSoundGroupHelper>();
-            transform.SetParent(m_InstanceRoot);
-            transform.localScale = Vector3.one;
+            soundGroupHelper.transform.SetParent(m_InstanceRoot);
+            soundGroupHelper.transform.localScale = Vector3.one;
 
             if (m_AudioMixer != null)
             {

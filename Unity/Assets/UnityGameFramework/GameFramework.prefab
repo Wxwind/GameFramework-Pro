@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11472694
 MonoBehaviour:
@@ -74,7 +74,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11497722
 MonoBehaviour:
@@ -121,7 +121,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11461470
 MonoBehaviour:
@@ -135,8 +135,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 706e6317a59f61044b2805be79f6b284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_LocalizationHelperTypeName: 
-  m_CustomLocalizationHelper: {fileID: 0}
   m_CachedBytesSize: 0
 --- !u!1 &110832
 GameObject:
@@ -168,7 +166,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11494652
 MonoBehaviour:
@@ -183,10 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_InstanceRoot: {fileID: 0}
-  m_EntityHelperTypeName: UnityGameFramework.Runtime.DefaultEntityHelper
-  m_CustomEntityHelper: {fileID: 0}
-  m_EntityGroupHelperTypeName: UnityGameFramework.Runtime.DefaultEntityGroupHelper
-  m_CustomEntityGroupHelper: {fileID: 0}
   m_EntityGroups:
   - m_Name: Aircraft
     m_InstanceAutoReleaseInterval: 60
@@ -252,6 +246,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 513208573}
   - {fileID: 436184}
   - {fileID: 404872}
   - {fileID: 449550}
@@ -282,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f98acd7d3bd2bf54dadf9644f60e5cb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_EditorLanguage: 0
+  m_EditorLanguage: 8
   m_TextHelperTypeName: UnityGameFramework.Runtime.DefaultTextHelper
   m_VersionHelperTypeName: UnityGameFramework.Runtime.DefaultVersionHelper
   m_LogHelperTypeName: UnityGameFramework.Runtime.DefaultLogHelper
@@ -323,7 +318,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11417814
 MonoBehaviour:
@@ -337,8 +332,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc49d78dad061a2418e134fc48856bc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FileSystemHelperTypeName: UnityGameFramework.Runtime.DefaultFileSystemHelper
-  m_CustomFileSystemHelper: {fileID: 0}
 --- !u!1 &119488
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +362,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11402440
 MonoBehaviour:
@@ -435,7 +428,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11459312
 MonoBehaviour:
@@ -479,7 +472,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11485274
 MonoBehaviour:
@@ -493,8 +486,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e847b2b3e22e9b4792ca7ea6e1714c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ConfigHelperTypeName: UnityGameFramework.Runtime.DefaultConfigHelper
-  m_CustomConfigHelper: {fileID: 0}
   m_CachedBytesSize: 0
 --- !u!1 &139170
 GameObject:
@@ -526,7 +517,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11405216
 MonoBehaviour:
@@ -541,21 +532,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AvailableProcedureTypeNames:
-  - GameMain.ProcedureChangeScene
-  - GameMain.ProcedureClearPackageCache
-  - GameMain.ProcedureCreatePackageDownloader
-  - GameMain.ProcedureDownloadPackageFiles
-  - GameMain.ProcedureDownloadPackageOver
-  - GameMain.ProcedureInitPackage
-  - GameMain.ProcedureLaunch
-  - GameMain.ProcedureMain
-  - GameMain.ProcedureMenu
-  - GameMain.ProcedurePreload
-  - GameMain.ProcedureSplash
-  - GameMain.ProcedureUpdateManifest
-  - GameMain.ProcedureUpdaterDone
-  - GameMain.ProcedureUpdateVersion
-  m_EntranceProcedureTypeName: GameMain.ProcedureLaunch
+  - Game.ProcedureChangeScene
+  - Game.ProcedureClearPackageCache
+  - Game.ProcedureCreatePackageDownloader
+  - Game.ProcedureDownloadPackageFiles
+  - Game.ProcedureDownloadPackageOver
+  - Game.ProcedureInitPackage
+  - Game.ProcedureLaunch
+  - Game.ProcedureMain
+  - Game.ProcedureMenu
+  - Game.ProcedurePreload
+  - Game.ProcedureSplash
+  - Game.ProcedureUpdateManifest
+  - Game.ProcedureUpdaterDone
+  - Game.ProcedureUpdateVersion
+  m_EntranceProcedureTypeName: Game.ProcedureLaunch
 --- !u!1 &140694
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +577,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11413340
 MonoBehaviour:
@@ -602,12 +593,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InstanceRoot: {fileID: 0}
   m_AudioMixer: {fileID: 24100000, guid: b7317ff76310723499b9d88117cd0191, type: 2}
-  m_SoundHelperTypeName: UnityGameFramework.Runtime.DefaultSoundHelper
-  m_CustomSoundHelper: {fileID: 0}
-  m_SoundGroupHelperTypeName: UnityGameFramework.Runtime.DefaultSoundGroupHelper
-  m_CustomSoundGroupHelper: {fileID: 0}
-  m_SoundAgentHelperTypeName: UnityGameFramework.Runtime.DefaultSoundAgentHelper
-  m_CustomSoundAgentHelper: {fileID: 0}
   m_SoundGroups:
   - m_Name: Music
     m_AvoidBeingReplacedBySamePriority: 0
@@ -654,7 +639,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11457798
 MonoBehaviour:
@@ -698,7 +683,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11402158
 MonoBehaviour:
@@ -743,7 +728,7 @@ Transform:
   m_Children:
   - {fileID: 1576232203}
   m_Father: {fileID: 433714}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11454530
 MonoBehaviour:
@@ -762,10 +747,6 @@ MonoBehaviour:
   m_InstanceExpireTime: 60
   m_InstancePriority: 0
   m_InstanceRoot: {fileID: 1576232203}
-  m_UIFormHelperTypeName: UnityGameFramework.Runtime.DefaultUIFormHelper
-  m_CustomUIFormHelper: {fileID: 0}
-  m_UIGroupHelperTypeName: GameMain.UGuiGroupHelper
-  m_CustomUIGroupHelper: {fileID: 0}
   m_UIGroups:
   - m_Name: Default
     m_Depth: 0
@@ -799,7 +780,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11418144
 MonoBehaviour:
@@ -843,7 +824,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433714}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11461162
 MonoBehaviour:
@@ -858,6 +839,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EnableStrictCheck: 0
+--- !u!1 &513208572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 513208573}
+  - component: {fileID: 513208574}
+  m_Layer: 0
+  m_Name: Builtin Data
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &513208573
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513208572}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 433714}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &513208574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 513208572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb0b001fcb30fe45ac95ddb8c28ba57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BuildInfoTextAsset: {fileID: 4900000, guid: 0f949a7f73d128547b1314a7e471f19f,
+    type: 3}
 --- !u!1 &1576232202
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,7 +15,7 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Resource")]
     public sealed class ResourceComponent : GameFrameworkComponent
     {
-        [SerializeField] private string           DefaultPackage                  = "DefaultPackage";
+        private const            string           DefaultPackage                  = "DefaultPackage";
         [SerializeField] private float            m_MinUnloadUnusedAssetsInterval = 60f;
         [SerializeField] private float            m_MaxUnloadUnusedAssetsInterval = 300f;
         private                  AsyncOperation   m_AsyncOperation;
@@ -25,6 +25,11 @@ namespace UnityGameFramework.Runtime
         private                  bool             m_PreorderUnloadUnusedAssets;
         private                  IResourceManager m_ResourceManager;
 
+
+        /// <summary>
+        /// 获取无用资源释放的等待时长，以秒为单位。
+        /// </summary>
+        public float LastUnloadUnusedAssetsOperationElapseSeconds => m_LastUnloadUnusedAssetsOperationElapseSeconds;
 
         /// <summary>
         ///     获取或设置无用资源释放的最小间隔时间，以秒为单位。
