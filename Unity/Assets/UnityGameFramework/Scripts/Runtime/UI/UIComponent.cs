@@ -17,8 +17,7 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private IUIManager     m_UIManager      = null;
-        private EventComponent m_EventComponent = null;
+        private IUIManager m_UIManager = null;
 
         private readonly List<IUIForm> m_InternalUIFormResults = new();
 
@@ -105,13 +104,6 @@ namespace UnityGameFramework.Runtime
             if (baseComponent == null)
             {
                 Log.Fatal("Base component is invalid.");
-                return;
-            }
-
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
                 return;
             }
 

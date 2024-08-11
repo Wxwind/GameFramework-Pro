@@ -1,4 +1,5 @@
-﻿using GameFramework.Debugger;
+﻿using Cysharp.Threading.Tasks;
+using GameFramework.Debugger;
 using GameFramework.Localization;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -51,19 +52,19 @@ namespace Game
             {
                 if (GUILayout.Button("Chinese Simplified", GUILayout.Height(30)))
                 {
-                    GameEntry.Localization.Language = Language.ChineseSimplified;
+                    GameEntry.Localization.SetLanguage(Language.ChineseSimplified).Forget();
                     SaveLanguage();
                 }
 
                 if (GUILayout.Button("Chinese Traditional", GUILayout.Height(30)))
                 {
-                    GameEntry.Localization.Language = Language.ChineseTraditional;
+                    GameEntry.Localization.SetLanguage(Language.ChineseTraditional).Forget();
                     SaveLanguage();
                 }
 
                 if (GUILayout.Button("English", GUILayout.Height(30)))
                 {
-                    GameEntry.Localization.Language = Language.English;
+                    GameEntry.Localization.SetLanguage(Language.English).Forget();
                     SaveLanguage();
                 }
             }

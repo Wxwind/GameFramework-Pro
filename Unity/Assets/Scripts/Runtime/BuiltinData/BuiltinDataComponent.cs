@@ -1,6 +1,4 @@
-﻿using System;
-using GameFramework;
-using GameFramework.Localization;
+﻿using GameFramework;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 
@@ -22,25 +20,6 @@ namespace Game
 
             BuildInfo = Utility.Json.ToObject<BuildInfo>(m_BuildInfoTextAsset.text);
             if (BuildInfo == null) Log.Warning("Parse build info failure.");
-        }
-
-        public void InitBuiltinLocalization(Language language)
-        {
-            try
-            {
-                string path = $"Localization/{language}";
-                var asset = Resources.Load<TextAsset>(path);
-                if (asset == null)
-                {
-                    throw new GameFrameworkException($"{path} is invalid");
-                }
-
-                GameEntry.Localization.ParseData(asset.text);
-            }
-            catch (Exception e)
-            {
-                throw new GameFrameworkException("Parse default dictionary failure.", e);
-            }
         }
     }
 }

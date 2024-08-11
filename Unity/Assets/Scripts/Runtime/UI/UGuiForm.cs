@@ -69,14 +69,6 @@ namespace Game
             transform.sizeDelta = Vector2.zero;
 
             gameObject.GetOrAddComponent<GraphicRaycaster>();
-
-            var texts = GetComponentsInChildren<Text>(true);
-            for (int i = 0; i < texts.Length; i++)
-            {
-                texts[i].font = s_MainFont;
-                if (!string.IsNullOrEmpty(texts[i].text))
-                    texts[i].text = GameEntry.Localization.GetString(texts[i].text);
-            }
         }
 
 
@@ -102,12 +94,12 @@ namespace Game
 
         protected override void OnDepthChanged(int uiGroupDepth, int depthInUIGroup)
         {
-            int oldDepth = Depth;
+            var oldDepth = Depth;
             base.OnDepthChanged(uiGroupDepth, depthInUIGroup);
-            int deltaDepth = UGuiGroupHelper.DepthFactor * uiGroupDepth + DepthFactor * depthInUIGroup - oldDepth +
+            var deltaDepth = UGuiGroupHelper.DepthFactor * uiGroupDepth + DepthFactor * depthInUIGroup - oldDepth +
                              OriginalDepth;
             GetComponentsInChildren(true, m_CachedCanvasContainer);
-            for (int i = 0; i < m_CachedCanvasContainer.Count; i++)
+            for (var i = 0; i < m_CachedCanvasContainer.Count; i++)
                 m_CachedCanvasContainer[i].sortingOrder += deltaDepth;
 
             m_CachedCanvasContainer.Clear();

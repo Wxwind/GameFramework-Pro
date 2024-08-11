@@ -84,11 +84,11 @@ namespace Game
 
         private async UniTaskVoid LoadL10N()
         {
-            string dictionaryAssetName = GameEntry.Localization.Language.ToString();
+            var dictionaryAssetName = GameEntry.Localization.Language.ToString();
             try
             {
                 m_LoadedFlag.Add(dictionaryAssetName, false);
-                await GameEntry.Localization.ReadData(dictionaryAssetName);
+                await GameEntry.Localization.InitAsync();
                 m_LoadedFlag[dictionaryAssetName] = true;
                 Log.Info("Load dictionary '{0}' OK.", dictionaryAssetName);
             }

@@ -1,7 +1,8 @@
-﻿using GameFramework.Localization;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using GameFramework.Localization;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
@@ -18,8 +19,6 @@ namespace Game
         [SerializeField] private Toggle m_UISoundMuteToggle;
 
         [SerializeField] private Slider m_UISoundVolumeSlider;
-
-        [SerializeField] private CanvasGroup m_LanguageTipsCanvasGroup;
 
         [SerializeField] private Toggle m_EnglishToggle;
 
@@ -69,7 +68,7 @@ namespace Game
             if (!isOn) return;
 
             m_SelectedLanguage = Language.English;
-            RefreshLanguageTips();
+            OnLanguageSelect();
         }
 
         public void OnChineseSimplifiedSelected(bool isOn)
@@ -77,7 +76,7 @@ namespace Game
             if (!isOn) return;
 
             m_SelectedLanguage = Language.ChineseSimplified;
-            RefreshLanguageTips();
+            OnLanguageSelect();
         }
 
         public void OnChineseTraditionalSelected(bool isOn)
@@ -85,7 +84,7 @@ namespace Game
             if (!isOn) return;
 
             m_SelectedLanguage = Language.ChineseTraditional;
-            RefreshLanguageTips();
+            OnLanguageSelect();
         }
 
         public void OnKoreanSelected(bool isOn)
@@ -93,12 +92,13 @@ namespace Game
             if (!isOn) return;
 
             m_SelectedLanguage = Language.Korean;
-            RefreshLanguageTips();
+            OnLanguageSelect();
         }
 
         public void OnSubmitButtonClick()
         {
-            if (m_SelectedLanguage == GameEntry.Localization.Language)
+            var savedLanguage = Enum.Parse<Language>(GameEntry.Setting.GetString(Constant.Setting.Language));
+            if (m_SelectedLanguage == savedLanguage)
             {
                 Close();
                 return;
@@ -106,15 +106,19 @@ namespace Game
 
             GameEntry.Setting.SetString(Constant.Setting.Language, m_SelectedLanguage.ToString());
             GameEntry.Setting.Save();
-
-            GameEntry.Sound.StopMusic();
-            UnityGameFramework.Runtime.GameEntry.Shutdown(ShutdownType.Restart);
+            Close();
         }
 
+        public void OnCancelButtonClick()
+        {
+            GameEntry.Localization.SetLanguage(Enum.Parse<Language>(GameEntry.Setting.GetString(Constant.Setting.Language))).Forget();
+            Close(false);
+        }
 
         protected override void OnOpen(object userData)
         {
-            base.OnOpen(userData);
+            // 在GameObject SetActive前先把默认值设置好，避免触发ToggleGroup的默认选中第一个逻辑
+            m_SelectedLanguage = GameEntry.Localization.Language;
 
             m_MusicMuteToggle.isOn = !GameEntry.Sound.IsMuted("Music");
             m_MusicVolumeSlider.value = GameEntry.Sound.GetVolume("Music");
@@ -125,7 +129,6 @@ namespace Game
             m_UISoundMuteToggle.isOn = !GameEntry.Sound.IsMuted("UISound");
             m_UISoundVolumeSlider.value = GameEntry.Sound.GetVolume("UISound");
 
-            m_SelectedLanguage = GameEntry.Localization.Language;
             switch (m_SelectedLanguage)
             {
                 case Language.English:
@@ -144,20 +147,14 @@ namespace Game
                     m_KoreanToggle.isOn = true;
                     break;
             }
+
+            base.OnOpen(userData);
         }
 
 
-        protected override void OnUpdate(float elapseSeconds, float realElapseSeconds)
+        private void OnLanguageSelect()
         {
-            base.OnUpdate(elapseSeconds, realElapseSeconds);
-
-            if (m_LanguageTipsCanvasGroup.gameObject.activeSelf)
-                m_LanguageTipsCanvasGroup.alpha = 0.5f + 0.5f * Mathf.Sin(Mathf.PI * Time.time);
-        }
-
-        private void RefreshLanguageTips()
-        {
-            m_LanguageTipsCanvasGroup.gameObject.SetActive(m_SelectedLanguage != GameEntry.Localization.Language);
+            GameEntry.Localization.SetLanguage(m_SelectedLanguage).Forget();
         }
     }
 }

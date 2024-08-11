@@ -193,15 +193,6 @@ namespace GameFramework.UI
         /// <returns>界面的序列编号。</returns>
         UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, object userData = null);
 
-        /// <summary>
-        /// 打开界面。
-        /// </summary>
-        /// <param name="uiFormAssetName">界面资源名称。</param>
-        /// <param name="uiGroupName">界面组名称。</param>
-        /// <param name="priority">加载界面资源的优先级。</param>
-        /// <param name="userData"用户自定义数据></param>
-        /// <returns>界面的序列编号。</returns>
-        UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority, object userData = null);
 
         /// <summary>
         /// 打开界面。

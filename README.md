@@ -26,6 +26,6 @@ Unity2020.2 or later
   ](https://github.com/XuToWei/GameDevelopmentKit))
   - [x] 支持Excel生成json或bytes
   - [x] 异步加载
-  - [ ] 动态切换语言，无需重启游戏
+  - [x] 动态切换语言，无需重启游戏
 - 接入ET (最好是将GF的模块以组件形式并入ET)
   - [ ] 接入服务端

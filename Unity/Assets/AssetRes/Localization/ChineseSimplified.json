@@ -3,7 +3,6 @@
   "AskQuitGame.Title": "确认退出",
   "Dialog.CancelButton": "取消",
   "Dialog.ConfirmButton": "确定",
-  "Dialog.OtherButton": "",
   "enemy0": "敌人0",
   "Game.Description": "Game Framework 演示程序",
   "Game.Introduction": "Game Framework 是基于 Unity 引擎的游戏框架，主要对游戏开发过程中常用模块进行了封装，很大程度地规范开发过程、加快开发速度并保证产品质量。",

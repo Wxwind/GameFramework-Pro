@@ -507,25 +507,11 @@ namespace GameFramework.UI
 
         public UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, object userData = null)
         {
-            return OpenUIForm(uiFormAssetName, uiGroupName, 0, false, userData);
+            return OpenUIForm(uiFormAssetName, uiGroupName, false, userData);
         }
 
 
-        public UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority,
-            object userData = null)
-        {
-            return OpenUIForm(uiFormAssetName, uiGroupName, priority, false, userData);
-        }
-
-
-        public UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, bool pauseCoveredUIForm,
-            object userData = null)
-        {
-            return OpenUIForm(uiFormAssetName, uiGroupName, 0, pauseCoveredUIForm, userData);
-        }
-
-
-        public async UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName, int priority,
+        public async UniTask<IUIForm> OpenUIForm(string uiFormAssetName, string uiGroupName,
             bool pauseCoveredUIForm, object userData = null)
         {
             if (m_ResourceManager == null)

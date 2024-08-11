@@ -23,8 +23,6 @@ namespace Game
             // 声音配置：根据用户配置数据，设置即将使用的声音选项
             InitSoundSettings();
 
-            // 加载资源更新前使用的各种语言的字符串，会随 App 一起发布，故不可更新
-            GameEntry.BuiltinData.InitBuiltinLocalization(GameEntry.Localization.Language);
 
             procedureOwner.SetData<VarString>("PackageName", "DefaultPackage");
         }
@@ -39,16 +37,22 @@ namespace Game
 
         private void InitLanguageSettings()
         {
+            Language language;
             if (GameEntry.Base.ResourceMode == ResourceMode.EditorSimulateMode &&
                 GameEntry.Base.EditorLanguage != Language.Unspecified)
                 // 编辑器资源模式直接使用 Inspector 上设置的语言
+            {
+                language = GameEntry.Base.EditorLanguage;
+                GameEntry.Localization.InitBuiltinLocalization(language);
+                Log.Info("Init language settings complete in editor mode, current language is '{0}'.", language.ToString());
                 return;
+            }
 
-            var language = GameEntry.Localization.Language;
+            language = GameEntry.Localization.Language;
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
                 try
                 {
-                    string languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
+                    var languageString = GameEntry.Setting.GetString(Constant.Setting.Language);
                     language = (Language)Enum.Parse(typeof(Language), languageString);
                 }
                 catch
@@ -64,7 +68,7 @@ namespace Game
                 GameEntry.Setting.Save();
             }
 
-            GameEntry.Localization.Language = language;
+            GameEntry.Localization.InitBuiltinLocalization(language);
             Log.Info("Init language settings complete, current language is '{0}'.", language.ToString());
         }
 

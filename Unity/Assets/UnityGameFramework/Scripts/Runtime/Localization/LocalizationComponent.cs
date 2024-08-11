@@ -15,7 +15,6 @@ namespace UnityGameFramework.Runtime
     public sealed class LocalizationComponent : GameFrameworkComponent
     {
         private ILocalizationManager m_LocalizationManager = null;
-        private EventComponent       m_EventComponent      = null;
 
         [SerializeField] private string m_LocalizationHelperTypeName = "UnityGameFramework.Runtime.DefaultLocalizationHelper";
 
@@ -28,15 +27,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 获取或设置本地化语言。
         /// </summary>
-        public Language Language
-        {
-            get => m_LocalizationManager.Language;
-            set
-            {
-                m_LocalizationManager.Language = value;
-                OnLanguageChanged?.Invoke();
-            }
-        }
+        public Language Language => m_LocalizationManager.Language;
 
         /// <summary>
         /// 获取系统语言。
@@ -77,13 +68,6 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
-                return;
-            }
-
             m_LocalizationManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
             var localizationHelper =
@@ -111,6 +95,7 @@ namespace UnityGameFramework.Runtime
                 EnsureCachedBytesSize(m_CachedBytesSize);
             }
         }
+
 
         /// <summary>
         /// 确保二进制流缓存分配足够大小的内存并缓存。
@@ -215,6 +200,42 @@ namespace UnityGameFramework.Runtime
         public void RemoveAllRawStrings()
         {
             m_LocalizationManager.RemoveAllRawStrings();
+        }
+
+        public async UniTask SetLanguage(Language language)
+        {
+            var dictionaryAssetName = language.ToString();
+            m_LocalizationManager.Language = language;
+            RemoveAllRawStrings();
+            await ReadData(dictionaryAssetName);
+            OnLanguageChanged?.Invoke();
+        }
+
+        public async UniTask InitAsync()
+        {
+            var dictionaryAssetName = Language.ToString();
+            await ReadData(dictionaryAssetName);
+            OnLanguageChanged?.Invoke();
+        }
+
+        public void InitBuiltinLocalization(Language language)
+        {
+            try
+            {
+                var path = $"Localization/{language}";
+                var asset = Resources.Load<TextAsset>(path);
+                if (asset == null)
+                {
+                    throw new GameFrameworkException($"{path} is invalid");
+                }
+
+                m_LocalizationManager.Language = language;
+                ParseData(asset.text);
+            }
+            catch (Exception e)
+            {
+                throw new GameFrameworkException("Parse default dictionary failure.", e);
+            }
         }
     }
 }

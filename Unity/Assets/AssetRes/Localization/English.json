@@ -3,7 +3,6 @@
   "AskQuitGame.Title": "CONFIRM TO QUIT",
   "Dialog.CancelButton": "CANCEL",
   "Dialog.ConfirmButton": "OK",
-  "Dialog.OtherButton": "",
   "enemy0": "enemy(EN)",
   "Game.Description": "Game Framework Demo Program",
   "Game.Introduction": "Game Framework is literally a game framework, based on Unity game engine. It encapsulates commonly used game modules during development, and, to a large degree, standardises the process, enhances the development speed and ensures the product quality.",

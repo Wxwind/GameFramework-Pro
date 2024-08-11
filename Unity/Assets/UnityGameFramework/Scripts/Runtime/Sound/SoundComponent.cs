@@ -15,9 +15,8 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Sound")]
     public sealed partial class SoundComponent : GameFrameworkComponent
     {
-        private ISoundManager  m_SoundManager;
-        private EventComponent m_EventComponent;
-        private AudioListener  m_AudioListener;
+        private ISoundManager m_SoundManager;
+        private AudioListener m_AudioListener;
 
 
         [SerializeField] private Transform m_InstanceRoot;
@@ -77,14 +76,6 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
-                return;
-            }
-
-
             m_SoundManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
 
             var soundHelper = Helper.CreateHelper(m_SoundHelperTypeName, m_CustomSoundHelper);
@@ -108,7 +99,7 @@ namespace UnityGameFramework.Runtime
                 m_InstanceRoot.localScale = Vector3.one;
             }
 
-            for (int i = 0; i < m_SoundGroups.Length; i++)
+            for (var i = 0; i < m_SoundGroups.Length; i++)
             {
                 if (!AddSoundGroup(m_SoundGroups[i].Name, m_SoundGroups[i].AvoidBeingReplacedBySamePriority,
                         m_SoundGroups[i].Mute, m_SoundGroups[i].Volume, m_SoundGroups[i].AgentHelperCount))
@@ -223,7 +214,7 @@ namespace UnityGameFramework.Runtime
                 return false;
             }
 
-            for (int i = 0; i < soundAgentHelperCount; i++)
+            for (var i = 0; i < soundAgentHelperCount; i++)
             {
                 if (!AddSoundAgentHelper(soundGroupName, soundGroupHelper, i))
                 {

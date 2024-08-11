@@ -18,8 +18,7 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private IEntityManager m_EntityManager  = null;
-        private EventComponent m_EventComponent = null;
+        private IEntityManager m_EntityManager = null;
 
         private readonly List<IEntity> m_InternalEntityResults = new();
 
@@ -70,15 +69,7 @@ namespace UnityGameFramework.Runtime
                 return;
             }
 
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
-                return;
-            }
-
             m_EntityManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
-
             m_EntityManager.SetObjectPoolManager(GameFrameworkEntry.GetModule<IObjectPoolManager>());
 
             var entityHelper = Helper.CreateHelper(m_EntityHelperTypeName, m_CustomEntityHelper);
@@ -102,7 +93,7 @@ namespace UnityGameFramework.Runtime
                 m_InstanceRoot.localScale = Vector3.one;
             }
 
-            for (int i = 0; i < m_EntityGroups.Length; i++)
+            for (var i = 0; i < m_EntityGroups.Length; i++)
             {
                 if (!AddEntityGroup(m_EntityGroups[i].Name, m_EntityGroups[i].InstanceAutoReleaseInterval,
                         m_EntityGroups[i].InstanceCapacity, m_EntityGroups[i].InstanceExpireTime,
@@ -235,7 +226,7 @@ namespace UnityGameFramework.Runtime
         {
             var entities = m_EntityManager.GetEntities(entityAssetName);
             var entityImpls = new Entity[entities.Length];
-            for (int i = 0; i < entities.Length; i++)
+            for (var i = 0; i < entities.Length; i++)
             {
                 entityImpls[i] = (Entity)entities[i];
             }
@@ -272,7 +263,7 @@ namespace UnityGameFramework.Runtime
         {
             var entities = m_EntityManager.GetAllLoadedEntities();
             var entityImpls = new Entity[entities.Length];
-            for (int i = 0; i < entities.Length; i++)
+            for (var i = 0; i < entities.Length; i++)
             {
                 entityImpls[i] = (Entity)entities[i];
             }
@@ -517,7 +508,7 @@ namespace UnityGameFramework.Runtime
         {
             var entities = m_EntityManager.GetChildEntities(parentEntityId);
             var entityImpls = new Entity[entities.Length];
-            for (int i = 0; i < entities.Length; i++)
+            for (var i = 0; i < entities.Length; i++)
             {
                 entityImpls[i] = (Entity)entities[i];
             }
@@ -555,7 +546,7 @@ namespace UnityGameFramework.Runtime
         {
             var entities = m_EntityManager.GetChildEntities(parentEntity);
             var entityImpls = new Entity[entities.Length];
-            for (int i = 0; i < entities.Length; i++)
+            for (var i = 0; i < entities.Length; i++)
             {
                 entityImpls[i] = (Entity)entities[i];
             }

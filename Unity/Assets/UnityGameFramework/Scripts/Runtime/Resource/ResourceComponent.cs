@@ -18,7 +18,6 @@ namespace UnityGameFramework.Runtime
         [SerializeField] private float            m_MinUnloadUnusedAssetsInterval = 60f;
         [SerializeField] private float            m_MaxUnloadUnusedAssetsInterval = 300f;
         private                  AsyncOperation   m_AsyncOperation;
-        private                  EventComponent   m_EventComponent;
         private                  bool             m_ForceUnloadUnusedAssets;
         private                  float            m_LastUnloadUnusedAssetsOperationElapseSeconds;
         private                  bool             m_PerformGCCollect;

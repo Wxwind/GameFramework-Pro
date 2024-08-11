@@ -1,5 +1,5 @@
-﻿using GameFramework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using GameFramework;
 using UnityEditor;
 using UnityEngine;
 using UnityGameFramework.Runtime;
@@ -9,34 +9,34 @@ namespace UnityGameFramework.Editor
     [CustomEditor(typeof(BaseComponent))]
     internal sealed class BaseComponentInspector : GameFrameworkInspector
     {
-        private const string NoneOptionName = "<None>";
-        private static readonly float[] GameSpeed = new float[] { 0f, 0.01f, 0.1f, 0.25f, 0.5f, 1f, 1.5f, 2f, 4f, 8f };
+        private const           string  NoneOptionName = "<None>";
+        private static readonly float[] GameSpeed      = new float[] { 0f, 0.01f, 0.1f, 0.25f, 0.5f, 1f, 1.5f, 2f, 4f, 8f };
 
         private static readonly string[] GameSpeedForDisplay = new string[]
             { "0x", "0.01x", "0.1x", "0.25x", "0.5x", "1x", "1.5x", "2x", "4x", "8x" };
 
-        private SerializedProperty m_ResourceMode = null;
-        private SerializedProperty m_EditorLanguage = null;
-        private SerializedProperty m_TextHelperTypeName = null;
-        private SerializedProperty m_VersionHelperTypeName = null;
-        private SerializedProperty m_LogHelperTypeName = null;
+        private SerializedProperty m_ResourceMode              = null;
+        private SerializedProperty m_EditorLanguage            = null;
+        private SerializedProperty m_TextHelperTypeName        = null;
+        private SerializedProperty m_VersionHelperTypeName     = null;
+        private SerializedProperty m_LogHelperTypeName         = null;
         private SerializedProperty m_CompressionHelperTypeName = null;
-        private SerializedProperty m_JsonHelperTypeName = null;
-        private SerializedProperty m_FrameRate = null;
-        private SerializedProperty m_GameSpeed = null;
-        private SerializedProperty m_RunInBackground = null;
-        private SerializedProperty m_NeverSleep = null;
+        private SerializedProperty m_JsonHelperTypeName        = null;
+        private SerializedProperty m_FrameRate                 = null;
+        private SerializedProperty m_GameSpeed                 = null;
+        private SerializedProperty m_RunInBackground           = null;
+        private SerializedProperty m_NeverSleep                = null;
 
-        private string[] m_TextHelperTypeNames = null;
-        private int m_TextHelperTypeNameIndex = 0;
-        private string[] m_VersionHelperTypeNames = null;
-        private int m_VersionHelperTypeNameIndex = 0;
-        private string[] m_LogHelperTypeNames = null;
-        private int m_LogHelperTypeNameIndex = 0;
-        private string[] m_CompressionHelperTypeNames = null;
-        private int m_CompressionHelperTypeNameIndex = 0;
-        private string[] m_JsonHelperTypeNames = null;
-        private int m_JsonHelperTypeNameIndex = 0;
+        private string[] m_TextHelperTypeNames            = null;
+        private int      m_TextHelperTypeNameIndex        = 0;
+        private string[] m_VersionHelperTypeNames         = null;
+        private int      m_VersionHelperTypeNameIndex     = 0;
+        private string[] m_LogHelperTypeNames             = null;
+        private int      m_LogHelperTypeNameIndex         = 0;
+        private string[] m_CompressionHelperTypeNames     = null;
+        private int      m_CompressionHelperTypeNameIndex = 0;
+        private string[] m_JsonHelperTypeNames            = null;
+        private int      m_JsonHelperTypeNameIndex        = 0;
 
         public override void OnInspectorGUI()
         {
@@ -49,6 +49,7 @@ namespace UnityGameFramework.Editor
             EditorGUI.BeginDisabledGroup(EditorApplication.isPlayingOrWillChangePlaymode);
             {
                 EditorGUILayout.PropertyField(m_ResourceMode);
+                EditorGUILayout.PropertyField(m_EditorLanguage);
                 EditorGUILayout.BeginVertical("box");
                 {
                     EditorGUILayout.LabelField("Global Helpers", EditorStyles.boldLabel);

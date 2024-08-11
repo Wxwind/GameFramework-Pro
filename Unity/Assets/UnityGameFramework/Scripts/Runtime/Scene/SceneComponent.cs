@@ -18,8 +18,7 @@ namespace UnityGameFramework.Runtime
     {
         private const int DefaultPriority = 0;
 
-        private ISceneManager  m_SceneManager   = null;
-        private EventComponent m_EventComponent = null;
+        private ISceneManager m_SceneManager = null;
 
         private Camera m_MainCamera         = null;
         private Scene  m_GameFrameworkScene = default;
@@ -60,14 +59,6 @@ namespace UnityGameFramework.Runtime
                 Log.Fatal("Base component is invalid.");
                 return;
             }
-
-            m_EventComponent = GameEntry.GetComponent<EventComponent>();
-            if (m_EventComponent == null)
-            {
-                Log.Fatal("Event component is invalid.");
-                return;
-            }
-
 
             m_SceneManager.SetResourceManager(GameFrameworkEntry.GetModule<IResourceManager>());
         }
