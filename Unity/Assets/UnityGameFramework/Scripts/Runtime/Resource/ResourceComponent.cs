@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using GameFramework;
+using GameFramework.BuiltinData;
 using GameFramework.Resource;
 using UnityEngine;
 using YooAsset;
@@ -49,11 +50,34 @@ namespace UnityGameFramework.Runtime
             set => m_MaxUnloadUnusedAssetsInterval = value;
         }
 
+        public string HostServerIp
+        {
+            get => m_ResourceManager.HostServerIp;
+            set => m_ResourceManager.HostServerIp = value;
+        }
+
         public string GameVersion
         {
             get => m_ResourceManager.GameVersion;
             set => m_ResourceManager.GameVersion = value;
         }
+
+
+        public void InitBuildInfo()
+        {
+            var builtinDataManager = GameFrameworkEntry.GetModule<IBuiltinDataManager>();
+            if (builtinDataManager == null)
+            {
+                Log.Fatal("Builtin manager is invalid.");
+                return;
+            }
+
+            var buildInfo = builtinDataManager.BuildInfo;
+            m_ResourceManager.Initialize();
+            m_ResourceManager.HostServerIp = buildInfo.ServerHost;
+            m_ResourceManager.GameVersion = buildInfo.GameVersion;
+        }
+
 
         private void Start()
         {
@@ -63,9 +87,6 @@ namespace UnityGameFramework.Runtime
                 Log.Fatal("Resource manager is invalid.");
                 return;
             }
-
-
-            m_ResourceManager.Initialize();
         }
 
         private void Update()

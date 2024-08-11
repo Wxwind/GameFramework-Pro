@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GameFramework.BuiltinData
 {
     public class BuildInfo
     {

@@ -783,11 +783,11 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Android: ENABLE_DEBUG_AND_ABOVE_LOG
-    Standalone: ENABLE_DEBUG_AND_ABOVE_LOG
-    WebGL: ENABLE_DEBUG_AND_ABOVE_LOG
-    Windows Store Apps: ENABLE_DEBUG_AND_ABOVE_LOG
-    iPhone: ENABLE_DEBUG_AND_ABOVE_LOG
+    Android: ENABLE_LOG
+    Standalone: ENABLE_LOG
+    WebGL: ENABLE_LOG
+    Windows Store Apps: ENABLE_LOG
+    iPhone: ENABLE_LOG
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}

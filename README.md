@@ -29,3 +29,6 @@ Unity2020.2 or later
   - [x] 动态切换语言，无需重启游戏
 - 接入ET (最好是将GF的模块以组件形式并入ET)
   - [ ] 接入服务端
+
+## 已知问题
+ 无法简易的调整Component和Manager的加载和卸载顺序，比如ConfigComponent早于BaseComponent初始化，导致ConfigComponent的Awake里Log是是无法使用的，最好能改成ET的E-S架构，脱离monobehaviour

@@ -20,6 +20,8 @@ namespace GameFramework.Resource
         /// </summary>
         string ReadWritePath { get; }
 
+        public string HostServerIp { get; set; }
+
         string GameVersion { get; set; }
 
         /// <summary>

@@ -25,6 +25,7 @@ namespace UnityGameFramework.Editor
 
             var t = (ResourceComponent)target;
 
+
             var minUnloadUnusedAssetsInterval = EditorGUILayout.Slider("Min Unload Unused Assets Interval", m_MinUnloadUnusedAssetsInterval.floatValue, 0f, 3600f);
             if (minUnloadUnusedAssetsInterval != m_MinUnloadUnusedAssetsInterval.floatValue)
             {
@@ -57,6 +58,7 @@ namespace UnityGameFramework.Editor
                 EditorGUILayout.LabelField("Unload Unused Assets",
                     Utility.Text.Format("{0:F2} / {1:F2}", t.LastUnloadUnusedAssetsOperationElapseSeconds, t.MaxUnloadUnusedAssetsInterval));
                 EditorGUILayout.LabelField("Game Version", t.GameVersion ?? "<Unknwon>");
+                EditorGUILayout.LabelField("Host Server Ip", t.HostServerIp ?? "<Unknwon>");
             }
 
             serializedObject.ApplyModifiedProperties();
