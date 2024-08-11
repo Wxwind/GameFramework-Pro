@@ -15,6 +15,7 @@ namespace UnityGameFramework.Runtime
     [AddComponentMenu("Game Framework/Resource")]
     public sealed class ResourceComponent : GameFrameworkComponent
     {
+        [SerializeField] private string           DefaultPackage                  = "DefaultPackage";
         [SerializeField] private float            m_MinUnloadUnusedAssetsInterval = 60f;
         [SerializeField] private float            m_MaxUnloadUnusedAssetsInterval = 300f;
         private                  AsyncOperation   m_AsyncOperation;
@@ -95,7 +96,7 @@ namespace UnityGameFramework.Runtime
             }
 
             return await m_ResourceManager.InitPackage(mode, string.IsNullOrEmpty(packageName)
-                ? "DefaultPackage"
+                ? DefaultPackage
                 : packageName);
         }
 

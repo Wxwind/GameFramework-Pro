@@ -12,7 +12,6 @@ namespace GameFramework.Config
     {
         private readonly Dictionary<string, ConfigData> m_ConfigDatas;
         private readonly DataProvider<IConfigManager>   m_DataProvider;
-        private          IConfigHelper                  m_ConfigHelper;
 
         /// <summary>
         /// 初始化全局配置管理器的新实例。
@@ -21,7 +20,6 @@ namespace GameFramework.Config
         {
             m_ConfigDatas = new Dictionary<string, ConfigData>(StringComparer.Ordinal);
             m_DataProvider = new DataProvider<IConfigManager>(this);
-            m_ConfigHelper = null;
         }
 
         /// <summary>
@@ -70,20 +68,6 @@ namespace GameFramework.Config
         }
 
         /// <summary>
-        /// 设置全局配置辅助器。
-        /// </summary>
-        /// <param name="configHelper">全局配置辅助器。</param>
-        public void SetConfigHelper(IConfigHelper configHelper)
-        {
-            if (configHelper == null)
-            {
-                throw new GameFrameworkException("Config helper is invalid.");
-            }
-
-            m_ConfigHelper = configHelper;
-        }
-
-        /// <summary>
         /// 确保二进制流缓存分配足够大小的内存并缓存。
         /// </summary>
         /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
@@ -120,7 +104,6 @@ namespace GameFramework.Config
             m_DataProvider.ParseData(configString);
         }
 
-
         /// <summary>
         /// 解析全局配置。
         /// </summary>
@@ -130,7 +113,6 @@ namespace GameFramework.Config
         {
             m_DataProvider.ParseData(configBytes);
         }
-
 
         /// <summary>
         /// 解析全局配置。
@@ -143,7 +125,6 @@ namespace GameFramework.Config
         {
             m_DataProvider.ParseData(configBytes, startIndex, length);
         }
-
 
         /// <summary>
         /// 检查是否存在指定全局配置项。

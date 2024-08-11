@@ -71,7 +71,6 @@ namespace UnityGameFramework.Runtime
             transform.localScale = Vector3.one;
 
             m_ConfigManager.SetDataProviderHelper(configHelper);
-            m_ConfigManager.SetConfigHelper(configHelper);
             if (m_CachedBytesSize > 0)
             {
                 EnsureCachedBytesSize(m_CachedBytesSize);

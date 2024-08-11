@@ -2,6 +2,8 @@
 {
     public class BuildInfo
     {
+        public string ServerHost { get; set; }
+
         public string GameVersion { get; set; }
 
         public int InternalGameVersion { get; set; }

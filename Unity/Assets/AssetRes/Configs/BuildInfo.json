@@ -1,4 +1,5 @@
 {
+  "ServerHost": "127.0.0.1:8088",
   "GameVersion": "0.1.0",
   "InternalGameVersion": 0,
   "CheckVersionUrl": "https://starforce.gameframework.cn/Resources/{0}Version.txt",

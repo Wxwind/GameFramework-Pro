@@ -10,18 +10,12 @@ namespace GameFramework.Config
         /// <summary>
         /// 获取全局配置项数量。
         /// </summary>
-        int Count
-        {
-            get;
-        }
+        int Count { get; }
 
         /// <summary>
         /// 获取缓冲二进制流的大小。
         /// </summary>
-        int CachedBytesSize
-        {
-            get;
-        }
+        int CachedBytesSize { get; }
 
         /// <summary>
         /// 设置资源管理器。
@@ -34,12 +28,6 @@ namespace GameFramework.Config
         /// </summary>
         /// <param name="dataProviderHelper">全局配置数据提供者辅助器。</param>
         void SetDataProviderHelper(IDataProviderHelper<IConfigManager> dataProviderHelper);
-
-        /// <summary>
-        /// 设置全局配置辅助器。
-        /// </summary>
-        /// <param name="configHelper">全局配置辅助器。</param>
-        void SetConfigHelper(IConfigHelper configHelper);
 
         /// <summary>
         /// 确保二进制流缓存分配足够大小的内存并缓存。
