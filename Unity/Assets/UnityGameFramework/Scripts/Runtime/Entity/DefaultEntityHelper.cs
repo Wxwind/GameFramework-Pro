@@ -10,14 +10,23 @@ namespace UnityGameFramework.Runtime
     {
         private ResourceComponent m_ResourceComponent;
 
+        public DefaultEntityHelper()
+        {
+            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
+            if (m_ResourceComponent == null)
+            {
+                Log.Fatal("Resource component is invalid.");
+            }
+        }
+
         /// <summary>
         /// 实例化实体。
         /// </summary>
         /// <param name="entityAsset">要实例化的实体资源。</param>
         /// <returns>实例化后的实体。</returns>
-        public object InstantiateEntity(object entityAsset)
+        public Object InstantiateEntity(Object entityAsset)
         {
-            return Object.Instantiate((Object)entityAsset);
+            return Object.Instantiate(entityAsset);
         }
 
         /// <summary>
@@ -50,15 +59,6 @@ namespace UnityGameFramework.Runtime
         {
             m_ResourceComponent.UnloadAsset(entityAsset);
             Object.Destroy(entityInstance);
-        }
-
-        private void Start()
-        {
-            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
-            if (m_ResourceComponent == null)
-            {
-                Log.Fatal("Resource component is invalid.");
-            }
         }
     }
 }

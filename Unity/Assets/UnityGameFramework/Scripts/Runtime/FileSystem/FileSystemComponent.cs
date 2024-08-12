@@ -40,10 +40,6 @@ namespace UnityGameFramework.Runtime
             m_FileSystemManager.SetFileSystemHelper(fileSystemHelper);
         }
 
-        private void Start()
-        {
-        }
-
         /// <summary>
         /// 检查是否存在文件系统。
         /// </summary>

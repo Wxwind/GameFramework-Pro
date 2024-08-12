@@ -12,7 +12,7 @@ namespace GameFramework.Entity
         /// </summary>
         /// <param name="entityAsset">要实例化的实体资源。</param>
         /// <returns>实例化后的实体。</returns>
-        object InstantiateEntity(object entityAsset);
+        Object InstantiateEntity(Object entityAsset);
 
         /// <summary>
         /// 创建实体。

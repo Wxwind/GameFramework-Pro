@@ -10,6 +10,15 @@ namespace UnityGameFramework.Runtime
     {
         private ResourceComponent m_ResourceComponent;
 
+        public DefaultUIFormHelper()
+        {
+            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
+            if (m_ResourceComponent == null)
+            {
+                Log.Fatal("Resource component is invalid.");
+            }
+        }
+
         /// <summary>
         /// 实例化界面。
         /// </summary>
@@ -51,15 +60,6 @@ namespace UnityGameFramework.Runtime
         {
             m_ResourceComponent.UnloadAsset(uiFormAsset);
             Object.Destroy(uiFormInstance);
-        }
-
-        private void Start()
-        {
-            m_ResourceComponent = GameEntry.GetComponent<ResourceComponent>();
-            if (m_ResourceComponent == null)
-            {
-                Log.Fatal("Resource component is invalid.");
-            }
         }
     }
 }

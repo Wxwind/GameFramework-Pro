@@ -132,10 +132,6 @@ namespace UnityGameFramework.Runtime
             Application.lowMemory += OnLowMemory;
         }
 
-        private void Start()
-        {
-        }
-
         private void Update()
         {
             GameFrameworkEntry.Update(Time.deltaTime, Time.unscaledDeltaTime);
