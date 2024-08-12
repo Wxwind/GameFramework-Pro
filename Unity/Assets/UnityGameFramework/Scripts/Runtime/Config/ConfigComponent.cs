@@ -15,17 +15,10 @@ namespace UnityGameFramework.Runtime
     {
         private IConfigManager m_ConfigManager;
 
-        [SerializeField] private int m_CachedBytesSize;
-
         /// <summary>
         /// 获取全局配置项数量。
         /// </summary>
         public int Count => m_ConfigManager.Count;
-
-        /// <summary>
-        /// 获取缓冲二进制流的大小。
-        /// </summary>
-        public int CachedBytesSize => m_ConfigManager.CachedBytesSize;
 
         /// <summary>
         /// 游戏框架组件初始化。
@@ -57,27 +50,6 @@ namespace UnityGameFramework.Runtime
             transform.localScale = Vector3.one;
 
             m_ConfigManager.SetDataProviderHelper(configHelper);
-            if (m_CachedBytesSize > 0)
-            {
-                EnsureCachedBytesSize(m_CachedBytesSize);
-            }
-        }
-
-        /// <summary>
-        /// 确保二进制流缓存分配足够大小的内存并缓存。
-        /// </summary>
-        /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
-        public void EnsureCachedBytesSize(int ensureSize)
-        {
-            m_ConfigManager.EnsureCachedBytesSize(ensureSize);
-        }
-
-        /// <summary>
-        /// 释放缓存的二进制流。
-        /// </summary>
-        public void FreeCachedBytes()
-        {
-            m_ConfigManager.FreeCachedBytes();
         }
 
 

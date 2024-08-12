@@ -27,11 +27,6 @@ namespace GameFramework.Config
         /// </summary>
         public int Count => m_ConfigDatas.Count;
 
-        /// <summary>
-        /// 获取缓冲二进制流的大小。
-        /// </summary>
-        public int CachedBytesSize => DataProvider<IConfigManager>.CachedBytesSize;
-
 
         /// <summary>
         /// 全局配置管理器轮询。
@@ -65,23 +60,6 @@ namespace GameFramework.Config
         public void SetDataProviderHelper(IDataProviderHelper<IConfigManager> dataProviderHelper)
         {
             m_DataProvider.SetDataProviderHelper(dataProviderHelper);
-        }
-
-        /// <summary>
-        /// 确保二进制流缓存分配足够大小的内存并缓存。
-        /// </summary>
-        /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
-        public void EnsureCachedBytesSize(int ensureSize)
-        {
-            DataProvider<IConfigManager>.EnsureCachedBytesSize(ensureSize);
-        }
-
-        /// <summary>
-        /// 释放缓存的二进制流。
-        /// </summary>
-        public void FreeCachedBytes()
-        {
-            DataProvider<IConfigManager>.FreeCachedBytes();
         }
 
         /// <summary>
@@ -256,13 +234,13 @@ namespace GameFramework.Config
         /// <returns>是否增加全局配置项成功。</returns>
         public bool AddConfig(string configName, string configValue)
         {
-            var boolValue = false;
+            bool boolValue = false;
             bool.TryParse(configValue, out boolValue);
 
-            var intValue = 0;
+            int intValue = 0;
             int.TryParse(configValue, out intValue);
 
-            var floatValue = 0f;
+            float floatValue = 0f;
             float.TryParse(configValue, out floatValue);
 
             return AddConfig(configName, boolValue, intValue, floatValue, configValue);

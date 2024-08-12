@@ -66,12 +66,6 @@ namespace GameFramework.Localization
         public int DictionaryCount => m_Dictionary.Count;
 
         /// <summary>
-        /// 获取缓冲二进制流的大小。
-        /// </summary>
-        public int CachedBytesSize => DataProvider<ILocalizationManager>.CachedBytesSize;
-
-
-        /// <summary>
         /// 本地化管理器轮询。
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
@@ -117,23 +111,6 @@ namespace GameFramework.Localization
             }
 
             m_LocalizationHelper = localizationHelper;
-        }
-
-        /// <summary>
-        /// 确保二进制流缓存分配足够大小的内存并缓存。
-        /// </summary>
-        /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
-        public void EnsureCachedBytesSize(int ensureSize)
-        {
-            DataProvider<ILocalizationManager>.EnsureCachedBytesSize(ensureSize);
-        }
-
-        /// <summary>
-        /// 释放缓存的二进制流。
-        /// </summary>
-        public void FreeCachedBytes()
-        {
-            DataProvider<ILocalizationManager>.FreeCachedBytes();
         }
 
         /// <summary>
@@ -185,7 +162,7 @@ namespace GameFramework.Localization
         /// <returns>要获取的字典内容字符串。</returns>
         public string GetString(string key)
         {
-            var value = GetRawString(key);
+            string value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);
@@ -196,7 +173,7 @@ namespace GameFramework.Localization
 
         public string GetString(string key, params object[] args)
         {
-            var value = GetRawString(key);
+            string value = GetRawString(key);
             if (value == null)
             {
                 return Utility.Text.Format("<NoKey>{0}", key);

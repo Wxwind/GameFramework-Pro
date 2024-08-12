@@ -36,11 +36,6 @@ namespace UnityGameFramework.Runtime
         public int DictionaryCount => m_LocalizationManager.DictionaryCount;
 
         /// <summary>
-        /// 获取缓冲二进制流的大小。
-        /// </summary>
-        public int CachedBytesSize => m_LocalizationManager.CachedBytesSize;
-
-        /// <summary>
         /// 游戏框架组件初始化。
         /// </summary>
         protected override void Awake()
@@ -73,28 +68,6 @@ namespace UnityGameFramework.Runtime
                 baseComponent.EditorLanguage != Language.Unspecified
                     ? baseComponent.EditorLanguage
                     : m_LocalizationManager.SystemLanguage;
-            if (m_CachedBytesSize > 0)
-            {
-                EnsureCachedBytesSize(m_CachedBytesSize);
-            }
-        }
-
-
-        /// <summary>
-        /// 确保二进制流缓存分配足够大小的内存并缓存。
-        /// </summary>
-        /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
-        public void EnsureCachedBytesSize(int ensureSize)
-        {
-            m_LocalizationManager.EnsureCachedBytesSize(ensureSize);
-        }
-
-        /// <summary>
-        /// 释放缓存的二进制流。
-        /// </summary>
-        public void FreeCachedBytes()
-        {
-            m_LocalizationManager.FreeCachedBytes();
         }
 
 
@@ -187,7 +160,7 @@ namespace UnityGameFramework.Runtime
 
         public async UniTask SetLanguage(Language language)
         {
-            var dictionaryAssetName = language.ToString();
+            string dictionaryAssetName = language.ToString();
             m_LocalizationManager.Language = language;
             RemoveAllRawStrings();
             await ReadData(dictionaryAssetName);
@@ -196,7 +169,7 @@ namespace UnityGameFramework.Runtime
 
         public async UniTask InitAsync()
         {
-            var dictionaryAssetName = Language.ToString();
+            string dictionaryAssetName = Language.ToString();
             await ReadData(dictionaryAssetName);
             OnLanguageChanged?.Invoke();
         }
@@ -205,7 +178,7 @@ namespace UnityGameFramework.Runtime
         {
             try
             {
-                var path = $"Localization/{language}";
+                string path = $"Localization/{language}";
                 var asset = Resources.Load<TextAsset>(path);
                 if (asset == null)
                 {

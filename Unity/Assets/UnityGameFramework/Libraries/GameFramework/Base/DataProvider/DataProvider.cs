@@ -11,9 +11,6 @@ namespace GameFramework
     /// <typeparam name="T">数据提供者的持有者的类型。</typeparam>
     internal sealed class DataProvider<T> : IDataProvider
     {
-        private const  int    BlockSize = 1024 * 4;
-        private static byte[] s_CachedBytes;
-
         private readonly T                      m_Owner;
         private          IResourceManager       m_ResourceManager;
         private          IDataProviderHelper<T> m_DataProviderHelper;
@@ -29,37 +26,6 @@ namespace GameFramework
             m_ResourceManager = null;
             m_DataProviderHelper = null;
         }
-
-        /// <summary>
-        /// 获取缓冲二进制流的大小。
-        /// </summary>
-        public static int CachedBytesSize => s_CachedBytes != null ? s_CachedBytes.Length : 0;
-
-
-        /// <summary>
-        /// 确保二进制流缓存分配足够大小的内存并缓存。
-        /// </summary>
-        /// <param name="ensureSize">要确保二进制流缓存分配内存的大小。</param>
-        public static void EnsureCachedBytesSize(int ensureSize)
-        {
-            if (ensureSize < 0) throw new GameFrameworkException("Ensure size is invalid.");
-
-            if (s_CachedBytes == null || s_CachedBytes.Length < ensureSize)
-            {
-                FreeCachedBytes();
-                var size = (ensureSize - 1 + BlockSize) / BlockSize * BlockSize;
-                s_CachedBytes = new byte[size];
-            }
-        }
-
-        /// <summary>
-        /// 释放缓存的二进制流。
-        /// </summary>
-        public static void FreeCachedBytes()
-        {
-            s_CachedBytes = null;
-        }
-
 
         /// <summary>
         /// 读取数据。
