@@ -10,52 +10,32 @@ namespace GameFramework.UI
         /// <summary>
         /// 获取界面组名称。
         /// </summary>
-        string Name
-        {
-            get;
-        }
+        string Name { get; }
 
         /// <summary>
         /// 获取或设置界面组深度。
         /// </summary>
-        int Depth
-        {
-            get;
-            set;
-        }
+        int Depth { get; set; }
 
         /// <summary>
         /// 获取或设置界面组是否暂停。
         /// </summary>
-        bool Pause
-        {
-            get;
-            set;
-        }
+        bool Pause { get; set; }
 
         /// <summary>
         /// 获取界面组中界面数量。
         /// </summary>
-        int UIFormCount
-        {
-            get;
-        }
+        int UIFormCount { get; }
 
         /// <summary>
         /// 获取当前界面。
         /// </summary>
-        IUIForm CurrentUIForm
-        {
-            get;
-        }
+        IUIForm CurrentUIForm { get; }
 
         /// <summary>
         /// 获取界面组辅助器。
         /// </summary>
-        IUIGroupHelper Helper
-        {
-            get;
-        }
+        IUIGroupHelper Helper { get; }
 
         /// <summary>
         /// 界面组中是否存在界面。

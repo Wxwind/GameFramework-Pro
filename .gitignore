@@ -25,8 +25,7 @@ _ReSharper.CSharp/
 [Rr]eleases/
 x64/
 x86/
-build/
-bld/
+[Bb]uild/
 [Bb]in/
 [Oo]bj/
 [Oo]ut/

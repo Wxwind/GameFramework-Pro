@@ -1,9 +1,9 @@
 using System.IO;
-using UnityEditor;
-using UnityEditor.Build;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 using YooAsset;
+#if !UNITY_EDITOR
+using System.Collections.Generic;
+#endif
 
 /// <summary>
 /// 资源文件查询服务类
@@ -110,7 +110,7 @@ public sealed class StreamingAssetsHelper
 
 
 #if UNITY_EDITOR
-internal class PreprocessBuild : IPreprocessBuildWithReport
+internal class PreprocessBuild : UnityEditor.Build.IPreprocessBuildWithReport
 {
     public int callbackOrder => 0;
 
@@ -118,14 +118,14 @@ internal class PreprocessBuild : IPreprocessBuildWithReport
     /// 在构建应用程序前处理
     /// 原理：在构建APP之前，搜索StreamingAssets目录下的所有资源文件，然后将这些文件信息写入内置清单，内置清单存储在Resources文件夹下。
     /// </summary>
-    public void OnPreprocessBuild(BuildReport report)
+    public void OnPreprocessBuild(UnityEditor.Build.Reporting.BuildReport report)
     {
         var saveFilePath = "Assets/Resources/BuildinFileManifest.asset";
         if (File.Exists(saveFilePath))
         {
             File.Delete(saveFilePath);
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            UnityEditor.AssetDatabase.SaveAssets();
+            UnityEditor.AssetDatabase.Refresh();
         }
 
         var folderPath = $"{Application.dataPath}/StreamingAssets/{StreamingAssetsDefine.RootFolderName}";
@@ -154,9 +154,9 @@ internal class PreprocessBuild : IPreprocessBuildWithReport
 
         if (Directory.Exists("Assets/Resources") == false)
             Directory.CreateDirectory("Assets/Resources");
-        AssetDatabase.CreateAsset(manifest, saveFilePath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
+        UnityEditor.AssetDatabase.CreateAsset(manifest, saveFilePath);
+        UnityEditor.AssetDatabase.SaveAssets();
+        UnityEditor.AssetDatabase.Refresh();
         Debug.Log($"一共{manifest.BuildinFiles.Count}个内置文件，内置资源清单保存成功 : {saveFilePath}");
     }
 }

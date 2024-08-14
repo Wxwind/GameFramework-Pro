@@ -11,10 +11,7 @@ namespace GameFramework.Fsm
         /// <summary>
         /// 获取有限状态机数量。
         /// </summary>
-        int Count
-        {
-            get;
-        }
+        int Count { get; }
 
         /// <summary>
         /// 检查是否存在有限状态机。

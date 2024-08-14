@@ -10,8 +10,8 @@
             private sealed class UIFormInfo : IReference
             {
                 private IUIForm m_UIForm;
-                private bool m_Paused;
-                private bool m_Covered;
+                private bool    m_Paused;
+                private bool    m_Covered;
 
                 public UIFormInfo()
                 {
@@ -20,36 +20,18 @@
                     m_Covered = false;
                 }
 
-                public IUIForm UIForm
-                {
-                    get
-                    {
-                        return m_UIForm;
-                    }
-                }
+                public IUIForm UIForm => m_UIForm;
 
                 public bool Paused
                 {
-                    get
-                    {
-                        return m_Paused;
-                    }
-                    set
-                    {
-                        m_Paused = value;
-                    }
+                    get => m_Paused;
+                    set => m_Paused = value;
                 }
 
                 public bool Covered
                 {
-                    get
-                    {
-                        return m_Covered;
-                    }
-                    set
-                    {
-                        m_Covered = value;
-                    }
+                    get => m_Covered;
+                    set => m_Covered = value;
                 }
 
                 public static UIFormInfo Create(IUIForm uiForm)
@@ -59,7 +41,7 @@
                         throw new GameFrameworkException("UI form is invalid.");
                     }
 
-                    UIFormInfo uiFormInfo = ReferencePool.Acquire<UIFormInfo>();
+                    var uiFormInfo = ReferencePool.Acquire<UIFormInfo>();
                     uiFormInfo.m_UIForm = uiForm;
                     uiFormInfo.m_Paused = true;
                     uiFormInfo.m_Covered = true;

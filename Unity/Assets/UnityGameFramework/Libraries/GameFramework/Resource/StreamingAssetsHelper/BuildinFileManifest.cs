@@ -15,5 +15,5 @@ public class BuildinFileManifest : ScriptableObject
         public string FileCRC32;
     }
 
-    public List<Element> BuildinFiles = new List<Element>();
+    public List<Element> BuildinFiles = new();
 }

@@ -9,10 +9,10 @@ namespace GameFramework
     /// <typeparam name="T">要序列化的数据类型。</typeparam>
     public abstract class GameFrameworkSerializer<T>
     {
-        private readonly Dictionary<byte, SerializeCallback> m_SerializeCallbacks;
+        private readonly Dictionary<byte, SerializeCallback>   m_SerializeCallbacks;
         private readonly Dictionary<byte, DeserializeCallback> m_DeserializeCallbacks;
         private readonly Dictionary<byte, TryGetValueCallback> m_TryGetValueCallbacks;
-        private byte m_LatestSerializeCallbackVersion;
+        private          byte                                  m_LatestSerializeCallbackVersion;
 
         /// <summary>
         /// 初始化游戏框架序列化器基类的新实例。
@@ -123,7 +123,7 @@ namespace GameFramework
         /// <returns>是否序列化数据成功。</returns>
         public bool Serialize(Stream stream, T data, byte version)
         {
-            byte[] header = GetHeader();
+            var header = GetHeader();
             stream.WriteByte(header[0]);
             stream.WriteByte(header[1]);
             stream.WriteByte(header[2]);
@@ -144,16 +144,17 @@ namespace GameFramework
         /// <returns>反序列化的数据。</returns>
         public T Deserialize(Stream stream)
         {
-            byte[] header = GetHeader();
-            byte header0 = (byte)stream.ReadByte();
-            byte header1 = (byte)stream.ReadByte();
-            byte header2 = (byte)stream.ReadByte();
+            var header = GetHeader();
+            var header0 = (byte)stream.ReadByte();
+            var header1 = (byte)stream.ReadByte();
+            var header2 = (byte)stream.ReadByte();
             if (header0 != header[0] || header1 != header[1] || header2 != header[2])
             {
-                throw new GameFrameworkException(Utility.Text.Format("Header is invalid, need '{0}{1}{2}', current '{3}{4}{5}'.", (char)header[0], (char)header[1], (char)header[2], (char)header0, (char)header1, (char)header2));
+                throw new GameFrameworkException(Utility.Text.Format("Header is invalid, need '{0}{1}{2}', current '{3}{4}{5}'.", (char)header[0], (char)header[1], (char)header[2],
+                    (char)header0, (char)header1, (char)header2));
             }
 
-            byte version = (byte)stream.ReadByte();
+            var version = (byte)stream.ReadByte();
             DeserializeCallback callback = null;
             if (!m_DeserializeCallbacks.TryGetValue(version, out callback))
             {
@@ -173,16 +174,16 @@ namespace GameFramework
         public bool TryGetValue(Stream stream, string key, out object value)
         {
             value = null;
-            byte[] header = GetHeader();
-            byte header0 = (byte)stream.ReadByte();
-            byte header1 = (byte)stream.ReadByte();
-            byte header2 = (byte)stream.ReadByte();
+            var header = GetHeader();
+            var header0 = (byte)stream.ReadByte();
+            var header1 = (byte)stream.ReadByte();
+            var header2 = (byte)stream.ReadByte();
             if (header0 != header[0] || header1 != header[1] || header2 != header[2])
             {
                 return false;
             }
 
-            byte version = (byte)stream.ReadByte();
+            var version = (byte)stream.ReadByte();
             TryGetValueCallback callback = null;
             if (!m_TryGetValueCallbacks.TryGetValue(version, out callback))
             {

@@ -33,35 +33,17 @@ namespace GameFramework
         /// <summary>
         /// 获取链表范围是否有效。
         /// </summary>
-        public bool IsValid
-        {
-            get
-            {
-                return m_First != null && m_Terminal != null && m_First != m_Terminal;
-            }
-        }
+        public bool IsValid => m_First != null && m_Terminal != null && m_First != m_Terminal;
 
         /// <summary>
         /// 获取链表范围的开始结点。
         /// </summary>
-        public LinkedListNode<T> First
-        {
-            get
-            {
-                return m_First;
-            }
-        }
+        public LinkedListNode<T> First => m_First;
 
         /// <summary>
         /// 获取链表范围的终结标记结点。
         /// </summary>
-        public LinkedListNode<T> Terminal
-        {
-            get
-            {
-                return m_Terminal;
-            }
-        }
+        public LinkedListNode<T> Terminal => m_Terminal;
 
         /// <summary>
         /// 获取链表范围的结点数量。
@@ -75,8 +57,8 @@ namespace GameFramework
                     return 0;
                 }
 
-                int count = 0;
-                for (LinkedListNode<T> current = m_First; current != null && current != m_Terminal; current = current.Next)
+                var count = 0;
+                for (var current = m_First; current != null && current != m_Terminal; current = current.Next)
                 {
                     count++;
                 }
@@ -92,7 +74,7 @@ namespace GameFramework
         /// <returns>是否包含指定值。</returns>
         public bool Contains(T value)
         {
-            for (LinkedListNode<T> current = m_First; current != null && current != m_Terminal; current = current.Next)
+            for (var current = m_First; current != null && current != m_Terminal; current = current.Next)
             {
                 if (current.Value.Equals(value))
                 {
@@ -137,8 +119,8 @@ namespace GameFramework
         public struct Enumerator : IEnumerator<T>, IEnumerator
         {
             private readonly GameFrameworkLinkedListRange<T> m_GameFrameworkLinkedListRange;
-            private LinkedListNode<T> m_Current;
-            private T m_CurrentValue;
+            private          LinkedListNode<T>               m_Current;
+            private          T                               m_CurrentValue;
 
             internal Enumerator(GameFrameworkLinkedListRange<T> range)
             {
@@ -149,30 +131,18 @@ namespace GameFramework
 
                 m_GameFrameworkLinkedListRange = range;
                 m_Current = m_GameFrameworkLinkedListRange.m_First;
-                m_CurrentValue = default(T);
+                m_CurrentValue = default;
             }
 
             /// <summary>
             /// 获取当前结点。
             /// </summary>
-            public T Current
-            {
-                get
-                {
-                    return m_CurrentValue;
-                }
-            }
+            public T Current => m_CurrentValue;
 
             /// <summary>
             /// 获取当前的枚举数。
             /// </summary>
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return m_CurrentValue;
-                }
-            }
+            object IEnumerator.Current => m_CurrentValue;
 
             /// <summary>
             /// 清理枚举数。
@@ -203,7 +173,7 @@ namespace GameFramework
             void IEnumerator.Reset()
             {
                 m_Current = m_GameFrameworkLinkedListRange.m_First;
-                m_CurrentValue = default(T);
+                m_CurrentValue = default;
             }
         }
     }

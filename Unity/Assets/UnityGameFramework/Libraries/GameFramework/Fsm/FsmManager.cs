@@ -9,7 +9,7 @@ namespace GameFramework.Fsm
     internal sealed class FsmManager : GameFrameworkModule, IFsmManager
     {
         private readonly Dictionary<TypeNamePair, FsmBase> m_Fsms;
-        private readonly List<FsmBase> m_TempFsms;
+        private readonly List<FsmBase>                     m_TempFsms;
 
         /// <summary>
         /// 初始化有限状态机管理器的新实例。
@@ -24,24 +24,12 @@ namespace GameFramework.Fsm
         /// 获取游戏框架模块优先级。
         /// </summary>
         /// <remarks>优先级较高的模块会优先轮询，并且关闭操作会后进行。</remarks>
-        internal override int Priority
-        {
-            get
-            {
-                return 1;
-            }
-        }
+        internal override int Priority => 1;
 
         /// <summary>
         /// 获取有限状态机数量。
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return m_Fsms.Count;
-            }
-        }
+        public int Count => m_Fsms.Count;
 
         /// <summary>
         /// 有限状态机管理器轮询。
@@ -56,12 +44,12 @@ namespace GameFramework.Fsm
                 return;
             }
 
-            foreach (KeyValuePair<TypeNamePair, FsmBase> fsm in m_Fsms)
+            foreach (var fsm in m_Fsms)
             {
                 m_TempFsms.Add(fsm.Value);
             }
 
-            foreach (FsmBase fsm in m_TempFsms)
+            foreach (var fsm in m_TempFsms)
             {
                 if (fsm.IsDestroyed)
                 {
@@ -77,7 +65,7 @@ namespace GameFramework.Fsm
         /// </summary>
         internal override void Shutdown()
         {
-            foreach (KeyValuePair<TypeNamePair, FsmBase> fsm in m_Fsms)
+            foreach (var fsm in m_Fsms)
             {
                 fsm.Value.Shutdown();
             }
@@ -196,9 +184,9 @@ namespace GameFramework.Fsm
         /// <returns>所有有限状态机。</returns>
         public FsmBase[] GetAllFsms()
         {
-            int index = 0;
-            FsmBase[] results = new FsmBase[m_Fsms.Count];
-            foreach (KeyValuePair<TypeNamePair, FsmBase> fsm in m_Fsms)
+            var index = 0;
+            var results = new FsmBase[m_Fsms.Count];
+            foreach (var fsm in m_Fsms)
             {
                 results[index++] = fsm.Value;
             }
@@ -218,7 +206,7 @@ namespace GameFramework.Fsm
             }
 
             results.Clear();
-            foreach (KeyValuePair<TypeNamePair, FsmBase> fsm in m_Fsms)
+            foreach (var fsm in m_Fsms)
             {
                 results.Add(fsm.Value);
             }
@@ -246,13 +234,13 @@ namespace GameFramework.Fsm
         /// <returns>要创建的有限状态机。</returns>
         public IFsm<T> CreateFsm<T>(string name, T owner, params FsmState<T>[] states) where T : class
         {
-            TypeNamePair typeNamePair = new TypeNamePair(typeof(T), name);
+            var typeNamePair = new TypeNamePair(typeof(T), name);
             if (HasFsm<T>(name))
             {
                 throw new GameFrameworkException(Utility.Text.Format("Already exist FSM '{0}'.", typeNamePair));
             }
 
-            Fsm<T> fsm = Fsm<T>.Create(name, owner, states);
+            var fsm = Fsm<T>.Create(name, owner, states);
             m_Fsms.Add(typeNamePair, fsm);
             return fsm;
         }
@@ -279,13 +267,13 @@ namespace GameFramework.Fsm
         /// <returns>要创建的有限状态机。</returns>
         public IFsm<T> CreateFsm<T>(string name, T owner, List<FsmState<T>> states) where T : class
         {
-            TypeNamePair typeNamePair = new TypeNamePair(typeof(T), name);
+            var typeNamePair = new TypeNamePair(typeof(T), name);
             if (HasFsm<T>(name))
             {
                 throw new GameFrameworkException(Utility.Text.Format("Already exist FSM '{0}'.", typeNamePair));
             }
 
-            Fsm<T> fsm = Fsm<T>.Create(name, owner, states);
+            var fsm = Fsm<T>.Create(name, owner, states);
             m_Fsms.Add(typeNamePair, fsm);
             return fsm;
         }

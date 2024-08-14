@@ -4,30 +4,21 @@
     {
         private sealed class OpenUIFormInfo : IReference
         {
-            private int m_SerialId;
+            private int     m_SerialId;
             private UIGroup m_UIGroup;
-            private bool m_PauseCoveredUIForm;
+            private bool    m_PauseCoveredUIForm;
 
 
-            public int SerialId
-            {
-                get { return m_SerialId; }
-            }
+            public int SerialId => m_SerialId;
 
-            public UIGroup UIGroup
-            {
-                get { return m_UIGroup; }
-            }
+            public UIGroup UIGroup => m_UIGroup;
 
-            public bool PauseCoveredUIForm
-            {
-                get { return m_PauseCoveredUIForm; }
-            }
+            public bool PauseCoveredUIForm => m_PauseCoveredUIForm;
 
 
             public static OpenUIFormInfo Create(int serialId, UIGroup uiGroup, bool pauseCoveredUIForm)
             {
-                OpenUIFormInfo openUIFormInfo = ReferencePool.Acquire<OpenUIFormInfo>();
+                var openUIFormInfo = ReferencePool.Acquire<OpenUIFormInfo>();
                 openUIFormInfo.m_SerialId = serialId;
                 openUIFormInfo.m_UIGroup = uiGroup;
                 openUIFormInfo.m_PauseCoveredUIForm = pauseCoveredUIForm;
