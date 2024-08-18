@@ -3,7 +3,8 @@
     "rootNamespace": "",
     "references": [
         "UnityGameFramework.Runtime",
-        "GameFramework"
+        "GameFramework",
+        "YooAsset.Editor"
     ],
     "includePlatforms": [
         "Editor"
