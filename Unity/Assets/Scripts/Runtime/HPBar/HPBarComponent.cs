@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using GameFramework.ObjectPool;
 using UnityEngine;
+using UnityGameFramework.ObjectPool;
 using UnityGameFramework.Runtime;
 
 namespace Game
@@ -34,7 +34,7 @@ namespace Game
 
         private void Update()
         {
-            for (int i = m_ActiveHPBarItems.Count - 1; i >= 0; i--)
+            for (var i = m_ActiveHPBarItems.Count - 1; i >= 0; i--)
             {
                 var hpBarItem = m_ActiveHPBarItems[i];
                 if (hpBarItem.Refresh()) continue;
@@ -76,7 +76,7 @@ namespace Game
         {
             if (entity == null) return null;
 
-            for (int i = 0; i < m_ActiveHPBarItems.Count; i++)
+            for (var i = 0; i < m_ActiveHPBarItems.Count; i++)
                 if (m_ActiveHPBarItems[i].Owner == entity)
                     return m_ActiveHPBarItems[i];
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Game.Editor;
-using GameFramework.Localization;
-using GameFramework.Resource;
+using UnityGameFramework.Localization;
+using UnityGameFramework.Resource;
 using UnityGameFramework.Runtime;
-using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
+using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -24,7 +24,6 @@ namespace Game
 
             // 声音配置：根据用户配置数据，设置即将使用的声音选项
             InitSoundSettings();
-
 
             procedureOwner.SetData<VarString>("PackageName", "DefaultPackage");
         }

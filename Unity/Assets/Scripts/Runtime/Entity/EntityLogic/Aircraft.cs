@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using GameFramework;
 using UnityEngine;
+using UnityGameFramework;
 using UnityGameFramework.Runtime;
 
 namespace Game
@@ -36,10 +36,10 @@ namespace Game
             GameEntry.Entity.ShowThruster(m_AircraftData.GetThrusterData()).Forget();
 
             var weaponDatas = m_AircraftData.GetAllWeaponDatas();
-            for (int i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]).Forget();
+            for (var i = 0; i < weaponDatas.Count; i++) GameEntry.Entity.ShowWeapon(weaponDatas[i]).Forget();
 
             var armorDatas = m_AircraftData.GetAllArmorDatas();
-            for (int i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]).Forget();
+            for (var i = 0; i < armorDatas.Count; i++) GameEntry.Entity.ShowArmor(armorDatas[i]).Forget();
         }
 
 

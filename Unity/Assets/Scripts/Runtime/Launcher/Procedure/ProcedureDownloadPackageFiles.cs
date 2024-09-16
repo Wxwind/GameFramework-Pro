@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityGameFramework.Runtime;
 using YooAsset;
-using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
+using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -40,10 +40,10 @@ namespace Game
         private void OnDownloadProgressCallback(int totalDownloadCount, int currentDownloadCount,
             long totalDownloadBytes, long currentDownloadBytes)
         {
-            float value = (float)currentDownloadCount / totalDownloadCount;
-            string currentSizeMB = (currentDownloadBytes / 1048576f).ToString("f1");
-            string totalSizeMB = (totalDownloadBytes / 1048576f).ToString("f1");
-            string text = $"{currentDownloadCount}/{totalDownloadCount} {currentSizeMB}MB/{totalSizeMB}MB";
+            var value = (float)currentDownloadCount / totalDownloadCount;
+            var currentSizeMB = (currentDownloadBytes / 1048576f).ToString("f1");
+            var totalSizeMB = (totalDownloadBytes / 1048576f).ToString("f1");
+            var text = $"{currentDownloadCount}/{totalDownloadCount} {currentSizeMB}MB/{totalSizeMB}MB";
             UILaunchMgr.ShowDownloadProgress(value, text);
         }
     }

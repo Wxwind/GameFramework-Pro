@@ -1,6 +1,6 @@
-﻿using GameFramework.UI;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityGameFramework.UI;
 
 namespace Game
 {

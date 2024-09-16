@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using GameFramework.Debugger;
-using GameFramework.Localization;
 using UnityEngine;
+using UnityGameFramework.Localization;
 using UnityGameFramework.Runtime;
 
 namespace Game
@@ -27,7 +26,7 @@ namespace Game
         {
         }
 
-        public void OnUpdate(float elapseSeconds, float realElapseSeconds)
+        public void OnUpdate()
         {
             if (m_NeedRestart)
             {

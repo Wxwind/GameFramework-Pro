@@ -1,8 +1,8 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using GameFramework.Localization;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityGameFramework.Localization;
 
 namespace Game
 {

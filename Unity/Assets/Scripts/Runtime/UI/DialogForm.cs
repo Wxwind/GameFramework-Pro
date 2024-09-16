@@ -1,6 +1,6 @@
-﻿using GameFramework;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityGameFramework;
 using UnityGameFramework.Runtime;
 
 namespace Game
@@ -109,7 +109,7 @@ namespace Game
 
         private void RefreshDialogMode()
         {
-            for (int i = 1; i <= m_ModeObjects.Length; i++) m_ModeObjects[i - 1].SetActive(i == DialogMode);
+            for (var i = 1; i <= m_ModeObjects.Length; i++) m_ModeObjects[i - 1].SetActive(i == DialogMode);
         }
 
         private void RefreshPauseGame()
@@ -122,21 +122,21 @@ namespace Game
             if (string.IsNullOrEmpty(confirmText))
                 confirmText = GameEntry.Localization.GetString("Dialog.ConfirmButton");
 
-            for (int i = 0; i < m_ConfirmTexts.Length; i++) m_ConfirmTexts[i].text = confirmText;
+            for (var i = 0; i < m_ConfirmTexts.Length; i++) m_ConfirmTexts[i].text = confirmText;
         }
 
         private void RefreshCancelText(string cancelText)
         {
             if (string.IsNullOrEmpty(cancelText)) cancelText = GameEntry.Localization.GetString("Dialog.CancelButton");
 
-            for (int i = 0; i < m_CancelTexts.Length; i++) m_CancelTexts[i].text = cancelText;
+            for (var i = 0; i < m_CancelTexts.Length; i++) m_CancelTexts[i].text = cancelText;
         }
 
         private void RefreshOtherText(string otherText)
         {
             if (string.IsNullOrEmpty(otherText)) otherText = GameEntry.Localization.GetString("Dialog.OtherButton");
 
-            for (int i = 0; i < m_OtherTexts.Length; i++) m_OtherTexts[i].text = otherText;
+            for (var i = 0; i < m_OtherTexts.Length; i++) m_OtherTexts[i].text = otherText;
         }
     }
 }

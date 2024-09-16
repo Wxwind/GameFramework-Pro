@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using Cysharp.Threading.Tasks;
-using GameFramework.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityGameFramework.Runtime;
+using UnityGameFramework.UI;
 
 namespace Game
 {
@@ -11,8 +11,8 @@ namespace Game
     {
         public static IEnumerator FadeToAlpha(this CanvasGroup canvasGroup, float alpha, float duration)
         {
-            float time = 0f;
-            float originalAlpha = canvasGroup.alpha;
+            var time = 0f;
+            var originalAlpha = canvasGroup.alpha;
             while (time < duration)
             {
                 time += Time.deltaTime;
@@ -25,8 +25,8 @@ namespace Game
 
         public static IEnumerator SmoothValue(this Slider slider, float value, float duration)
         {
-            float time = 0f;
-            float originalValue = slider.value;
+            var time = 0f;
+            var originalValue = slider.value;
             while (time < duration)
             {
                 time += Time.deltaTime;
@@ -48,7 +48,7 @@ namespace Game
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null) return false;
 
-            string assetName = drUIForm.AssetName;
+            var assetName = drUIForm.AssetName;
             if (string.IsNullOrEmpty(uiGroupName)) return uiComponent.HasUIForm(assetName);
 
             var uiGroup = uiComponent.GetUIGroup(uiGroupName);
@@ -70,7 +70,7 @@ namespace Game
 
             if (drUIForm == null) return null;
 
-            string assetName = drUIForm.AssetName;
+            var assetName = drUIForm.AssetName;
             UIForm uiForm = null;
             if (string.IsNullOrEmpty(uiGroupName))
             {
@@ -109,7 +109,7 @@ namespace Game
                 return null;
             }
 
-            string assetName = drUIForm.AssetName;
+            var assetName = drUIForm.AssetName;
             if (!drUIForm.AllowMultiInstance)
             {
                 if (uiComponent.IsLoadingUIForm(assetName)) return null;

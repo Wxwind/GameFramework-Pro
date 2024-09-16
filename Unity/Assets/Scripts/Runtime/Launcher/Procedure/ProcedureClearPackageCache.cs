@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using YooAsset;
-using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
+using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -16,7 +16,7 @@ namespace Game
 
         private async UniTaskVoid ClearPackageCache(ProcedureOwner procedureOwner)
         {
-            string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+            var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
             var package = YooAssets.GetPackage(packageName);
             var operation = package.ClearUnusedCacheFilesAsync();
             await operation.ToUniTask();

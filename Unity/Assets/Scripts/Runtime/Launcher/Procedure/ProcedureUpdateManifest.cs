@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityGameFramework.Runtime;
 using YooAsset;
-using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
+using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -24,10 +24,10 @@ namespace Game
 
             try
             {
-                string packageName = (string)procedureOwner.GetData("PackageName").GetValue();
-                string packageVersion = (string)procedureOwner.GetData("PackageVersion").GetValue();
+                var packageName = (string)procedureOwner.GetData("PackageName").GetValue();
+                var packageVersion = (string)procedureOwner.GetData("PackageVersion").GetValue();
                 var package = YooAssets.GetPackage(packageName);
-                bool savePackageVersion = true;
+                var savePackageVersion = true;
                 var operation = package.UpdatePackageManifestAsync(packageVersion, savePackageVersion);
                 await operation.ToUniTask();
 
@@ -36,7 +36,7 @@ namespace Game
             }
             catch (Exception e)
             {
-                Log.Error(e);
+                Log.Error(e.ToString());
                 UILaunchMgr.ShowMessageBox(GameEntry.Localization.GetString("UpdateManiFest.Error.Network"),
                     () => { ChangeState<ProcedureUpdateManifest>(procedureOwner); });
             }

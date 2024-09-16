@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using UnityGameFramework.Runtime;
-using ProcedureOwner = GameFramework.Fsm.IFsm<GameFramework.Procedure.IProcedureManager>;
+using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -30,8 +30,8 @@ namespace Game
             GameEntry.Entity.HideAllLoadedEntities();
 
             // 卸载所有场景
-            string[] loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
-            for (int i = 0; i < loadedSceneAssetNames.Length; i++)
+            var loadedSceneAssetNames = GameEntry.Scene.GetLoadedSceneAssetNames();
+            for (var i = 0; i < loadedSceneAssetNames.Length; i++)
                 GameEntry.Scene.UnloadScene(loadedSceneAssetNames[i]).Forget();
 
             // 还原游戏速度
