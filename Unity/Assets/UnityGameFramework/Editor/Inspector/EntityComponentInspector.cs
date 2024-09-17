@@ -1,4 +1,5 @@
 ﻿using UnityEditor;
+using UnityGameFramework.Entity;
 using UnityGameFramework.Runtime;
 
 namespace UnityGameFramework.Editor

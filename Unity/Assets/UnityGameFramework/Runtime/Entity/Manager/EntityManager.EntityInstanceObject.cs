@@ -3,12 +3,12 @@ using UnityGameFramework.ObjectPool;
 
 namespace UnityGameFramework.Entity
 {
-    internal sealed partial class EntityManager
+    public sealed partial class EntityComponent
     {
         /// <summary>
         /// 实体实例对象。
         /// </summary>
-        private sealed class EntityInstanceObject : ObjectBase
+        public sealed class EntityInstanceObject : ObjectBase
         {
             private Object        m_EntityAsset;
             private IEntityHelper m_EntityHelper;

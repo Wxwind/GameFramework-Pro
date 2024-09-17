@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Runtime
+namespace UnityGameFramework.Entity
 {
     /// <summary>
     /// 实体逻辑基类。

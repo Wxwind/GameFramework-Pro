@@ -72,11 +72,9 @@ namespace UnityGameFramework.Entity
         /// <param name="instanceCapacity">实体实例对象池容量。</param>
         /// <param name="instanceExpireTime">实体实例对象池对象过期秒数。</param>
         /// <param name="instancePriority">实体实例对象池的优先级。</param>
-        /// <param name="entityGroupHelper">实体组辅助器。</param>
         /// <returns>是否增加实体组成功。</returns>
         bool AddEntityGroup(string entityGroupName, float instanceAutoReleaseInterval, int instanceCapacity,
-            float instanceExpireTime, int instancePriority,
-            IEntityGroupHelper entityGroupHelper);
+            float instanceExpireTime, int instancePriority);
 
         /// <summary>
         /// 是否存在实体。

@@ -1,8 +1,8 @@
 ﻿using System;
 using UnityEngine;
-using UnityGameFramework.Entity;
+using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Runtime
+namespace UnityGameFramework.Entity
 {
     /// <summary>
     /// 实体。

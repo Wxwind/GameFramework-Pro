@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Runtime
+namespace UnityGameFramework.Entity
 {
     public sealed partial class EntityComponent : GameFrameworkComponent
     {
         [Serializable]
-        private sealed class EntityGroup
+        private sealed class EntityGroupConfig
         {
             [SerializeField] private string m_Name;
 

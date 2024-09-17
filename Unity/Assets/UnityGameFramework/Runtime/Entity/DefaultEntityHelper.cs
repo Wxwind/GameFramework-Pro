@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using UnityGameFramework.Entity;
+using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Runtime
+namespace UnityGameFramework.Entity
 {
     /// <summary>
     /// 默认实体辅助器。
@@ -45,7 +45,7 @@ namespace UnityGameFramework.Runtime
             }
 
             var transform = gameObject.transform;
-            transform.SetParent(((MonoBehaviour)entityGroup.Helper).transform);
+            transform.SetParent(entityGroup.Root.transform);
 
             return gameObject.GetOrAddComponent<Entity>();
         }

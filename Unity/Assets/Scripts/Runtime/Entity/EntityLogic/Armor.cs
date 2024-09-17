@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityGameFramework;
+using UnityGameFramework.Entity;
 using UnityGameFramework.Runtime;
 
 namespace Game
@@ -25,7 +26,7 @@ namespace Game
                 return;
             }
 
-            GameEntry.Entity.AttachEntity(Entity, m_ArmorData.OwnerId, AttachPoint);
+            GameEntry.Entity.AttachEntity(Entity.Id, m_ArmorData.OwnerId, AttachPoint);
         }
 
 

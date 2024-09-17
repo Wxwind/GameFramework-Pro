@@ -241,7 +241,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="bindingEntity">声音绑定的实体。</param>
         public void SetBindingEntity(IEntity bindingEntity)
         {
-            m_BindingEntityLogic = (bindingEntity as Entity).Logic;
+            m_BindingEntityLogic = (bindingEntity as Entity.Entity).Logic;
             if (m_BindingEntityLogic != null)
             {
                 UpdateAgentPosition();

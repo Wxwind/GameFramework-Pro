@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace UnityGameFramework.Entity
 {
     internal sealed class AttachEntityInfo : IReference
     {

@@ -1,20 +1,22 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityGameFramework.ObjectPool;
 
 namespace UnityGameFramework.Entity
 {
-    internal sealed partial class EntityManager
+    public sealed partial class EntityComponent
     {
         /// <summary>
         /// 实体组。
         /// </summary>
-        private sealed class EntityGroup : IEntityGroup
+        public sealed class EntityGroup : IEntityGroup
         {
             private readonly string                            m_Name;
-            private readonly IEntityGroupHelper                m_EntityGroupHelper;
             private readonly IObjectPool<EntityInstanceObject> m_InstancePool;
             private readonly GameFrameworkLinkedList<IEntity>  m_Entities;
             private          LinkedListNode<IEntity>           m_CachedNode;
+            private          GameObject                        m_root;
+
 
             /// <summary>
             /// 初始化实体组的新实例。
@@ -24,28 +26,23 @@ namespace UnityGameFramework.Entity
             /// <param name="instanceCapacity">实体实例对象池容量。</param>
             /// <param name="instanceExpireTime">实体实例对象池对象过期秒数。</param>
             /// <param name="instancePriority">实体实例对象池的优先级。</param>
-            /// <param name="entityGroupHelper">实体组辅助器。</param>
             /// <param name="objectPoolComponent">对象池管理器。</param>
             public EntityGroup(string name, float instanceAutoReleaseInterval, int instanceCapacity, float instanceExpireTime, int instancePriority,
-                IEntityGroupHelper entityGroupHelper, IObjectPoolComponent objectPoolComponent)
+                IObjectPoolComponent objectPoolComponent, GameObject root)
             {
                 if (string.IsNullOrEmpty(name))
                 {
                     throw new GameFrameworkException("Entity group name is invalid.");
                 }
 
-                if (entityGroupHelper == null)
-                {
-                    throw new GameFrameworkException("Entity group helper is invalid.");
-                }
 
                 m_Name = name;
-                m_EntityGroupHelper = entityGroupHelper;
                 m_InstancePool = objectPoolComponent.CreateSingleSpawnObjectPool<EntityInstanceObject>(Utility.Text.Format("Entity Instance Pool ({0})", name),
                     capacity: instanceCapacity, expireTime: instanceExpireTime, priority: instancePriority);
                 m_InstancePool.AutoReleaseInterval = instanceAutoReleaseInterval;
                 m_Entities = new GameFrameworkLinkedList<IEntity>();
                 m_CachedNode = null;
+                m_root = root;
             }
 
             /// <summary>
@@ -94,10 +91,8 @@ namespace UnityGameFramework.Entity
                 set => m_InstancePool.Priority = value;
             }
 
-            /// <summary>
-            /// 获取实体组辅助器。
-            /// </summary>
-            public IEntityGroupHelper Helper => m_EntityGroupHelper;
+            public GameObject Root => m_root;
+
 
             /// <summary>
             /// 实体组轮询。

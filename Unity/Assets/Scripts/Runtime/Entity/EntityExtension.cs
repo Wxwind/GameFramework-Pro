@@ -1,5 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using UnityGameFramework.Entity;
 using UnityGameFramework.Runtime;
 
 namespace Game
@@ -28,7 +29,7 @@ namespace Game
         public static void AttachEntity(this EntityComponent entityComponent, Entity entity, int ownerId,
             string parentTransformPath = null, object userData = null)
         {
-            entityComponent.AttachEntity(entity.Entity, ownerId, parentTransformPath, userData);
+            entityComponent.AttachEntity(entity.Entity.Id, ownerId, parentTransformPath, userData);
         }
 
         public static async UniTask<MyAircraft> ShowMyAircraft(this EntityComponent entityComponent,
@@ -81,7 +82,7 @@ namespace Game
             return entity.Logic as Effect;
         }
 
-        private static async UniTask<UnityGameFramework.Runtime.Entity> ShowEntity(this EntityComponent entityComponent, Type logicType,
+        private static async UniTask<UnityGameFramework.Entity.Entity> ShowEntity(this EntityComponent entityComponent, Type logicType,
             string entityGroup,
             EntityData data)
         {
@@ -101,7 +102,7 @@ namespace Game
             }
 
             return await entityComponent.ShowEntity(data.Id, logicType, drEntity.AssetName,
-                entityGroup, data) as UnityGameFramework.Runtime.Entity;
+                entityGroup, data) as UnityGameFramework.Entity.Entity;
         }
 
         public static int GenerateSerialId(this EntityComponent entityComponent)

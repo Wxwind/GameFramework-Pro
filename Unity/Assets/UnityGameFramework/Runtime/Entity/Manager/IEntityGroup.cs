@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace UnityGameFramework.Entity
 {
@@ -7,6 +8,8 @@ namespace UnityGameFramework.Entity
     /// </summary>
     public interface IEntityGroup
     {
+        GameObject Root { get; }
+
         /// <summary>
         /// 获取实体组名称。
         /// </summary>
@@ -16,6 +19,7 @@ namespace UnityGameFramework.Entity
         /// 获取实体组中实体数量。
         /// </summary>
         int EntityCount { get; }
+
 
         /// <summary>
         /// 获取或设置实体组实例对象池自动释放可释放对象的间隔秒数。
@@ -36,11 +40,6 @@ namespace UnityGameFramework.Entity
         /// 获取或设置实体组实例对象池的优先级。
         /// </summary>
         int InstancePriority { get; set; }
-
-        /// <summary>
-        /// 获取实体组辅助器。
-        /// </summary>
-        IEntityGroupHelper Helper { get; }
 
         /// <summary>
         /// 实体组中是否存在实体。

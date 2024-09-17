@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityGameFramework;
+using UnityGameFramework.Entity;
 using UnityGameFramework.Runtime;
 
 namespace Game

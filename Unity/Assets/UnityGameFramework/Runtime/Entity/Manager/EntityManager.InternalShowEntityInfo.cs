@@ -1,15 +1,15 @@
 ﻿namespace UnityGameFramework.Entity
 {
-    internal sealed partial class EntityManager
+    public sealed partial class EntityComponent
     {
-        private sealed class ShowEntityInfo : IReference
+        private sealed class InternalShowEntityInfo : IReference
         {
             private int         m_SerialId;
             private int         m_EntityId;
             private EntityGroup m_EntityGroup;
             private object      m_UserData;
 
-            public ShowEntityInfo()
+            public InternalShowEntityInfo()
             {
                 m_SerialId = 0;
                 m_EntityId = 0;
@@ -25,9 +25,9 @@
 
             public object UserData => m_UserData;
 
-            public static ShowEntityInfo Create(int serialId, int entityId, EntityGroup entityGroup, object userData)
+            public static InternalShowEntityInfo Create(int serialId, int entityId, EntityGroup entityGroup, object userData)
             {
-                var showEntityInfo = ReferencePool.Acquire<ShowEntityInfo>();
+                var showEntityInfo = ReferencePool.Acquire<InternalShowEntityInfo>();
                 showEntityInfo.m_SerialId = serialId;
                 showEntityInfo.m_EntityId = entityId;
                 showEntityInfo.m_EntityGroup = entityGroup;

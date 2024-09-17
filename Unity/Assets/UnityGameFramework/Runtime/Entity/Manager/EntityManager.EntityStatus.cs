@@ -1,6 +1,6 @@
 ﻿namespace UnityGameFramework.Entity
 {
-    internal sealed partial class EntityManager
+    public sealed partial class EntityComponent
     {
         /// <summary>
         /// 实体状态。

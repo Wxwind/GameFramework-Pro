@@ -255,7 +255,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="soundGroupName">声音组名称。</param>
         /// <param name="bindingEntity">声音绑定的实体。</param>
         /// <returns>声音的序列编号。</returns>
-        public int PlaySound(string soundAssetName, string soundGroupName, Entity bindingEntity)
+        public int PlaySound(string soundAssetName, string soundGroupName, Entity.Entity bindingEntity)
         {
             return PlaySound(soundAssetName, soundGroupName, null, bindingEntity);
         }
@@ -284,7 +284,7 @@ namespace UnityGameFramework.Runtime
         /// <param name="bindingEntity">声音绑定的实体。</param>
         /// <returns>声音的序列编号。</returns>
         public int PlaySound(string soundAssetName, string soundGroupName,
-            PlaySoundParams playSoundParams, Entity bindingEntity)
+            PlaySoundParams playSoundParams, Entity.Entity bindingEntity)
         {
             playSoundParams.BindingEntity = bindingEntity;
             return m_SoundManager.PlaySound(soundAssetName, soundGroupName, playSoundParams);

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityGameFramework.Entity;
 using UnityGameFramework.Fsm;
 using UnityGameFramework.ObjectPool;
 using UnityGameFramework.Procedure;
