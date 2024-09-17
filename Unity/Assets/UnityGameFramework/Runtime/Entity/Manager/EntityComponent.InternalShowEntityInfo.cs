@@ -4,18 +4,10 @@
     {
         private sealed class InternalShowEntityInfo : IReference
         {
-            private int         m_SerialId;
-            private int         m_EntityId;
-            private EntityGroup m_EntityGroup;
-            private object      m_UserData;
-
-            public InternalShowEntityInfo()
-            {
-                m_SerialId = 0;
-                m_EntityId = 0;
-                m_EntityGroup = null;
-                m_UserData = null;
-            }
+            private int         m_SerialId    = 0;
+            private int         m_EntityId    = 0;
+            private EntityGroup m_EntityGroup = null;
+            private object      m_UserData    = null;
 
             public int SerialId => m_SerialId;
 
