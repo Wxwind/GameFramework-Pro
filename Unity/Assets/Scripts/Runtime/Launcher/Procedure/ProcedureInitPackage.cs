@@ -1,9 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
-using UnityGameFramework;
-using UnityGameFramework.Resource;
-using UnityGameFramework.Runtime;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+using GFPro;
+using GFPro.Resource;
+using ProcedureOwner = GFPro.IFsm<GFPro.Procedure.ProcedureComponent>;
 
 namespace Game
 {

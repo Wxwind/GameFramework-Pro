@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
     /// <summary>
     ///     可作为目标的实体类。
     /// </summary>
-    public abstract class TargetableObject : Entity
+    public abstract class TargetableObject : GameEntity
     {
         [SerializeField] private TargetableObjectData m_TargetableObjectData;
 
@@ -14,7 +14,7 @@ namespace Game
 
         private void OnTriggerEnter(Collider other)
         {
-            var entity = other.gameObject.GetComponent<Entity>();
+            var entity = other.gameObject.GetComponent<GameEntity>();
             if (entity == null) return;
 
             if (entity is TargetableObject && entity.Id >= Id)
@@ -26,11 +26,11 @@ namespace Game
 
         public abstract ImpactData GetImpactData();
 
-        public void ApplyDamage(Entity attacker, int damageHP)
+        public void ApplyDamage(GameEntity attacker, int damageHP)
         {
-            float fromHPRatio = m_TargetableObjectData.HPRatio;
+            var fromHPRatio = m_TargetableObjectData.HPRatio;
             m_TargetableObjectData.HP -= damageHP;
-            float toHPRatio = m_TargetableObjectData.HPRatio;
+            var toHPRatio = m_TargetableObjectData.HPRatio;
             if (fromHPRatio > toHPRatio) GameEntry.HPBar.ShowHPBar(this, fromHPRatio, toHPRatio);
 
             if (m_TargetableObjectData.HP <= 0) OnDead(attacker);
@@ -52,7 +52,7 @@ namespace Game
             if (m_TargetableObjectData == null) Log.Error("Targetable object data is invalid.");
         }
 
-        protected virtual void OnDead(Entity attacker)
+        protected virtual void OnDead(GameEntity attacker)
         {
             GameEntry.Entity.HideEntity(this);
         }

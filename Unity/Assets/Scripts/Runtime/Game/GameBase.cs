@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
@@ -18,7 +18,7 @@ namespace Game
         {
             GameOver = false;
             m_MyAircraft = null;
-            SceneBackground = Object.FindObjectOfType<ScrollableBackground>();
+            SceneBackground = UnityEngine.Object.FindObjectOfType<ScrollableBackground>();
             if (SceneBackground == null)
             {
                 Log.Warning("Can not find scene background.");

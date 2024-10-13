@@ -1,7 +1,7 @@
 ﻿using System.Collections;
+using GFPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
@@ -19,7 +19,7 @@ namespace Game
 
         private Canvas m_ParentCanvas;
 
-        public Entity Owner { get; private set; }
+        public GameEntity Owner { get; private set; }
 
         private void Awake()
         {
@@ -43,7 +43,7 @@ namespace Game
             gameObject.SetActive(false);
         }
 
-        public void Init(Entity owner, Canvas parentCanvas, float fromHPRatio, float toHPRatio)
+        public void Init(GameEntity owner, Canvas parentCanvas, float fromHPRatio, float toHPRatio)
         {
             if (owner == null)
             {

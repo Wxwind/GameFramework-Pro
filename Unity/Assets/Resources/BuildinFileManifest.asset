@@ -47,12 +47,6 @@ MonoBehaviour:
     FileName: b0147d5378386a12c4cf5417837c4ff3.bundle
     FileCRC32: 78df4e54
   - PackageName: DefaultPackage
-    FileName: buildlogtep.json
-    FileCRC32: 2b06ed56
-  - PackageName: DefaultPackage
-    FileName: BuildReport_DefaultPackage_2024-09-17-1045.json
-    FileCRC32: 350112c6
-  - PackageName: DefaultPackage
     FileName: c78a5863fe35f14e50f8772bf9aa21ca.bundle
     FileCRC32: 08e60936
   - PackageName: DefaultPackage
@@ -70,6 +64,3 @@ MonoBehaviour:
   - PackageName: DefaultPackage
     FileName: f4d979aa27f726ca2829676810f7a498.bundle
     FileCRC32: c69ff982
-  - PackageName: DefaultPackage
-    FileName: link.xml
-    FileCRC32: 7bea785a

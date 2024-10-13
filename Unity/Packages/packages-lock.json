@@ -7,8 +7,15 @@
       "dependencies": {},
       "hash": "de0348c453844f91d52e736be681f0713ae47201"
     },
+    "com.cysharp.memorypack": {
+      "version": "https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/Plugins/MemoryPack#1.10.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "2554e81f0315ddf835026940ccc4ba8175edfda3"
+    },
     "com.cysharp.unitask": {
-      "version": "2.5.5",
+      "version": "2.5.10",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -151,9 +158,9 @@
       "depth": 0,
       "source": "registry",
       "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.director": "1.0.0",
         "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
       },
       "url": "https://packages.unity.com"

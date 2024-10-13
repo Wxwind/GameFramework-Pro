@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
@@ -37,7 +37,7 @@ namespace Game
             CachedTransform.Rotate(m_RotateSphere * m_AsteroidData.AngularSpeed * elapseSeconds, Space.Self);
         }
 
-        protected override void OnDead(Entity attacker)
+        protected override void OnDead(GameEntity attacker)
         {
             base.OnDead(attacker);
 

@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine;
-using UnityGameFramework;
 
 namespace Game
 {

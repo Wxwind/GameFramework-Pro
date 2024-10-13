@@ -1,6 +1,5 @@
-﻿using UnityGameFramework;
-using UnityGameFramework.Runtime;
-using UnityGameFramework.Sound;
+﻿using GFPro;
+using GFPro.Sound;
 
 namespace Game
 {
@@ -16,7 +15,7 @@ namespace Game
             var drMusic = tbMusic.GetOrDefault(musicId);
             if (drMusic == null)
             {
-                Log.Warning("Can not load music '{0}' from data table.", musicId.ToString());
+                Log.Warning($"Can not load music '{musicId}' from data table.");
                 return null;
             }
 
@@ -38,13 +37,13 @@ namespace Game
             s_MusicSerialId = null;
         }
 
-        public static int? PlaySound(this SoundComponent soundComponent, int soundId, Entity bindingEntity = null)
+        public static int? PlaySound(this SoundComponent soundComponent, int soundId, GameEntity bindingGameEntity = null)
         {
             var tbSound = GameEntry.LubanDataTable.Tables.TbSound;
             var drSound = tbSound.GetOrDefault(soundId);
             if (drSound == null)
             {
-                Log.Warning("Can not load sound '{0}' from data table.", soundId.ToString());
+                Log.Warning($"Can not load sound '{soundId}' from data table.");
                 return null;
             }
 
@@ -55,7 +54,7 @@ namespace Game
             playSoundParams.SpatialBlend = drSound.SpatialBlend;
             return soundComponent.PlaySound(drSound.AssetName, "Sound",
                 playSoundParams,
-                bindingEntity != null ? bindingEntity.Entity : null);
+                bindingGameEntity != null ? bindingGameEntity.Entity : null);
         }
 
         public static int? PlayUISound(this SoundComponent soundComponent, int uiSoundId)
@@ -64,7 +63,7 @@ namespace Game
             var drUISound = tbUISound.GetOrDefault(uiSoundId);
             if (drUISound == null)
             {
-                Log.Warning("Can not load UI sound '{0}' from data table.", uiSoundId.ToString());
+                Log.Warning($"Can not load UI sound '{uiSoundId}' from data table.");
                 return null;
             }
 
@@ -88,7 +87,7 @@ namespace Game
             var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
-                Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
+                Log.Warning($"Sound group '{soundGroupName}' is invalid.");
                 return true;
             }
 
@@ -106,7 +105,7 @@ namespace Game
             var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
-                Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
+                Log.Warning($"Sound group '{soundGroupName}' is invalid.");
                 return;
             }
 
@@ -127,7 +126,7 @@ namespace Game
             var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
-                Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
+                Log.Warning($"Sound group '{soundGroupName}' is invalid.");
                 return 0f;
             }
 
@@ -145,7 +144,7 @@ namespace Game
             var soundGroup = soundComponent.GetSoundGroup(soundGroupName);
             if (soundGroup == null)
             {
-                Log.Warning("Sound group '{0}' is invalid.", soundGroupName);
+                Log.Warning($"Sound group '{soundGroupName}' is invalid.");
                 return;
             }
 

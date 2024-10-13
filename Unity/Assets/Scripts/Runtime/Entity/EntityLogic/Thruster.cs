@@ -1,14 +1,12 @@
-﻿using UnityEngine;
-using UnityGameFramework;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
     /// <summary>
     ///     推进器类。
     /// </summary>
-    public class Thruster : Entity
+    public class Thruster : GameEntity
     {
         private const string AttachPoint = "Thruster Point";
 

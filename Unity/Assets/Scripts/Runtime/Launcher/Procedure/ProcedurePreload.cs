@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine;
-using UnityGameFramework;
-using UnityGameFramework.Runtime;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+using ProcedureOwner = GFPro.IFsm<GFPro.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -58,11 +57,11 @@ namespace Game
                 m_LoadedFlag.Add(configName, false);
                 await GameEntry.Config.ReadData(configName);
                 m_LoadedFlag[configName] = true;
-                Log.Info("Load config '{0}' OK.", configName);
+                Log.Info($"Load config '{configName}' OK.");
             }
             catch (Exception e)
             {
-                Log.Error("Can not load config  '{0}' with error message '{1}'.", configName, e);
+                Log.Error(e);
                 throw;
             }
         }
@@ -77,7 +76,7 @@ namespace Game
             }
             catch (Exception e)
             {
-                Log.Error("Can not load config LubanDataTable with error message '{0}'.", e);
+                Log.Error(e);
                 throw;
             }
         }
@@ -90,12 +89,11 @@ namespace Game
                 m_LoadedFlag.Add(dictionaryAssetName, false);
                 await GameEntry.Localization.InitAsync();
                 m_LoadedFlag[dictionaryAssetName] = true;
-                Log.Info("Load dictionary '{0}' OK.", dictionaryAssetName);
+                Log.Info($"Load dictionary '{dictionaryAssetName}' OK.");
             }
             catch (Exception e)
             {
-                Log.Error("Can not load dictionary '{0}' with error message '{1}'.", dictionaryAssetName,
-                    e);
+                Log.Error(e);
                 throw;
             }
         }
@@ -109,12 +107,11 @@ namespace Game
                 );
                 m_LoadedFlag[Utility.Text.Format("Font.{0}", fontName)] = true;
                 UGuiForm.SetMainFont(asset);
-                Log.Info("Load font '{0}' OK.", fontName);
+                Log.Info($"Load font '{fontName}' OK.");
             }
             catch (Exception e)
             {
-                Log.Error("Can not load font '{0}' with error message '{1}'.", fontName,
-                    e);
+                Log.Error(e);
                 throw;
             }
         }

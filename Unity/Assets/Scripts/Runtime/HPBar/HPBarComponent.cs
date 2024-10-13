@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using GFPro;
+using GFPro.GFObjectPool;
 using UnityEngine;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
-    public class HPBarComponent : GameFrameworkComponent
+    public class HPBarComponent : Entity, IAwake
     {
         [SerializeField] private HPBarItem m_HPBarItemTemplate;
 
@@ -18,7 +18,7 @@ namespace Game
 
         private IObjectPool<HPBarItemObject> m_HPBarItemObjectPool;
 
-        private void Start()
+        public void Awake()
         {
             if (m_HPBarInstanceRoot == null)
             {
@@ -28,7 +28,7 @@ namespace Game
 
             m_CachedCanvas = m_HPBarInstanceRoot.GetComponent<Canvas>();
             m_HPBarItemObjectPool =
-                GameEntry.ObjectPool.CreateSingleSpawnObjectPool<HPBarItemObject>("HPBarItem", m_InstancePoolCapacity);
+                ObjectPool.Instance.CreateSingleSpawnObjectPool<HPBarItemObject>("HPBarItem", m_InstancePoolCapacity);
             m_ActiveHPBarItems = new List<HPBarItem>();
         }
 
@@ -47,22 +47,22 @@ namespace Game
         {
         }
 
-        public void ShowHPBar(Entity entity, float fromHPRatio, float toHPRatio)
+        public void ShowHPBar(GameEntity gameEntity, float fromHPRatio, float toHPRatio)
         {
-            if (entity == null)
+            if (gameEntity == null)
             {
                 Log.Warning("Entity is invalid.");
                 return;
             }
 
-            var hpBarItem = GetActiveHPBarItem(entity);
+            var hpBarItem = GetActiveHPBarItem(gameEntity);
             if (hpBarItem == null)
             {
-                hpBarItem = CreateHPBarItem(entity);
+                hpBarItem = CreateHPBarItem(gameEntity);
                 m_ActiveHPBarItems.Add(hpBarItem);
             }
 
-            hpBarItem.Init(entity, m_CachedCanvas, fromHPRatio, toHPRatio);
+            hpBarItem.Init(gameEntity, m_CachedCanvas, fromHPRatio, toHPRatio);
         }
 
         private void HideHPBar(HPBarItem hpBarItem)
@@ -72,18 +72,18 @@ namespace Game
             m_HPBarItemObjectPool.Unspawn(hpBarItem);
         }
 
-        private HPBarItem GetActiveHPBarItem(Entity entity)
+        private HPBarItem GetActiveHPBarItem(GameEntity gameEntity)
         {
-            if (entity == null) return null;
+            if (gameEntity == null) return null;
 
             for (var i = 0; i < m_ActiveHPBarItems.Count; i++)
-                if (m_ActiveHPBarItems[i].Owner == entity)
+                if (m_ActiveHPBarItems[i].Owner == gameEntity)
                     return m_ActiveHPBarItems[i];
 
             return null;
         }
 
-        private HPBarItem CreateHPBarItem(Entity entity)
+        private HPBarItem CreateHPBarItem(GameEntity gameEntity)
         {
             HPBarItem hpBarItem = null;
             var hpBarItemObject = m_HPBarItemObjectPool.Spawn();

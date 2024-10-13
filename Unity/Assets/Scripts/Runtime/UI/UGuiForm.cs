@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using GFPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {

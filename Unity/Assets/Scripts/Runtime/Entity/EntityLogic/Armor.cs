@@ -1,14 +1,12 @@
-﻿using UnityEngine;
-using UnityGameFramework;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
     /// <summary>
     ///     装甲类。
     /// </summary>
-    public class Armor : Entity
+    public class Armor : GameEntity
     {
         private const string AttachPoint = "Armor Point";
 
@@ -34,7 +32,7 @@ namespace Game
         {
             base.OnAttachTo(parentEntity, parentTransform, userData);
 
-            Name = Utility.Text.Format("Armor of {0}", parentEntity.Name);
+            Name = $"Armor of {parentEntity.Name}";
             CachedTransform.localPosition = Vector3.zero;
         }
     }

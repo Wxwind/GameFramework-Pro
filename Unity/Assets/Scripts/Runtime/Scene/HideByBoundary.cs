@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
@@ -8,10 +8,10 @@ namespace Game
         private void OnTriggerExit(Collider other)
         {
             var go = other.gameObject;
-            var entity = go.GetComponent<Entity>();
+            var entity = go.GetComponent<GameEntity>();
             if (entity == null)
             {
-                Log.Warning("Unknown GameObject '{0}', you must use entity only.", go.name);
+                Log.Warning($"Unknown GameObject '{go.name}', you must use entity only.");
                 Destroy(go);
                 return;
             }

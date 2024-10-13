@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
@@ -31,7 +31,7 @@ namespace Game
                 Mode = 2,
                 Title = GameEntry.Localization.GetString("AskQuitGame.Title"),
                 Message = GameEntry.Localization.GetString("AskQuitGame.Message"),
-                OnClickConfirm = delegate { UnityGameFramework.Runtime.GameEntry.Shutdown(ShutdownType.Quit); }
+                OnClickConfirm = delegate { GFPro.GameEntry.Shutdown(ShutdownType.Quit); }
             });
         }
 

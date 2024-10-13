@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using UnityGameFramework;
-using UnityGameFramework.ObjectPool;
+﻿using GFPro;
+using GFPro.GFObjectPool;
 
 namespace Game
 {
@@ -18,7 +17,7 @@ namespace Game
             var hpBarItem = (HPBarItem)Target;
             if (hpBarItem == null) return;
 
-            Object.Destroy(hpBarItem.gameObject);
+            UnityEngine.Object.Destroy(hpBarItem.gameObject);
         }
     }
 }

@@ -5,7 +5,7 @@ using Luban;
 using SimpleJSON;
 using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public enum TablesLoadType : byte
     {
@@ -14,9 +14,7 @@ namespace UnityGameFramework.Runtime
         Json
     }
 
-    [DisallowMultipleComponent]
-    [AddComponentMenu("Game Framework Pro/Luban DataTable")]
-    public class LubanDataTableComponent : GameFrameworkComponent
+    public class LubanDataTableComponent : Entity
     {
         public TablesLoadType LoadType { get; private set; } = TablesLoadType.Undefined;
 
@@ -36,7 +34,7 @@ namespace UnityGameFramework.Runtime
 
                 async UniTask<ByteBuf> LoadByteBuf(string file)
                 {
-                    var resourceComponent = GameEntry.GetComponent<ResourceComponent>();
+                    var resourceComponent = ResourceComponent.Instance;
                     var textAsset = await resourceComponent.LoadAssetAsync<TextAsset>(file);
                     resourceComponent.UnloadAsset(textAsset);
 
@@ -52,7 +50,7 @@ namespace UnityGameFramework.Runtime
 
                 async UniTask<JSONNode> LoadJson(string file)
                 {
-                    var resourceComponent = GameEntry.GetComponent<ResourceComponent>();
+                    var resourceComponent = ResourceComponent.Instance;
                     var textAsset = await resourceComponent.LoadAssetAsync<TextAsset>(file);
                     resourceComponent.UnloadAsset(textAsset);
 

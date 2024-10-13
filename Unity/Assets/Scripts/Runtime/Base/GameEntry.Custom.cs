@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
@@ -8,8 +8,6 @@ namespace Game
     /// </summary>
     public partial class GameEntry : MonoBehaviour
     {
-        public static BuiltinDataComponent BuiltinData { get; private set; }
-
         public static HPBarComponent HPBar { get; private set; }
 
 
@@ -17,9 +15,8 @@ namespace Game
 
         private static void InitCustomComponents()
         {
-            BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
-            HPBar = UnityGameFramework.Runtime.GameEntry.GetComponent<HPBarComponent>();
-            LubanDataTable = UnityGameFramework.Runtime.GameEntry.GetComponent<LubanDataTableComponent>();
+            HPBar = GFPro.GameEntry.GetComponent<HPBarComponent>();
+            LubanDataTable = GFPro.GameEntry.GetComponent<LubanDataTableComponent>();
         }
     }
 }

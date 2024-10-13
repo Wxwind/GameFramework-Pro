@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "com.code-philosophy.luban": "https://github.com/focus-creative-games/luban_unity.git",
-    "com.cysharp.unitask": "2.5.5",
+    "com.cysharp.memorypack": "https://github.com/Cysharp/MemoryPack.git?path=src/MemoryPack.Unity/Assets/Plugins/MemoryPack#1.10.0",
+    "com.cysharp.unitask": "2.5.10",
     "com.tuyoogame.yooasset": "2.1.2",
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.ide.rider": "3.0.28",

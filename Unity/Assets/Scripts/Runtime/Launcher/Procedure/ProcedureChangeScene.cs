@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine.SceneManagement;
-using UnityGameFramework.Runtime;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+using ProcedureOwner = GFPro.IFsm<GFPro.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -43,7 +43,7 @@ namespace Game
             var drScene = tbScene.GetOrDefault(sceneId);
             if (drScene == null)
             {
-                Log.Warning("Can not load scene '{0}' from data table.", sceneId.ToString());
+                Log.Warning($"Can not load scene '{sceneId.ToString()}' from data table.");
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace Game
         {
             await GameEntry.Scene.LoadSceneAsync(sceneName, null, LoadSceneMode.Additive,
                 false, priority, OnLoadSceneUpdate);
-            Log.Info("Load scene '{0}' OK.", sceneName);
+            Log.Info($"Load scene '{sceneName}' OK.");
 
             if (m_BackgroundMusicId > 0) GameEntry.Sound.PlayMusic(m_BackgroundMusicId);
 
@@ -65,7 +65,7 @@ namespace Game
 
             void OnLoadSceneUpdate(float progress)
             {
-                Log.Info("Load scene '{0}' update, progress '{1}'.", sceneName, progress);
+                Log.Info($"Load scene '{sceneName}' update, progress '{progress}'.");
             }
         }
 

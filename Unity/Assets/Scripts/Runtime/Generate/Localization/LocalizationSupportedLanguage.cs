@@ -1,6 +1,6 @@
 // This is an automatically generated class by Share.Tool. Please do not modify it.
 
-using UnityGameFramework.Localization;
+using GFPro.Localization;
 
 namespace Game.Editor
 {

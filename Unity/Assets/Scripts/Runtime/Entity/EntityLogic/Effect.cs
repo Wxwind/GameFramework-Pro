@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
     /// <summary>
     ///     特效类。
     /// </summary>
-    public class Effect : Entity
+    public class Effect : GameEntity
     {
         [SerializeField] private EffectData m_EffectData;
 

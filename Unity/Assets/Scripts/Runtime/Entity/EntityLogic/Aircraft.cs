@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine;
-using UnityGameFramework;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
@@ -32,7 +30,7 @@ namespace Game
                 return;
             }
 
-            Name = Utility.Text.Format("Aircraft ({0})", Id);
+            Name = $"Aircraft ({Id})";
 
             GameEntry.Entity.ShowThruster(m_AircraftData.GetThrusterData()).Forget();
 
@@ -83,7 +81,7 @@ namespace Game
             if (childEntity is Armor) m_Armors.Remove((Armor)childEntity);
         }
 
-        protected override void OnDead(Entity attacker)
+        protected override void OnDead(GameEntity attacker)
         {
             base.OnDead(attacker);
 

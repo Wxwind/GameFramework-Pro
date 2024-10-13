@@ -1,15 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
+using GFPro;
 using UnityEngine;
-using UnityGameFramework;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
     /// <summary>
     ///     武器类。
     /// </summary>
-    public class Weapon : Entity
+    public class Weapon : GameEntity
     {
         private const string AttachPoint = "Weapon Point";
 

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Game.Editor;
-using UnityGameFramework.Localization;
-using UnityGameFramework.Resource;
-using UnityGameFramework.Runtime;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+using GFPro;
+using GFPro.Localization;
+using ProcedureOwner = GFPro.IFsm<GFPro.Procedure.ProcedureComponent>;
 
 namespace Game
 {
@@ -13,11 +12,6 @@ namespace Game
         protected override void OnEnter(ProcedureOwner procedureOwner)
         {
             base.OnEnter(procedureOwner);
-
-            // 构建信息：发布版本时，把一些数据以 Json 的格式写入 Assets/AssetRes/Configs/BuildInfo.json，供游戏逻辑读取
-            GameEntry.BuiltinData.InitBuildInfo();
-            // TODO BuiltInfo无法在Manager里面直接读取,所以只能放在这里,后续考虑将manager和component合并成一个类,然后参考ET Entity的方式重写Component
-            GameEntry.Resource.InitBuildInfo();
 
             // 语言配置：设置当前使用的语言，如果不设置，则默认使用操作系统语言
             InitLanguageSettings();
@@ -39,15 +33,6 @@ namespace Game
         private void InitLanguageSettings()
         {
             Language language;
-            if (GameEntry.Base.ResourceMode == ResourceMode.EditorSimulateMode &&
-                GameEntry.Base.EditorLanguage != Language.Unspecified)
-                // 编辑器资源模式直接使用 Inspector 上设置的语言
-            {
-                language = GameEntry.Base.EditorLanguage;
-                GameEntry.Localization.InitBuiltinLocalization(language);
-                Log.Info("Init language settings complete in editor mode, current language is '{0}'.", language.ToString());
-                return;
-            }
 
             language = GameEntry.Localization.Language;
             if (GameEntry.Setting.HasSetting(Constant.Setting.Language))
@@ -70,7 +55,7 @@ namespace Game
             }
 
             GameEntry.Localization.InitBuiltinLocalization(language);
-            Log.Info("Init language settings complete, current language is '{0}'.", language.ToString());
+            Log.Info($"Init language settings complete, current language is '{language.ToString()}'.");
         }
 
 

@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
     /// <summary>
     ///     子弹类。
     /// </summary>
-    public class Bullet : Entity
+    public class Bullet : GameEntity
     {
         [SerializeField] private BulletData m_BulletData;
 

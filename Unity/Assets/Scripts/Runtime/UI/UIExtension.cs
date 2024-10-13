@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using Cysharp.Threading.Tasks;
+using GFPro;
+using GFPro.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.Runtime;
-using UnityGameFramework.UI;
 
 namespace Game
 {
@@ -105,7 +105,7 @@ namespace Game
             var drUIForm = tbUIForm.GetOrDefault(uiFormId);
             if (drUIForm == null)
             {
-                Log.Warning("Can not load UI form '{0}' from data table.", uiFormId.ToString());
+                Log.Warning($"Can not load UI form '{uiFormId}' from data table.");
                 return null;
             }
 
