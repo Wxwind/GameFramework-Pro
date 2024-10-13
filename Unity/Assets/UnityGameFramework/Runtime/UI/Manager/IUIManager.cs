@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Resource;
+using GFPro.ObjectPool;
+using GFPro.Resource;
 
-namespace UnityGameFramework.UI
+namespace GFPro.UI
 {
     /// <summary>
     /// 界面管理器接口。

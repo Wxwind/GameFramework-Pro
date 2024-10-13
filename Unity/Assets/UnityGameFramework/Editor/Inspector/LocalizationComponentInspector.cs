@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(LocalizationComponent))]
     internal sealed class LocalizationComponentInspector : GameFrameworkInspector

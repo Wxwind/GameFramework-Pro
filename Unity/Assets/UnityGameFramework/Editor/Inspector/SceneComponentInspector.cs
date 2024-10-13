@@ -1,8 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using UnityGameFramework.Scene;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(SceneComponent))]
     internal sealed class SceneComponentInspector : GameFrameworkInspector

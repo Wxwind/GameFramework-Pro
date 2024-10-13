@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// UnityEngine.Texture 变量类。

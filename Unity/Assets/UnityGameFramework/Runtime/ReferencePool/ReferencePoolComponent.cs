@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 引用池组件。

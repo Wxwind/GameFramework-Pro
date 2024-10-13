@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// UnityEngine.Color 变量类。

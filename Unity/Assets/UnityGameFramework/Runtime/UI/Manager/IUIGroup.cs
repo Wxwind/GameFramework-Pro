@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityGameFramework.UI
+namespace GFPro.UI
 {
     /// <summary>
     /// 界面组接口。

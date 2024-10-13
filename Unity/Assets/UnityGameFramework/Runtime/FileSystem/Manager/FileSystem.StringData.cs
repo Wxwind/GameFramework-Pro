@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UnityGameFramework.FileSystem
+namespace GFPro.FileSystem
 {
     internal sealed partial class FileSystem : IFileSystem
     {

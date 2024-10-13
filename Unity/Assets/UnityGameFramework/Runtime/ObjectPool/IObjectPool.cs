@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.ObjectPool
+namespace GFPro.ObjectPool
 {
     /// <summary>
     /// 对象池接口。

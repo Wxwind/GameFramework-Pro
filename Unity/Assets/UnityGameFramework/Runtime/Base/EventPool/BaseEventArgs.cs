@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework
+﻿namespace GFPro
 {
     /// <summary>
     /// 事件基类。

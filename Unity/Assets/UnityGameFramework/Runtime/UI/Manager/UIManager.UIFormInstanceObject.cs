@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.ObjectPool;
+﻿using GFPro.ObjectPool;
+using UnityEngine;
 
-namespace UnityGameFramework.UI
+namespace GFPro.UI
 {
     internal sealed partial class UIManager
     {

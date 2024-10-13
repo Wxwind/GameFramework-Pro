@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 游戏配置管理器。

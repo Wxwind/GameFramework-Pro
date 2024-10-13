@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using GFPro.Localization;
 using SimpleJSON;
-using UnityGameFramework.Localization;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     ///     JSON 格式的本地化辅助器。

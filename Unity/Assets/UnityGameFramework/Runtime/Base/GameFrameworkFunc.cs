@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework
+﻿namespace GFPro
 {
     /// <summary>
     /// 封装一个方法，该方法不具有参数，但却返回 TResult 参数指定的类型的值。

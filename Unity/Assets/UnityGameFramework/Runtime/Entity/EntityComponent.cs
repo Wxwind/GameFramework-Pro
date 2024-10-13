@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro.ObjectPool;
+using GFPro.Resource;
 using UnityEngine;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Resource;
-using UnityGameFramework.Runtime;
 using Object = UnityEngine.Object;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     /// <summary>
     /// 实体组件。

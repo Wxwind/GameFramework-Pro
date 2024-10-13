@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 类型和名称的组合值。

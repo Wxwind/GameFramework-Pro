@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(BaseComponent))]
     internal sealed class BaseComponentInspector : GameFrameworkInspector

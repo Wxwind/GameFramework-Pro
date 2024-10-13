@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认字符辅助器。

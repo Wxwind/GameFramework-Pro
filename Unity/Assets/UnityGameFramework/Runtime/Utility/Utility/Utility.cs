@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework
+﻿namespace GFPro
 {
     /// <summary>
     /// 实用函数集。

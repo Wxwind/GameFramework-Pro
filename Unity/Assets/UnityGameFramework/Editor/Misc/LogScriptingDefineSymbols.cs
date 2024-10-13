@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     /// <summary>
     /// 日志脚本宏定义。

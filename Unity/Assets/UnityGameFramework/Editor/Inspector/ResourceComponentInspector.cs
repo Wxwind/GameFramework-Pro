@@ -6,9 +6,8 @@
 //------------------------------------------------------------
 
 using UnityEditor;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(ResourceComponent))]
     internal sealed class ResourceComponentInspector : GameFrameworkInspector

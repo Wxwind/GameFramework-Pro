@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     [AddComponentMenu("Localization/SpriteRenderer")]
     [DisallowMultipleComponent]

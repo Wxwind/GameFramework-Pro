@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Game.Editor;
-using UnityGameFramework.Localization;
-using UnityGameFramework.Resource;
-using UnityGameFramework.Runtime;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+using GFPro;
+using GFPro.Localization;
+using GFPro.Resource;
+using ProcedureOwner = GFPro.Fsm.IFsm<GFPro.Procedure.ProcedureComponent>;
 
 namespace Game
 {

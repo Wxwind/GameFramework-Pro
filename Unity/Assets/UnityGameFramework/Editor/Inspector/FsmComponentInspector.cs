@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-using UnityGameFramework.Fsm;
-using UnityGameFramework.Runtime;
+﻿using GFPro.Fsm;
+using UnityEditor;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(FsmComponent))]
     internal sealed class FsmComponentInspector : GameFrameworkInspector

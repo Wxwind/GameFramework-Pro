@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     /// <summary>
     /// System.Single 变量类。

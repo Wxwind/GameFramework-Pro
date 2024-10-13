@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using GFPro.Config;
 using UnityEngine;
-using UnityGameFramework.Config;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认全局配置辅助器。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.FileSystem
+namespace GFPro.FileSystem
 {
     /// <summary>
     /// 文件系统访问方式。

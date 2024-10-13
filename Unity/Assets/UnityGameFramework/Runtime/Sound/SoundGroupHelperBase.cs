@@ -5,11 +5,11 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using GFPro.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityGameFramework.Sound;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 声音组辅助器基类。

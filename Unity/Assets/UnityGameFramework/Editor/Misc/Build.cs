@@ -2,7 +2,7 @@
 using UnityEngine;
 using YooAsset.Editor;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     public static class Build
     {

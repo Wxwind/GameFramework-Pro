@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     /// <summary>
     /// System.UInt32 变量类。

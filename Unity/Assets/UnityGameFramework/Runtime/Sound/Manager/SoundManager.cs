@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using UnityGameFramework.Resource;
-using UnityGameFramework.Runtime;
+using GFPro.Resource;
 using Object = UnityEngine.Object;
 
-namespace UnityGameFramework.Sound
+namespace GFPro.Sound
 {
     /// <summary>
     /// 声音管理器。

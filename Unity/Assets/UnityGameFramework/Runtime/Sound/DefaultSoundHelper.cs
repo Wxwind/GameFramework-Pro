@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.Sound;
+﻿using GFPro.Sound;
+using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认声音辅助器。

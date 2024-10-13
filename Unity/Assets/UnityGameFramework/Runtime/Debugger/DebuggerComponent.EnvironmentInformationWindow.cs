@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using GFPro.Resource;
+using UnityEngine;
 using UnityEngine.Rendering;
-using UnityGameFramework.Resource;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {

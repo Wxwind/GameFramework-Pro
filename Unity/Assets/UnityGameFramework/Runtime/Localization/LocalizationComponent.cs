@@ -1,10 +1,10 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using GFPro.Localization;
+using GFPro.Resource;
 using UnityEngine;
-using UnityGameFramework.Localization;
-using UnityGameFramework.Resource;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 本地化组件。

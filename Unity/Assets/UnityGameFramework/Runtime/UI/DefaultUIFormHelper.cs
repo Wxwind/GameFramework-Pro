@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.UI;
+﻿using GFPro.UI;
+using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认界面辅助器。

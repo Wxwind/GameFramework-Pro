@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     /// <summary>
     /// 调试器管理器接口。

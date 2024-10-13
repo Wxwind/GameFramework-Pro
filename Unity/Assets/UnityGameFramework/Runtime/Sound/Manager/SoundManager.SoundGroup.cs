@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityGameFramework.Sound
+namespace GFPro.Sound
 {
     internal sealed partial class SoundManager
     {

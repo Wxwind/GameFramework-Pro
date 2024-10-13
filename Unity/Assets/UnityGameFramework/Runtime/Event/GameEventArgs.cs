@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Event
+﻿namespace GFPro.Event
 {
     /// <summary>
     /// 游戏逻辑事件基类。

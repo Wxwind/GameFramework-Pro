@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 日志工具集。

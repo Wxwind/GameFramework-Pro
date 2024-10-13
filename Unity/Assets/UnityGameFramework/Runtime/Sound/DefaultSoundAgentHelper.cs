@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
+using GFPro.Entity;
+using GFPro.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Sound;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认声音代理辅助器。

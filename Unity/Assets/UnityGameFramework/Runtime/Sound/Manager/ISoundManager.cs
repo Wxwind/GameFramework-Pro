@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityGameFramework.Resource;
+using GFPro.Resource;
 
-namespace UnityGameFramework.Sound
+namespace GFPro.Sound
 {
     /// <summary>
     /// 声音管理器接口。

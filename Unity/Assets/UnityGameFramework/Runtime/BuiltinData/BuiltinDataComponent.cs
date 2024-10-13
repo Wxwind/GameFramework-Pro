@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.BuiltinData;
+﻿using GFPro.BuiltinData;
+using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public class BuiltinDataComponent : GameFrameworkComponent, IBuiltinDataComponent
     {

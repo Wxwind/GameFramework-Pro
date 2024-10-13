@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(EventComponent))]
     internal sealed class EventComponentInspector : GameFrameworkInspector
@@ -16,7 +15,7 @@ namespace UnityGameFramework.Editor
                 return;
             }
 
-            EventComponent t = (EventComponent)target;
+            var t = (EventComponent)target;
 
             if (IsPrefabInHierarchy(t.gameObject))
             {

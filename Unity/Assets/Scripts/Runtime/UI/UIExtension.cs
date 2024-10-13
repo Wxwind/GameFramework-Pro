@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using Cysharp.Threading.Tasks;
+using GFPro;
+using GFPro.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.Runtime;
-using UnityGameFramework.UI;
 
 namespace Game
 {

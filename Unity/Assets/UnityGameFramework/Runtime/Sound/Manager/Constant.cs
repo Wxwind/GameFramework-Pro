@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Sound
+﻿namespace GFPro.Sound
 {
     /// <summary>
     /// 声音相关常量。

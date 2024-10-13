@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using YooAsset;
 using Object = UnityEngine.Object;
 
-namespace UnityGameFramework.Resource
+namespace GFPro.Resource
 {
     /// <summary>
     ///     资源管理器接口。

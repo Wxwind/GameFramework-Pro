@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.ObjectPool;
+﻿using GFPro.ObjectPool;
+using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {

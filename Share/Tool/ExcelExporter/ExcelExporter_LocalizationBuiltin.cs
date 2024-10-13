@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using ExcelDataReader;
-using GameFramework.Localization;
+using GFPro.Localization;
 using Luban;
 
 namespace Tool
@@ -29,7 +29,7 @@ namespace Tool
 
             public static void DoExport()
             {
-                bool isCheck = Options.Instance.Customs.Contains("Check", StringComparison.OrdinalIgnoreCase);
+                var isCheck = Options.Instance.Customs.Contains("Check", StringComparison.OrdinalIgnoreCase);
                 if (isCheck)
                     return;
                 Log.Info("Start Export Localization Excel ...");
@@ -43,8 +43,8 @@ namespace Tool
                         foreach (DataTable table in dataSet.Tables)
                         {
                             if (!table.Rows[0][0].ToString().StartsWith("##")) continue;
-                            int startRowIndex = 0;
-                            for (int rowIndex = 1; rowIndex < table.Rows.Count; rowIndex++)
+                            var startRowIndex = 0;
+                            for (var rowIndex = 1; rowIndex < table.Rows.Count; rowIndex++)
                             {
                                 if (table.Rows[rowIndex][0].ToString().StartsWith("##")) continue;
                                 startRowIndex = rowIndex;
@@ -56,13 +56,13 @@ namespace Tool
                             var keyTableInfos = new List<KeyTableInfo>();
                             var languageTableInfos = new List<LanguageTableInfo>();
                             var firstDataRow = table.Rows[0];
-                            for (int columnIndex = 1; columnIndex < table.Columns.Count; columnIndex++)
+                            for (var columnIndex = 1; columnIndex < table.Columns.Count; columnIndex++)
                             {
-                                string cellValue = firstDataRow[columnIndex].ToString();
+                                var cellValue = firstDataRow[columnIndex].ToString();
                                 if (cellValue.StartsWith("##")) continue;
                                 if (cellValue == "key")
                                 {
-                                    for (int keyRowIndex = startRowIndex; keyRowIndex < table.Rows.Count; keyRowIndex++)
+                                    for (var keyRowIndex = startRowIndex; keyRowIndex < table.Rows.Count; keyRowIndex++)
                                         keyTableInfos.Add(new KeyTableInfo()
                                         {
                                             key = table.Rows[keyRowIndex][columnIndex].ToString(),
@@ -85,7 +85,7 @@ namespace Tool
                                     else
                                     {
                                         throw new Exception(GetErrorString(table, columnIndex, 0,
-                                            $"Language {cellValue} is not exit, please get right Language string from GameFramework.Localization.Language.cs!"));
+                                            $"Language {cellValue} is not exit, please get right Language string from GFPro.Localization.Language.cs!"));
                                     }
                                 }
                             }
@@ -108,7 +108,7 @@ namespace Tool
                     }
                 }
 
-                bool useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
+                var useJson = Options.Instance.Customs.Contains("Json", StringComparison.OrdinalIgnoreCase);
                 if (Directory.Exists(s_LocalizationOutPutDir)) LubanFileHelper.ClearDirectory(s_LocalizationOutPutDir);
                 else Directory.CreateDirectory(s_LocalizationOutPutDir);
 
@@ -117,10 +117,10 @@ namespace Tool
                 {
                     var language = pair.Key;
                     var dict = pair.Value;
-                    string resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
+                    var resFullPath = Path.GetFullPath($"{s_LocalizationOutPutDir}/{language.ToString()}");
 
-                    string jsonFileFullPath = Path.GetFullPath($"{resFullPath}.json");
-                    string bytesFileFullPath = Path.GetFullPath($"{resFullPath}.bytes");
+                    var jsonFileFullPath = Path.GetFullPath($"{resFullPath}.json");
+                    var bytesFileFullPath = Path.GetFullPath($"{resFullPath}.bytes");
                     if (useJson)
                     {
                         var memoryStream = new MemoryStream();
@@ -139,7 +139,7 @@ namespace Tool
 
                         jsonWriter.WriteEndObject();
                         jsonWriter.Flush();
-                        byte[] bytes = new byte[memoryStream.Length];
+                        var bytes = new byte[memoryStream.Length];
                         memoryStream.Seek(0, SeekOrigin.Begin);
                         _ = memoryStream.Read(bytes, 0, bytes.Length);
                         File.WriteAllBytes(jsonFileFullPath, bytes);
@@ -165,12 +165,12 @@ namespace Tool
             {
                 string ToAlphaString(int column)
                 {
-                    int h = column / 26;
-                    int n = column % 26;
+                    var h = column / 26;
+                    var n = column % 26;
                     return $"{(h > 0 ? ((char)('A' + h - 1)).ToString() : "")}{(char)('A' + n)}";
                 }
 
-                string error = $@"
+                var error = $@"
 =======================================================================
     解析失败!
 

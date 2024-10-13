@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Sound
+﻿namespace GFPro.Sound
 {
     /// <summary>
     /// 播放声音错误码。

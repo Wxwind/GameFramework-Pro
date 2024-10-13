@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
-using UnityGameFramework.Resource;
+using GFPro.Resource;
 
-namespace UnityGameFramework.Localization
+namespace GFPro.Localization
 {
     /// <summary>
     /// 本地化管理器。

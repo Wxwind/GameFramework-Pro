@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using UnityGameFramework.Runtime;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+using GFPro;
+using ProcedureOwner = GFPro.Fsm.IFsm<GFPro.Procedure.ProcedureComponent>;
 
 namespace Game
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     /// <summary>
     /// 配置路径属性。

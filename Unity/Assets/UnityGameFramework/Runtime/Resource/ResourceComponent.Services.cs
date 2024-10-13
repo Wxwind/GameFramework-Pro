@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using YooAsset;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public partial class ResourceComponent
     {

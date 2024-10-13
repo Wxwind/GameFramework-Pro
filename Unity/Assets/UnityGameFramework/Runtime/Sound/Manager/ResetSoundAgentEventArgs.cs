@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Sound
+﻿namespace GFPro.Sound
 {
     /// <summary>
     /// 重置声音代理事件。

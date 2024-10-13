@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework
+﻿namespace GFPro
 {
     /// <summary>
     /// 游戏框架日志等级。

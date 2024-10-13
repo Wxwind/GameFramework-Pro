@@ -1,8 +1,8 @@
 ﻿using System;
+using GFPro.Event;
 using UnityEngine;
-using UnityGameFramework.Event;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 事件组件。

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// UnityEngine.Rect 变量类。

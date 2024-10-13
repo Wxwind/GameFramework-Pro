@@ -1,9 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using GFPro.Resource;
 using UnityEngine;
-using UnityGameFramework.Resource;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 数据提供者。

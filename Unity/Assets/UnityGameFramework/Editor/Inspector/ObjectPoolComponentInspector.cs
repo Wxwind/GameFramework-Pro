@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using GFPro.ObjectPool;
 using UnityEditor;
 using UnityEngine;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(ObjectPoolComponent))]
     internal sealed class ObjectPoolComponentInspector : GameFrameworkInspector

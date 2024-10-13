@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro.ObjectPool;
+using GFPro.Resource;
 using UnityEngine;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Resource;
 using YooAsset;
 using Object = UnityEngine.Object;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     ///     资源组件。

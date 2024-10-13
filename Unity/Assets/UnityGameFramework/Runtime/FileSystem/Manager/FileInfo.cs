@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace UnityGameFramework.FileSystem
+namespace GFPro.FileSystem
 {
     /// <summary>
     /// 文件信息。

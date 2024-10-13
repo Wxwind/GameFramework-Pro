@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.ObjectPool
+namespace GFPro.ObjectPool
 {
     /// <summary>
     /// 对象池组件。

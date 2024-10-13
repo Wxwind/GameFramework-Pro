@@ -1,6 +1,5 @@
-﻿using UnityGameFramework;
-using UnityGameFramework.Runtime;
-using UnityGameFramework.Sound;
+﻿using GFPro;
+using GFPro.Sound;
 
 namespace Game
 {

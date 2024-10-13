@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UnityGameFramework.ObjectPool
+namespace GFPro.ObjectPool
 {
     public sealed partial class ObjectPoolComponent
     {

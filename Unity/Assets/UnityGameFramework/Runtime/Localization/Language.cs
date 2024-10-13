@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Localization
+﻿namespace GFPro.Localization
 {
     /// <summary>
     /// 本地化语言。

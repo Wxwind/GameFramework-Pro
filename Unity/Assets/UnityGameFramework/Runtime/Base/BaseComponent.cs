@@ -1,10 +1,10 @@
 ﻿using System;
+using GFPro.Localization;
+using GFPro.ObjectPool;
+using GFPro.Resource;
 using UnityEngine;
-using UnityGameFramework.Localization;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Resource;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 基础组件。

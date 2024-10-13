@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework
+﻿namespace GFPro
 {
     public static partial class Version
     {

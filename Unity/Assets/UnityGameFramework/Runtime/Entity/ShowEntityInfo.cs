@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     internal sealed class ShowEntityInfo : IReference
     {

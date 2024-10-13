@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using GFPro.Localization;
 using UnityEngine;
-using UnityGameFramework.Localization;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认本地化辅助器。

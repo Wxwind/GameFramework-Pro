@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     /// <summary>
     /// 调试器激活窗口类型。
@@ -23,6 +23,6 @@
         /// <summary>
         /// 总是关闭。
         /// </summary>
-        AlwaysClose,
+        AlwaysClose
     }
 }

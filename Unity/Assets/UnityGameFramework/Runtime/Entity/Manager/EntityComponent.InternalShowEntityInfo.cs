@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Entity
+﻿namespace GFPro.Entity
 {
     public sealed partial class EntityComponent
     {

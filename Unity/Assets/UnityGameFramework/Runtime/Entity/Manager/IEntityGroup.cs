@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     /// <summary>
     /// 实体组接口。

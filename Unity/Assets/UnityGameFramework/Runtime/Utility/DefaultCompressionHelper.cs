@@ -2,7 +2,7 @@
 using System.IO;
 using ICSharpCode.SharpZipLib.GZip;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认压缩解压缩辅助器。

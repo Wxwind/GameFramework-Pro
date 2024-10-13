@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UnityGameFramework.ObjectPool
+namespace GFPro.ObjectPool
 {
     /// <summary>
     /// 对象信息。

@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Entity
+﻿namespace GFPro.Entity
 {
     /// <summary>
     /// 实体接口。

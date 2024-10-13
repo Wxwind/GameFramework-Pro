@@ -5,11 +5,11 @@
 // Feedback: mailto:ellan@gameframework.cn
 //------------------------------------------------------------
 
+using GFPro.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework.UI;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// uGUI 界面组辅助器。

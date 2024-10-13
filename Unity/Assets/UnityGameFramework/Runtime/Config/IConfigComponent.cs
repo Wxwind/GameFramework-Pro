@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Config
+﻿namespace GFPro.Config
 {
     /// <summary>
     /// 全局配置管理器接口。

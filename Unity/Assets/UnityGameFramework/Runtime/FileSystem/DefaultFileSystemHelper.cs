@@ -1,7 +1,7 @@
 ﻿using System;
-using UnityGameFramework.FileSystem;
+using GFPro.FileSystem;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 默认文件系统辅助器。

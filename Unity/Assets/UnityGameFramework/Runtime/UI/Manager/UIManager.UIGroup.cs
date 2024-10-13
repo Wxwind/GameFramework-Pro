@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityGameFramework.UI
+namespace GFPro.UI
 {
     internal sealed partial class UIManager
     {

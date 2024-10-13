@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.UI
+﻿namespace GFPro.UI
 {
     /// <summary>
     /// 界面组辅助器接口。

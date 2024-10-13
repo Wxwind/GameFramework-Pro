@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="..\..\Unity\Assets\UnityGameFramework\Libraries\GameFramework\Localization\Language.cs">
+        <Compile Include="..\..\Unity\Assets\UnityGameFramework\Runtime\Localization\Language.cs">
             <Link>ExcelExporter\Language.cs</Link>
         </Compile>
     </ItemGroup>

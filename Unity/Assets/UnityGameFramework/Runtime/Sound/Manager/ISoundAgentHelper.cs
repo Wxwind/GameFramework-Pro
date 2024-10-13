@@ -1,8 +1,8 @@
 ﻿using System;
+using GFPro.Entity;
 using UnityEngine;
-using UnityGameFramework.Entity;
 
-namespace UnityGameFramework.Sound
+namespace GFPro.Sound
 {
     /// <summary>
     /// 声音代理辅助器接口。

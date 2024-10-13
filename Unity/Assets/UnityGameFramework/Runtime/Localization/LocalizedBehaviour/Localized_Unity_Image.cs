@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     [AddComponentMenu("Localization/Image")]
     [DisallowMultipleComponent]

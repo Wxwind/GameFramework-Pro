@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// System.DateTime 变量类。

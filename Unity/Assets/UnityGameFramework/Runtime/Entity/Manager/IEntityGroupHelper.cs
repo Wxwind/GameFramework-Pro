@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Entity
+﻿namespace GFPro.Entity
 {
     /// <summary>
     /// 实体组辅助器接口。

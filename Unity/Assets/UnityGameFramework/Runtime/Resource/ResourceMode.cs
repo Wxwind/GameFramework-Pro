@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Resource
+﻿namespace GFPro.Resource
 {
     /// <summary>
     /// 资源模式。

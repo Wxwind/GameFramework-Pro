@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Scene
+namespace GFPro
 {
     /// <summary>
     /// 场景组件。
@@ -16,8 +15,8 @@ namespace UnityGameFramework.Scene
     {
         private ISceneManager m_SceneManager;
 
-        private Camera                            m_MainCamera;
-        private UnityEngine.SceneManagement.Scene m_GameFrameworkScene;
+        private Camera m_MainCamera;
+        private Scene  m_GameFrameworkScene;
 
 
         /// <summary>
@@ -229,7 +228,7 @@ namespace UnityGameFramework.Scene
             m_MainCamera = Camera.main;
         }
 
-        private void SetActiveScene(UnityEngine.SceneManagement.Scene activeScene)
+        private void SetActiveScene(Scene activeScene)
         {
             var lastActiveScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
             if (lastActiveScene != activeScene)

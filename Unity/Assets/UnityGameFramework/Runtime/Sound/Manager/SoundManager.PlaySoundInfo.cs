@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Sound
+﻿namespace GFPro.Sound
 {
     internal sealed partial class SoundManager
     {

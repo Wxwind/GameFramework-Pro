@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using UnityGameFramework;
+using GFPro;
 
 /// <summary>
 /// 对 BinaryReader 和 BinaryWriter 的扩展方法。

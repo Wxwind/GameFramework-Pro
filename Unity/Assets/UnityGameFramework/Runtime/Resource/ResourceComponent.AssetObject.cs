@@ -1,7 +1,7 @@
-﻿using UnityGameFramework.ObjectPool;
+﻿using GFPro.ObjectPool;
 using YooAsset;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public partial class ResourceComponent
     {

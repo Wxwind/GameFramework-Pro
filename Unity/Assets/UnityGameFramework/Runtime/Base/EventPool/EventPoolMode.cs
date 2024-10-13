@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 事件池模式。

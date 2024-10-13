@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 游戏框架序列化器基类。

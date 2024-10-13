@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.BuiltinData
+﻿namespace GFPro.BuiltinData
 {
     public interface IBuiltinDataComponent
     {

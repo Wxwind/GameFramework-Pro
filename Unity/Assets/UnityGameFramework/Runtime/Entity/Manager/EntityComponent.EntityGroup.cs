@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using GFPro.ObjectPool;
 using UnityEngine;
-using UnityGameFramework.ObjectPool;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     public sealed partial class EntityComponent
     {

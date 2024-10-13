@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
@@ -12,10 +11,10 @@ namespace UnityGameFramework.Runtime
                 GUILayout.Label("<b>Scene Information</b>");
                 GUILayout.BeginVertical("box");
                 {
-                    DrawItem("Scene Count", SceneManager.sceneCount.ToString());
-                    DrawItem("Scene Count In Build Settings", SceneManager.sceneCountInBuildSettings.ToString());
+                    DrawItem("Scene Count", UnityEngine.SceneManagement.SceneManager.sceneCount.ToString());
+                    DrawItem("Scene Count In Build Settings", UnityEngine.SceneManagement.SceneManager.sceneCountInBuildSettings.ToString());
 
-                    var activeScene = SceneManager.GetActiveScene();
+                    var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
                     DrawItem("Active Scene Handle", activeScene.handle.ToString());
                     DrawItem("Active Scene Name", activeScene.name);
                     DrawItem("Active Scene Path", activeScene.path);

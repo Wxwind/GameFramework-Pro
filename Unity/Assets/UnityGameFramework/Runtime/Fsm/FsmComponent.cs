@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Fsm
+namespace GFPro.Fsm
 {
     /// <summary>
     /// 有限状态机组件。

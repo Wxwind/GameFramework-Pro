@@ -1,9 +1,8 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 游戏入口。
@@ -93,7 +92,7 @@ namespace UnityGameFramework.Runtime
 
             if (shutdownType == ShutdownType.Restart)
             {
-                SceneManager.LoadScene(GameFrameworkSceneId);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(GameFrameworkSceneId);
                 return;
             }
 

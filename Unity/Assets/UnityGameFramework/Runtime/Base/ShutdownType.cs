@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     /// <summary>
     /// 关闭游戏框架类型。
@@ -18,6 +18,6 @@
         /// <summary>
         /// 关闭游戏框架并退出游戏。
         /// </summary>
-        Quit,
+        Quit
     }
 }

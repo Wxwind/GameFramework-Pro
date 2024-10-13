@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEditor;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     /// <summary>
     /// 脚本宏定义。

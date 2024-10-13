@@ -3,7 +3,7 @@ using System.IO;
 using UnityEditor;
 using UnityEngine;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     /// <summary>
     /// 打开文件夹相关的实用函数。

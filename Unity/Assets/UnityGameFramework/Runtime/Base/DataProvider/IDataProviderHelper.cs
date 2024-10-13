@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 数据提供者辅助器接口。

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     /// <summary>
     /// 游戏框架 Inspector 抽象类。

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class ConfigComponent
     {

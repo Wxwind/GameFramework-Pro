@@ -1,6 +1,6 @@
-﻿using UnityGameFramework.Config;
+﻿using GFPro.Config;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 全局配置辅助器基类。

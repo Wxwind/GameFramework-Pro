@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework
+﻿namespace GFPro
 {
     internal sealed partial class EventPool<T> where T : BaseEventArgs
     {

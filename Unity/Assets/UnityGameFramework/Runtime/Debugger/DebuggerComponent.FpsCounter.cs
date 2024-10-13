@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
@@ -6,7 +6,7 @@
         {
             private float m_UpdateInterval;
             private float m_CurrentFps;
-            private int m_Frames;
+            private int   m_Frames;
             private float m_Accumulator;
             private float m_TimeLeft;
 
@@ -24,10 +24,7 @@
 
             public float UpdateInterval
             {
-                get
-                {
-                    return m_UpdateInterval;
-                }
+                get => m_UpdateInterval;
                 set
                 {
                     if (value <= 0f)
@@ -41,13 +38,7 @@
                 }
             }
 
-            public float CurrentFps
-            {
-                get
-                {
-                    return m_CurrentFps;
-                }
-            }
+            public float CurrentFps => m_CurrentFps;
 
             public void Update(float elapseSeconds, float realElapseSeconds)
             {

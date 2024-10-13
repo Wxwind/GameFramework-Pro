@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+﻿using GFPro;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityGameFramework;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityGameFramework.Runtime;
+﻿using GFPro;
+using UnityEngine;
 
 namespace Game
 {
@@ -17,9 +17,9 @@ namespace Game
 
         private static void InitCustomComponents()
         {
-            BuiltinData = UnityGameFramework.Runtime.GameEntry.GetComponent<BuiltinDataComponent>();
-            HPBar = UnityGameFramework.Runtime.GameEntry.GetComponent<HPBarComponent>();
-            LubanDataTable = UnityGameFramework.Runtime.GameEntry.GetComponent<LubanDataTableComponent>();
+            BuiltinData = GFPro.GameEntry.GetComponent<BuiltinDataComponent>();
+            HPBar = GFPro.GameEntry.GetComponent<HPBarComponent>();
+            LubanDataTable = GFPro.GameEntry.GetComponent<LubanDataTableComponent>();
         }
     }
 }

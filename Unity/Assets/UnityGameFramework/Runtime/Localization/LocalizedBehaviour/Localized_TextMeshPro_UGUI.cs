@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     [AddComponentMenu("Localization/TextMeshPro_UGUI")]
     [DisallowMultipleComponent]

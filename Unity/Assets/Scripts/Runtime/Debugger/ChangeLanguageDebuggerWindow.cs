@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
+using GFPro;
+using GFPro.Localization;
 using UnityEngine;
-using UnityGameFramework.Localization;
-using UnityGameFramework.Runtime;
 
 namespace Game
 {
@@ -31,7 +31,7 @@ namespace Game
             if (m_NeedRestart)
             {
                 m_NeedRestart = false;
-                UnityGameFramework.Runtime.GameEntry.Shutdown(ShutdownType.Restart);
+                GFPro.GameEntry.Shutdown(ShutdownType.Restart);
             }
         }
 

@@ -1,7 +1,7 @@
-﻿using UnityGameFramework.Fsm;
-using ProcedureOwner = UnityGameFramework.Fsm.IFsm<UnityGameFramework.Procedure.ProcedureComponent>;
+﻿using GFPro.Fsm;
+using ProcedureOwner = GFPro.Fsm.IFsm<GFPro.Procedure.ProcedureComponent>;
 
-namespace UnityGameFramework.Procedure
+namespace GFPro.Procedure
 {
     /// <summary>
     /// 流程基类。

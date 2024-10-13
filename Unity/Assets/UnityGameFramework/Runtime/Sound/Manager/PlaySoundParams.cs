@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.Entity;
+﻿using GFPro.Entity;
+using UnityEngine;
 
-namespace UnityGameFramework.Sound
+namespace GFPro.Sound
 {
     /// <summary>
     /// 播放声音参数。

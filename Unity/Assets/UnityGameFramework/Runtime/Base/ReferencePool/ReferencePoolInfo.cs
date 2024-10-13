@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 引用池信息。

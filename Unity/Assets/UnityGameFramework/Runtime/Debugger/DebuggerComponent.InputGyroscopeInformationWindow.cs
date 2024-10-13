@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
@@ -17,6 +17,7 @@ namespace UnityGameFramework.Runtime
                         {
                             Input.gyro.enabled = true;
                         }
+
                         if (GUILayout.Button("Disable", GUILayout.Height(30f)))
                         {
                             Input.gyro.enabled = false;

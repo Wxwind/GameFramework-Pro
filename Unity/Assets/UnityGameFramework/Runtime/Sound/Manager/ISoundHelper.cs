@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Sound
+namespace GFPro.Sound
 {
     /// <summary>
     /// 声音辅助器接口。

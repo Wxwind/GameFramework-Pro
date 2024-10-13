@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using Object = UnityEngine.Object;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {

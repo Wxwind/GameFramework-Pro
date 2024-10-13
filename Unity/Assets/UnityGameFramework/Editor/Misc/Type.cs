@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     /// <summary>
     /// 类型相关的实用函数。
@@ -45,7 +45,7 @@ namespace UnityGameFramework.Editor
         private static string[] GetTypeNames(System.Type typeBase, string[] assemblyNames)
         {
             var typeNames = new List<string>();
-            foreach (string assemblyName in assemblyNames)
+            foreach (var assemblyName in assemblyNames)
             {
                 Assembly assembly = null;
                 try

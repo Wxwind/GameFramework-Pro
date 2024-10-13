@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityGameFramework.Fsm
+namespace GFPro.Fsm
 {
     /// <summary>
     /// 有限状态机管理器。

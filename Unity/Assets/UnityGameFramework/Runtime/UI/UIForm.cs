@@ -1,8 +1,8 @@
 ﻿using System;
+using GFPro.UI;
 using UnityEngine;
-using UnityGameFramework.UI;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 界面。

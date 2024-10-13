@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Fsm;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.Procedure;
-using UnityGameFramework.Runtime;
-using UnityGameFramework.Scene;
+﻿using GFPro;
+using GFPro.Entity;
+using GFPro.Fsm;
+using GFPro.ObjectPool;
+using GFPro.Procedure;
+using UnityEngine;
 
 namespace Game
 {
@@ -93,21 +92,21 @@ namespace Game
 
         private static void InitBuiltinComponents()
         {
-            Base = UnityGameFramework.Runtime.GameEntry.GetComponent<BaseComponent>();
-            Config = UnityGameFramework.Runtime.GameEntry.GetComponent<ConfigComponent>();
-            Debugger = UnityGameFramework.Runtime.GameEntry.GetComponent<DebuggerComponent>();
-            Entity = UnityGameFramework.Runtime.GameEntry.GetComponent<EntityComponent>();
-            Event = UnityGameFramework.Runtime.GameEntry.GetComponent<EventComponent>();
-            FileSystem = UnityGameFramework.Runtime.GameEntry.GetComponent<FileSystemComponent>();
-            Fsm = UnityGameFramework.Runtime.GameEntry.GetComponent<FsmComponent>();
-            Localization = UnityGameFramework.Runtime.GameEntry.GetComponent<LocalizationComponent>();
-            ObjectPool = UnityGameFramework.Runtime.GameEntry.GetComponent<ObjectPoolComponent>();
-            Procedure = UnityGameFramework.Runtime.GameEntry.GetComponent<ProcedureComponent>();
-            Resource = UnityGameFramework.Runtime.GameEntry.GetComponent<ResourceComponent>();
-            Scene = UnityGameFramework.Runtime.GameEntry.GetComponent<SceneComponent>();
-            Setting = UnityGameFramework.Runtime.GameEntry.GetComponent<SettingComponent>();
-            Sound = UnityGameFramework.Runtime.GameEntry.GetComponent<SoundComponent>();
-            UI = UnityGameFramework.Runtime.GameEntry.GetComponent<UIComponent>();
+            Base = GFPro.GameEntry.GetComponent<BaseComponent>();
+            Config = GFPro.GameEntry.GetComponent<ConfigComponent>();
+            Debugger = GFPro.GameEntry.GetComponent<DebuggerComponent>();
+            Entity = GFPro.GameEntry.GetComponent<EntityComponent>();
+            Event = GFPro.GameEntry.GetComponent<EventComponent>();
+            FileSystem = GFPro.GameEntry.GetComponent<FileSystemComponent>();
+            Fsm = GFPro.GameEntry.GetComponent<FsmComponent>();
+            Localization = GFPro.GameEntry.GetComponent<LocalizationComponent>();
+            ObjectPool = GFPro.GameEntry.GetComponent<ObjectPoolComponent>();
+            Procedure = GFPro.GameEntry.GetComponent<ProcedureComponent>();
+            Resource = GFPro.GameEntry.GetComponent<ResourceComponent>();
+            Scene = GFPro.GameEntry.GetComponent<SceneComponent>();
+            Setting = GFPro.GameEntry.GetComponent<SettingComponent>();
+            Sound = GFPro.GameEntry.GetComponent<SoundComponent>();
+            UI = GFPro.GameEntry.GetComponent<UIComponent>();
         }
     }
 }

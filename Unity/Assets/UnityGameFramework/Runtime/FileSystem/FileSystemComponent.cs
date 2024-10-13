@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using GFPro.FileSystem;
 using UnityEngine;
-using UnityGameFramework.FileSystem;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 文件系统件。

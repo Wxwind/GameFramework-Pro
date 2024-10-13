@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     public sealed partial class EntityComponent
     {

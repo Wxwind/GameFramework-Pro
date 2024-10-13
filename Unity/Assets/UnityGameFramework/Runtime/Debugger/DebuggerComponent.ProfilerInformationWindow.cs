@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {

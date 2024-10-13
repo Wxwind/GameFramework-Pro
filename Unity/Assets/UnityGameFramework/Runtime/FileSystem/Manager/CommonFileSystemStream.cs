@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace UnityGameFramework.FileSystem
+namespace GFPro.FileSystem
 {
     /// <summary>
     /// 通用文件系统流。

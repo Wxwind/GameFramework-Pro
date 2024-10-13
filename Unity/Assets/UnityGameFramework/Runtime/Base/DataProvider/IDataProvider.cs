@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 数据提供者接口。

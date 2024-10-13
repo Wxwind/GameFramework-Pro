@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro.ObjectPool;
+using GFPro.UI;
 using UnityEngine;
-using UnityGameFramework.ObjectPool;
-using UnityGameFramework.UI;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 界面组件。

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     /// <summary>
     /// 实体辅助器接口。

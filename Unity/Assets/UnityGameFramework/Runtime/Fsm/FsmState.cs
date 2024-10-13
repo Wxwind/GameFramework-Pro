@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.Fsm
+namespace GFPro.Fsm
 {
     /// <summary>
     /// 有限状态机状态基类。

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     /// <summary>
     /// 默认实体辅助器。

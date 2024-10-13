@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
+using GFPro.FileSystem;
 using UnityEngine;
-using UnityGameFramework.FileSystem;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 安卓文件系统流。

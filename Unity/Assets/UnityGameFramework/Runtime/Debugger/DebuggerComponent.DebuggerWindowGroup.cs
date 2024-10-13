@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public sealed partial class DebuggerComponent
     {

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
+using GFPro.Fsm;
 using UnityEngine;
-using UnityGameFramework.Fsm;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Procedure
+namespace GFPro.Procedure
 {
     /// <summary>
     /// 流程组件。

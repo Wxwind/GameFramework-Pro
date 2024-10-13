@@ -5,7 +5,7 @@ using Luban;
 using SimpleJSON;
 using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public enum TablesLoadType : byte
     {

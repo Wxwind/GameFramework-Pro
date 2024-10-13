@@ -1,7 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Runtime;
+using GFPro;
+using GFPro.Entity;
 
 namespace Game
 {
@@ -82,7 +82,7 @@ namespace Game
             return entity.Logic as Effect;
         }
 
-        private static async UniTask<UnityGameFramework.Entity.Entity> ShowEntity(this EntityComponent entityComponent, Type logicType,
+        private static async UniTask<GFPro.Entity.Entity> ShowEntity(this EntityComponent entityComponent, Type logicType,
             string entityGroup,
             EntityData data)
         {
@@ -102,7 +102,7 @@ namespace Game
             }
 
             return await entityComponent.ShowEntity(data.Id, logicType, drEntity.AssetName,
-                entityGroup, data) as UnityGameFramework.Entity.Entity;
+                entityGroup, data) as GFPro.Entity.Entity;
         }
 
         public static int GenerateSerialId(this EntityComponent entityComponent)

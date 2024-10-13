@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 游戏框架链表范围。

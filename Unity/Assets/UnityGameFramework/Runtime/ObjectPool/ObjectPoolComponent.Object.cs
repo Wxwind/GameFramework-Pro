@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.ObjectPool
+namespace GFPro.ObjectPool
 {
     public partial class ObjectPoolComponent
     {

@@ -1,4 +1,4 @@
-﻿namespace UnityGameFramework.Runtime
+﻿namespace GFPro
 {
     public sealed partial class DebuggerComponent : GameFrameworkComponent
     {
@@ -7,8 +7,8 @@
             private sealed class Record
             {
                 private readonly string m_Name;
-                private int m_Count;
-                private long m_Size;
+                private          int    m_Count;
+                private          long   m_Size;
 
                 public Record(string name)
                 {
@@ -17,36 +17,18 @@
                     m_Size = 0L;
                 }
 
-                public string Name
-                {
-                    get
-                    {
-                        return m_Name;
-                    }
-                }
+                public string Name => m_Name;
 
                 public int Count
                 {
-                    get
-                    {
-                        return m_Count;
-                    }
-                    set
-                    {
-                        m_Count = value;
-                    }
+                    get => m_Count;
+                    set => m_Count = value;
                 }
 
                 public long Size
                 {
-                    get
-                    {
-                        return m_Size;
-                    }
-                    set
-                    {
-                        m_Size = value;
-                    }
+                    get => m_Size;
+                    set => m_Size = value;
                 }
             }
         }

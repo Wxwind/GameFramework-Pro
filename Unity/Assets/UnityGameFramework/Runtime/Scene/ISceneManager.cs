@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro.Resource;
 using UnityEngine.SceneManagement;
-using UnityGameFramework.Resource;
 
-namespace UnityGameFramework.Scene
+namespace GFPro
 {
     /// <summary>
     /// 场景管理器接口。

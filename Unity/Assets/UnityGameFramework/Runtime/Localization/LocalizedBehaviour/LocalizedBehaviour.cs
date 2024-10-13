@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     public abstract class LocalizedBehaviour<T> : MonoBehaviour where T : Object
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UnityGameFramework.Event
+namespace GFPro.Event
 {
     /// <summary>
     /// 事件管理器接口。

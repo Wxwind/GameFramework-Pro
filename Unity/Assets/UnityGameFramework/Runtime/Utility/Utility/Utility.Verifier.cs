@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     public static partial class Utility
     {

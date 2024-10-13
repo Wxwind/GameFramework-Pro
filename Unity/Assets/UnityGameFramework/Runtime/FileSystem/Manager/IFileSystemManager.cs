@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace UnityGameFramework.FileSystem
+namespace GFPro.FileSystem
 {
     /// <summary>
     /// 文件系统管理器。

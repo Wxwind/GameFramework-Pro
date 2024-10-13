@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityGameFramework.Runtime;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     public sealed partial class EntityComponent : GameFrameworkComponent
     {

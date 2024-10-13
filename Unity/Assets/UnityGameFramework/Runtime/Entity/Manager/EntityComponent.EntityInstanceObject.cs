@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityGameFramework.ObjectPool;
+﻿using GFPro.ObjectPool;
+using UnityEngine;
 
-namespace UnityGameFramework.Entity
+namespace GFPro.Entity
 {
     public sealed partial class EntityComponent
     {

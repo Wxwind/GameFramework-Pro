@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GFPro.Config;
 using UnityEngine;
-using UnityGameFramework.Config;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 全局配置组件。

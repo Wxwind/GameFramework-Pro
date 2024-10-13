@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-using UnityGameFramework.Entity;
-using UnityGameFramework.Runtime;
+﻿using GFPro.Entity;
+using UnityEditor;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(EntityComponent))]
     internal sealed class EntityComponentInspector : GameFrameworkInspector

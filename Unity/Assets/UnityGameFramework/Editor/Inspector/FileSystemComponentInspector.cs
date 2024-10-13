@@ -1,8 +1,7 @@
-﻿using UnityEditor;
-using UnityGameFramework.FileSystem;
-using UnityGameFramework.Runtime;
+﻿using GFPro.FileSystem;
+using UnityEditor;
 
-namespace UnityGameFramework.Editor
+namespace GFPro.Editor
 {
     [CustomEditor(typeof(FileSystemComponent))]
     internal sealed class FileSystemComponentInspector : GameFrameworkInspector

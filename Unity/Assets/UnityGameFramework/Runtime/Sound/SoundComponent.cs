@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using GFPro.Sound;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
-using UnityGameFramework.Sound;
 
-namespace UnityGameFramework.Runtime
+namespace GFPro
 {
     /// <summary>
     /// 声音组件。
@@ -49,8 +49,8 @@ namespace UnityGameFramework.Runtime
 
             m_AudioListener = gameObject.GetOrAddComponent<AudioListener>();
 
-            SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.sceneUnloaded += OnSceneUnloaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneUnloaded += OnSceneUnloaded;
         }
 
         private void Start()
@@ -90,8 +90,8 @@ namespace UnityGameFramework.Runtime
 
         private void OnDestroy()
         {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-            SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+            UnityEngine.SceneManagement.SceneManager.sceneUnloaded -= OnSceneUnloaded;
 
             m_SoundManager.Shutdown();
         }
@@ -426,12 +426,12 @@ namespace UnityGameFramework.Runtime
             return true;
         }
 
-        private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode loadSceneMode)
+        private void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
         {
             RefreshAudioListener();
         }
 
-        private void OnSceneUnloaded(UnityEngine.SceneManagement.Scene scene)
+        private void OnSceneUnloaded(Scene scene)
         {
             RefreshAudioListener();
         }

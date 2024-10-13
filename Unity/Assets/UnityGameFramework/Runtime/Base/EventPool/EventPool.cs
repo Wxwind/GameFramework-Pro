@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UnityGameFramework
+namespace GFPro
 {
     /// <summary>
     /// 事件池。

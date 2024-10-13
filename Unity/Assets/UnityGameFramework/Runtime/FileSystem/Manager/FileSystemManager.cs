@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace UnityGameFramework.FileSystem
+namespace GFPro.FileSystem
 {
     /// <summary>
     /// 文件系统管理器。

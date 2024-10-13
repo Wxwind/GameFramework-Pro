@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UnityGameFramework.ObjectPool
+namespace GFPro.ObjectPool
 {
     /// <summary>
     /// 对象池管理器。
