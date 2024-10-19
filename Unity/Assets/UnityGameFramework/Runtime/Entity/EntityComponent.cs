@@ -99,8 +99,7 @@ namespace GFPro.Entity
         private void OnDestroy()
         {
             m_IsShutdown = true;
-            // TODO：卸载所有LoadedEntities
-            //  HideAllLoadedEntities();
+            HideAllLoadedEntities();
             m_EntityGroupsDict.Clear();
             m_EntitiesBeingLoaded.Clear();
             m_EntitiesToReleaseOnLoad.Clear();

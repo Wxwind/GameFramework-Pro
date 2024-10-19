@@ -38,14 +38,11 @@ namespace GFPro
         public void Shutdown()
         {
             var loadedSceneAssetNames = m_LoadedSceneAssetNames.ToArray();
-            // 退出游戏时已经在ResourcesComponent里调用了YooAssets.Destroy，无需再清理场景
-            if (YooAssets.Initialized)
+            // 退出游戏时如果先在ResourcesComponent里调用了YooAssets.Destroy，则无需再清理场景
+            foreach (var loadedSceneAssetName in loadedSceneAssetNames)
             {
-                foreach (var loadedSceneAssetName in loadedSceneAssetNames)
-                {
-                    if (SceneIsUnloading(loadedSceneAssetName)) continue;
-                    UnloadScene(loadedSceneAssetName).Forget();
-                }
+                if (SceneIsUnloading(loadedSceneAssetName)) continue;
+                UnloadScene(loadedSceneAssetName).Forget();
             }
 
             m_LoadedSceneAssetNames.Clear();

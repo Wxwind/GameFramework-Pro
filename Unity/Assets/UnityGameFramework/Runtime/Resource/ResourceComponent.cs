@@ -74,13 +74,17 @@ namespace GFPro
             }
 
             var buildInfo = builtinDataManager.BuildInfo;
-            if (!YooAssets.Initialized)
+            if (YooAssets.Initialized)
             {
-                YooAssets.Initialize();
+#if !UNITY_WEBGL
+                YooAssets.Destroy();
+#endif
             }
 
+            YooAssets.Initialize();
+
             var objectPoolManager = GameEntry.GetComponent<ObjectPoolComponent>();
-            SetObjectPoolManager(objectPoolManager);
+            InitAssetPool(objectPoolManager);
             HostServerIp = buildInfo.ServerHost;
             GameVersion = buildInfo.GameVersion;
         }
@@ -126,7 +130,8 @@ namespace GFPro
             m_PackagesDict.Clear();
             m_AssetLoadingList.Clear();
 #if !UNITY_WEBGL
-            YooAssets.Destroy();
+            // 如果在这里销毁的话，则使用非编辑器模拟的资源加载模式时，因为场景是异步释放但是资源立马被清除了，所以退出游戏或者调用shutdown(restart)都会导致紫屏
+            // YooAssets.Destroy();
 #endif
         }
 

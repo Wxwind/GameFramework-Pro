@@ -59,14 +59,8 @@ namespace GFPro
         /// 设置对象池管理器。
         /// </summary>
         /// <param name="objectPoolComponent">对象池管理器。</param>
-        public void SetObjectPoolManager(IObjectPoolComponent objectPoolComponent)
+        public void InitAssetPool(IObjectPoolComponent objectPoolComponent)
         {
-            if (objectPoolComponent == null)
-            {
-                throw new GameFrameworkException("Object pool manager is invalid.");
-            }
-
-
             m_AssetPool = objectPoolComponent.CreateMultiSpawnObjectPool<AssetObject>("Asset Pool");
         }
     }
