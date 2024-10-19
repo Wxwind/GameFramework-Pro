@@ -42,6 +42,7 @@ namespace GFPro
             foreach (var loadedSceneAssetName in loadedSceneAssetNames)
             {
                 if (SceneIsUnloading(loadedSceneAssetName)) continue;
+                // TODO: 重启时应当等待子场景卸载完毕，不然重启会应为主场景下卸载比子场景早出现很多bug,现在把yooasset.destroy不放在resoucecomponent而是放在初始化的时候也只是解决了一部分问题
                 UnloadScene(loadedSceneAssetName).Forget();
             }
 
